@@ -10,31 +10,31 @@
 }
 
 .emptyMinos {
-	background-color: #0B1013;
+	background-color: #0b1013;
 }
 
 .iMinos {
-	background-color: #348FCA;
+	background-color: #348fca;
 }
 
 .oMinos {
-	background-color: #E7BD22;
+	background-color: #e7bd22;
 }
 
 .sMinos {
-	background-color: #2AA55D;
+	background-color: #2aa55d;
 }
 
 .zMinos {
-	background-color: #DA4B3C;
+	background-color: #da4b3c;
 }
 
 .jMinos {
-	background-color: #246EAB;
+	background-color: #246eab;
 }
 
 .lMinos {
-	background-color: #DC7A23;
+	background-color: #dc7a23;
 }
 
 .tMinos {
@@ -42,10 +42,10 @@
 }
 
 .ghostMinos {
-	background-color: #0B1013;
+	background-color: #0b1013;
 }
 .ghostMinos {
-	content: "";
+	content: '';
 	height: 50%;
 	width: 50%;
 	position: relative;
@@ -53,28 +53,28 @@
 	left: 25%;
 }
 
-.iGhostMinos{
-	background-color: #348FCA;
+.iGhostMinos {
+	background-color: #348fca;
 }
 
 .oGhostMinos {
-	background-color: #E7BD22;
+	background-color: #e7bd22;
 }
 
 .sGhostMinos {
-	background-color: #2AA55D;
+	background-color: #2aa55d;
 }
 
 .zGhostMinos {
-	background-color: #DA4B3C
+	background-color: #da4b3c;
 }
 
 .jGhostMinos {
-	background-color: #246EAB;
+	background-color: #246eab;
 }
 
 .lGhostMinos {
-	background-color: #DC7A23;
+	background-color: #dc7a23;
 }
 
 .tGhostMinos {

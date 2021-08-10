@@ -32,7 +32,7 @@ function displayField() {
 
 	for (var i = 1; i < 22; i++) {
 		for (var j = 0; j < 10; j++) {
-			fieldText += "<div class='tiles' data-x='"+j+"' data-y='"+i+"'></div>"
+			fieldText += "<div class='minos' data-x='"+j+"' data-y='"+i+"'></div>"
 		}
 	}
 
@@ -46,7 +46,7 @@ function resetField() {
 function displayAllMinos() {
 	for (var i = 1; i < 22; i++) {
 		for (var j = 0; j < 10; j++) {
-			$('.tiles[data-x="'+j+'"][data-y="'+i+'"]').attr('class','tiles '+fieldArray[i][j]["string"]+"Minos");
+			$('.minos[data-x="'+j+'"][data-y="'+i+'"]').attr('class','minos '+fieldArray[i][j]["string"]+"Minos");
 		}
 	}
 }
@@ -83,7 +83,7 @@ function removeGhostTiles() {
 }
 
 function displayTile(tile) {
-	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','tiles '+tile[2]["string"]+"Minos");
+	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]["string"]+"Minos");
 }
 function displayGhostTile(tile) {
 	if (tile[1]<2) {

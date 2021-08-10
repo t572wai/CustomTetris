@@ -15,8 +15,6 @@ body {
 	user-select: none;
 }
 
-
-
 #field {
 	grid-row: 1 / 4;
 	grid-column: 2;
@@ -35,10 +33,9 @@ body {
 	width: 200px;
 	height: 40px;
 
-	border-color: #005BA6;
+	border-color: #005ba6;
 	background-color: none;
 }
-
 
 #holdArea {
 	grid-row: 1;
@@ -88,9 +85,9 @@ body {
 }
 #nextHead {
 	grid-column: 1;
-	height: 20px
+	height: 20px;
 }
 
-.dialogs{
+.dialogs {
 	display: none;
 }
