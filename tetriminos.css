@@ -86,7 +86,7 @@
 	grid-template-columns: repeat(4, var(--sizeOfDisplayedMino));
 	grid-template-rows: repeat(2, var(--sizeOfDisplayedMino));
 }
-.displayers .tiles {
+.displayers .minos {
 	width: var(--sizeOfDisplayedMino);
 	height: var(--sizeOfDisplayedMino);
 }
