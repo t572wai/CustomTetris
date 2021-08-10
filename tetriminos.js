@@ -419,7 +419,7 @@ function canOperate() {
 }
 
 
-function getMinoShape(type) {
+function getTetriminoShape(type) {
 	let minoArray = [];
 	const shape = ShapesOfTetriminoEnum.getByValue('string',type).shape;
 	// let minoArray = [];
@@ -437,16 +437,16 @@ function getMinoShape(type) {
 	}
 	// console.log(minoArray);
 
-	return getMovedTiles(minoArray,-originPos[0],-originPos[1]);
+	return getMovedMinos(minoArray,-originPos[0],-originPos[1]);
 }
 
-function getMovedTiles(tiles,dx,dy) {
+function getMovedMinos(tiles,dx,dy) {
 	return tiles.map((tile) => [tile[0]+dx,tile[1]+dy])
 }
 
-function getRotatedMinoShape(type,d) {
+function getRotatedTetriminoShape(type,d) {
 	if (type=='o') {
-		return getMinoShape(type)
+		return getTetriminoShape(type)
 	} else if (type=='i') {
 		const differ = [
 			[0,0],
@@ -454,9 +454,9 @@ function getRotatedMinoShape(type,d) {
 			[1,1],
 			[0,1]
 		]
-		return getMovedTiles(changeDirection(getMinoShape(type),d), differ[d][0], differ[d][1]);
+		return getMovedMinos(changeDirection(getTetriminoShape(type),d), differ[d][0], differ[d][1]);
 	} else {
-		return changeDirection(getMinoShape(type),d);
+		return changeDirection(getTetriminoShape(type),d);
 	}
 }
 
@@ -465,7 +465,7 @@ function getMinoTiles(type,x,y,mino) {
 }
 
 function getRotatedMinoTiles(type,x,y,d,mino) {
-	return getRotatedMinoShape(type,d).map((array) => [x+array[0],y+array[1],TetriminoEnum.getByValue('string',mino)]);
+	return getRotatedTetriminoShape(type,d).map((array) => [x+array[0],y+array[1],TetriminoEnum.getByValue('string',mino)]);
 }
 
 function getMovedMinoTiles(dx,dy) {

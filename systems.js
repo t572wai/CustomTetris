@@ -153,7 +153,7 @@ function checkAction(currentNumOfClearedLine) {
 function isTSpin() {
 	if(currentMinoType!='t' || isJustNowSpin==-1) return -1;
 
-	let indicatorArray = getFilledTilesAroundT_normal()
+	let indicatorArray = getFilledTilesAroundT_normalized()
 	console.log(indicatorArray,indicatorArray.includesArray([-1,-1]) && indicatorArray.includesArray([1,-1]));
 
 	if (isJustNowSpin==5) {
@@ -182,7 +182,7 @@ function getFilledTilesAroundT() {
 	return tiles;
 }
 
-function getFilledTilesAroundT_normal() {
+function getFilledTilesAroundT_normalized() {
 	return changeDirection(getFilledTilesAroundT(),currentMinoD)
 }
 

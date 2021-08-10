@@ -6,7 +6,7 @@
 	border-left: 1px solid white;
 
 	grid-row: calc(attr(data-y) - 2);
-	grid-column: attr(data-x);
+	grid-column: calc(attr(data-x));
 }
 
 .emptyMinos {
