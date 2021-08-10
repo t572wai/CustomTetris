@@ -83,7 +83,7 @@ function removeGhostTiles() {
 }
 
 function displayTile(tile) {
-	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]["string"]+"Minos");
+	$('.ghostMinos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]["string"]+"GhostMinos");
 }
 function displayGhostTile(tile) {
 	if (tile[1]<2) {
