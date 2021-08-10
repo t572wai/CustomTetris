@@ -1,0 +1,92 @@
+.minos {
+	width: var(--sizeOfMino);
+	height: var(--sizeOfMino);
+
+	border-top: 1px solid white;
+	border-left: 1px solid white;
+
+	grid-row: calc(attr(data-y) - 2);
+	grid-column: attr(data-x);
+}
+
+.emptyMinos {
+	background-color: #0B1013;
+}
+
+.iMinos {
+	background-color: #348FCA;
+}
+
+.oMinos {
+	background-color: #E7BD22;
+}
+
+.sMinos {
+	background-color: #2AA55D;
+}
+
+.zMinos {
+	background-color: #DA4B3C;
+}
+
+.jMinos {
+	background-color: #246EAB;
+}
+
+.lMinos {
+	background-color: #DC7A23;
+}
+
+.tMinos {
+	background-color: #824597;
+}
+
+.ghostMinos {
+	background-color: #0B1013;
+}
+.ghostMinos {
+	content: "";
+	height: 50%;
+	width: 50%;
+	position: relative;
+	top: 25%;
+	left: 25%;
+}
+
+.iGhostMinos{
+	background-color: #348FCA;
+}
+
+.oGhostMinos {
+	background-color: #E7BD22;
+}
+
+.sGhostMinos {
+	background-color: #2AA55D;
+}
+
+.zGhostMinos {
+	background-color: #DA4B3C
+}
+
+.jGhostMinos {
+	background-color: #246EAB;
+}
+
+.lGhostMinos {
+	background-color: #DC7A23;
+}
+
+.tGhostMinos {
+	background-color: #824597;
+}
+
+.displayers {
+	display: grid;
+	grid-template-columns: repeat(4, var(--sizeOfDisplayedMino));
+	grid-template-rows: repeat(2, var(--sizeOfDisplayedMino));
+}
+.displayers .tiles {
+	width: var(--sizeOfDisplayedMino);
+	height: var(--sizeOfDisplayedMino);
+}

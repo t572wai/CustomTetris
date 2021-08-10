@@ -1,0 +1,11 @@
+:root {
+	--sizeOfTile: 30px;
+	--sizeOfDisplayedTile: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+	:root {
+		--sizeOfTile: 40px;
+		--sizeOfDisplayedTile: 25px;
+	}
+}
