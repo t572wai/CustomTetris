@@ -93,7 +93,7 @@ function displayGhostTile(tile) {
 	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html(ghostText);
 }
 function removeGhostTile(tile) {
-	$('.ghostMinos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html("");
+	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html("");
 }
 
 function displayDifferWithDelay(differs,callback) {
