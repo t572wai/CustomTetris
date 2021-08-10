@@ -135,7 +135,7 @@ function textOfMinoAlone(type) {
 	let text = "<div class='displayers'>";
 	if (!type) {
 		for (var i = 0; i < 8; i++) {
-			text += '<div class="minos emptyTiles"></div>'
+			text += '<div class="minos emptyMinos"></div>'
 		}
 		text + '</div>'
 		return text;
