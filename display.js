@@ -83,17 +83,17 @@ function removeGhostTiles() {
 }
 
 function displayTile(tile) {
-	$('.tiles[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','tiles '+tile[2]["string"]+"Tiles");
+	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','tiles '+tile[2]["string"]+"Minos");
 }
 function displayGhostTile(tile) {
 	if (tile[1]<2) {
 		return ;
 	}
-	let ghostText = "<div class='ghostTiles "+tile[2]["string"]+"GhostTiles'></div>"
-	$('.tiles[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html(ghostText);
+	let ghostText = "<div class='ghostMinos "+tile[2]["string"]+"GhostMinos'></div>"
+	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html(ghostText);
 }
 function removeGhostTile(tile) {
-	$('.tiles[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html("");
+	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html("");
 }
 
 function displayDifferWithDelay(differs,callback) {
@@ -135,7 +135,7 @@ function textOfMinoAlone(type) {
 	let text = "<div class='displayers'>";
 	if (!type) {
 		for (var i = 0; i < 8; i++) {
-			text += '<div class="tiles emptyTiles"></div>'
+			text += '<div class="minos emptyTiles"></div>'
 		}
 		text + '</div>'
 		return text;
@@ -144,22 +144,22 @@ function textOfMinoAlone(type) {
 	for (let line of ShapesOfTetriminoEnum.getByValue('string',type).shape) {
 		if (type != 'i') {
 			if (type == 'o') {
-				text += '<div class="tiles emptyTiles"></div>'
-				text += '<div class="tiles emptyTiles"></div>'
+				text += '<div class="minos emptyMinos"></div>'
+				text += '<div class="minos emptyMinos"></div>'
 			} else {
-				text += '<div class="tiles emptyTiles"></div>'
+				text += '<div class="minos emptyMinos"></div>'
 			}
 		}
 		for (let tile of line) {
 			if (tile==-1) {
-				text += '<div class="tiles emptyTiles"></div>'
+				text += '<div class="minos emptyMinos"></div>'
 			} else {
-				text += '<div class="tiles '+type+'Tiles"></div>'
+				text += '<div class="minos '+type+'Minos"></div>'
 			}
 		}
 	}
 	if (type=='i') {
-		text += '<div class="tiles emptyTiles"></div><div class="tiles emptyTiles"></div><div class="tiles emptyTiles"></div><div class="tiles emptyTiles"></div>'
+		text += '<div class="minos emptyMinos"></div><div class="minos emptyMinos"></div><div class="minos emptyMinos"></div><div class="minos emptyMinos"></div>'
 	}
 	text += '</div>'
 	return text;
