@@ -23,7 +23,7 @@ $(function () {
 				$(this).dialog('close');
 			},
 			'toMainMenu': function () {
-				displayMainMenu();
+				toMainMenu();
 				$(this).dialog('close');
 			}
 		}
