@@ -290,6 +290,7 @@ function startFall() {
 			// console.log(this.tiles);
 			displayDiffer(currentMinoTiles,function () {
 				displayGhost()
+				if(!canFall())countLockDownTimer()
 				loopOfFall()
 			})
 		} else {
