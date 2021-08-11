@@ -219,5 +219,5 @@ function isLineFilled(array) {
 function endTetris() {
 	console.log('end tetris');
 	isPlayingTetris = false;
-	swiper.destructor().bind(swiper);
+	swiper.destructor()
 }
