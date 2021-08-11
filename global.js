@@ -22,3 +22,5 @@ let totalClearedLine;
 let isJustNowSpin;
 
 let isPlayingTetris;
+
+let swiper;

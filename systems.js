@@ -3,7 +3,7 @@ function startTetris() {
 	displayField()
 	reset()
 	startToAppearMinos()
-	const swiper = new Swiper(document, 70, 300, 50)
+	swiper = new Swiper(document, 70, 300, 50)
 }
 
 function startToAppearMinos() {
