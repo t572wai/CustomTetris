@@ -45,7 +45,6 @@ function checkGenerationOfTetriminos() {
 	if (followingMinos.length < NumOfNext+1) {
 		generateTetriminos()
 	}
-}
 
 function generateTetriminos() {
 	//ミノをランダムにソート

@@ -12,3 +12,15 @@ function initDialogs() {
 		})
 	})
 }
+
+$(function () {
+	$('#gameoverDialog').dialog({
+		title: 'game over',
+		buttons: {
+			'restart': function () {
+				reset();
+				startToAppearMinos();
+			}
+		}
+	})
+})
