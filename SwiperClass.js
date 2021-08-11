@@ -71,11 +71,11 @@ class Swiper {
 			}
 
 
-		this.target[0].addEventListener('touchstart', this.onTouchstartAction.bind(this), {passive:false});
+		this.target[0].addEventListener('touchstart.swiperClass', this.onTouchstartAction.bind(this), {passive:false});
 
-		this.target[0].addEventListener('touchmove', this.onTouchmoveAction.bind(this), {passive:false});
+		this.target[0].addEventListener('touchmove.swiperClass', this.onTouchmoveAction.bind(this), {passive:false});
 
-		this.target[0].addEventListener('touchend', this.onTouchendAction.bind(this), {passive:false})
+		this.target[0].addEventListener('touchend.swiperClass', this.onTouchendAction.bind(this), {passive:false})
 	}
 
 	getDistance2 () {
@@ -106,9 +106,9 @@ class Swiper {
 
 	destructor () {
 		console.log(this.target);
-		this.target.off('touchstart')
-		this.target.off('touchmove')
-		this.target.off('touchend')
+		this.target.off('touchstart.swiperClass')
+		this.target.off('touchmove.swiperClass')
+		this.target.off('touchend.swiperClass')
 		console.log(this.target);
 	}
 }
