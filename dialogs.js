@@ -18,8 +18,7 @@ $(function () {
 		title: 'game over',
 		buttons: {
 			'restart': function () {
-				reset();
-				startToAppearMinos();
+				startTetris();
 				$(this).dialog('close');
 			},
 			'toMainMenu': function () {

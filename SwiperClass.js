@@ -104,4 +104,9 @@ class Swiper {
 		}
 	}
 
+	destructor () {
+		this.target.off('touchstart')
+		this.target.off('touchmove')
+		this.target.off('touchend')
+	}
 }
