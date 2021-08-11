@@ -6,6 +6,11 @@ function startTetris() {
 	swiper = new Swiper(document, 70, 300, 50)
 }
 
+function initTetris() {
+	currentGameRule = $('.optionRadio>input:checked').val()
+}
+
+
 function startToAppearMinos() {
 	console.log('start');
 	checkGenerationOfTetriminos()

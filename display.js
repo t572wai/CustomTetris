@@ -25,8 +25,22 @@ function toMainMenu() {
 }
 
 function displayMainMenu() {
-	let mainMenuText = '<button id="startButton">ゲームスタート</button>'
+	let mainMenuText = ''
+	mainMenuText += textOfStartButton()
+	mainMenuText += textOfOptions()
 	$('#field').html(mainMenuText)
+}
+
+function textOfStartButton() {
+	return	'<button id="startButton">ゲームスタート</button>'
+}
+
+function textOfOptions() {
+	let text = '<p class="optionRadio">'
+						+'<input type="radio" value="normal" checked>Normal'
+						+'<input type="radio" value="practiceFor4ren">4REN'
+						+'</p>'
+	return text;
 }
 
 //
@@ -45,10 +59,6 @@ function displayField() {
 	}
 
 	$('#field').html(fieldText);
-}
-
-function resetField() {
-	fieldArray = Array(22).fill().map(() => Array(10).fill(TetriminoEnum.Empty));
 }
 
 function clearField() {

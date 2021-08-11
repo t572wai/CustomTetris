@@ -522,3 +522,12 @@ const spinRule = {
 		]
 	},
 }
+
+const GameRuleType = defineEnum({
+	Normal: {
+		'string': 'normal'
+	},
+	FirstTerrain: {
+		'string': 'firstTerrain'
+	}
+})

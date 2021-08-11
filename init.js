@@ -8,8 +8,14 @@
 
 initDialogs()
 
-$(document).on('click','#startButton', startTetris )
-$(document).on('touched','#startButton', startTetris )
+$(document).on('click','#startButton', () => {
+	initTetris();
+	startTetris()
+})
+$(document).on('touched','#startButton', () => {
+	initTetris();
+	startTetris();
+})
 
 toMainMenu()
 

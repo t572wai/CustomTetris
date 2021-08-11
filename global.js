@@ -24,3 +24,5 @@ let isJustNowSpin;
 let isPlayingTetris;
 
 let swiper;
+
+let currentGameRule = 'normal';
