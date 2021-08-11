@@ -61,8 +61,7 @@ function reset() {
 	score = 0;
 	totalClearedLine = 0;
 
-	resetField();
-	displayAllMinos();
+	clearField();
 	resetBag();
 	resetScoringArray();
 }

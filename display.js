@@ -18,10 +18,10 @@ let scoring = {};
 
 function toMainMenu() {
 	displayMainMenu()
-	resetField();
-	displayAllMinos();
-	resetBag();
-	resetScoringArray();
+	clearField()
+	clearScoreArea()
+	clearHoldArea()
+	clearNextArea()
 }
 
 function displayMainMenu() {
@@ -49,6 +49,11 @@ function displayField() {
 
 function resetField() {
 	fieldArray = Array(22).fill().map(() => Array(10).fill(TetriminoEnum.Empty));
+}
+
+function clearField() {
+	resetField();
+	displayAllMinos();
 }
 
 function displayAllMinos() {
