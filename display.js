@@ -37,8 +37,8 @@ function textOfStartButton() {
 
 function textOfOptions() {
 	let text = '<p class="optionRadio">'
-						+'<input type="radio" value="normal" checked>Normal'
-						+'<input type="radio" value="practiceFor4ren">4REN'
+						+'<input name="gameRule" type="radio" value="normal" checked>Normal'
+						+'<input name="gameRule" type="radio" value="practiceFor4ren">4REN'
 						+'</p>'
 	return text;
 }

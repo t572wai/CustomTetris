@@ -7,7 +7,7 @@ function startTetris() {
 }
 
 function initTetris() {
-	currentGameRule = $('.optionRadio>input:checked').val()
+	currentGameRule = $('input[name=gameRule]:checked').val()
 }
 
 
