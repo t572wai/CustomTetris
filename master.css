@@ -30,7 +30,11 @@ body {
 }
 
 #startButton {
+	grid-row: 1;
 	border-color: #005ba6;
+}
+#optionRadio {
+	grid-row: 2;
 }
 
 #holdArea {

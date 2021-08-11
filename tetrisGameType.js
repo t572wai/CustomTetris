@@ -13,7 +13,7 @@ const generateTerrain = {
 }
 
 function hasGameRuleType(rule,type) {
-	return gameRuleConfigs[rule].contains(type);
+	return gameRuleConfigs[rule].includes(type);
 }
 
 function resetField() {
