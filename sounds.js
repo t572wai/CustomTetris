@@ -2,7 +2,8 @@ $(document).ready(function () {
 	ion.sound({
 		sounds: [
 			{
-				name: "lockDownSE"
+				name: "lockDownSE",
+				preload: true
 			},
 			{
 				name: "startSound",
