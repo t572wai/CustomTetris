@@ -9,6 +9,7 @@ const generateTerrain = {
 	},
 	'practiceFor4ren': () => {
 		let terrainArray = generateTerrain['normal'];
+		return terrainArray;
 	}
 }
 
