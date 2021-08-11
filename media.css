@@ -3,11 +3,21 @@
 		--sizeOfMino: 30px;
 		--sizeOfDisplayedMino: 20px;
 	}
+
+	#startButton {
+		width: 350px;
+		height: 100px;
+	}
 }
 
 @media (pointer: coarse) {
 	:root {
 		--sizeOfMino: 40px;
 		--sizeOfDisplayedMino: 25px;
+	}
+
+	#startButton {
+		width: 500px;
+		height: 200px;
 	}
 }
