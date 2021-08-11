@@ -70,7 +70,7 @@ class Swiper {
 					}
 			}
 
-		this.onTouchstartAction = this.onTouchendAction.bind(this)
+		this.onTouchstartAction = this.onTouchstartAction.bind(this)
 		this.target[0].addEventListener('touchstart', this.onTouchstartAction, {passive:false});
 
 		this.onTouchmoveAction = this.onTouchmoveAction.bind(this)
