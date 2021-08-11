@@ -362,11 +362,11 @@ function lockDown() {
 	ion.sound.play("lockDownSE", {
 		ended_callback : function () {
 			console.log("lockDownSE end");
-			let lower = lowerPos()
-			checkLine(currentMinoLockedDownCallback.bind(null,lower))
-			// currentMinoLockedDownCallback(lower)
 		}
 	})
+	let lower = lowerPos()
+	checkLine(currentMinoLockedDownCallback.bind(null,lower))
+	// currentMinoLockedDownCallback(lower)
 }
 
 function moveToLeft(callback) {
