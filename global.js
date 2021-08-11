@@ -20,3 +20,5 @@ let score;
 let totalClearedLine;
 
 let isJustNowSpin;
+
+let isPlayingTetris;

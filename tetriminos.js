@@ -45,6 +45,7 @@ function initMino( type ) {
 		setIndicatorForLockDown(0)
 		moveTimers = {}
 		ghostTiles = []
+		isPlayingTetris = true;
 	}else {
 		console.log("unknown mino error");
 	}
@@ -301,7 +302,9 @@ function startFall() {
 function canFall() {
 	let fallenTiles = getMovedMinoTiles(0,1)
 	let b = canMove(fallenTiles);
-	return b;
+	if (isPlayingTetris) {
+		return b;
+	}
 }
 
 function loopOfFall() {
@@ -415,7 +418,7 @@ function onOperating(formerCanFall) {
 }
 
 function canOperate() {
-	return !currentMinoDidLockDown;
+	return !currentMinoDidLockDown && isPlayingTetris;
 }
 
 

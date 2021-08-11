@@ -20,6 +20,11 @@ $(function () {
 			'restart': function () {
 				reset();
 				startToAppearMinos();
+				$(this).dialog('close');
+			},
+			'toMainMenu': function () {
+				displayMainMenu();
+				$(this).dialog('close');
 			}
 		}
 	})

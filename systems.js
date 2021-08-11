@@ -19,6 +19,7 @@ function startToAppearMinos() {
 		console.log(ind);
 		withGameOver(ind,function () {
 			// alert('game over')
+			endTetris()
 			$('#gameoverDialog').dialog('open')
 		},function () {
 			canHold = true;
@@ -200,4 +201,8 @@ function clearLine(i) {
 
 function isLineFilled(array) {
 	return  !array.find((e) => e.string == "empty");
+}
+
+function endTetris(params) {
+	isPlayingTetris = false;
 }
