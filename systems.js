@@ -216,7 +216,8 @@ function isLineFilled(array) {
 	return  !array.find((e) => e.string == "empty");
 }
 
-function endTetris(params) {
+function endTetris() {
+	console.log('end tetris');
 	isPlayingTetris = false;
 	swiper.destructor();
 }
