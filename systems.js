@@ -53,6 +53,10 @@ function generateTetriminos() {
 	followingMinos = followingMinos.concat(shuffle([0,1,2,3,4,5,6]).map((i) => TetriminoEnum.getByValue('value',i).string))
 }
 
+function updateFieldArray(tile) {
+	fieldArray[tile[1]][tile[0]] = tile[2]
+}
+
 function hold() {
 	if (!currentMinoDidLockDown && canHold) {
 		canHold = false;
@@ -205,4 +209,7 @@ function isLineFilled(array) {
 
 function endTetris(params) {
 	isPlayingTetris = false;
+	clearHoldArea()
+	clearNextArea()
+	clearScoreArea()
 }

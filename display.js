@@ -103,12 +103,6 @@ function displayDifferWithDelay(differs,callback) {
 	fallTimer = setTimeout(displayDiffer.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
 }
 
-function updateFieldArray(tile) {
-	fieldArray[tile[1]][tile[0]] = tile[2]
-}
-
-
-
 function displayNext() {
 	$('#nextArea').html(textOfNext())
 }
@@ -179,4 +173,16 @@ function textOfScoreArea() {
 		}
 	}
 	return text;
+}
+
+function clearHoldArea() {
+	$('#holdArea').html('')
+}
+
+function clearNextArea() {
+	$('#nextArea').html('')
+}
+
+function clearScoreArea() {
+	$('#scoreArea').html('')
 }
