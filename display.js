@@ -67,6 +67,7 @@ function clearField() {
 }
 
 function displayAllMinos() {
+	console.log(fieldArray);
 	for (var i = 1; i < 22; i++) {
 		for (var j = 0; j < 10; j++) {
 			$('.minos[data-x="'+j+'"][data-y="'+i+'"]').attr('class','minos '+fieldArray[i][j]["string"]+"Minos");
