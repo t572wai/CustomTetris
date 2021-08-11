@@ -16,6 +16,14 @@ let scoring = {};
 //
 //
 
+function toMainMenu() {
+	displayMainMenu()
+	resetField();
+	displayAllMinos();
+	resetBag();
+	resetScoringArray();
+}
+
 function displayMainMenu() {
 	let mainMenuText = '<button id="startButton">ゲームスタート</button>'
 	$('#field').html(mainMenuText)
@@ -49,16 +57,6 @@ function displayAllMinos() {
 			$('.minos[data-x="'+j+'"][data-y="'+i+'"]').attr('class','minos '+fieldArray[i][j]["string"]+"Minos");
 		}
 	}
-}
-
-function reset() {
-	score = 0;
-	totalClearedLine = 0;
-
-	resetField();
-	displayAllMinos();
-	resetBag();
-	resetScoringArray();
 }
 
 function displayDiffer(differs,callback) {

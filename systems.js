@@ -57,6 +57,16 @@ function updateFieldArray(tile) {
 	fieldArray[tile[1]][tile[0]] = tile[2]
 }
 
+function reset() {
+	score = 0;
+	totalClearedLine = 0;
+
+	resetField();
+	displayAllMinos();
+	resetBag();
+	resetScoringArray();
+}
+
 function hold() {
 	if (!currentMinoDidLockDown && canHold) {
 		canHold = false;
@@ -209,7 +219,4 @@ function isLineFilled(array) {
 
 function endTetris(params) {
 	isPlayingTetris = false;
-	clearHoldArea()
-	clearNextArea()
-	clearScoreArea()
 }

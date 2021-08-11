@@ -11,7 +11,7 @@ initDialogs()
 $(document).on('click','#startButton', startTetris )
 $(document).on('touched','#startButton', startTetris )
 
-displayMainMenu()
+toMainMenu()
 
 // $('#startButton').off()
 
