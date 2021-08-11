@@ -70,12 +70,14 @@ class Swiper {
 					}
 			}
 
+		this.onTouchstartAction = this.onTouchendAction.bind(this)
+		this.target[0].addEventListener('touchstart', this.onTouchstartAction, {passive:false});
 
-		this.target[0].addEventListener('touchstart', this.onTouchstartAction.bind(this), {passive:false});
+		this.onTouchmoveAction = this.onTouchmoveAction.bind(this)
+		this.target[0].addEventListener('touchmove', this.onTouchmoveAction, {passive:false});
 
-		this.target[0].addEventListener('touchmove', this.onTouchmoveAction.bind(this), {passive:false});
-
-		this.target[0].addEventListener('touchend', this.onTouchendAction.bind(this), {passive:false})
+		this.onTouchendAction = this.onTouchendAction.bind(this)
+		this.target[0].addEventListener('touchend', this.onTouchendAction, {passive:false})
 	}
 
 	getDistance2 () {
