@@ -106,9 +106,9 @@ class Swiper {
 
 	destructor () {
 		console.log(this.target);
-		this.target[0].removeEventListener('touchstart',this.onTouchstartAction)
-		this.target.off('touchmove',this.onTouchmoveAction)
-		this.target.off('touchend',this.onTouchendAction)
+		this.target[0].removeEventListener('touchstart',this.onTouchstartAction.bind(this))
+		this.target.off('touchmove',this.onTouchmoveAction.bind(this))
+		this.target.off('touchend',this.onTouchendAction.bind(this))
 		console.log(this.target);
 	}
 }
