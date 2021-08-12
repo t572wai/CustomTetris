@@ -182,7 +182,7 @@ function textOfScoreArea() {
 	for (let action in scoring) {
 		if (action=='score') {
 			text += 'score:'+scoring['score']+'<br>'
-		} else if(action=='ren') {
+		} else if(action=='REN') {
 			text += 'REN:'+scoring['ren']+'<br>'
 		} else {
 			text += ActionsEnum.getByValue('string',action).displayTitle+':'+scoring[action]+'<br>'
