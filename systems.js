@@ -117,9 +117,6 @@ function addScore(actionStr,rate=1) {
 	if (isScoring(actionStr)) {
 		scoring[actionStr]++;
 	}
-	if (actionStr == 'ren') {
-		scoring['ren'] = (currentREN > 0)?currentREN:0;
-	}
 	scoring['score'] = score;
 	displayScoreArea()
 }
@@ -142,6 +139,8 @@ function checkLine(callback) {
 	} else {
 		currentREN = -1;
 	}
+	scoring['ren'] = (currentREN>0)?currentREN:0;
+	displayScoreArea();
 	afterAction(checkAction(numOfClearedLine));
 	for (let ind of linesToClear) {
 		clearLine(ind)
