@@ -37,7 +37,7 @@ function displayMainMenu() {
 	let mainMenuText = ''
 	mainMenuText += textOfStartButton()
 	mainMenuText += textOfOptions()
-	$('#field').html(mainMenuText)
+	$('#mainMenuArea').html(mainMenuText)
 }
 
 function textOfStartButton() {
