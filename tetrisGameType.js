@@ -8,7 +8,12 @@ const generateTerrain = {
 		return Array(fieldHeight).fill().map(() => Array(fieldWidth).fill(TetriminoEnum.Empty));
 	},
 	'practiceFor4ren': () => {
-		const terrainArray = generateTerrain['normal'];
+		let normalTerrainArray = generateTerrain['normal']();
+		forEachMinoOnMatrix((x,y) => {
+			if (x<3 || x>6) {
+				normalTerrainArray[y][x] = TetriminoEnum.I;
+			}
+		})
 
 		return terrainArray;
 	}
