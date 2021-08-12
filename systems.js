@@ -109,7 +109,7 @@ function isScoring(str) {
 
 function resetScoringArray() {
 	scoring['score'] = 0;
-	scoring['REN'] = 0;
+	scoring['ren'] = 0;
 	ActionsEnum.forEach((item) => {
 		if (isScoring(item.string)) {
 			scoring[item.string] = 0;
