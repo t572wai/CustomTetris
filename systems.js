@@ -229,6 +229,7 @@ function clearLine(i) {
 	for (var j = i-1; j >= 0; j--) {
 		fieldArray[j+1] = cloneArray(fieldArray[j]);
 	}
+	fieldArray[0] = Array(fieldWidth).fill(TetriminoEnum.Empty);
 	totalClearedLine++;
 }
 
