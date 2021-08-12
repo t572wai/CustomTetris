@@ -402,6 +402,7 @@ function operate(dx, dy, sgn, callback) {
 function onOperating(formerCanFall) {
 	console.log('with move to left or right');
 	let currentCanFall = canFall()
+	console.log(currentCanFall, isAllowedOperate());
 	if (!currentCanFall && !isAllowedOperate()) {
 		lockDown()
 	}
