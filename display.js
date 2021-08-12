@@ -17,12 +17,13 @@ let scoring = {};
 //
 
 function toMainMenu() {
-	displayMainMenu()
-	clearField()
-	clearScoreArea()
-	clearHoldArea()
-	clearNextArea()
-	clearHoldQueue()
+	displayMainMenu();
+	clearField();
+	clearScoreArea();
+	clearHoldArea();
+	clearNextArea();
+	clearHoldQueue();
+	clearNextQueue();
 }
 
 function displayMainMenu() {

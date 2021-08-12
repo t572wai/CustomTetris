@@ -71,6 +71,7 @@ function reset() {
 	totalClearedLine = 0;
 
 	clearHoldQueue();
+	clearNextQueue();
 	displayHold();
 	clearField();
 	resetBag();
@@ -247,4 +248,8 @@ function endTetris() {
 
 function clearHoldQueue() {
 	holdMinoType = 'empty';
+}
+
+function clearNextQueue() {
+	followingMinos = [];
 }
