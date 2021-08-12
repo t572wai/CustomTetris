@@ -406,6 +406,7 @@ function onOperating(formerCanFall) {
 	console.log(currentCanFall, isAllowedOperate());
 	if (!currentCanFall && !isAllowedOperate()) {
 		lockDown()
+		return;
 	}
 	if (!formerCanFall) {
 		setNumberOfMoveWithLowerFace(numberOfMoveWithLowerFace+1);
