@@ -22,6 +22,7 @@ function toMainMenu() {
 	clearScoreArea()
 	clearHoldArea()
 	clearNextArea()
+	clearHoldQueue()
 }
 
 function displayMainMenu() {
@@ -141,7 +142,7 @@ function textOfHold() {
 function textOfMinoAlone(type) {
 	// console.log(type);
 	let text = "<div class='displayers'>";
-	if (!type) {
+	if (!type || type=='empty') {
 		for (var i = 0; i < 8; i++) {
 			text += '<div class="minos emptyMinos"></div>'
 		}

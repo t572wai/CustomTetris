@@ -242,3 +242,7 @@ function endTetris() {
 	isPlayingTetris = false;
 	swiper.destructor()
 }
+
+function clearHoldQueue() {
+	holdMinoType = 'empty';
+}
