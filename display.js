@@ -61,11 +61,9 @@ function textOfOptions() {
 function displayMatrix() {
 	let matrixText = "";
 
-	for (var i = bufferHeight-1; i < fieldHeight; i++) {
-		for (var j = 0; j < fieldWidth; j++) {
-			matrixText += "<div class='minos' data-x='"+j+"' data-y='"+i+"'></div>"
-		}
-	}
+	forEachMinoOnMatrix((x,y) => {
+			matrixText += "<div class='minos' data-x='"+x+"' data-y='"+y+"'></div>"
+	})
 
 	$('#field').html(matrixText);
 }
@@ -77,11 +75,9 @@ function clearField() {
 
 function displayAllMinos() {
 	console.log(fieldArray);
-	for (var i = bufferHeight-1; i < fieldHeight; i++) {
-		for (var j = 0; j < fieldWidth; j++) {
-			$('.minos[data-x="'+j+'"][data-y="'+i+'"]').attr('class','minos '+fieldArray[i][j]["string"]+"Minos");
-		}
-	}
+	forEachMinoOnMatrix((x,y) => {
+			$('.minos[data-x="'+x+'"][data-y="'+y+'"]').attr('class','minos '+fieldArray[y][x]["string"]+"Minos");
+	})
 }
 
 function displayDiffer(differs,callback) {

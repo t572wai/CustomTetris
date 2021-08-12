@@ -254,3 +254,15 @@ function clearHoldQueue() {
 function clearNextQueue() {
 	followingMinos = [];
 }
+
+/**
+ *
+ * @param {function} fn [fn(x,y)]
+ */
+function forEachMinoOnMatrix(fn) {
+	for (let i = bufferHeight-1; i < fieldHeight; i++) {
+		for (let j = 0; j < fieldWidth; j++) {
+			fn(j,i)
+		}
+	}
+}
