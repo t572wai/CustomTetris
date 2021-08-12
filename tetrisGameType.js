@@ -11,7 +11,7 @@ const generateTerrain = {
 		let terrainArray = generateTerrain['normal']();
 		forEachMinoOnField((x,y) => {
 			if (x<3 || x>6) {
-				terrainArray[y][x] = TetriminoEnum.I;
+				terrainArray[y][x] = TetriminoEnum.Wall;
 			}
 		})
 		terrainArray[21][3] = TetriminoEnum.Wall;
