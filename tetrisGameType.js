@@ -34,6 +34,8 @@ const generateRegularlyTerrain = {
 		terrain[7] = TetriminoEnum.I;
 		terrain[8] = TetriminoEnum.I;
 		terrain[9] = TetriminoEnum.I;
+
+		return terrain;
 	}
 }
 
