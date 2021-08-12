@@ -543,5 +543,5 @@ const matrixWidth = 10;
 const bufferHeight = 2;
 const bufferWidth = matrixWidth;
 
-const fieldHeight = matrixHight + bufferHight;
+const fieldHeight = matrixHeight + bufferHeight;
 const fieldWidth = matrixWidth;
