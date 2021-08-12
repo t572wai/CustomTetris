@@ -77,6 +77,7 @@ function reset() {
 	clearField();
 	resetBag();
 	resetScoringArray();
+	displayScoreArea();
 }
 
 function hold() {
