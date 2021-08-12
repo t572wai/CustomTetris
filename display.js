@@ -24,6 +24,13 @@ function toMainMenu() {
 	clearNextArea();
 	clearHoldQueue();
 	clearNextQueue();
+	$('#gameArea').css('display','none');
+	$('#mainMenuArea').css('display','block');
+}
+
+function toGame() {
+	$('#gameArea').css('display','block');
+	$('#mainMenuArea').css('display','none');
 }
 
 function displayMainMenu() {

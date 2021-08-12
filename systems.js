@@ -8,6 +8,7 @@ function startTetris() {
 
 function initTetris() {
 	currentGameRule = $('input[name=gameRule]:checked').val()
+	toGame()
 }
 
 
