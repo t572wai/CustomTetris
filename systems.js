@@ -78,7 +78,7 @@ function reset() {
 function hold() {
 	if (!currentMinoDidLockDown && canHold) {
 		canHold = false;
-		if (holdMinoType) {
+		if (holdMinoType && holdMinoType != 'empty') {
 			// console.log(holdMinoType);
 			let minoTypeTemp = holdMinoType;
 			holdMinoType = currentMinoType;
