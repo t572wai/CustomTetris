@@ -12,8 +12,8 @@ $(document).ready(function () {
 	addKeyActions(40, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
 	addKeyActions(83, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
 
-	addKeyActions(37, onLeftSpin)
-	addKeyActions(39, onRightSpin)
+	addKeyActions(37, onLeftRotation)
+	addKeyActions(39, onRightRotation)
 
 	addKeyActions(16, onHold)
 
@@ -71,9 +71,9 @@ $(document).ready(function () {
 	$(this).on('touched', function (e, x, y) {
 		console.log(x,y);
 		if (x>300) {
-			onRightSpin()
+			onRightRotation()
 		} else {
-			onLeftSpin()
+			onLeftRotation()
 		}
 	})
 })
@@ -98,12 +98,12 @@ function onHardDrop() {
 	hardDrop()
 }
 
-function onRightSpin() {
-	rightSpin()
+function onRightRotation() {
+	rightRotation()
 }
 
-function onLeftSpin() {
-	leftSpin()
+function onLeftRotation() {
+	leftRotation()
 }
 
 function onHold() {
