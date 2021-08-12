@@ -36,7 +36,11 @@ function startToAppearMinos() {
 
 function isGameOver(indicator) {
 	// console.log(indicator);
-	return indicator<2;
+	return isLockOut(indicator);
+}
+
+function isLockOut(indicator) {
+	return indicator<bufferHight;
 }
 
 function withGameOver(indicator,gameoverCb,continueCb) {
@@ -100,6 +104,7 @@ function isScoring(str) {
 
 function resetScoringArray() {
 	scoring['score'] = 0;
+	scoring['REN'] = 0;
 	ActionsEnum.forEach((item) => {
 		if (isScoring(item.string)) {
 			scoring[item.string] = 0;
@@ -111,6 +116,9 @@ function addScore(actionStr,rate=1) {
 	score += ActionsEnum.getByValue('string',actionStr).score*rate;
 	if (isScoring(actionStr)) {
 		scoring[actionStr]++;
+	}
+	if (actionStr == 'ren' && currentREN > 0) {
+		scoring['ren'] = currentREN;
 	}
 	scoring['score'] = score;
 	displayScoreArea()
@@ -126,6 +134,14 @@ function checkLine(callback) {
 		}
 	}
 	const numOfClearedLine = linesToClear.length;
+	if (numOfClearedLine > 0) {
+		currentREN++;
+		if (currentREN>0) {
+			addScore('ren', currentREN*currentLevel)
+		}
+	} else {
+		currentREN = -1;
+	}
 	afterAction(checkAction(numOfClearedLine));
 	for (let ind of linesToClear) {
 		clearLine(ind)
@@ -202,7 +218,7 @@ function getFilledTilesAroundT() {
 }
 
 function getFilledTilesAroundT_normalized() {
-	return changeDirection(getFilledTilesAroundT(),currentMinoD)
+	return changeFacing(getFilledTilesAroundT(),currentMinoFacing)
 }
 
 function afterAction(type) {

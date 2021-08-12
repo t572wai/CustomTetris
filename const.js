@@ -141,6 +141,11 @@ const ActionsEnum = defineEnum({
 		string: 'hardDrop',
 		score: 2,
 		displayTitle: ''
+	},
+	ren: {
+		string: 'ren',
+		score: 50,
+		displayTitle: ''
 	}
 })
 
@@ -148,7 +153,7 @@ const ActionsEnum = defineEnum({
  * scoreに表示しないaction
  * @type {Array}
  */
-const notScorings = ['hardDrop','softDrop','btob','mini-t','tspin','none']
+const notScorings = ['hardDrop','softDrop','btob','mini-t','tspin','none','ren']
 
 const Direction = defineEnum({
 	Up: {
@@ -531,3 +536,7 @@ const GameRuleType = defineEnum({
 		'string': 'firstTerrain'
 	}
 })
+
+const matrixWidth = 10;
+const matrixHight = 20;
+const bufferHight= 2;

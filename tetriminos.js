@@ -1,6 +1,6 @@
 let currentMinoType;
 
-let currentMinoD;
+let currentMinoFacing;
 let currentMinoX;
 let currentMinoY;
 
@@ -31,10 +31,10 @@ function initMino( type ) {
 	if(TetriminoEnum.getByValue('string',type)) {
 		// console.log(type);
 		currentMinoType = type;
-		currentMinoD = 0;
+		currentMinoFacing = 0;
 		currentMinoX = 4;
 		currentMinoY = 1;
-		currentMinoTiles = getMinoTiles(currentMinoType,currentMinoX,currentMinoY,currentMinoType)
+		currentMinoTiles = getTetrimino(currentMinoType,currentMinoX,currentMinoY,currentMinoType)
 		currentMinoIsVisible = false;
 		currentMinoDidLockDown = false;
 		currentMinoIsSoftDrop = false;
@@ -168,12 +168,12 @@ function move(dx,dy,callback) {
 }
 
 function moveAndRotate(dx,dy,sgn,callback) {
-	let followingTiles = getMovedAndRotatedMinoTiles(dx,dy,sgn);
+	let followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn);
 	if (canMove(followingTiles)) {
 		currentMinoX += dx;
 		setCurrentMinoY(currentMinoY + dy);
 		changeCurrentTiles(followingTiles, function () {
-			currentMinoD = (currentMinoD + sgn) % 4;
+			currentMinoFacing = (currentMinoFacing + sgn) % 4;
 			displayGhost()
 			callback(true)
 		})
@@ -235,7 +235,7 @@ function checkGhost() {
 	if (hightOfDropping == 0) {
 		ghostTiles = []
 	} else {
-		ghostTiles = getMovedAndRotatedMinoTiles(0,hightOfDropping,0)
+		ghostTiles = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
 	}
 	return hightOfDropping;
 }
@@ -301,7 +301,7 @@ function startFall() {
 }
 
 function canFall() {
-	let fallenTiles = getMovedMinoTiles(0,1)
+	let fallenTiles = getMovedTetrimino(0,1)
 	let b = canMove(fallenTiles);
 	if (isPlayingTetris) {
 		return b;
@@ -458,30 +458,36 @@ function getRotatedTetriminoShape(type,d) {
 			[1,1],
 			[0,1]
 		]
-		return getMovedMinos(changeDirection(getTetriminoShape(type),d), differ[d][0], differ[d][1]);
+		return getMovedMinos(changeFacing(getTetriminoShape(type),d), differ[d][0], differ[d][1]);
 	} else {
-		return changeDirection(getTetriminoShape(type),d);
+		return changeFacing(getTetriminoShape(type),d);
 	}
 }
 
-function getMinoTiles(type,x,y,mino) {
-	return getRotatedMinoTiles(type,x,y,currentMinoD,mino)
+function getTetrimino(type,x,y,mino) {
+	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
 }
 
-function getRotatedMinoTiles(type,x,y,d,mino) {
+function getRotatedTetrimino(type,x,y,d,mino) {
 	return getRotatedTetriminoShape(type,d).map((array) => [x+array[0],y+array[1],TetriminoEnum.getByValue('string',mino)]);
 }
 
-function getMovedMinoTiles(dx,dy) {
-	return getMinoTiles(currentMinoType,currentMinoX+dx,currentMinoY+dy,currentMinoType)
+function getMovedTetrimino(dx,dy) {
+	return getTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,currentMinoType)
 }
 
-function getMovedAndRotatedMinoTiles(dx,dy,sgn) {
-	return getRotatedMinoTiles(currentMinoType,currentMinoX+dx,currentMinoY+dy,(currentMinoD+sgn)%4,currentMinoType);
+function getMovedAndRotatedTetrimino(dx,dy,sgn) {
+	return getRotatedTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,currentMinoType);
 }
 
-function signOfSpin(formerDirection, followingDirection) {
-	return (((followingDirection - formerDirection) % 4) + 4) % 4;
+/**
+ *
+ * @param {number} formerFacing
+ * @param {number} followingFacing
+ * @returns どれだけ回転させるのか[n:n回右回転]
+ */
+function signOfRotation(formerFacing, followingFacing) {
+	return (((followingFacing - formerFacing) % 4) + 4) % 4;
 }
 
 
@@ -491,7 +497,7 @@ function signOfSpin(formerDirection, followingDirection) {
  * @param  {number} sgn                 [0-3]
  * @return {Array<number>}       [0-3]
  */
-function changeDirection(tiles, sgn) {
+function changeFacing(tiles, sgn) {
 	// console.log(sgn);
 	let newTiles = cloneArray(tiles)
 	if (sgn==0) {
@@ -521,7 +527,7 @@ function moveSRS(spinDirection,i,callback) {
 	let dx = 0;
 	let dy = 0;
 	if (i!=0) {
-		let differ = spinRule[currentMinoType][currentMinoD][spinDirection][i-1];
+		let differ = spinRule[currentMinoType][currentMinoFacing][spinDirection][i-1];
 		dx = differ[0];
 		dy = differ[1];
 	}
@@ -529,7 +535,7 @@ function moveSRS(spinDirection,i,callback) {
 	sgn = (spinDirection==0)?1:3;
 	operate(dx,dy,sgn,function(b){
 		if (!b) {
-			if(spinRule[currentMinoType][currentMinoD][spinDirection][i]) {
+			if(spinRule[currentMinoType][currentMinoFacing][spinDirection][i]) {
 				moveSRS(spinDirection,++i,callback)
 			} else {
 				callback(false)
@@ -540,7 +546,7 @@ function moveSRS(spinDirection,i,callback) {
 	})
 }
 
-function rightSpin() {
+function rightRotation() {
 	console.log('rightSpin');
 	if (canOperate()) {
 		superRotation(0, function(b) {
@@ -551,7 +557,7 @@ function rightSpin() {
 	}
 }
 
-function leftSpin() {
+function leftRotation() {
 	console.log('leftSpin');
 	if (canOperate()) {
 		superRotation(1, function (b) {

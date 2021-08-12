@@ -17,6 +17,8 @@ let canHold;
 
 let score;
 
+let currentREN = -1;
+
 let totalClearedLine;
 
 let isJustNowSpin;

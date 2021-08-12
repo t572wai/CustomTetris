@@ -8,7 +8,8 @@ const generateTerrain = {
 		return Array(22).fill().map(() => Array(10).fill(TetriminoEnum.Empty));
 	},
 	'practiceFor4ren': () => {
-		let terrainArray = generateTerrain['normal'];
+		const terrainArray = generateTerrain['normal'];
+
 		return terrainArray;
 	}
 }
