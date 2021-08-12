@@ -117,8 +117,8 @@ function addScore(actionStr,rate=1) {
 	if (isScoring(actionStr)) {
 		scoring[actionStr]++;
 	}
-	if (actionStr == 'ren' && currentREN > 0) {
-		scoring['ren'] = currentREN;
+	if (actionStr == 'ren') {
+		scoring['ren'] = (currentREN > 0)?currentREN:0;
 	}
 	scoring['score'] = score;
 	displayScoreArea()
