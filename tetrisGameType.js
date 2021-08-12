@@ -9,7 +9,7 @@ const generateTerrain = {
 	},
 	'practiceFor4ren': () => {
 		let terrainArray = generateTerrain['normal']();
-		forEachMinoOnMatrix((x,y) => {
+		forEachMinoOnField((x,y) => {
 			if (x<3 || x>6) {
 				terrainArray[y][x] = TetriminoEnum.I;
 			}

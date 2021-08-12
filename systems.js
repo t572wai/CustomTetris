@@ -266,3 +266,15 @@ function forEachMinoOnMatrix(fn) {
 		}
 	}
 }
+
+/**
+ *
+ * @param {function} fn [fn(x,y)]
+ */
+function forEachMinoOnField(fn) {
+	for (let i = 0; i < fieldHeight; i++) {
+		for (let j = 0; j < fieldWidth; j++) {
+			fn(j,i)
+		}
+	}
+}
