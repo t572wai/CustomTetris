@@ -20,6 +20,7 @@ function startToAppearMinos() {
 	displayHold()
 	displayNext()
 	displayScoreArea()
+	canHold = true;
 	// initMino(TetriminoEnum.getByValue('value',Math.floor( Math.random() * 7 )).string);
 	currentMinoLockedDownCallback = function (ind) {
 		console.log(ind);
@@ -28,7 +29,7 @@ function startToAppearMinos() {
 			endTetris()
 			$('#gameoverDialog').dialog('open')
 		},function () {
-			canHold = true;
+			//canHold = true;
 			startToAppearMinos()
 		})
 	}
