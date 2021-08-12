@@ -31,6 +31,10 @@ const TetriminoEnum = defineEnum({
 		value: -1,
 		string: 'empty',
 	},
+	Wall: {
+		value: -2,
+		string: 'wall',
+	}
 })
 
 
