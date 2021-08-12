@@ -363,6 +363,7 @@ function countLockDownTimer() {
 function lockDown() {
 	console.log('mino locks down');
 	currentMinoDidLockDown = true;
+	clearTimeout(currentMinoLockDownTimer)
 	ion.sound.play("lockDownSE", {
 		ended_callback : function () {
 			console.log("lockDownSE end");
