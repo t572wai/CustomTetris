@@ -49,16 +49,16 @@ function textOfOptions() {
 //
 //
 
-function displayField() {
-	let fieldText = "";
+function displayMatrix() {
+	let matrixText = "";
 
-	for (var i = 1; i < 22; i++) {
-		for (var j = 0; j < 10; j++) {
-			fieldText += "<div class='minos' data-x='"+j+"' data-y='"+i+"'></div>"
+	for (var i = bufferHeight-1; i < fieldHeight; i++) {
+		for (var j = 0; j < fieldWidth; j++) {
+			matrixText += "<div class='minos' data-x='"+j+"' data-y='"+i+"'></div>"
 		}
 	}
 
-	$('#field').html(fieldText);
+	$('#field').html(matrixText);
 }
 
 function clearField() {
@@ -68,8 +68,8 @@ function clearField() {
 
 function displayAllMinos() {
 	console.log(fieldArray);
-	for (var i = 1; i < 22; i++) {
-		for (var j = 0; j < 10; j++) {
+	for (var i = bufferHeight-1; i < fieldHeight; i++) {
+		for (var j = 0; j < fieldWidth; j++) {
 			$('.minos[data-x="'+j+'"][data-y="'+i+'"]').attr('class','minos '+fieldArray[i][j]["string"]+"Minos");
 		}
 	}
@@ -77,37 +77,37 @@ function displayAllMinos() {
 
 function displayDiffer(differs,callback) {
 	for (var tile of differs) {
-		displayTile(tile)
-		updateFieldArray(tile)
+		displayMino(tile)
+		updateMatrixArray(tile)
 	}
 
 	callback()
 }
 
-function displayGhostTiles() {
-	for (let tile of ghostTiles) {
-		displayGhostTile(tile)
+function displayGhostMinos() {
+	for (let tile of ghostMinos) {
+		displayGhostMino(tile)
 	}
 }
-function removeGhostTiles() {
-	const formerGhost = cloneArray(ghostTiles)
+function removeGhostMinos() {
+	const formerGhost = cloneArray(ghostMinos)
 	for (let tile of formerGhost) {
-		removeGhostTile(tile)
+		removeGhostMino(tile)
 	}
 }
 
-function displayTile(tile) {
+function displayMino(tile) {
 	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]["string"]+"Minos");
 }
-function displayGhostTile(tile) {
-	if (tile[1]<2) {
+function displayGhostMino(mino) {
+	if (mino[1]<2) {
 		return ;
 	}
-	let ghostText = "<div class='ghostMinos "+tile[2]["string"]+"GhostMinos'></div>"
-	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html(ghostText);
+	let ghostText = "<div class='ghostMinos "+mino[2]["string"]+"GhostMinos'></div>"
+	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html(ghostText);
 }
-function removeGhostTile(tile) {
-	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').html("");
+function removeGhostMino(mino) {
+	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html("");
 }
 
 function displayDifferWithDelay(differs,callback) {

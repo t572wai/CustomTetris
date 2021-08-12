@@ -25,7 +25,7 @@ let isMoving;
 
 let moveTimers;
 
-let ghostTiles;
+let ghostMinos;
 
 function initMino( type ) {
 	if(TetriminoEnum.getByValue('string',type)) {
@@ -44,7 +44,7 @@ function initMino( type ) {
 		currentMinoLockedDownCallback = function () {}
 		setIndicatorForLockDown(0)
 		moveTimers = {}
-		ghostTiles = []
+		ghostMinos = []
 		isPlayingTetris = true;
 	}else {
 		console.log("unknown mino error");
@@ -112,11 +112,14 @@ function clearTimer(name) {
 }
 
 function isWall(x,y) {
-	return (x<0 || x>9 || y>21)
+	return (x<0 || x>fieldWidth-1 || y>fieldHeight-1)
 }
 
 function isOutOfField(x,y) {
 	return isWall(x,y) || y<0
+}
+function isOutOfMatrix(x,y) {
+	return isWall(x,y) || y<bufferHeight-1
 }
 
 function isFilledOrWall(x,y){
@@ -172,7 +175,7 @@ function moveAndRotate(dx,dy,sgn,callback) {
 	if (canMove(followingTiles)) {
 		currentMinoX += dx;
 		setCurrentMinoY(currentMinoY + dy);
-		changeCurrentTiles(followingTiles, function () {
+		changeCurrentMinos(followingTiles, function () {
 			currentMinoFacing = (currentMinoFacing + sgn) % 4;
 			displayGhost()
 			callback(true)
@@ -203,7 +206,7 @@ function moveAndRotateWithDelay(dx,dy,sgn,timerName,callback) {
 	// fallTimer = setTimeout(move.bind(null,dx,dy,callback),currentFallingSpeed(currentLevel))
 }
 
-function changeCurrentTiles(followingTiles,callback) {
+function changeCurrentMinos(followingTiles,callback) {
 	let formerTiles = replaceTiles(currentMinoTiles,'empty')
 	currentMinoTiles = cloneArray(followingTiles)
 	// console.log(Date.now());
@@ -213,18 +216,18 @@ function changeCurrentTiles(followingTiles,callback) {
 }
 
 function hideCurrentMino(callback) {
-	removeGhostTiles(ghostTiles)
+	removeGhostMinos(ghostMinos)
 	displayDiffer(replaceTiles(currentMinoTiles,'empty'),callback)
 }
 
 function checkGhost() {
 	let hightOfAbleToDrop = []
 	for (let tile of currentMinoTiles) {
-		for (var i = tile[1]; i < 22; i++) {
+		for (var i = tile[1]; i < fieldHeight; i++) {
 			if (isOtherTiles([tile[0],i])) {
 				hightOfAbleToDrop.push(i-tile[1]-1)
 				break;
-			} else if (i==21) {
+			} else if (i==fieldHeight-1) {
 				hightOfAbleToDrop.push(i-tile[1])
 				break;
 			}
@@ -233,9 +236,9 @@ function checkGhost() {
 	// console.log(hightOfAbleToDrop);
 	let hightOfDropping = minArray(hightOfAbleToDrop)
 	if (hightOfDropping == 0) {
-		ghostTiles = []
+		ghostMinos = []
 	} else {
-		ghostTiles = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
+		ghostMinos = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
 	}
 	return hightOfDropping;
 }
@@ -244,24 +247,24 @@ function checkGhost() {
 function displayGhost() {
 	console.log('displayGhost');
 	// let formerGhost = cloneArray(ghostTiles);
-	removeGhostTiles()
+	removeGhostMinos()
 	checkGhost()
-	displayGhostTiles()
+	displayGhostMinos()
 	// console.log(Date.now());
 }
 
 function hardDrop() {
 	if (!currentMinoDidLockDown) {
 		let hightOfDropping = checkGhost()
-		removeGhostTiles()
+		removeGhostMinos()
 		clearTimer('fall')
-		let followingTiles = ghostTiles;
+		let followingMinos = ghostMinos;
 		setCurrentMinoY(currentMinoY+hightOfDropping)
 		addScore('hardDrop',hightOfDropping)
-		if (ghostTiles.length == 0) {
-			followingTiles = currentMinoTiles;
+		if (ghostMinos.length == 0) {
+			followingMinos = currentMinoTiles;
 		}
-		changeCurrentTiles(followingTiles,lockDown)
+		changeCurrentMinos(followingMinos,lockDown)
 	}
 }
 

@@ -1,6 +1,6 @@
 function startTetris() {
 	ion.sound.play("startSound",{volume:'0.4'})
-	displayField()
+	displayMatrix()
 	reset()
 	startToAppearMinos()
 	swiper = new Swiper(document, 70, 300, 50)
@@ -62,7 +62,7 @@ function generateTetriminos() {
 	followingMinos = followingMinos.concat(shuffle([0,1,2,3,4,5,6]).map((i) => TetriminoEnum.getByValue('value',i).string))
 }
 
-function updateFieldArray(tile) {
+function updateMatrixArray(tile) {
 	fieldArray[tile[1]][tile[0]] = tile[2]
 }
 

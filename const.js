@@ -537,6 +537,11 @@ const GameRuleType = defineEnum({
 	}
 })
 
+const matrixHeight = 20;
 const matrixWidth = 10;
-const matrixHight = 20;
-const bufferHight= 2;
+
+const bufferHeight = 2;
+const bufferWidth = matrixWidth;
+
+const fieldHeight = matrixHight + bufferHight;
+const fieldWidth = matrixWidth;

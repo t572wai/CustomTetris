@@ -5,7 +5,7 @@ const gameRuleConfigs = {
 
 const generateTerrain = {
 	'normal': () => {
-		return Array(22).fill().map(() => Array(10).fill(TetriminoEnum.Empty));
+		return Array(fieldHeight).fill().map(() => Array(fieldWidth).fill(TetriminoEnum.Empty));
 	},
 	'practiceFor4ren': () => {
 		const terrainArray = generateTerrain['normal'];
