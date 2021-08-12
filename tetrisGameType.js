@@ -22,6 +22,21 @@ const generateTerrain = {
 	}
 }
 
+const generateRegularlyTerrain = {
+	'normal': () => {
+		return Array(fieldWidth).fill(TetriminoEnum.Empty);
+	},
+	'practiceFor4ren': () => {
+		let terrain = generateRegularlyTerrain['normal']();
+		terrain[0] = TetriminoEnum.I;
+		terrain[1] = TetriminoEnum.I;
+		terrain[2] = TetriminoEnum.I;
+		terrain[7] = TetriminoEnum.I;
+		terrain[8] = TetriminoEnum.I;
+		terrain[9] = TetriminoEnum.I;
+	}
+}
+
 function hasGameRuleType(rule,type) {
 	return gameRuleConfigs[rule].includes(type);
 }
@@ -32,5 +47,13 @@ function resetField() {
 		fieldArray = generateTerrain[currentGameRule]();
 	} else {
 		fieldArray = generateTerrain['normal']();
+	}
+}
+
+function getRegularlyTerrain() {
+	if (hasGameRuleType(currentGameRule, GameRuleType.FirstTerrain.string)) {
+		return getRegularlyTerrain[currentGameRule]()
+	} else {
+		return getRegularlyTerrain['normal']()
 	}
 }
