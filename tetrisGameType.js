@@ -24,7 +24,8 @@ function hasGameRuleType(rule,type) {
 }
 
 function resetField() {
-	if (hasGameRuleType(currentGameRule, GameRuleType.FirstTerrain)) {
+	console.log(currentGameRule);
+	if (hasGameRuleType(currentGameRule, GameRuleType.FirstTerrain.string)) {
 		fieldArray = generateTerrain[currentGameRule]();
 	} else {
 		fieldArray = generateTerrain['normal']();
