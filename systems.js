@@ -70,6 +70,8 @@ function reset() {
 	score = 0;
 	totalClearedLine = 0;
 
+	clearHoldQueue();
+	displayHold();
 	clearField();
 	resetBag();
 	resetScoringArray();
