@@ -29,7 +29,7 @@ function toMainMenu() {
 }
 
 function toGame() {
-	$('#gameArea').css('display','block');
+	$('#gameArea').css('display','grid');
 	$('#mainMenuArea').css('display','none');
 }
 
