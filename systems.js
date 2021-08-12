@@ -40,7 +40,7 @@ function isGameOver(indicator) {
 }
 
 function isLockOut(indicator) {
-	return indicator<bufferHight;
+	return indicator<bufferHeight;
 }
 
 function withGameOver(indicator,gameoverCb,continueCb) {
