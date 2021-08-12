@@ -14,6 +14,9 @@ const generateTerrain = {
 				terrainArray[y][x] = TetriminoEnum.I;
 			}
 		})
+		terrainArray[21][3] = TetriminoEnum.I;
+		terrainArray[21][4] = TetriminoEnum.I;
+		terrainArray[21][5] = TetriminoEnum.I;
 
 		return terrainArray;
 	}
