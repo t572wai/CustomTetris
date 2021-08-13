@@ -75,6 +75,7 @@ function setIndicatorForLockDown(val) {
 	indicatorForLockDown = val;
 	if (indicatorForLockDown < 0) {
 		// console.log(greenLog + indicatorForLockDown + resetLogColor);
+		console.log(indicatorForLockDown);
 		indicatorForLockDown = 0;
 		setNumberOfMoveWithLowerFace(0)
 	}
