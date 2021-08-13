@@ -53,7 +53,7 @@ function initMino( type ) {
 }
 
 function setCurrentMinoY(y) {
-	// console.log(y);
+	console.log(y);
 	if (currentMinoY < y) {
 		afterFell()
 	} else if (currentMinoY > y) {
