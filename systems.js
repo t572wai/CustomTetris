@@ -65,7 +65,7 @@ function generateTetriminos() {
 }
 
 function updateMatrixArray(tile) {
-	console.log(tile,fieldArray[tile[1]]);
+	//console.log(tile,fieldArray[tile[1]]);
 	fieldArray[tile[1]][tile[0]] = tile[2]
 }
 
