@@ -29,7 +29,7 @@ function startToAppearMinos() {
 			endTetris()
 			$('#gameoverDialog').dialog('open')
 		},function () {
-			//canHold = true;
+			canHold = true;
 			startToAppearMinos()
 		})
 	}
