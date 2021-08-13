@@ -53,7 +53,7 @@ function initMino( type ) {
 }
 
 function setCurrentMinoY(y) {
-	console.log(y);
+	//console.log(y,current);
 	if (currentMinoY < y) {
 		afterFell()
 	} else if (currentMinoY > y) {
@@ -72,6 +72,7 @@ function afterRose() {
 }
 
 function setIndicatorForLockDown(val) {
+	console.log(val);
 	indicatorForLockDown = val;
 	if (indicatorForLockDown < 0) {
 		// console.log(greenLog + indicatorForLockDown + resetLogColor);
