@@ -85,7 +85,7 @@ function setIndicatorForLockDown(val) {
 }
 
 function setNumberOfMoveWithLowerFace(num) {
-	console.log('%c' + num, 'font-weight:bold,color: red');
+	console.log('%c' + num, 'font-weight:bold;color: red');
 	numberOfMoveWithLowerFace = num;
 	// if (!isAllowedOperate()) {
 	// 	lockDown()
