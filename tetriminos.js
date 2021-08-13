@@ -40,7 +40,7 @@ function initMino( type ) {
 		currentMinoIsSoftDrop = false;
 		currentMinoIsHardDrop = false;
 		setNumberOfMoveWithLowerFace(0);
-		lowestPos = lowerPos();
+		lowestPos = currentMinoY;
 		currentMinoLockedDownCallback = function () {}
 		setIndicatorForLockDown(0)
 		moveTimers = {}
@@ -54,38 +54,29 @@ function initMino( type ) {
 
 function setCurrentMinoY(y) {
 	//console.log(y,current);
-	if (currentMinoY < y) {
-		afterFell()
-	} else if (currentMinoY > y) {
-		afterRose()
+	if (lowestPos < y) {
+		lowestPos = y;
+		setNumberOfMoveWithLowerFace(0)
 	}
 	currentMinoY = y;
 	return currentMinoY;
 }
 
-function afterFell() {
-	setIndicatorForLockDown(indicatorForLockDown-1)
-}
+//function setIndicatorForLockDown(val) {
+//	console.log(val);
+//	indicatorForLockDown = val;
+//	if (indicatorForLockDown < 0) {
+//		// console.log(greenLog + indicatorForLockDown + resetLogColor);
+//		console.log(indicatorForLockDown);
+//		indicatorForLockDown = 0;
+//		setNumberOfMoveWithLowerFace(0)
+//	}
 
-function afterRose() {
-	setIndicatorForLockDown(indicatorForLockDown+1)
-}
-
-function setIndicatorForLockDown(val) {
-	console.log(val);
-	indicatorForLockDown = val;
-	if (indicatorForLockDown < 0) {
-		// console.log(greenLog + indicatorForLockDown + resetLogColor);
-		console.log(indicatorForLockDown);
-		indicatorForLockDown = 0;
-		setNumberOfMoveWithLowerFace(0)
-	}
-
-	return indicatorForLockDown;
-}
+//	return indicatorForLockDown;
+//}
 
 function setNumberOfMoveWithLowerFace(num) {
-	console.log('%c' + num, 'font-weight:bold;color: red');
+	console.log('%c' + num, 'color: red');
 	numberOfMoveWithLowerFace = num;
 	// if (!isAllowedOperate()) {
 	// 	lockDown()
