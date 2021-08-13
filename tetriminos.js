@@ -42,7 +42,7 @@ function initMino( type ) {
 		setNumberOfMoveWithLowerFace(0);
 		lowestPos = currentMinoY;
 		currentMinoLockedDownCallback = function () {}
-		setIndicatorForLockDown(0)
+		//setIndicatorForLockDown(0)
 		moveTimers = {}
 		ghostMinos = []
 		isPlayingTetris = true;
