@@ -46,6 +46,7 @@ function initMino( type ) {
 		moveTimers = {}
 		ghostMinos = []
 		isPlayingTetris = true;
+		canHold = true;
 	}else {
 		console.log("unknown mino error");
 	}
