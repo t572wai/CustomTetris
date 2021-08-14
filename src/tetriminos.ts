@@ -128,7 +128,7 @@ function isFilledOrWall(x,y){
 function canMove(followingTiles) {
 	// console.log("check");
 	for (let tile of followingTiles) {
-		// console.log(tile);
+		console.log(tile);
 		if (tile[0]<0 || tile[0]>9 || tile[1]<0 || tile[1]>21) {
 			console.log(tile);
 			return false;
