@@ -39,6 +39,7 @@ ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
 
 const NumOfNext = 6;
 
+/// <reference path='enum.ts'/>
 const ActionsEnum = defineEnum({
 	none: {
 		string: 'none',
