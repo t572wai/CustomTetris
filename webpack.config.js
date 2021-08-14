@@ -9,7 +9,7 @@ module.exports = {
 		//const:'./src/const.ts',
 		//dialogs:'./src/dialogs.ts',
 		//display:'./src/display.ts',
-		//enum:'./src/enum.ts',
+		enum:'./src/enum.ts',
 		//general:'./src/general.ts',
 		//global:'./src/global.ts',
 		//init: './src/init.ts',
