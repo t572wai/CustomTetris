@@ -59,7 +59,7 @@ function checkGenerationOfTetriminos() {
 
 function generateTetriminos() {
 	//ミノをランダムにソート
-	followingMinos = followingMinos.concat(shuffle([0,1,2,3,4,5,6]).map((i) => TetriminosFromNum[i]))
+	followingMinos = followingMinos.concat(shuffle([0,1,2,3,4,5,6]).map((i) => TetriminosFromNum.get(i)))
 }
 
 function updateMatrixArray(tile) {
