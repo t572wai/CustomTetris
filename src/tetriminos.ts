@@ -281,7 +281,7 @@ function startFall() {
 		// console.log(this.type);
 		clearTimeout(currentMinoLockDownTimer)
 		// console.log('clear timer');
-
+		console.log(canMove(currentMinoTiles));
 		if (canMove(currentMinoTiles)) {
 			currentMinoIsVisible = true;
 			currentMinoDidLockDown = false;
