@@ -144,11 +144,11 @@ function canMove(followingTiles) {
 function isOtherTiles(tile) {
 	if (fieldArray[tile[1]][tile[0]].string != 'empty') {
 		// console.log(tile);
-		// console.log(currentMinoIsVisible);
+		console.log(currentMinoIsVisible);
 		if ( !currentMinoIsVisible ) return true;
 		if ( !currentMinoTiles.find((element) => {return element[0]==tile[0] && element[1]==tile[1] }) ) {
 			// console.log(currentMinoTiles);
-			// console.log(tile,fieldArray[tile[1]][tile[0]].string);
+			console.log(tile,fieldArray[tile[1]][tile[0]].string);
 			return true;
 		}
 	}
