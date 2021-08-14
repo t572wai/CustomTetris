@@ -1,41 +1,67 @@
-const TetriminoEnum = defineEnum({
-	I: {
-		value : 0,
-		string: 'i',
-	},
-	O: {
-		value: 1,
-		string: 'o',
-	},
-	S: {
-		value: 2,
-		string: 's',
-	},
-	Z: {
-		value: 3,
-		string: 'z',
-	},
-	J: {
-		value: 4,
-		string: 'j',
-	},
-	L: {
-		value: 5,
-		string: 'l',
-	},
-	T: {
-		value: 6,
-		string: 't',
-	},
-	Empty: {
-		value: -1,
-		string: 'empty',
-	},
-	Wall: {
-		value: -2,
-		string: 'wall',
-	}
-})
+const TetriminoUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
+type Tetriminos = typeof TetriminoUnion[number];
+
+const TetriminosFromNum = new Map<Number,Tetriminos>();
+TetriminosFromNum.set(-2,"wall");
+TetriminosFromNum.set(-1,"empty");
+TetriminosFromNum.set(0,"i");
+TetriminosFromNum.set(1,"o");
+TetriminosFromNum.set(2,"s");
+TetriminosFromNum.set(3,"z");
+TetriminosFromNum.set(4,"j");
+TetriminosFromNum.set(5,"l");
+TetriminosFromNum.set(6,"t");
+
+interface Pos {
+	x: Number,
+	y: Number,
+}
+
+interface Mino {
+	x: Number,
+	y: Number,
+	mino: Tetriminos,
+}
+
+
+//const TetriminoEnum = defineEnum({
+//	I: {
+//		value : 0,
+//		string: 'i',
+//	},
+//	O: {
+//		value: 1,
+//		string: 'o',
+//	},
+//	S: {
+//		value: 2,
+//		string: 's',
+//	},
+//	Z: {
+//		value: 3,
+//		string: 'z',
+//	},
+//	J: {
+//		value: 4,
+//		string: 'j',
+//	},
+//	L: {
+//		value: 5,
+//		string: 'l',
+//	},
+//	T: {
+//		value: 6,
+//		string: 't',
+//	},
+//	Empty: {
+//		value: -1,
+//		string: 'empty',
+//	},
+//	Wall: {
+//		value: -2,
+//		string: 'wall',
+//	}
+//})
 
 
 function FallingSpeed(level) {

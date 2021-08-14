@@ -7,7 +7,7 @@ const generateTerrain = {
 	'normal': () => {
 		let terrainArray = [];
 		for (let i = 0; i < fieldHeight; i++) {
-			terrainArray.push(new Array(fieldWidth).fill(TetriminoEnum.Empty))
+			terrainArray.push(new Array(fieldWidth).fill('empty'))
 		}
 		return terrainArray;
 	},
@@ -15,12 +15,12 @@ const generateTerrain = {
 		let terrainArray = generateTerrain['normal']();
 		forEachMinoOnField((x,y) => {
 			if (x<3 || x>6) {
-				terrainArray[y][x] = TetriminoEnum.Wall;
+				terrainArray[y][x] = 'wall';
 			}
 		})
-		terrainArray[21][3] = TetriminoEnum.Wall;
-		terrainArray[21][4] = TetriminoEnum.Wall;
-		terrainArray[21][5] = TetriminoEnum.Wall;
+		terrainArray[21][3] = 'wall';
+		terrainArray[21][4] = 'wall';
+		terrainArray[21][5] = 'wall';
 
 		return terrainArray;
 	}
@@ -28,16 +28,16 @@ const generateTerrain = {
 
 const generateRegularlyTerrain = {
 	'normal': () => {
-		return Array(fieldWidth).fill(TetriminoEnum.Empty);
+		return Array(fieldWidth).fill('empty');
 	},
 	'practiceFor4ren': () => {
 		let terrain = generateRegularlyTerrain['normal']();
-		terrain[0] = TetriminoEnum.Wall;
-		terrain[1] = TetriminoEnum.Wall;
-		terrain[2] = TetriminoEnum.Wall;
-		terrain[7] = TetriminoEnum.Wall;
-		terrain[8] = TetriminoEnum.Wall;
-		terrain[9] = TetriminoEnum.Wall;
+		terrain[0] = 'wall';
+		terrain[1] = 'wall';
+		terrain[2] = 'wall';
+		terrain[7] = 'wall';
+		terrain[8] = 'wall';
+		terrain[9] = 'wall';
 
 		return terrain;
 	}

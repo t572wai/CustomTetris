@@ -1,4 +1,4 @@
-let currentMinoType;
+let currentMinoType: Tetriminos;
 
 let currentMinoFacing;
 let currentMinoX;
@@ -27,8 +27,8 @@ let moveTimers;
 
 let ghostMinos;
 
-function initMino( type ) {
-	if(TetriminoEnum.getByValue('string',type)) {
+function initMino( type: Tetriminos ) {
+	//if(typeof type == ) {
 		// console.log(type);
 		currentMinoType = type;
 		currentMinoFacing = 0;
@@ -47,9 +47,9 @@ function initMino( type ) {
 		ghostMinos = []
 		isPlayingTetris = true;
 		//canHold = true;
-	}else {
-		console.log("unknown mino error");
-	}
+	//}else {
+	//	console.log("unknown mino error");
+	//}
 }
 
 function setCurrentMinoY(y) {
@@ -179,11 +179,10 @@ function moveAndRotate(dx,dy,sgn,callback) {
 	}
 }
 
-function replaceTiles(tiles,type) {
-	const tileForReplace = TetriminoEnum.getByValue('string',type)
+function replaceTiles(tiles,type: Tetriminos) {
 	let replacedTiles = [];
 	for (let tile of tiles) {
-		replacedTiles.push([tile[0],tile[1],tileForReplace])
+		replacedTiles.push([tile[0],tile[1],type])
 	}
 	return replacedTiles;
 }
@@ -464,12 +463,12 @@ function getRotatedTetriminoShape(type,d) {
 	}
 }
 
-function getTetrimino(type,x,y,mino) {
+function getTetrimino(type,x,y,mino: Tetriminos) {
 	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
 }
 
-function getRotatedTetrimino(type,x,y,d,mino) {
-	return getRotatedTetriminoShape(type,d).map((array) => [x+array[0],y+array[1],TetriminoEnum.getByValue('string',mino)]);
+function getRotatedTetrimino(type,x,y,d,mino: Tetriminos) {
+	return getRotatedTetriminoShape(type,d).map((array) => [x+array[0],y+array[1],mino]);
 }
 
 function getMovedTetrimino(dx,dy) {
