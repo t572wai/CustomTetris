@@ -148,7 +148,7 @@ function isOtherTiles(tile) {
 		if ( !currentMinoIsVisible ) return true;
 		if ( !currentMinoTiles.find((element) => {return element[0]==tile[0] && element[1]==tile[1] }) ) {
 			// console.log(currentMinoTiles);
-			console.log(tile,fieldArray[tile[1]][tile[0]].string);
+			console.log(tile,fieldArray[tile[1]][tile[0]]);
 			return true;
 		}
 	}
