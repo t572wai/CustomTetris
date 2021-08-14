@@ -45,18 +45,18 @@ function textOfStartButton() {
 }
 
 function textOfOptions() {
-	let text = '<div class="radio optionRadio">'+
-`
-<div class="radio">
-	<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
-	<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
-</div>
-<div class="radio">
-	<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren" checked>
-	<label for="gameRuleRadio-practiceFor4ren" class="radio-label">Normal</label>
-</div>
-`
-						+'</div>'
+	let text = `
+						<div class="radio optionRadio">
+							<div class="radio">
+								<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
+								<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
+							</div>
+							<div class="radio">
+								<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren" checked>
+								<label for="gameRuleRadio-practiceFor4ren" class="radio-label">Normal</label>
+							</div>
+						</div>
+						`
 	return text;
 }
 
