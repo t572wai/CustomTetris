@@ -498,6 +498,7 @@ const spinRule = {
 	},
 }
 
+///<reference path='./enum.ts'/>
 const GameRuleType = defineEnum({
 	Normal: {
 		'string': 'normal'
