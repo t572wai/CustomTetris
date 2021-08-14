@@ -6,6 +6,7 @@
 // 	while (new Date() - startMsec < waitMsec);
 // }
 import {initDialogs} from './dialogs';
+import {toMainMenu} from './display';
 
 initDialogs()
 

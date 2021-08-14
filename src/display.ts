@@ -16,7 +16,7 @@ let scoring = {};
 //
 //
 
-function toMainMenu() {
+export function toMainMenu() {
 	displayMainMenu();
 	clearField();
 	clearScoreArea();
