@@ -1,3 +1,5 @@
+import { toMainMenu } from "./display";
+
 export function initDialogs() {
 	$('.dialogs').each((i, obj) => {
 		console.log(i,obj);
