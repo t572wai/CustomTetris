@@ -24,14 +24,15 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.tsx?$/,
+				test: /\.(js|ts|tsx)?$/,
 				use: "ts-loader",
-				exclude: /node_modules/
+				exclude: /node_modules/,
 			}
 		]
 	},
 
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"]
-	}
+	},
+	devtool: "source-map"
 };
