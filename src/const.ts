@@ -24,80 +24,49 @@ interface Mino {
 }
 
 
-//const TetriminoEnum = defineEnum({
-//	I: {
-//		value : 0,
-//		string: 'i',
-//	},
-//	O: {
-//		value: 1,
-//		string: 'o',
-//	},
-//	S: {
-//		value: 2,
-//		string: 's',
-//	},
-//	Z: {
-//		value: 3,
-//		string: 'z',
-//	},
-//	J: {
-//		value: 4,
-//		string: 'j',
-//	},
-//	L: {
-//		value: 5,
-//		string: 'l',
-//	},
-//	T: {
-//		value: 6,
-//		string: 't',
-//	},
-//	Empty: {
-//		value: -1,
-//		string: 'empty',
-//	},
-//	Wall: {
-//		value: -2,
-//		string: 'wall',
-//	}
-//})
-
-
 function FallingSpeed(level) {
 	return 1000*(0.8 - ((level-1) * 0.007))**(level-1);
 }
 
-const ShapesOfTetriminoEnum = defineEnum({
-	I:{
-		string: 'i',
-		shape: [[1,0,1,1]]
-	},
-	O:{
-		string: 'o',
-		shape: [[1,1],[0,1]]
-	},
-	S:{
-		string: 's',
-		shape: [[-1,1,1],[1,0,-1]]
-	},
-	Z:{
-		string: 'z',
-		shape: [[1,1,-1],[-1,0,1]]
-	},
-	J:{
-		string: 'j',
-		shape: [[1,-1,-1],[1,0,1]]
-	},
-	L:{
-		string: 'l',
-		shape: [[-1,-1,1],[1,0,1]]
-	},
-	T:{
-		string: 't',
-		shape: [[-1,1,-1],[1,0,1]]
-	}
-})
+const ShapesOfTetrimino = new Map<Tetriminos,number[][]>();
+ShapesOfTetrimino.set("i", [[1,0,1,1]]);
+ShapesOfTetrimino.set("o", [[1,1],[0,1]])
+ShapesOfTetrimino.set("s", [[-1,1,1],[1,0,-1]])
+ShapesOfTetrimino.set("z", [[1,1,-1],[-1,0,1]])
+ShapesOfTetrimino.set("j", [[1,-1,-1],[1,0,1]])
+ShapesOfTetrimino.set("l", [[-1,-1,1],[1,0,1]])
+ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
+
+//const ShapesOfTetriminoEnum = defineEnum({
+//	I:{
+//		string: 'i',
+//		shape: [[1,0,1,1]]
+//	},
+//	O:{
+//		string: 'o',
+//		shape: [[1,1],[0,1]]
+//	},
+//	S:{
+//		string: 's',
+//		shape: [[-1,1,1],[1,0,-1]]
+//	},
+//	Z:{
+//		string: 'z',
+//		shape: [[1,1,-1],[-1,0,1]]
+//	},
+//	J:{
+//		string: 'j',
+//		shape: [[1,-1,-1],[1,0,1]]
+//	},
+//	L:{
+//		string: 'l',
+//		shape: [[-1,-1,1],[1,0,1]]
+//	},
+//	T:{
+//		string: 't',
+//		shape: [[-1,1,-1],[1,0,1]]
+//	}
+//})
 
 const NumOfNext = 6;
 

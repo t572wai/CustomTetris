@@ -425,8 +425,8 @@ function canOperate() {
 
 function getTetriminoShape(type) {
 	let minoArray = [];
-	console.log(type, ShapesOfTetriminoEnum.getByValue('string',type) );
-	const shape = ShapesOfTetriminoEnum.getByValue('string',type).shape;
+	//console.log(type, ShapesOfTetriminoEnum.getByValue('string',type) );
+	const shape = ShapesOfTetrimino.get(type);
 	// let minoArray = [];
 	let originPos = [];
 	for (var i = 0; i < shape.length; i++) {

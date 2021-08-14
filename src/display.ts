@@ -154,7 +154,7 @@ function textOfMinoAlone(type) {
 		return text;
 	}
 
-	for (let line of ShapesOfTetriminoEnum.getByValue('string',type).shape) {
+	for (let line of ShapesOfTetrimino.get(type)) {
 		if (type != 'i') {
 			if (type == 'o') {
 				text += '<div class="minos emptyMinos"></div>'
