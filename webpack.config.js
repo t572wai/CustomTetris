@@ -39,11 +39,11 @@ module.exports = {
 					"sass-loader",
 				]
 			},
-			{
-				test: /\.(js|ts|tsx)?$/,
-				use: "ts-loader",
-				exclude: /node_modules/,
-			}
+			//{
+			//	test: /\.(js|ts|tsx)?$/,
+			//	use: "ts-loader",
+			//	exclude: /node_modules/,
+			//}
 		]
 	},
 
