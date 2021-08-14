@@ -1,6 +1,7 @@
-import { toMainMenu } from "./display";
+/// <reference path='./systems.ts'/>
+/// <reference path='./display.ts'/>
 
-export function initDialogs() {
+function initDialogs() {
 	$('.dialogs').each((i, obj) => {
 		console.log(i,obj);
 		$(obj).dialog({

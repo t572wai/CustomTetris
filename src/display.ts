@@ -16,7 +16,7 @@ let scoring = {};
 //
 //
 
-export function toMainMenu() {
+function toMainMenu() {
 	displayMainMenu();
 	clearField();
 	clearScoreArea();
@@ -27,7 +27,6 @@ export function toMainMenu() {
 	$('#gameArea').css('display','none');
 	$('#mainMenuArea').css('display','block');
 }
-
 function toGame() {
 	$('#gameArea').css('display','grid');
 	$('#mainMenuArea').css('display','none');
@@ -108,6 +107,7 @@ function displayGhostMinos() {
 		displayGhostMino(tile)
 	}
 }
+
 function removeGhostMinos() {
 	const formerGhost = cloneArray(ghostMinos)
 	for (let tile of formerGhost) {
@@ -118,6 +118,7 @@ function removeGhostMinos() {
 function displayMino(tile) {
 	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]+"Minos");
 }
+
 function displayGhostMino(mino) {
 	if (mino[1]<2) {
 		return ;
@@ -125,6 +126,7 @@ function displayGhostMino(mino) {
 	let ghostText = "<div class='ghostMinos "+mino[2]+"GhostMinos'></div>"
 	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html(ghostText);
 }
+
 function removeGhostMino(mino) {
 	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html("");
 }
