@@ -22,16 +22,16 @@
 //// 	src: 'sound/lockDownSE.mp3'
 //// })
 
-import { Howl, Howler } from 'howler';
+//import { Howl, Howler } from 'howler';
 
-const lockDownSound = new Howl({
-	src: [
-		"sounds/lockDownSE.mp3",
-	]
-});
+//const lockDownSound = new Howl({
+//	src: [
+//		"sounds/lockDownSE.mp3",
+//	]
+//});
 
-const startSound = new Howl({
-	src: [
-		"sounds/startSound.mp3",
-	]
-})
+//const startSound = new Howl({
+//	src: [
+//		"sounds/startSound.mp3",
+//	]
+//})
