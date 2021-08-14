@@ -545,14 +545,14 @@ const spinRule = {
 //	}
 //})
 
-const GameRuleClasses = ['Normal','Terrain']
+const GameRuleClasses = ['Normal','Terrain'] as const;
 
 
-const matrixHeight = 20;
-const matrixWidth = 10;
+const matrixHeight: number = 20;
+const matrixWidth: number = 10;
 
-const bufferHeight = 2;
-const bufferWidth = matrixWidth;
+const bufferHeight: number = 2;
+const bufferWidth:number = matrixWidth;
 
-const fieldHeight = matrixHeight + bufferHeight;
-const fieldWidth = matrixWidth;
+const fieldHeight: number = matrixHeight + bufferHeight;
+const fieldWidth:number = matrixWidth;

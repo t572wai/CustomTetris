@@ -108,11 +108,11 @@ function isScoring(str) {
 }
 
 function resetScoringArray() {
-	scoring['score'] = 0;
-	scoring['ren'] = 0;
+	scoring.set('score', 0);
+	scoring.set('ren', 0);
 	Actions.forEach(item => {
 		if (isScoring(item)) {
-			scoring[item] = 0;
+			scoring.set(item, 0);
 		}
 	});
 }
@@ -120,9 +120,9 @@ function resetScoringArray() {
 function addScore(actionStr,rate=1) {
 	score += ScoreOfAction.get(actionStr)*rate;
 	if (isScoring(actionStr)) {
-		scoring[actionStr]++;
+		scoring.set(actionStr,scoring.get(actionStr)+1);
 	}
-	scoring['score'] = score;
+	scoring.set('score', score);
 	displayScoreArea()
 }
 
@@ -144,7 +144,7 @@ function checkLine(callback) {
 	} else {
 		currentREN = -1;
 	}
-	scoring['ren'] = (currentREN>0)?currentREN:0;
+	scoring.set('ren' ,(currentREN>0)?currentREN:0);
 	displayScoreArea();
 	afterAction(checkAction(numOfClearedLine));
 	for (let ind of linesToClear) {

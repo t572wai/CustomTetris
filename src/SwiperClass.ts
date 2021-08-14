@@ -1,5 +1,5 @@
 class Swiper {
-	target: any;
+	target: JQuery;
 	dist: number;
 	waitSec: number;
 	intervalSec: number;
@@ -92,16 +92,16 @@ class Swiper {
 		this.target[0].addEventListener('touchend', this.onTouchendAction, {passive:false})
 	}
 
-	getDistance2 () {
+	getDistance2 (): number {
 		return this.currentDeltaX**2 + this.currentDeltaY**2;
 	}
 
-	getVelocity2 () {
+	getVelocity2 (): number {
 		console.log(this.getDistance2(), this.currentDeltaT, this.getDistance2() / (this.currentDeltaT**2));
 		return this.getDistance2() / (this.currentDeltaT**2);
 	}
 
-	getDirection () {
+	getDirection (): string {
 		console.log(this.isSwiping, this.currentDeltaX, this.currentDeltaY);
 		if (this.isSwiping) {
 			if (this.currentDeltaY >= this.currentDeltaX && this.currentDeltaY > -this.currentDeltaX) {
@@ -118,11 +118,9 @@ class Swiper {
 		}
 	}
 
-	destructor () {
-		console.log(this.target);
+	destructor (): void {
 		this.target[0].removeEventListener('touchstart',this.onTouchstartAction)
 		this.target[0].removeEventListener('touchmove',this.onTouchmoveAction)
 		this.target[0].removeEventListener('touchend',this.onTouchendAction)
-		console.log(this.target);
 	}
 }

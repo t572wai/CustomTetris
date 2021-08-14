@@ -2,14 +2,14 @@
  * [fieldArray description]
  * @type {Array} fieldArray[y][x]=TetriminoEnum
  */
-let fieldArray = [];
+let fieldArray:Tetrimino[][] = [];
 
 /**
  * scoreに表示する値
  * @type {Object}
  */
-let scoring = {};
-
+//let scoring = {};
+let scoring = new Map<string, number>();
 //
 //
 //	メインメニュー
@@ -200,9 +200,9 @@ function displayScoreArea() {
 
 function textOfScoreArea() {
 	let text = ''
-	for (let action in scoring) {
-		text += DisplayTitleOfAction.get(action)+':'+scoring[action]+'<br>'
-	}
+	scoring.forEach((val,key) => {
+		text += DisplayTitleOfAction.get(key)+":"+scoring.get(key)+"<br>"
+	})
 	return text;
 }
 
