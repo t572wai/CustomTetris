@@ -5,6 +5,7 @@
 // 	// 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
 // 	while (new Date() - startMsec < waitMsec);
 // }
+import {initDialogs} from './dialogs';
 
 initDialogs()
 

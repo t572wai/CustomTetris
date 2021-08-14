@@ -1,4 +1,4 @@
-function initDialogs() {
+export function initDialogs() {
 	$('.dialogs').each((i, obj) => {
 		console.log(i,obj);
 		$(obj).dialog({
