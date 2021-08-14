@@ -179,6 +179,7 @@ function moveAndRotate(dx,dy,sgn,callback) {
 	}
 }
 
+
 function replaceTiles(tiles,type: Tetriminos) {
 	let replacedTiles = [];
 	for (let tile of tiles) {
