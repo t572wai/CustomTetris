@@ -57,8 +57,8 @@ function textOfOptions() {
 								<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
 							</div>
 							<div class="radio">
-								<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren" checked>
-								<label for="gameRuleRadio-practiceFor4ren" class="radio-label">Normal</label>
+								<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren">
+								<label for="gameRuleRadio-practiceFor4ren" class="radio-label">4REN</label>
 							</div>
 						</div>
 						`
