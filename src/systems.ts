@@ -15,6 +15,7 @@ function initTetris() {
 function startToAppearMinos() {
 	console.log('start');
 	checkGenerationOfTetriminos()
+	console.log(followingMinos);
 	initMino(followingMinos[0]);
 	followingMinos.shift()
 	displayHold()
