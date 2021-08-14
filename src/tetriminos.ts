@@ -119,7 +119,7 @@ function isOutOfMatrix(x,y) {
 function isFilledOrWall(x,y){
 	if (isWall(x,y)) return true;
 
-	if (fieldArray[y][x]['string']!='empty') return true;
+	if (fieldArray[y][x]!='empty') return true;
 	// console.log(x,y,isWall(x,y),fieldArray[y][x]);
 
 	return false;
