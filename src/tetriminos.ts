@@ -248,7 +248,7 @@ function displayGhost() {
 
 function hardDrop() {
 	if (!currentMinoDidLockDown) {
-		isJustNowSpin = false;
+		isJustNowSpin = -1;
 		let hightOfDropping = checkGhost()
 		removeGhostMinos()
 		clearTimer('fall')

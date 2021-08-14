@@ -21,7 +21,7 @@ let currentREN = -1;
 
 let totalClearedLine;
 
-let isJustNowSpin;
+let isJustNowSpin:Number;
 
 let isPlayingTetris;
 
