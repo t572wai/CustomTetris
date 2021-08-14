@@ -10,5 +10,16 @@ module.exports = {
 	output: {
 		filename: "main.js",
 		path: path.join(__dirname, 'dist')
-	}
+	},
+
+	rules: [
+		{
+			test: /(\.s[ac]ss)$/,
+			use: [
+				"style-loader",
+				"css-loader",
+				"sass-loader",
+			]
+		}
+	]
 };
