@@ -12,14 +12,16 @@ module.exports = {
 		path: path.join(__dirname, 'dist')
 	},
 
-	rules: [
-		{
-			test: /(\.s[ac]ss)$/,
-			use: [
-				"style-loader",
-				"css-loader",
-				"sass-loader",
-			]
-		}
-	]
+	module: {
+		rules: [
+			{
+				test: /(\.s[ac]ss)$/,
+				use: [
+					"style-loader",
+					"css-loader",
+					"sass-loader",
+				]
+			}
+		]
+	}
 };
