@@ -199,13 +199,7 @@ function displayScoreArea() {
 function textOfScoreArea() {
 	let text = ''
 	for (let action in scoring) {
-		if (action=='score') {
-			text += 'score:'+scoring['score']+'<br>'
-		} else if(action=='ren') {
-			text += 'REN:'+scoring['ren']+'<br>'
-		} else {
-			text += ActionsEnum.getByValue('string',action).displayTitle+':'+scoring[action]+'<br>'
-		}
+		text += DisplayTitleOfAction.get(action)+':'+scoring[action]+'<br>'
 	}
 	return text;
 }

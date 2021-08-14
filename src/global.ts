@@ -1,7 +1,7 @@
 let currentLevel = 1;
 
 let currentMino;
-let followingMinos:Tetriminos[] = [];
+let followingMinos:Tetrimino[] = [];
 
 let holdMinoType;
 

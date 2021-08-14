@@ -110,15 +110,15 @@ function isScoring(str) {
 function resetScoringArray() {
 	scoring['score'] = 0;
 	scoring['ren'] = 0;
-	ActionsEnum.forEach((item) => {
-		if (isScoring(item.string)) {
-			scoring[item.string] = 0;
+	Actions.forEach(item => {
+		if (isScoring(item)) {
+			scoring[item] = 0;
 		}
 	});
 }
 
 function addScore(actionStr,rate=1) {
-	score += ActionsEnum.getByValue('string',actionStr).score*rate;
+	score += ScoreOfAction.get(actionStr)*rate;
 	if (isScoring(actionStr)) {
 		scoring[actionStr]++;
 	}

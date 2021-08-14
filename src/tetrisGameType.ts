@@ -1,6 +1,6 @@
 const gameRuleConfigs = {
-	'normal': [GameRuleType.Normal.string],
-	'practiceFor4ren': [GameRuleType.FirstTerrain.string],
+	'normal': ['Normal'],
+	'practiceFor4ren': ['Terrain'],
 }
 
 const generateTerrain = {
@@ -49,7 +49,7 @@ function hasGameRuleType(rule,type) {
 
 function resetField() {
 	console.log(currentGameRule);
-	if (hasGameRuleType(currentGameRule, GameRuleType.FirstTerrain.string)) {
+	if (hasGameRuleType(currentGameRule, "Terrain")) {
 		fieldArray = generateTerrain[currentGameRule]();
 	} else {
 		fieldArray = generateTerrain['normal']();
@@ -57,7 +57,7 @@ function resetField() {
 }
 
 function getRegularlyTerrain() {
-	if (hasGameRuleType(currentGameRule, GameRuleType.FirstTerrain.string)) {
+	if (hasGameRuleType(currentGameRule, "Terrain")) {
 		return getRegularlyTerrain[currentGameRule]()
 	} else {
 		return getRegularlyTerrain['normal']()

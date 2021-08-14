@@ -1,4 +1,4 @@
-let currentMinoType: Tetriminos;
+let currentMinoType: Tetrimino;
 
 let currentMinoFacing;
 let currentMinoX;
@@ -27,7 +27,7 @@ let moveTimers;
 
 let ghostMinos;
 
-function initMino( type: Tetriminos ) {
+function initMino( type: Tetrimino ) {
 	//if(typeof type == ) {
 		// console.log(type);
 		currentMinoType = type;
@@ -180,7 +180,7 @@ function moveAndRotate(dx,dy,sgn,callback) {
 }
 
 
-function replaceTiles(tiles,type: Tetriminos) {
+function replaceTiles(tiles,type: Tetrimino) {
 	let replacedTiles = [];
 	for (let tile of tiles) {
 		replacedTiles.push([tile[0],tile[1],type])
@@ -466,11 +466,11 @@ function getRotatedTetriminoShape(type,d) {
 	}
 }
 
-function getTetrimino(type,x,y,mino: Tetriminos) {
+function getTetrimino(type,x,y,mino: Tetrimino) {
 	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
 }
 
-function getRotatedTetrimino(type,x,y,d,mino: Tetriminos) {
+function getRotatedTetrimino(type,x,y,d,mino: Tetrimino) {
 	return getRotatedTetriminoShape(type,d).map((array) => [x+array[0],y+array[1],mino]);
 }
 
