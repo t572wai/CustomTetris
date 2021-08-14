@@ -34,10 +34,16 @@ function toGame() {
 }
 
 function displayMainMenu() {
-	let mainMenuText = ''
-	mainMenuText += textOfStartButton()
-	mainMenuText += textOfOptions()
-	$('#mainMenuArea').html(mainMenuText)
+	displayStartButton();
+	displayOptions();
+}
+
+function displayStartButton() {
+	$('#startButtonArea').html(textOfStartButton());
+}
+
+function displayOptions() {
+	$('#optionsArea').html(textOfOptions());
 }
 
 function textOfStartButton() {
