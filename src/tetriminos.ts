@@ -129,12 +129,24 @@ function canMove(followingTiles) {
 	// console.log("check");
 	for (let tile of followingTiles) {
 		console.log(tile);
-		if (tile[0]<0 || tile[0]>9 || tile[1]<0 || tile[1]>21) {
+		if (isOutOfField(tile[0],tile[1])) {
 			console.log(tile);
 			return false;
 		}
 		if (isOtherTiles(tile)) {
 			console.log(tile,fieldArray);
+			return false;
+		}
+	}
+	return true;
+}
+
+function canBeAppeared() {
+	for (const mino of currentMinoTiles) {
+		if (isOutOfField(mino[0],mino[1])) {
+			return false;
+		}
+		if (fieldArray[mino[1]][mino[0]]!='empty') {
 			return false;
 		}
 	}
@@ -282,7 +294,7 @@ function startFall() {
 		clearTimeout(currentMinoLockDownTimer)
 		// console.log('clear timer');
 		console.log(canMove(currentMinoTiles));
-		if (canMove(currentMinoTiles)) {
+		if (canBeAppeared()) {
 			currentMinoIsVisible = true;
 			currentMinoDidLockDown = false;
 			// console.log(this.tiles);
