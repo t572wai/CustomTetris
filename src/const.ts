@@ -24,7 +24,7 @@ interface Mino {
 }
 
 
-function FallingSpeed(level) {
+function FallingSpeed(level: number): number {
 	return 1000*(0.8 - ((level-1) * 0.007))**(level-1);
 }
 

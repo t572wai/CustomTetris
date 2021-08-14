@@ -16,7 +16,7 @@ let scoring = new Map<string, number>();
 //
 //
 
-function toMainMenu() {
+function toMainMenu(): void {
 	displayMainMenu();
 	clearField();
 	clearScoreArea();
@@ -32,24 +32,24 @@ function toGame() {
 	$('#mainMenuArea').css('display','none');
 }
 
-function displayMainMenu() {
+function displayMainMenu(): void {
 	displayStartButton();
 	displayOptions();
 }
 
-function displayStartButton() {
+function displayStartButton(): void {
 	$('#startButtonArea').html(textOfStartButton());
 }
 
-function displayOptions() {
+function displayOptions(): void {
 	$('#optionsArea').html(textOfOptions());
 }
 
-function textOfStartButton() {
+function textOfStartButton(): string {
 	return	'<button id="startButton">ゲームスタート</button>'
 }
 
-function textOfOptions() {
+function textOfOptions(): string {
 	let text = `
 						<div class="radio optionRadio">
 							<div class="radio">
@@ -71,7 +71,7 @@ function textOfOptions() {
 //
 //
 
-function displayMatrix() {
+function displayMatrix(): void {
 	let matrixText = "";
 
 	forEachMinoOnMatrix((x,y) => {
@@ -81,53 +81,53 @@ function displayMatrix() {
 	$('#field').html(matrixText);
 }
 
-function clearField() {
+function clearField(): void {
 	resetField();
 	displayAllMinos();
 }
 
-function displayAllMinos() {
+function displayAllMinos(): void {
 	console.log(fieldArray);
 	forEachMinoOnMatrix((x,y) => {
 			$('.minos[data-x="'+x+'"][data-y="'+y+'"]').attr('class','minos '+fieldArray[y][x]+"Minos");
 	})
 }
 
-function displayDiffer(differs,callback) {
-	for (var tile of differs) {
-		displayMino(tile)
-		updateMatrixArray(tile)
+function displayDiffer(differs: Mino[],callback: ()=>void): void {
+	for (var mino of differs) {
+		displayMino(mino)
+		updateMatrixArray(mino)
 	}
 
 	callback()
 }
 
-function displayGhostMinos() {
+function displayGhostMinos(): void {
 	for (let tile of ghostMinos) {
 		displayGhostMino(tile)
 	}
 }
 
-function removeGhostMinos() {
+function removeGhostMinos(): void {
 	const formerGhost = cloneArray(ghostMinos)
 	for (let tile of formerGhost) {
 		removeGhostMino(tile)
 	}
 }
 
-function displayMino(tile) {
-	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]+"Minos");
+function displayMino(mino: Mino): void {
+	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').attr('class','minos '+mino[2]+"Minos");
 }
 
-function displayGhostMino(mino) {
-	if (mino[1]<2) {
+function displayGhostMino(mino: Mino): void {
+	if (mino[1]< bufferHeight) {
 		return ;
 	}
 	let ghostText = "<div class='ghostMinos "+mino[2]+"GhostMinos'></div>"
 	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html(ghostText);
 }
 
-function removeGhostMino(mino) {
+function removeGhostMino(mino: Mino | Pos): void {
 	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html("");
 }
 

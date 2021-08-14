@@ -11,7 +11,7 @@ class Swiper {
 	currentDeltaY: number;
 	currentDeltaT: number;
 
-	constructor( obj, dist = 30, sec = 0, intervalSec = 0 ) {
+	constructor( obj: any, dist: number = 30, sec: number = 0, intervalSec: number = 0 ) {
 		this.target = $(obj);
 		this.dist = dist;
 		this.waitSec = sec;
