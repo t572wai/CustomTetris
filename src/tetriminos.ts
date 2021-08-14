@@ -35,7 +35,7 @@ function initMino( type: Tetriminos ) {
 		currentMinoX = 4;
 		currentMinoY = 1;
 		currentMinoTiles = getTetrimino(currentMinoType,currentMinoX,currentMinoY,currentMinoType)
-		currentMinoIsVisible = false;
+		currentMinoIsVisible = true;
 		currentMinoDidLockDown = false;
 		currentMinoIsSoftDrop = false;
 		currentMinoIsHardDrop = false;
