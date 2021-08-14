@@ -239,7 +239,7 @@ function clearLine(i) {
 }
 
 function isLineFilled(array) {
-	return  !array.find((e) => e.string == "empty");
+	return  !array.find((e) => e == "empty");
 }
 
 function endTetris() {
