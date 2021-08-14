@@ -37,37 +37,6 @@ ShapesOfTetrimino.set("j", [[1,-1,-1],[1,0,1]])
 ShapesOfTetrimino.set("l", [[-1,-1,1],[1,0,1]])
 ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
 
-//const ShapesOfTetriminoEnum = defineEnum({
-//	I:{
-//		string: 'i',
-//		shape: [[1,0,1,1]]
-//	},
-//	O:{
-//		string: 'o',
-//		shape: [[1,1],[0,1]]
-//	},
-//	S:{
-//		string: 's',
-//		shape: [[-1,1,1],[1,0,-1]]
-//	},
-//	Z:{
-//		string: 'z',
-//		shape: [[1,1,-1],[-1,0,1]]
-//	},
-//	J:{
-//		string: 'j',
-//		shape: [[1,-1,-1],[1,0,1]]
-//	},
-//	L:{
-//		string: 'l',
-//		shape: [[-1,-1,1],[1,0,1]]
-//	},
-//	T:{
-//		string: 't',
-//		shape: [[-1,1,-1],[1,0,1]]
-//	}
-//})
-
 const NumOfNext = 6;
 
 const ActionsEnum = defineEnum({
