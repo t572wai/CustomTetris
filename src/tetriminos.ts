@@ -130,11 +130,11 @@ function canMove(followingTiles) {
 	for (let tile of followingTiles) {
 		// console.log(tile);
 		if (tile[0]<0 || tile[0]>9 || tile[1]<0 || tile[1]>21) {
-			// console.log(tile);
+			console.log(tile);
 			return false;
 		}
-		// console.log(tile,fieldArray);
 		if (isOtherTiles(tile)) {
+			console.log(tile,fieldArray);
 			return false;
 		}
 	}
