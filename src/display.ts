@@ -76,7 +76,7 @@ function clearField() {
 function displayAllMinos() {
 	console.log(fieldArray);
 	forEachMinoOnMatrix((x,y) => {
-			$('.minos[data-x="'+x+'"][data-y="'+y+'"]').attr('class','minos '+fieldArray[y][x]["string"]+"Minos");
+			$('.minos[data-x="'+x+'"][data-y="'+y+'"]').attr('class','minos '+fieldArray[y][x]+"Minos");
 	})
 }
 
@@ -102,13 +102,13 @@ function removeGhostMinos() {
 }
 
 function displayMino(tile) {
-	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]["string"]+"Minos");
+	$('.minos[data-x="'+tile[0]+'"][data-y="'+tile[1]+'"]').attr('class','minos '+tile[2]+"Minos");
 }
 function displayGhostMino(mino) {
 	if (mino[1]<2) {
 		return ;
 	}
-	let ghostText = "<div class='ghostMinos "+mino[2]["string"]+"GhostMinos'></div>"
+	let ghostText = "<div class='ghostMinos "+mino[2]+"GhostMinos'></div>"
 	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html(ghostText);
 }
 function removeGhostMino(mino) {
