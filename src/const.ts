@@ -124,6 +124,7 @@ const ActionsEnum = defineEnum({
  */
 const notScorings = ['hardDrop','softDrop','btob','mini-t','tspin','none','ren']
 
+///<reference path='./enum.ts'/>
 const Direction = defineEnum({
 	Up: {
 		string: 'up',
