@@ -463,6 +463,7 @@ function getMovedMinos(tiles,dx,dy) {
 }
 
 function getRotatedTetriminoShape(type,d) {
+	console.log(changeFacing(getTetriminoShape(type),d));
 	if (type=='o') {
 		return getTetriminoShape(type)
 	} else if (type=='i') {
@@ -472,7 +473,6 @@ function getRotatedTetriminoShape(type,d) {
 			[1,1],
 			[0,1]
 		]
-		console.log(changeFacing(getTetriminoShape(type),d));
 		return getMovedMinos(changeFacing(getTetriminoShape(type),d), differ[d][0], differ[d][1]);
 	} else {
 		return changeFacing(getTetriminoShape(type),d);
