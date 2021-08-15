@@ -454,7 +454,7 @@ function getTetriminoShape(type: Tetrimino): Pos[] {
 		}
 	}
 	// console.log(minoArray);
-
+	console.log();
 	return getMovedMinos(minoArray,-originPos[0],-originPos[1]);
 }
 
@@ -513,7 +513,7 @@ function signOfRotation(formerFacing, followingFacing) {
  * @return {Array<number>}       [0-3]
  */
 function changeFacing(tiles: Pos[], sgn: number): Pos[] {
-	// console.log(sgn);
+	console.log(tiles);
 	let newTiles:Pos[] = cloneArray<Pos>(tiles)
 	if (sgn==0) {
 		return newTiles;
