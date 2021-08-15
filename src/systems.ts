@@ -29,6 +29,7 @@ function startToAppearMinos() {
 		followingMinos.shift()
 	}
 	initMino(followingMinos[0]);
+	followingMinos.shift()
 	displayHold()
 	displayNext()
 	displayScoreArea()
