@@ -128,13 +128,13 @@ function isFilledOrWall(x: number, y:number): boolean{
 function canMove(followingMinos: Mino[]): boolean {
 	// console.log("check");
 	for (let tile of followingMinos) {
-		console.log(tile);
+		//console.log(tile);
 		if (isOutOfField(tile.x,tile.y)) {
-			console.log(tile);
+			//console.log(tile);
 			return false;
 		}
 		if (isOtherTiles(tile)) {
-			console.log(tile,fieldArray);
+			//console.log(tile,fieldArray);
 			return false;
 		}
 	}
@@ -156,11 +156,11 @@ function canBeAppeared(): boolean {
 function isOtherTiles(tile: Mino | Pos): boolean {
 	if (fieldArray[tile.y][tile.x] != 'empty') {
 		// console.log(tile);
-		console.log(currentMinoIsVisible);
+		//console.log(currentMinoIsVisible);
 		if ( !currentMinoIsVisible ) return true;
 		if ( !currentMinoTiles.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 			// console.log(currentMinoTiles);
-			console.log(tile,fieldArray[tile.y][tile.x]);
+			//console.log(tile,fieldArray[tile.y][tile.x]);
 			return true;
 		}
 	}
@@ -524,9 +524,9 @@ function signOfRotation(formerFacing: number, followingFacing: number): number {
  * @return {Array<number>}       [0-3]
  */
 function changeFacing(tiles: Pos[], sgn: number): Pos[] {
-	console.log(tiles);
+	//console.log(tiles);
 	let newTiles:Pos[] = cloneArray<Pos>(tiles)
-	console.log(newTiles);
+	//console.log(newTiles);
 	if (sgn==0) {
 		return newTiles;
 	} else if(sgn==1) {
