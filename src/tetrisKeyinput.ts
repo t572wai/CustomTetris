@@ -1,21 +1,20 @@
 let dv2Border = 5;
 
-$(document).ready(function () {
 	// setSwiper(document)
 
 	// addKeyActions(39, onRight, () => {}, onRight, () => {}, 300, 50)
-	addKeyActions(68, onRight, () => {}, onRight, () => {}, 300, 50)
+	addKeyActions('d', onRight, () => {}, onRight, () => {}, 300, 50)
 	// addKeyActions(37, onLeft, () => {}, onLeft, () => {}, 300, 50)
-	addKeyActions(65, onLeft, () => {}, onLeft, () => {}, 300, 50)
-	addKeyActions(38, onHardDrop)
-	addKeyActions(87, onHardDrop)
-	addKeyActions(40, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
-	addKeyActions(83, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
+	addKeyActions('a', onLeft, () => {}, onLeft, () => {}, 300, 50)
+	addKeyActions('ArrowUp', onHardDrop)
+	addKeyActions('w', onHardDrop)
+	addKeyActions('ArrowDown', onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
+	addKeyActions('s', onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
 
-	addKeyActions(37, onLeftRotation)
-	addKeyActions(39, onRightRotation)
+	addKeyActions('ArrowLeft', onLeftRotation)
+	addKeyActions('ArrowRight', onRightRotation)
 
-	addKeyActions(16, onHold)
+	addKeyActions('Shift', onHold)
 
 	$(this).on('swipedist', function (e, d, dv2) {
 		console.log(d);
@@ -76,7 +75,7 @@ $(document).ready(function () {
 			onLeftRotation()
 		}
 	})
-})
+
 
 function onLeft() {
 	moveToLeft(function (b) {

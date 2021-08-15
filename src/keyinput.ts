@@ -1,50 +1,57 @@
-let keyActions = {}
-let longpresses = {}
-let presseds = {}
-let timers = {}
-let intervalTimers = {}
+//let keyActions = new Map<number, Map<string, (e)=>void>>();
+let longpresses = new Map<string, boolean>();
+let presseds = new Map<string, boolean>();
+let timers = new Map<string, any>();
+let intervalTimers = new Map<string, any>();
 
-function addKeyActions(code, keydownAc = function () {}, keyupAc = function () {}, longpressAc = function () {}, shortpressAc = function () {}, sec = 0, interval = 0) {
-	longpresses[code] = false;
-	longpresses[code] = false;
+function addKeyActions(
+		code: string,
+		keydownAc: ()=>void = function () {},
+		keyupAc: ()=>void = function () {},
+		longpressAc: ()=>void = function () {},
+		shortpressAc: ()=>void = function () {},
+		sec: number = 0,
+		interval: number = 0
+	) {
+	longpresses.set(code, false);
+	longpresses.set(code, false);
 
 	// keyActions[code] = {'keydown':keydownAc, 'keyup':keyupAc, 'longpress':longpressAc, 'shortpress':shortpressAc}
-	keyActions[code] = {}
+	//keyActions.set(code, new Map<string, (e)=>void>());
 
-	keyActions[code]['keydown'] = function (e) {
-		console.log(e.keyCode);
-		if (e.keyCode == code) {
-			if (!presseds[code]) {
+	//keyActions.set(code, keyActions.get(code).set('keydown', ));
+	$(document).on('keydown.'+code, function (e) {
+		console.log(e.key);
+		if (e.key == code) {
+			if (!presseds.get(code)) {
 				keydownAc()
-				longpresses[code] = false;
-				presseds[code] = true;
-				timers[code] = setTimeout(() => {
-					longpresses[code] = true;
+				longpresses.set(code, false);
+				presseds.set(code, true);
+				timers.set(code, setTimeout(() => {
+					longpresses.set(code, true);
 					longpressAc()
-					intervalTimers[code] = setInterval(longpressAc,interval)
-				}, sec)
+					intervalTimers.set(code, setInterval(longpressAc,interval))
+				}, sec))
 			}
 		}
-	}
-	$(document).on('keydown.'+code, keyActions[code]['keydown'])
+	})
 
-	keyActions[code]['keyup'] = function (e) {
-		if (e.keyCode == code) {
-			presseds[code] = false;
-			clearTimeout(timers[code]);
-			clearInterval(intervalTimers[code])
-			if (!longpresses[code]) {
+	//keyActions.set(code, keyActions.get(code).set('keyup', ));
+	$(document).on('keyup.'+code, function (e) {
+		if (e.key == code) {
+			presseds.set(code, false);
+			clearTimeout(timers.get(code));
+			clearInterval(intervalTimers.get(code))
+			if (!longpresses.get(code)) {
 				shortpressAc()
 			} else {
-				longpresses[code] = false;
+				longpresses.set(code, false);
 			}
 			keyupAc()
 		}
-	}
-	$(document).on('keyup.'+code, keyActions[code]['keyup'])
+	})
 }
 
-function removeKeyActions(code) {
-	$(document).off('keydown.'+code);
-	$(document).off('keyup.'+code);
+function removeKeyActions(code: string) {
+	$(document).off('.'+code);
 }
