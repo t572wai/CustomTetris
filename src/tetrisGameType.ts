@@ -18,10 +18,6 @@ function toGameRule(str: string): GameRule|null {
 const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
 gameRuleConfigs.set('normal', ['Normal']);
 gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
-//const gameRuleConfigs = {
-//	'normal': ['Normal'],
-//	'practiceFor4ren': ['Terrain'],
-//}
 
 const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
 generateTerrain.set('normal', () => {
@@ -49,29 +45,6 @@ generateTerrain.set('practiceFor4ren', () => {
 	return []
 })
 
-//const generateTerrain = {
-//	'normal': () => {
-//		let terrainArray = [];
-//		for (let i = 0; i < fieldHeight; i++) {
-//			terrainArray.push(new Array(fieldWidth).fill('empty'))
-//		}
-//		return terrainArray;
-//	},
-//	'practiceFor4ren': () => {
-//		let terrainArray = generateTerrain['normal']();
-//		forEachMinoOnField((pos) => {
-//			if (pos.x<3 || pos.x>6) {
-//				terrainArray[pos.y][pos.x] = 'wall';
-//			}
-//		})
-//		terrainArray[21][3] = 'wall';
-//		terrainArray[21][4] = 'wall';
-//		terrainArray[21][5] = 'wall';
-
-//		return terrainArray;
-//	}
-//}
-
 const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
 generateRegularlyTerrain.set('normal', ()=>{
 	return Array(fieldWidth).fill('empty');
@@ -91,12 +64,6 @@ generateRegularlyTerrain.set('practiceFor4ren', ()=>{
 	}
 	return [];
 })
-//const generateRegularlyTerrain = {
-//	'normal': () => {
-//	},
-//	'practiceFor4ren': () => {
-//	}
-//}
 
 function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
 	const config = gameRuleConfigs.get(rule);
