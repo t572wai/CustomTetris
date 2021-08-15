@@ -437,29 +437,29 @@ function canOperate() {
 
 
 function getTetriminoShape(type: Tetrimino): Pos[] {
-	let minoArray = [];
+	let minoArray:Pos[] = [];
 	//console.log(type, ShapesOfTetriminoEnum.getByValue('string',type) );
-	const shape = ShapesOfTetrimino.get(type);
+	const shape: number[][] = ShapesOfTetrimino.get(type);
 	// let minoArray = [];
-	let originPos = [];
+	let originPos:Pos;
 	for (var i = 0; i < shape.length; i++) {
 		for (var j = 0; j < shape[i].length; j++) {
 			// console.log(j,i);
 			if (shape[i][j]!=-1){
-				minoArray.push([j,i]);
+				minoArray.push({x:j,y:i});
 			}
 			if (shape[i][j]==0) {
-				originPos = [j,i]
+				originPos = {x:j,y:i}
 			}
 		}
 	}
 	// console.log(minoArray);
 	console.log();
-	return getMovedMinos(minoArray,-originPos[0],-originPos[1]);
+	return getMovedMinos(minoArray,-originPos.x,-originPos.y);
 }
 
-function getMovedMinos(tiles,dx,dy) {
-	return tiles.map((tile) => [tile[0]+dx,tile[1]+dy])
+function getMovedMinos(tiles: Pos[], dx: number, dy: number): Pos[] {
+	return tiles.map((tile) => ({x:tile[0]+dx,y:tile[1]+dy}))
 }
 
 function getRotatedTetriminoShape(type,d) {
@@ -515,6 +515,7 @@ function signOfRotation(formerFacing, followingFacing) {
 function changeFacing(tiles: Pos[], sgn: number): Pos[] {
 	console.log(tiles);
 	let newTiles:Pos[] = cloneArray<Pos>(tiles)
+	console.log(newTiles);
 	if (sgn==0) {
 		return newTiles;
 	} else if(sgn==1) {
