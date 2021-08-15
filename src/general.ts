@@ -1,9 +1,9 @@
-function cloneArray(array) {
+function cloneArray<T>(array: T[]): T[] {
 	return array.concat();
 }
 
-function shuffle(arrayTemp) {
-	let array = cloneArray(arrayTemp)
+function shuffle<T>(arrayTemp: T[]): T[] {
+	let array = cloneArray<T>(arrayTemp)
 	for(var i = array.length - 1; i > 0; i--){
 			var r = Math.floor(Math.random() * (i + 1));
 			var tmp = array[i];
@@ -18,21 +18,21 @@ const resetLogColor = '\u001b[0m';
 const redLog = '\u001b[31m';
 const greenLog = '\u001b[32m';
 
-const aryMax = function (a,b) {return Math.max(a,b);}
-const aryMin = function (a,b) {return Math.min(a,b);}
-function maxArray(array) {
+const aryMax = function (a: number, b: number): number {return Math.max(a,b);}
+const aryMin = function (a: number, b: number): number {return Math.min(a,b);}
+function maxArray(array: number[]): number {
 	return array.reduce(aryMax);
 }
-function minArray(array) {
+function minArray(array: number[]): number {
 	return array.reduce(aryMin);
 }
 
-function arrayEquals(array1,array2) {
+function arrayEquals<T>(array1: T[],array2: T[]): boolean {
 	return JSON.stringify(array1) == JSON.stringify(array2);
 }
 
-function includesArray(array, elem) {
-	if (array.find((item) => arrayEquals(item,elem))) {
+function includesArray<T>(array: T[][], elem: T[]): boolean {
+	if (array.find((item) => arrayEquals<T>(item,elem))) {
 		return true;
 	} else {
 		return false;

@@ -1,11 +1,11 @@
-let currentLevel = 1;
+let currentLevel: number = 1;
 
-let currentMino;
+//let currentMino: Mino;
 let followingMinos:Tetrimino[] = [];
 
-let holdMinoType;
+let holdMinoType: Tetrimino;
 
-function currentFallingSpeed(level) {
+function currentFallingSpeed(level: number): number {
 	let speedRate = 1;
 	if(currentMinoIsSoftDrop) {
 		speedRate = 0.05;
@@ -13,18 +13,18 @@ function currentFallingSpeed(level) {
 	return FallingSpeed(level)*speedRate;
 }
 
-let canHold;
+let canHold: boolean;
 
-let score;
+let score: number;
 
-let currentREN = -1;
+let currentREN:number = -1;
 
-let totalClearedLine;
+let totalClearedLine: number;
 
-let isJustNowSpin:Number;
+let isJustNowSpin: number;
 
-let isPlayingTetris;
+let isPlayingTetris: boolean;
 
-let swiper;
+let swiper: Swiper;
 
-let currentGameRule:any = 'normal';
+let currentGameRule: GameRule = 'normal';

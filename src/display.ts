@@ -102,6 +102,13 @@ function displayDiffer(differs: Mino[],callback: ()=>void): void {
 	callback()
 }
 
+function displayDifferWithDelay(differs: Mino[],callback: ()=>void) {
+	let differsTemp = cloneArray(differs)
+
+	clearTimer('fall')
+	setTimer('fall',displayDiffer.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
+}
+
 function displayGhostMinos(): void {
 	for (let tile of ghostMinos) {
 		displayGhostMino(tile)
@@ -109,7 +116,7 @@ function displayGhostMinos(): void {
 }
 
 function removeGhostMinos(): void {
-	const formerGhost = cloneArray(ghostMinos)
+	const formerGhost = cloneArray<Mino>(ghostMinos)
 	for (let tile of formerGhost) {
 		removeGhostMino(tile)
 	}
@@ -131,18 +138,11 @@ function removeGhostMino(mino: Mino | Pos): void {
 	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html("");
 }
 
-function displayDifferWithDelay(differs,callback) {
-	let differsTemp = cloneArray(differs)
-
-	clearTimer('fall')
-	setTimer('fall',displayDiffer.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
-}
-
-function displayNext() {
+function displayNext(): void {
 	$('#nextArea').html(textOfNext())
 }
 
-function textOfNext() {
+function textOfNext(): string {
 	let text = "<p id='nextHead'>Next</p>";
 	for (let i = 0; i < NumOfNext; i++) {
 		text += textOfMinoAlone(followingMinos[i])
@@ -150,16 +150,16 @@ function textOfNext() {
 	return text;
 }
 
-function displayHold() {
+function displayHold(): void {
 	$('#holdArea').html(textOfHold())
 }
 
-function textOfHold() {
+function textOfHold(): string {
 	let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(holdMinoType);
 	return text;
 }
 
-function textOfMinoAlone(type) {
+function textOfMinoAlone(type: Tetrimino): string {
 	// console.log(type);
 	let text = "<div class='displayers'>";
 	if (!type || type=='empty') {
@@ -194,11 +194,11 @@ function textOfMinoAlone(type) {
 	return text;
 }
 
-function displayScoreArea() {
+function displayScoreArea(): void {
 	$('#scoreArea').html(textOfScoreArea())
 }
 
-function textOfScoreArea() {
+function textOfScoreArea(): string {
 	let text = ''
 	scoring.forEach((val,key) => {
 		text += DisplayTitleOfAction.get(key)+":"+scoring.get(key)+"<br>"
@@ -206,14 +206,14 @@ function textOfScoreArea() {
 	return text;
 }
 
-function clearHoldArea() {
+function clearHoldArea():void {
 	$('#holdArea').html('')
 }
 
-function clearNextArea() {
+function clearNextArea(): void {
 	$('#nextArea').html('')
 }
 
-function clearScoreArea() {
+function clearScoreArea(): void {
 	$('#scoreArea').html('')
 }

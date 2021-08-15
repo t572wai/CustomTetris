@@ -545,8 +545,6 @@ const spinRule = {
 //	}
 //})
 
-const GameRuleClasses = ['Normal','Terrain'] as const;
-
 
 const matrixHeight: number = 20;
 const matrixWidth: number = 10;

@@ -1,7 +1,4 @@
-/// <reference path='./systems.ts'/>
-/// <reference path='./display.ts'/>
-
-function initDialogs() {
+function initDialogs(): void {
 	$('.dialogs').each((i, obj) => {
 		console.log(i,obj);
 		$(obj).dialog({

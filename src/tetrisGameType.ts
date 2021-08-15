@@ -1,3 +1,9 @@
+const GameRuleClasses = ['Normal','Terrain'] as const;
+type GameRuleClass = typeof GameRuleClasses[number];
+
+const GameRules = ['normal', 'practiceFor4ren'] as const;
+type GameRule = typeof GameRules[number];
+
 const gameRuleConfigs = {
 	'normal': ['Normal'],
 	'practiceFor4ren': ['Terrain'],
