@@ -471,7 +471,7 @@ function getRotatedTetriminoShape(type: Tetrimino,d: number): Pos[] {
 	const shape: Pos[] | null = getTetriminoShape(type);
 	if (typeof shape !== null) {
 		const shape_pos: Pos[] = shape as Pos[];
-		console.log(changeFacing(shape_pos,d));
+		//console.log(changeFacing(shape_pos,d));
 		if (type=='o') {
 			return shape_pos;
 		} else if (type=='i') {
