@@ -4,6 +4,15 @@ type GameRuleClass = typeof GameRuleClasses[number];
 const GameRules = ['normal', 'practiceFor4ren'] as const;
 type GameRule = typeof GameRules[number];
 
+function toGameRule(str: string): GameRule|null {
+	GameRules.forEach((value) => {
+		if (value == str) {
+			return value;
+		}
+	})
+	return null;
+}
+
 const gameRuleConfigs = {
 	'normal': ['Normal'],
 	'practiceFor4ren': ['Terrain'],

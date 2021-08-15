@@ -1,3 +1,7 @@
+//import * as deepEqual from "deep-equal";
+
+//import { deepEqual } from "assert";
+
 function cloneArray<T>(array: T[]): T[] {
 	return array.concat();
 }
@@ -31,8 +35,12 @@ function arrayEquals<T>(array1: T[],array2: T[]): boolean {
 	return JSON.stringify(array1) == JSON.stringify(array2);
 }
 
-function includesArray<T>(array: T[][], elem: T[]): boolean {
-	if (array.find((item) => arrayEquals<T>(item,elem))) {
+function equal(item1, item2): boolean {
+	return JSON.stringify(item1) == JSON.stringify(item2);
+}
+
+function includesArray<T>(array: T[], elem: T): boolean {
+	if (array.find((item) => equal(item,elem))) {
 		return true;
 	} else {
 		return false;

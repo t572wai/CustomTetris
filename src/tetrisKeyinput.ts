@@ -37,7 +37,7 @@ let dv2Border = 5;
 	})
 
 	$(this).on('longswipe', function (e, d, dv2) {
-		console.log(redLog + dv2 + resetLogColor);
+		//console.log(redLog + dv2 + resetLogColor);
 		// console.log(greenLog + d + resetLogColor);
 		if (d != "down") {
 			onSoftDrop(false)
@@ -53,7 +53,7 @@ let dv2Border = 5;
 	})
 
 	$(this).on('swipeend', function (e, d, dv2) {
-		console.log(redLog + dv2 + resetLogColor);
+		//console.log(redLog + dv2 + resetLogColor);
 		onSoftDrop(false)
 		switch (d) {
 			case 'down':

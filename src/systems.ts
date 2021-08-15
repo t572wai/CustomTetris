@@ -7,7 +7,16 @@ function startTetris() {
 }
 
 function initTetris() {
-	currentGameRule = $('input[name=gameRule]:checked').val()
+	const value = $('input[name=gameRule]:checked').val();
+	if (typeof value == 'string') {
+		const value_str:string = value;
+		const gameRuleFromGameRuleInput = toGameRule(value_str);
+		if (gameRuleFromGameRuleInput) {
+			currentGameRule = gameRuleFromGameRuleInput;
+		} else {
+			currentGameRule = 'normal';
+		}
+	}
 	toGame()
 }
 
@@ -192,8 +201,8 @@ function checkAction(currentNumOfClearedLine) {
 function isTSpin() {
 	if(currentMinoType!='t' || isJustNowSpin==-1) return -1;
 
-	let indicatorArray = getFilledTilesAroundT_normalized()
-	console.log(indicatorArray,includesArray(indicatorArray,[-1,-1]) && includesArray(indicatorArray,[1,-1]));
+	let indicatorArray:Pos[] = getFilledTilesAroundT_normalized()
+	console.log(indicatorArray,includesArray<Pos>(indicatorArray,{x:-1,y:-1}) && includesArray<Pos>(indicatorArray,{x:1,y:-1}));
 
 	if (isJustNowSpin==5) {
 		return 0;
@@ -201,7 +210,7 @@ function isTSpin() {
 
 	if (indicatorArray.length<3) {
 		return -1;
-	} else if (includesArray(indicatorArray,[-1,-1]) && includesArray(indicatorArray,[1,-1])) {
+	} else if (includesArray(indicatorArray,{x:-1,y:-1}) && includesArray(indicatorArray,{x:1,y:-1})) {
 		return 0;
 	} else {
 		console.log(indicatorArray);
@@ -209,19 +218,19 @@ function isTSpin() {
 	}
 }
 
-function getFilledTilesAroundT() {
-	let tiles = []
+function getFilledTilesAroundT(): Pos[] {
+	let tiles:Pos[] = [];
 
-	if (isFilledOrWall(currentMinoX-1,currentMinoY-1)) tiles.push([-1,-1])
-	if (isFilledOrWall(currentMinoX-1,currentMinoY+1)) tiles.push([-1,1])
-	if (isFilledOrWall(currentMinoX+1,currentMinoY-1)) tiles.push([1,-1])
-	if (isFilledOrWall(currentMinoX+1,currentMinoY+1)) tiles.push([1,1])
+	if (isFilledOrWall(currentMinoX-1,currentMinoY-1)) tiles.push({x:-1,y:-1})
+	if (isFilledOrWall(currentMinoX-1,currentMinoY+1)) tiles.push({x:-1,y: 1})
+	if (isFilledOrWall(currentMinoX+1,currentMinoY-1)) tiles.push({x: 1,y:-1})
+	if (isFilledOrWall(currentMinoX+1,currentMinoY+1)) tiles.push({x: 1,y: 1})
 
 	console.log(tiles);
 	return tiles;
 }
 
-function getFilledTilesAroundT_normalized() {
+function getFilledTilesAroundT_normalized(): Pos[] {
 	return changeFacing(getFilledTilesAroundT(),currentMinoFacing)
 }
 

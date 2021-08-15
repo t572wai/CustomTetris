@@ -511,19 +511,23 @@ function signOfRotation(formerFacing, followingFacing) {
  * @param  {number} sgn                 [0-3]
  * @return {Array<number>}       [0-3]
  */
-function changeFacing(tiles, sgn) {
+function changeFacing(tiles: Pos[], sgn: number): Pos[] {
 	// console.log(sgn);
-	let newTiles = cloneArray(tiles)
+	let newTiles:Pos[] = cloneArray<Pos>(tiles)
 	if (sgn==0) {
 		return newTiles;
 	} else if(sgn==1) {
-		newTiles = newTiles.map((tile) => [-tile[1],tile[0]])
+		let temp: Pos = {
+			x: 1,
+			y: 2,
+		}
+		newTiles = newTiles.map((tile) => ({x: -tile.y, y: tile.x}))
 		return newTiles;
 	} else if(sgn==2) {
-		newTiles = newTiles.map((tile) => [-tile[0],-tile[1]])
+		newTiles = newTiles.map((tile) => ({x:-tile.x, y:-tile.y}))
 		return newTiles;
 	} else {
-		newTiles = newTiles.map((tile) => [tile[1],-tile[0]])
+		newTiles = newTiles.map((tile) => ({x: tile.y, y: -tile.x}))
 		return newTiles;
 	}
 }

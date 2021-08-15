@@ -12,12 +12,12 @@ TetriminosFromNum.set(4,"j");
 TetriminosFromNum.set(5,"l");
 TetriminosFromNum.set(6,"t");
 
-interface Pos {
+type Pos = {
 	x: Number,
 	y: Number,
 }
 
-interface Mino {
+type Mino = {
 	x: Number,
 	y: Number,
 	mino: Tetrimino,
