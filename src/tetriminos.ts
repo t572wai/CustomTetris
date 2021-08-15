@@ -436,7 +436,7 @@ function canOperate() {
 }
 
 
-function getTetriminoShape(type) {
+function getTetriminoShape(type: Tetrimino): Pos[] {
 	let minoArray = [];
 	//console.log(type, ShapesOfTetriminoEnum.getByValue('string',type) );
 	const shape = ShapesOfTetrimino.get(type);
@@ -472,6 +472,7 @@ function getRotatedTetriminoShape(type,d) {
 			[1,1],
 			[0,1]
 		]
+		console.log(changeFacing(getTetriminoShape(type),d));
 		return getMovedMinos(changeFacing(getTetriminoShape(type),d), differ[d][0], differ[d][1]);
 	} else {
 		return changeFacing(getTetriminoShape(type),d);
@@ -517,10 +518,6 @@ function changeFacing(tiles: Pos[], sgn: number): Pos[] {
 	if (sgn==0) {
 		return newTiles;
 	} else if(sgn==1) {
-		let temp: Pos = {
-			x: 1,
-			y: 2,
-		}
 		newTiles = newTiles.map((tile) => ({x: -tile.y, y: tile.x}))
 		return newTiles;
 	} else if(sgn==2) {
