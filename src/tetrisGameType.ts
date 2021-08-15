@@ -13,24 +13,29 @@ function toGameRule(str: string): GameRule|null {
 	return null;
 }
 
-const gameRuleConfigs = {
-	'normal': ['Normal'],
-	'practiceFor4ren': ['Terrain'],
-}
+const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
+gameRuleConfigs.set('normal', ['Normal']);
+gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
+//const gameRuleConfigs = {
+//	'normal': ['Normal'],
+//	'practiceFor4ren': ['Terrain'],
+//}
 
-const generateTerrain = {
-	'normal': () => {
-		let terrainArray = [];
-		for (let i = 0; i < fieldHeight; i++) {
-			terrainArray.push(new Array(fieldWidth).fill('empty'))
-		}
-		return terrainArray;
-	},
-	'practiceFor4ren': () => {
-		let terrainArray = generateTerrain['normal']();
-		forEachMinoOnField((x,y) => {
-			if (x<3 || x>6) {
-				terrainArray[y][x] = 'wall';
+const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
+generateTerrain.set('normal', () => {
+	let terrainArray:Tetrimino[][] = [];
+	for (let i = 0; i < fieldHeight; i++) {
+		terrainArray.push(new Array(fieldWidth).fill('empty'))
+	}
+	return terrainArray;
+})
+generateTerrain.set('practiceFor4ren', () => {
+	const generateTerrainFn = generateTerrain.get('normal');
+	if (typeof generateTerrainFn !== 'undefined') {
+		let terrainArray = generateTerrainFn();
+		forEachMinoOnField((pos) => {
+			if (pos.x<3 || pos.x>6) {
+				terrainArray[pos.y][pos.x] = 'wall';
 			}
 		})
 		terrainArray[21][3] = 'wall';
@@ -39,14 +44,40 @@ const generateTerrain = {
 
 		return terrainArray;
 	}
-}
+	return []
+})
 
-const generateRegularlyTerrain = {
-	'normal': () => {
-		return Array(fieldWidth).fill('empty');
-	},
-	'practiceFor4ren': () => {
-		let terrain = generateRegularlyTerrain['normal']();
+//const generateTerrain = {
+//	'normal': () => {
+//		let terrainArray = [];
+//		for (let i = 0; i < fieldHeight; i++) {
+//			terrainArray.push(new Array(fieldWidth).fill('empty'))
+//		}
+//		return terrainArray;
+//	},
+//	'practiceFor4ren': () => {
+//		let terrainArray = generateTerrain['normal']();
+//		forEachMinoOnField((pos) => {
+//			if (pos.x<3 || pos.x>6) {
+//				terrainArray[pos.y][pos.x] = 'wall';
+//			}
+//		})
+//		terrainArray[21][3] = 'wall';
+//		terrainArray[21][4] = 'wall';
+//		terrainArray[21][5] = 'wall';
+
+//		return terrainArray;
+//	}
+//}
+
+const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
+generateRegularlyTerrain.set('normal', ()=>{
+	return Array(fieldWidth).fill('empty');
+})
+generateRegularlyTerrain.set('practiceFor4ren', ()=>{
+	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal');
+	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+		let terrain:Tetrimino[] = generateRegularlyTerrainTemp();
 		terrain[0] = 'wall';
 		terrain[1] = 'wall';
 		terrain[2] = 'wall';
@@ -56,25 +87,47 @@ const generateRegularlyTerrain = {
 
 		return terrain;
 	}
-}
+	return [];
+})
+//const generateRegularlyTerrain = {
+//	'normal': () => {
+//	},
+//	'practiceFor4ren': () => {
+//	}
+//}
 
-function hasGameRuleType(rule,type) {
-	return gameRuleConfigs[rule].includes(type);
+function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
+	const config = gameRuleConfigs.get(rule);
+	if (typeof config !== 'undefined') {
+		return config.includes(type);
+	}
+	return false;
 }
 
 function resetField() {
 	console.log(currentGameRule);
 	if (hasGameRuleType(currentGameRule, "Terrain")) {
-		fieldArray = generateTerrain[currentGameRule]();
+		const generateTerrainTemp = generateTerrain.get(currentGameRule);
+		if (typeof generateTerrainTemp !== 'undefined') {
+			fieldArray = generateTerrainTemp();
+		}
 	} else {
-		fieldArray = generateTerrain['normal']();
-	}
+		const generateTerrainTemp = generateTerrain.get('normal');
+		if (typeof generateTerrainTemp !== 'undefined') {
+			fieldArray = generateTerrainTemp();
+		}}
 }
 
 function getRegularlyTerrain() {
 	if (hasGameRuleType(currentGameRule, "Terrain")) {
-		return getRegularlyTerrain[currentGameRule]()
+		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(currentGameRule)
+		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+			return generateRegularlyTerrainTemp()
+		}
 	} else {
-		return getRegularlyTerrain['normal']()
+		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal')
+		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+			return generateRegularlyTerrainTemp()
+		}
 	}
 }

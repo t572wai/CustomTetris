@@ -10,6 +10,16 @@ class Swiper {
 	currentDeltaX: number;
 	currentDeltaY: number;
 	currentDeltaT: number;
+	startX: any;
+	startY: any;
+	startT: number;
+	moveX: any;
+	moveY: any;
+	moveT: number;
+	currentDirection: string;
+	timer: any;
+	currentVelocity2: number;
+	intervalTimer: any;
 
 	constructor( obj: any, dist: number = 30, sec: number = 0, intervalSec: number = 0 ) {
 		this.target = $(obj);
@@ -26,6 +36,7 @@ class Swiper {
 				this.startT = Date.now()
 				this.moveX = this.startX;
 				this.moveY = this.startY;
+				this.moveT = this.startT;
 
 				this.isSwiping = false;
 			}
@@ -60,12 +71,12 @@ class Swiper {
 						clearInterval(this.intervalTimer)
 						console.log("%c"+this.currentDirection+","+formerDirection,'color:pink');
 						this.target.trigger('swipestart',[this.currentDirection, this.currentVelocity2])
-						this.timer = setTimeout(function () {
+						this.timer = setTimeout( () => {
 							this.target.trigger('longswipe',[this.currentDirection, this.currentVelocity2])
-							this.intervalTimer = setInterval(function () {
+							this.intervalTimer = setInterval( () => {
 								this.target.trigger('longswipe',[this.currentDirection, this.currentVelocity2])
-							}.bind(this), this.intervalSec)
-						}.bind(this), this.waitSec)
+							}, this.intervalSec)
+						}, this.waitSec)
 					}
 				}
 

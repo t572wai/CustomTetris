@@ -74,8 +74,8 @@ function textOfOptions(): string {
 function displayMatrix(): void {
 	let matrixText = "";
 
-	forEachMinoOnMatrix((x,y) => {
-			matrixText += "<div class='minos' data-x='"+x+"' data-y='"+y+"'></div>"
+	forEachMinoOnMatrix((pos) => {
+			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
 	})
 
 	$('#field').html(matrixText);
@@ -88,8 +88,8 @@ function clearField(): void {
 
 function displayAllMinos(): void {
 	console.log(fieldArray);
-	forEachMinoOnMatrix((x,y) => {
-			$('.minos[data-x="'+x+'"][data-y="'+y+'"]').attr('class','minos '+fieldArray[y][x]+"Minos");
+	forEachMinoOnMatrix((pos) => {
+			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos");
 	})
 }
 
@@ -123,19 +123,19 @@ function removeGhostMinos(): void {
 }
 
 function displayMino(mino: Mino): void {
-	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').attr('class','minos '+mino[2]+"Minos");
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos");
 }
 
 function displayGhostMino(mino: Mino): void {
-	if (mino[1]< bufferHeight) {
+	if (mino.y< bufferHeight) {
 		return ;
 	}
-	let ghostText = "<div class='ghostMinos "+mino[2]+"GhostMinos'></div>"
-	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html(ghostText);
+	let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos'></div>"
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html(ghostText);
 }
 
 function removeGhostMino(mino: Mino | Pos): void {
-	$('.minos[data-x="'+mino[0]+'"][data-y="'+mino[1]+'"]').html("");
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
 }
 
 function displayNext(): void {
@@ -170,20 +170,24 @@ function textOfMinoAlone(type: Tetrimino): string {
 		return text;
 	}
 
-	for (let line of ShapesOfTetrimino.get(type)) {
-		if (type != 'i') {
-			if (type == 'o') {
-				text += '<div class="minos emptyMinos"></div>'
-				text += '<div class="minos emptyMinos"></div>'
-			} else {
-				text += '<div class="minos emptyMinos"></div>'
+	const shape = ShapesOfTetrimino.get(type);
+	if (typeof shape !== 'undefined') {
+		const shape_defined = shape as number[][];
+		for (let line of shape_defined) {
+			if (type != 'i') {
+				if (type == 'o') {
+					text += '<div class="minos emptyMinos"></div>'
+					text += '<div class="minos emptyMinos"></div>'
+				} else {
+					text += '<div class="minos emptyMinos"></div>'
+				}
 			}
-		}
-		for (let tile of line) {
-			if (tile==-1) {
-				text += '<div class="minos emptyMinos"></div>'
-			} else {
-				text += '<div class="minos '+type+'Minos"></div>'
+			for (let tile of line) {
+				if (tile==-1) {
+					text += '<div class="minos emptyMinos"></div>'
+				} else {
+					text += '<div class="minos '+type+'Minos"></div>'
+				}
 			}
 		}
 	}

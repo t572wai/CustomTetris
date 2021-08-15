@@ -89,7 +89,7 @@ function onRight() {
 	})
 }
 
-function onSoftDrop(b) {
+function onSoftDrop(b: boolean) {
 	softDrop(b)
 }
 

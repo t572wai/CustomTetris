@@ -1,31 +1,31 @@
 let currentMinoType: Tetrimino;
 
-let currentMinoFacing;
-let currentMinoX;
-let currentMinoY;
+let currentMinoFacing: number;
+let currentMinoX: number;
+let currentMinoY: number;
 
-let currentMinoTiles;
-let currentMinoIsVisible;
+let currentMinoTiles: Mino[];
+let currentMinoIsVisible: boolean;
 
-let currentMinoIsSoftDrop;
-let currentMinoIsHardDrop;
+let currentMinoIsSoftDrop: boolean;
+let currentMinoIsHardDrop: boolean;
 
-let lowestPos;
-let lowestPosWithLowerFace;
-let numberOfMoveWithLowerFace;
-let currentMinoDidLockDown;
-let currentMinoLockDownTimer;
-let currentMinoLockedDownCallback;
+let lowestPos: number;
+let lowestPosWithLowerFace: number;
+let numberOfMoveWithLowerFace: number;
+let currentMinoDidLockDown: boolean;
+let currentMinoLockDownTimer: any;
+let currentMinoLockedDownCallback: (lower: number) => void;
 
-let isLoopingOfFalling;
+let isLoopingOfFalling: boolean;
 
 let indicatorForLockDown;
 
 let isMoving;
 
-let moveTimers;
+let moveTimers: any;
 
-let ghostMinos;
+let ghostMinos: Mino[];
 
 function initMino( type: Tetrimino ) {
 	//if(typeof type == ) {
@@ -52,7 +52,7 @@ function initMino( type: Tetrimino ) {
 	//}
 }
 
-function setCurrentMinoY(y) {
+function setCurrentMinoY(y: number): number {
 	//console.log(y,current);
 	if (lowestPos < y) {
 		lowestPos = y;
@@ -75,7 +75,7 @@ function setCurrentMinoY(y) {
 //	return indicatorForLockDown;
 //}
 
-function setNumberOfMoveWithLowerFace(num) {
+function setNumberOfMoveWithLowerFace(num: number): number {
 	console.log('%c' + num, 'color: red');
 	numberOfMoveWithLowerFace = num;
 	// if (!isAllowedOperate()) {
@@ -85,38 +85,38 @@ function setNumberOfMoveWithLowerFace(num) {
 	return numberOfMoveWithLowerFace;
 }
 
-function lowerPos() {
+function lowerPos(): number {
 	let lower = -1;
-	$.each(currentMinoTiles ,(i, tile) => {
+	$.each(currentMinoTiles ,(i, tile: Mino) => {
 		// console.log(tile);
-		if(tile[1]>lower) lower=tile[1];
+		if(tile.y>lower) lower=tile.y;
 	});
 	console.log(lower);
 	return lower;
 }
 
-function setTimer(name,callback,delay) {
+function setTimer(name: string, callback: (b: boolean)=>void, delay: number): void {
 	if(name=='fall') isLoopingOfFalling = true;
 	moveTimers[name] = setTimeout(callback,delay)
 }
 
-function clearTimer(name) {
+function clearTimer(name: string): void {
 	if(name=='fall') isLoopingOfFalling = false;
 	clearTimeout(moveTimers[name])
 }
 
-function isWall(x,y) {
+function isWall(x: number, y: number): boolean {
 	return (x<0 || x>fieldWidth-1 || y>fieldHeight-1)
 }
 
-function isOutOfField(x,y) {
+function isOutOfField(x: number, y: number): boolean {
 	return isWall(x,y) || y<0
 }
-function isOutOfMatrix(x,y) {
+function isOutOfMatrix(x: number, y: number): boolean {
 	return isWall(x,y) || y<bufferHeight-1
 }
 
-function isFilledOrWall(x,y){
+function isFilledOrWall(x: number, y:number): boolean{
 	if (isWall(x,y)) return true;
 
 	if (fieldArray[y][x]!='empty') return true;
@@ -125,11 +125,11 @@ function isFilledOrWall(x,y){
 	return false;
 }
 
-function canMove(followingTiles) {
+function canMove(followingMinos: Mino[]): boolean {
 	// console.log("check");
-	for (let tile of followingTiles) {
+	for (let tile of followingMinos) {
 		console.log(tile);
-		if (isOutOfField(tile[0],tile[1])) {
+		if (isOutOfField(tile.x,tile.y)) {
 			console.log(tile);
 			return false;
 		}
@@ -141,42 +141,42 @@ function canMove(followingTiles) {
 	return true;
 }
 
-function canBeAppeared() {
+function canBeAppeared(): boolean {
 	for (const mino of currentMinoTiles) {
-		if (isOutOfField(mino[0],mino[1])) {
+		if (isOutOfField(mino.x,mino.y)) {
 			return false;
 		}
-		if (fieldArray[mino[1]][mino[0]]!='empty') {
+		if (fieldArray[mino.y][mino.x]!='empty') {
 			return false;
 		}
 	}
 	return true;
 }
 
-function isOtherTiles(tile) {
-	if (fieldArray[tile[1]][tile[0]] != 'empty') {
+function isOtherTiles(tile: Mino | Pos): boolean {
+	if (fieldArray[tile.y][tile.x] != 'empty') {
 		// console.log(tile);
 		console.log(currentMinoIsVisible);
 		if ( !currentMinoIsVisible ) return true;
-		if ( !currentMinoTiles.find((element) => {return element[0]==tile[0] && element[1]==tile[1] }) ) {
+		if ( !currentMinoTiles.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 			// console.log(currentMinoTiles);
-			console.log(tile,fieldArray[tile[1]][tile[0]]);
+			console.log(tile,fieldArray[tile.y][tile.x]);
 			return true;
 		}
 	}
 	return false;
 }
 
-function fall(callback) {
+function fall(callback: (b: boolean)=>void): void {
 	moveWithDelay(0,1,'fall',callback);
 }
 
 
-function move(dx,dy,callback) {
+function move(dx: number, dy: number, callback: (b:boolean)=>void): void {
 	moveAndRotate(dx,dy,0,callback)
 }
 
-function moveAndRotate(dx,dy,sgn,callback) {
+function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void): void {
 	let followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn);
 	if (canMove(followingTiles)) {
 		currentMinoX += dx;
@@ -192,19 +192,19 @@ function moveAndRotate(dx,dy,sgn,callback) {
 }
 
 
-function replaceTiles(tiles,type: Tetrimino) {
-	let replacedTiles = [];
+function replaceMinos(tiles: Mino[], type: Tetrimino): Mino[] {
+	let replacedTiles:Mino[] = [];
 	for (let tile of tiles) {
-		replacedTiles.push([tile[0],tile[1],type])
+		replacedTiles.push({x:tile.x,y:tile.y,mino:type})
 	}
 	return replacedTiles;
 }
 
-function moveWithDelay(dx,dy,timerName,callback) {
+function moveWithDelay(dx: number, dy: number, timerName: string, callback: (b:boolean)=>void): void {
 	moveAndRotateWithDelay(dx,dy,0,timerName,callback)
 }
 
-function moveAndRotateWithDelay(dx,dy,sgn,timerName,callback) {
+function moveAndRotateWithDelay(dx: number, dy: number, sgn: number, timerName: string, callback: (b:boolean)=>void): void {
 	// console.log('moveWithDelay');
 	// console.log(currentFallingSpeed(currentLevel));
 	clearTimer(timerName)
@@ -212,8 +212,8 @@ function moveAndRotateWithDelay(dx,dy,sgn,timerName,callback) {
 	// fallTimer = setTimeout(move.bind(null,dx,dy,callback),currentFallingSpeed(currentLevel))
 }
 
-function changeCurrentMinos(followingTiles,callback) {
-	let formerTiles = replaceTiles(currentMinoTiles,'empty')
+function changeCurrentMinos(followingTiles: Mino[],callback: ()=>void): void {
+	let formerTiles = replaceMinos(currentMinoTiles,'empty')
 	currentMinoTiles = cloneArray(followingTiles)
 	// console.log(Date.now());
 	displayDiffer(formerTiles,function () {
@@ -221,20 +221,20 @@ function changeCurrentMinos(followingTiles,callback) {
 	})
 }
 
-function hideCurrentMino(callback) {
+function hideCurrentMino(callback: ()=>void) {
 	removeGhostMinos()
-	displayDiffer(replaceTiles(currentMinoTiles,'empty'),callback)
+	displayDiffer(replaceMinos(currentMinoTiles,'empty'),callback)
 }
 
-function checkGhost() {
+function checkGhost(): number {
 	let hightOfAbleToDrop = []
 	for (let tile of currentMinoTiles) {
-		for (var i = tile[1]; i < fieldHeight; i++) {
-			if (isOtherTiles([tile[0],i])) {
-				hightOfAbleToDrop.push(i-tile[1]-1)
+		for (var i = tile.y; i < fieldHeight; i++) {
+			if (isOtherTiles({x:tile.x,y:i})) {
+				hightOfAbleToDrop.push(i-tile.y-1)
 				break;
 			} else if (i==fieldHeight-1) {
-				hightOfAbleToDrop.push(i-tile[1])
+				hightOfAbleToDrop.push(i-tile.y)
 				break;
 			}
 		}
@@ -250,7 +250,7 @@ function checkGhost() {
 }
 
 
-function displayGhost() {
+function displayGhost(): void {
 	console.log('displayGhost');
 	// let formerGhost = cloneArray(ghostTiles);
 	removeGhostMinos()
@@ -259,7 +259,7 @@ function displayGhost() {
 	// console.log(Date.now());
 }
 
-function hardDrop() {
+function hardDrop(): void {
 	if (!currentMinoDidLockDown) {
 		isJustNowSpin = -1;
 		let hightOfDropping = checkGhost()
@@ -275,7 +275,7 @@ function hardDrop() {
 	}
 }
 
-function softDrop(b) {
+function softDrop(b: boolean): void {
 	// console.log(b,canFall(),currentMinoIsSoftDrop);
 	if (b && canFall() && !currentMinoIsSoftDrop) {
 		// clearTimeout(fallTimer)
@@ -287,7 +287,7 @@ function softDrop(b) {
 	}
 }
 
-function startFall() {
+function startFall(): void {
 	if (!currentMinoDidLockDown) {
 		console.log('start to fall');
 		// console.log(this.type);
@@ -310,15 +310,16 @@ function startFall() {
 	}
 }
 
-function canFall() {
+function canFall(): boolean {
 	let fallenTiles = getMovedTetrimino(0,1)
 	let b = canMove(fallenTiles);
 	if (isPlayingTetris) {
 		return b;
 	}
+	return false;
 }
 
-function loopOfFall() {
+function loopOfFall(): void {
 	console.log('fall');
 	isLoopingOfFalling = canFall()
 	fall(function (b) {
@@ -341,7 +342,7 @@ function loopOfFall() {
 	})
 }
 
-function restartFall() {
+function restartFall(): void {
 	// console.log(isLoopingOfFalling);
 	if (canFall() && !isLoopingOfFalling) {
 		console.log('clear all timer');
@@ -357,7 +358,7 @@ function restartFall() {
 // 	return currentMinoIsFalling;
 // }
 
-function countLockDownTimer() {
+function countLockDownTimer(): void {
 	console.log('set timer');
 	if (!currentMinoDidLockDown) {
 		clearTimeout(currentMinoLockDownTimer)
@@ -367,7 +368,7 @@ function countLockDownTimer() {
 	}
 }
 
-function lockDown() {
+function lockDown(): void {
 	console.log('mino locks down');
 	currentMinoDidLockDown = true;
 	clearTimeout(currentMinoLockDownTimer)
@@ -381,21 +382,21 @@ function lockDown() {
 	// currentMinoLockedDownCallback(lower)
 }
 
-function moveToLeft(callback) {
+function moveToLeft(callback: (b:boolean)=>void): void {
 	//console.log('move to left');
 	operate(-1,0,0,callback)
 }
 
-function moveToRight(callback) {
+function moveToRight(callback: (b:boolean)=>void): void {
 	//console.log('move to right');
 	operate(1,0,0,callback)
 }
 
-function isAllowedOperate() {
+function isAllowedOperate(): boolean {
 	return numberOfMoveWithLowerFace<15;
 }
 
-function operate(dx, dy, sgn, callback) {
+function operate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void): void {
 	if (canOperate()) {
 		const formerCanFall = canFall();
 		moveAndRotate(dx, dy, sgn, function(b) {
@@ -407,7 +408,7 @@ function operate(dx, dy, sgn, callback) {
 	}
 }
 
-function onOperating(formerCanFall) {
+function onOperating(formerCanFall: boolean): void {
 	//console.log('with move to left or right');
 	let currentCanFall = canFall()
 	//console.log(currentCanFall, isAllowedOperate());
@@ -431,67 +432,77 @@ function onOperating(formerCanFall) {
 	}
 }
 
-function canOperate() {
+function canOperate(): boolean {
 	return !currentMinoDidLockDown && isPlayingTetris;
 }
 
 
-function getTetriminoShape(type: Tetrimino): Pos[] {
+function getTetriminoShape(type: Tetrimino): Pos[] | null {
 	let minoArray:Pos[] = [];
 	//console.log(type, ShapesOfTetriminoEnum.getByValue('string',type) );
-	const shape: number[][] = ShapesOfTetrimino.get(type);
+	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
 	// let minoArray = [];
-	let originPos:Pos;
-	for (var i = 0; i < shape.length; i++) {
-		for (var j = 0; j < shape[i].length; j++) {
-			// console.log(j,i);
-			if (shape[i][j]!=-1){
-				minoArray.push({x:j,y:i});
-			}
-			if (shape[i][j]==0) {
-				originPos = {x:j,y:i}
+	let originPos:Pos = {x:0,y:0};
+	if (typeof shape != 'undefined') {
+		for (var i = 0; i < shape.length; i++) {
+			for (var j = 0; j < shape[i].length; j++) {
+				// console.log(j,i);
+				if (shape[i][j]!=-1){
+					minoArray.push({x:j,y:i});
+				}
+				if (shape[i][j]==0) {
+					originPos = {x:j,y:i}
+				}
 			}
 		}
+		// console.log(minoArray);
+		console.log();
+		return getMovedMinos(minoArray,-originPos.x,-originPos.y);
+	} else {
+		return null;
 	}
-	// console.log(minoArray);
-	console.log();
-	return getMovedMinos(minoArray,-originPos.x,-originPos.y);
 }
 
 function getMovedMinos(tiles: Pos[], dx: number, dy: number): Pos[] {
-	return tiles.map((tile) => ({x:tile[0]+dx,y:tile[1]+dy}))
+	return tiles.map((tile) => ({x:tile.x+dx,y:tile.y+dy}))
 }
 
-function getRotatedTetriminoShape(type,d) {
-	console.log(changeFacing(getTetriminoShape(type),d));
-	if (type=='o') {
-		return getTetriminoShape(type)
-	} else if (type=='i') {
-		const differ = [
-			[0,0],
-			[1,0],
-			[1,1],
-			[0,1]
-		]
-		return getMovedMinos(changeFacing(getTetriminoShape(type),d), differ[d][0], differ[d][1]);
+function getRotatedTetriminoShape(type: Tetrimino,d: number): Pos[] {
+	const shape: Pos[] | null = getTetriminoShape(type);
+	if (typeof shape !== null) {
+		const shape_pos: Pos[] = shape as Pos[];
+		console.log(changeFacing(shape_pos,d));
+		if (type=='o') {
+			return shape_pos;
+		} else if (type=='i') {
+			const differ = [
+				[0,0],
+				[1,0],
+				[1,1],
+				[0,1]
+			]
+			return getMovedMinos(changeFacing(shape_pos,d), differ[d][0], differ[d][1]);
+		} else {
+			return changeFacing(shape_pos,d);
+		}
 	} else {
-		return changeFacing(getTetriminoShape(type),d);
+		return []
 	}
 }
 
-function getTetrimino(type,x,y,mino: Tetrimino) {
+function getTetrimino(type: Tetrimino, x: number, y: number, mino: Tetrimino): Mino[] {
 	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
 }
 
-function getRotatedTetrimino(type,x,y,d,mino: Tetrimino) {
-	return getRotatedTetriminoShape(type,d).map((array) => [x+array[0],y+array[1],mino]);
+function getRotatedTetrimino(type: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
+	return getRotatedTetriminoShape(type,d).map((array: Pos) => ({x:x+array.x,y:y+array.y,mino:mino}));
 }
 
-function getMovedTetrimino(dx,dy) {
+function getMovedTetrimino(dx: number, dy: number): Mino[] {
 	return getTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,currentMinoType)
 }
 
-function getMovedAndRotatedTetrimino(dx,dy,sgn) {
+function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number): Mino[] {
 	return getRotatedTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,currentMinoType);
 }
 
@@ -501,7 +512,7 @@ function getMovedAndRotatedTetrimino(dx,dy,sgn) {
  * @param {number} followingFacing
  * @returns どれだけ回転させるのか[n:n回右回転]
  */
-function signOfRotation(formerFacing, followingFacing) {
+function signOfRotation(formerFacing: number, followingFacing: number): number {
 	return (((followingFacing - formerFacing) % 4) + 4) % 4;
 }
 
@@ -531,7 +542,7 @@ function changeFacing(tiles: Pos[], sgn: number): Pos[] {
 }
 
 
-function superRotation(spinDirection, callback) {
+function superRotation(spinDirection: number, callback: (b:boolean)=>void): void {
 	let i=0;
 	moveSRS(spinDirection,i,function (b) {
 		if (b) isJustNowSpin = i;
@@ -539,20 +550,30 @@ function superRotation(spinDirection, callback) {
 	})
 }
 
-function moveSRS(spinDirection,i,callback) {
+function moveSRS(spinDirection: number,i: number,callback: (b:boolean)=>void): void {
 	let dx = 0;
 	let dy = 0;
 	if (i!=0) {
-		let differ = spinRule[currentMinoType][currentMinoFacing][spinDirection][i-1];
-		dx = differ[0];
-		dy = differ[1];
+		const spinRuleTemp = spinRule.get(currentMinoType);
+		if (typeof spinRuleTemp !== 'undefined') {
+			const spinRuleTemp_defined = spinRuleTemp as Pos[][][];
+			let differ = spinRuleTemp_defined[currentMinoFacing][spinDirection][i-1];
+			dx = differ.x;
+			dy = differ.y;
+		}
 	}
 	// console.log(dx,dy);
 	let sgn = (spinDirection==0)?1:3;
 	operate(dx,dy,sgn,function(b){
 		if (!b) {
-			if(spinRule[currentMinoType][currentMinoFacing][spinDirection][i]) {
-				moveSRS(spinDirection,++i,callback)
+			const spinRuleTemp = spinRule.get(currentMinoType);
+			if (typeof spinRuleTemp !== 'undefined') {
+				const spinRuleTemp_defined = spinRuleTemp as Pos[][][];
+				if(spinRuleTemp_defined[currentMinoFacing][spinDirection][i]) {
+					moveSRS(spinDirection,++i,callback)
+				} else {
+					callback(false)
+				}
 			} else {
 				callback(false)
 			}

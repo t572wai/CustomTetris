@@ -25,12 +25,14 @@ function startToAppearMinos() {
 	console.log('start');
 	checkGenerationOfTetriminos()
 	console.log(followingMinos);
+	while(typeof followingMinos[0] === 'undefined'){
+		followingMinos.shift()
+	}
 	initMino(followingMinos[0]);
-	followingMinos.shift()
 	displayHold()
 	displayNext()
 	displayScoreArea()
-	currentMinoLockedDownCallback = function (ind) {
+	currentMinoLockedDownCallback = function (ind: number) {
 		console.log(ind);
 		withGameOver(ind,function () {
 			endTetris()
@@ -43,16 +45,16 @@ function startToAppearMinos() {
 	startFall()
 }
 
-function isGameOver(indicator) {
+function isGameOver(indicator: number): boolean {
 	// console.log(indicator);
 	return isLockOut(indicator);
 }
 
-function isLockOut(indicator) {
+function isLockOut(indicator: number): boolean {
 	return indicator<bufferHeight;
 }
 
-function withGameOver(indicator,gameoverCb,continueCb) {
+function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>void): void {
 	if (isGameOver(indicator)) {
 		gameoverCb()
 	} else {
@@ -68,12 +70,19 @@ function checkGenerationOfTetriminos() {
 
 function generateTetriminos() {
 	//ミノをランダムにソート
-	followingMinos = followingMinos.concat(shuffle([0,1,2,3,4,5,6]).map((i) => TetriminosFromNum.get(i)))
+	const nextArrayWithNumber = shuffle<number>([0,1,2,3,4,5,6]);
+	const nextArray = nextArrayWithNumber.map((i) => {
+		const tetriminoTemp = TetriminosFromNum.get(i);
+		if(typeof tetriminoTemp !== 'undefined'){
+			return tetriminoTemp as Tetrimino;
+		}
+	})
+	followingMinos = followingMinos.concat(nextArray);
 }
 
-function updateMatrixArray(tile) {
+function updateMatrixArray(mino: Mino) {
 	//console.log(tile,fieldArray[tile[1]]);
-	fieldArray[tile[1]][tile[0]] = tile[2]
+	fieldArray[mino.y][mino.x] = mino.mino;
 }
 
 function reset() {
@@ -112,7 +121,7 @@ function resetBag() {
 	canHold = true;
 }
 
-function isScoring(str) {
+function isScoring(str: Action) {
 	return !notScorings.includes(str);
 }
 
@@ -126,16 +135,22 @@ function resetScoringArray() {
 	});
 }
 
-function addScore(actionStr,rate=1) {
-	score += ScoreOfAction.get(actionStr)*rate;
-	if (isScoring(actionStr)) {
-		scoring.set(actionStr,scoring.get(actionStr)+1);
+function addScore(actionStr: Action,rate=1) {
+	const action = ScoreOfAction.get(actionStr);
+	if (typeof action !== 'undefined') {
+		score += action*rate;
+		if (isScoring(actionStr)) {
+			const scoringTemp = scoring.get(actionStr);
+			if (typeof scoringTemp !== 'undefined') {
+				scoring.set(actionStr,scoringTemp+1);
+			}
+		}
+		scoring.set('score', score);
+		displayScoreArea()
 	}
-	scoring.set('score', score);
-	displayScoreArea()
 }
 
-function checkLine(callback) {
+function checkLine(callback: ()=>void) {
 	let didClear = false;
 	let linesToClear = [];
 	for (var i = 0; i < fieldArray.length; i++) {
@@ -166,21 +181,21 @@ function checkLine(callback) {
 }
 
 
-function checkAction(currentNumOfClearedLine) {
+function checkAction(currentNumOfClearedLine: number): Action {
 	switch (currentNumOfClearedLine) {
 		case 1:
 			switch(isTSpin()) {
 				case 0:
-					return 't_single';
+					return 'tspin_single';
 				case 1:
-					return 'mini-t_single';
+					return 'mini_tspin_single';
 				default:
 					return 'single';
 			}
 		case 2:
-			return (isTSpin()==0)?'t_double':'double';
+			return (isTSpin()==0)?'tspin_double':'double';
 		case 3:
-			return (isTSpin()==0)?'t_triple':'triple';
+			return (isTSpin()==0)?'tspin_triple':'triple';
 		case 4:
 			return 'tetris';
 		default:
@@ -188,7 +203,7 @@ function checkAction(currentNumOfClearedLine) {
 				case 0:
 					return 'tspin';
 				case 1:
-					return 'mini-t';
+					return 'mini_tspin';
 				default:
 					return 'none';
 			}
@@ -234,20 +249,23 @@ function getFilledTilesAroundT_normalized(): Pos[] {
 	return changeFacing(getFilledTilesAroundT(),currentMinoFacing)
 }
 
-function afterAction(type) {
+function afterAction(type: Action) {
 	// console.log(type);
 	addScore(type,currentLevel)
 }
 
-function clearLine(i) {
+function clearLine(i: number) {
 	for (var j = i-1; j >= 0; j--) {
 		fieldArray[j+1] = cloneArray(fieldArray[j]);
 	}
-	fieldArray[0] = generateRegularlyTerrain[currentGameRule]();
+	const generateRegularlyTerrainFn = generateRegularlyTerrain.get(currentGameRule);
+	if (typeof generateRegularlyTerrainFn !== 'undefined') {
+		fieldArray[0] = generateRegularlyTerrainFn();
+	}
 	totalClearedLine++;
 }
 
-function isLineFilled(array) {
+function isLineFilled(array: Tetrimino[]) {
 	return  !array.find((e) => e == "empty");
 }
 
@@ -269,10 +287,10 @@ function clearNextQueue() {
  *
  * @param {function} fn [fn(x,y)]
  */
-function forEachMinoOnMatrix(fn) {
+function forEachMinoOnMatrix(fn: (p:Pos)=>void) {
 	for (let i = bufferHeight-1; i < fieldHeight; i++) {
 		for (let j = 0; j < fieldWidth; j++) {
-			fn(j,i)
+			fn({x:j,y:i})
 		}
 	}
 }
@@ -281,10 +299,10 @@ function forEachMinoOnMatrix(fn) {
  *
  * @param {function} fn [fn(x,y)]
  */
-function forEachMinoOnField(fn) {
+function forEachMinoOnField(fn: (p:Pos)=>void) {
 	for (let i = 0; i < fieldHeight; i++) {
 		for (let j = 0; j < fieldWidth; j++) {
-			fn(j,i)
+			fn({x:j,y:i})
 		}
 	}
 }
