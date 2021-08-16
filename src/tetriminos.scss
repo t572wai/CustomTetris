@@ -1,8 +1,12 @@
 @import 'variables';
 
 .minos {
-	width: $sizeOfMino;
-	height: $sizeOfMino;
+	@include pc {
+		@include setSize($sizeOfMino-pc, $sizeOfMino-pc);
+	}
+	@include touch {
+		@include setSize($sizeOfMino, $sizeOfMino);
+	}
 
 	border-top: 1px solid white;
 	border-left: 1px solid white;
@@ -89,10 +93,23 @@
 
 .displayers {
 	display: grid;
-	grid-template-columns: repeat(4, $sizeOfDisplayedMino);
-	grid-template-rows: repeat(2, $sizeOfDisplayedMino);
+
+	@include pc {
+		@include setGrid(repeat(4, $sizeOfDisplayedMino-pc), repeat(2, $sizeOfDisplayedMino-pc));
+	}
+	@include touch {
+		@include setGrid(repeat(4, $sizeOfDisplayedMino), repeat(2, $sizeOfDisplayedMino));
+	}
+
+	//grid-template-columns: repeat(4, $sizeOfDisplayedMino);
+	//grid-template-rows: repeat(2, $sizeOfDisplayedMino);
 }
 .displayers .minos {
-	width: $sizeOfDisplayedMino;
-	height: $sizeOfDisplayedMino;
+	@include pc {
+		@include setSize($sizeOfDisplayedMino-pc, $sizeOfDisplayedMino-pc);
+	}
+
+	@include touch {
+		@include setSize($sizeOfDisplayedMino, $sizeOfDisplayedMino);
+	}
 }

@@ -26,8 +26,14 @@ html {
 	width: auto;
 	height: auto;
 
-	grid-template-rows: 7px $sizeOfMino;
-	grid-template-columns: repeat(10, $sizeOfMino);
+	//grid-template-rows: 7px $sizeOfMino;
+	//grid-template-columns: repeat(10, $sizeOfMino);
+	@include pc {
+		@include setGrid(7px $sizeOfMino-pc, repeat(10, $sizeOfMino-pc));
+	}
+	@include touch {
+		@include setGrid(7px $sizeOfMino, repeat(10, $sizeOfMino));
+	}
 	grid-gap: 0px 0px;
 }
 

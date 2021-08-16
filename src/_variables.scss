@@ -1,15 +1,30 @@
-$sizeOfMino: 0px;
-$sizeOfDisplayedMino: 0px;
+$sizeOfMino-pc: 20px;
+$sizeOfDisplayedMino-pc: 30px;
 
-@media (pointer: fine) {
-	$sizeOfDisplayedMino: 20px;
-	$sizeOfMino: 30px;
-}
-
-@media (pointer: coarse) {
-	$sizeOfMino: 40px;
-	$sizeOfDisplayedMino: 25px;
-}
+$sizeOfMino: 40px;
+$sizeOfDisplayedMino: 25px;
 
 $color1: #f4f4f4;
 $color2: #3197ee;
+
+@mixin pc {
+	@media (pointer: fine) {
+		@content;
+	}
+}
+
+@mixin touch {
+	@media (pointer: coarse) {
+		@content;
+	}
+}
+
+@mixin setSize($w, $h) {
+	width: $w;
+	height: $h;
+}
+
+@mixin setGrid($c, $r) {
+	grid-template-columns: $c;
+	grid-template-rows: $r;
+}
