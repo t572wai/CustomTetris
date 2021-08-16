@@ -1,3 +1,4 @@
+const TouchScreenQuery = matchMedia('pointer: coarse');
 /**
  * [fieldArray description]
  * @type {Array} fieldArray[y][x]=TetriminoEnum
@@ -16,6 +17,12 @@ let scoring = new Map<string, number>();
 //
 //
 
+function hideAll() {
+	$('#gameArea').css('display', 'none');
+	$('#mainMenuArea').css('display', 'none');
+	$('#keyBindingsArea').css('display', 'none');
+}
+
 function toMainMenu(): void {
 	displayMainMenu();
 	clearField();
@@ -24,12 +31,17 @@ function toMainMenu(): void {
 	clearNextArea();
 	clearHoldQueue();
 	clearNextQueue();
-	$('#gameArea').css('display','none');
+	hideAll();
 	$('#mainMenuArea').css('display','block');
 }
 function toGame() {
+	hideAll();
 	$('#gameArea').css('display','grid');
-	$('#mainMenuArea').css('display','none');
+}
+function toKeyBindings() {
+	hideAll();
+	$('#keyBindingsArea').css('display','block');
+	displayKeyBindings()
 }
 
 function displayMainMenu(): void {
@@ -50,18 +62,93 @@ function textOfStartButton(): string {
 }
 
 function textOfOptions(): string {
-	let text = `
-						<div class="radio optionRadio">
-							<div class="radio">
-								<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
-								<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
-							</div>
-							<div class="radio">
-								<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren">
-								<label for="gameRuleRadio-practiceFor4ren" class="radio-label">4REN</label>
-							</div>
+	let text = '';
+	text += '<button id="toKeyBindings">操作設定</button>'
+	text += `
+					<div class="radio optionRadio">
+						<div class="radio">
+							<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
+							<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
 						</div>
-						`
+						<div class="radio">
+							<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren">
+							<label for="gameRuleRadio-practiceFor4ren" class="radio-label">4REN</label>
+						</div>
+					</div>
+					`
+	return text;
+}
+
+function displayKeyBindings() {
+	if (TouchScreenQuery.matches) {
+		$('#keyBindingsArea').html(textOfKeyBindingsForTouch());
+	} else {
+		$('#keyBindingsArea').html(textOfKeyBindingsForPC());
+	}
+}
+
+function textOfKeyBindingsForTouch(): string {
+	return '';
+}
+
+function textOfKeyBindingsForPC(): string {
+	let text = '';
+	text += `
+		<table>
+			<tr>
+				<th>操作</th>
+				iSHi<th>キー</th>
+			</tr>
+			<tr>
+				<td>右移動</td>
+				<td>
+					<p id='keyForRight'>
+						d
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>ソフトドロップ</td>
+				<td>
+					<p id='keyForSoftDrop'>
+						s
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>ハードドロップ</td>
+				<td>
+					<p id='keyForHardDrop'>
+						w
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>左回転</td>
+				<td>
+					<p id='keyForLeftSpin'>
+						ArrowLeft
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>右回転</td>
+				<td>
+					<p id='keyForRightSpin'>
+						ArrowRight
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>ホールド</td>
+				<td>
+					<p id='keyForHold'>
+						Shift
+					</p>
+				</td>
+			</tr>
+		</table>
+	`
 	return text;
 }
 

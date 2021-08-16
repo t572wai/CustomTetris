@@ -17,6 +17,10 @@ $(document).on('touched','#startButton', () => {
 	startTetris();
 })
 
+$(document).on('click','#toKeyBindings', () => {
+	toKeyBindings();
+})
+
 toMainMenu()
 
 // $('#startButton').off()
