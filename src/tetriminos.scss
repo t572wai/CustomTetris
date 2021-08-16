@@ -95,10 +95,14 @@
 	display: grid;
 
 	@include pc {
-		@include setGrid(repeat(4, $sizeOfDisplayedMino-pc), repeat(2, $sizeOfDisplayedMino-pc));
+		@include setGrid(
+			$c: repeat(4, $sizeOfDisplayedMino-pc),
+			$r: repeat(2, $sizeOfDisplayedMino-pc)
+		);
 	}
+
 	@include touch {
-		@include setGrid(repeat(4, $sizeOfDisplayedMino), repeat(2, $sizeOfDisplayedMino));
+		@include setGrid($c: repeat(4, $sizeOfDisplayedMino), $r: repeat(2, $sizeOfDisplayedMino));
 	}
 
 	//grid-template-columns: repeat(4, $sizeOfDisplayedMino);

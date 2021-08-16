@@ -24,7 +24,7 @@ $color2: #3197ee;
 	height: $h;
 }
 
-@mixin setGrid($c, $r) {
-	grid-template-columns: $c;
+@mixin setGrid($r, $c) {
 	grid-template-rows: $r;
+	grid-template-columns: $c;
 }
