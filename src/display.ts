@@ -89,7 +89,7 @@ function displayKeyBindings() {
 }
 
 function textOfFromKeyToMainMenu(): string {
-	return '<button id="FromKeyToMainMenu">メインメニュー</button>';
+	return '<button id="fromKeyToMainMenu">メインメニュー</button>';
 }
 
 function textOfKeyBindingsForTouch(): string {
@@ -99,7 +99,7 @@ function textOfKeyBindingsForTouch(): string {
 function textOfKeyBindingsForPC(): string {
 	let text = '';
 	text += `
-		<table>
+		<table border='1'>
 			<tr>
 				<th>操作</th>
 				<th>キー</th>
