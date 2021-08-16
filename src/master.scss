@@ -1,5 +1,5 @@
 $color1: #f4f4f4;
-$color2: #3197EE;
+$color2: #3197ee;
 
 html {
 	height: 100%;
@@ -27,8 +27,8 @@ html {
 	width: auto;
 	height: auto;
 
-	grid-template-rows: 7px var($sizeOfMino);
-	grid-template-columns: repeat(10, var($sizeOfMino));
+	grid-template-rows: 7px $sizeOfMino;
+	grid-template-columns: repeat(10, $sizeOfMino);
 	grid-gap: 0px 0px;
 }
 

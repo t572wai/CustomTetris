@@ -87,10 +87,10 @@
 
 .displayers {
 	display: grid;
-	grid-template-columns: repeat(4, var($sizeOfDisplayedMino));
-	grid-template-rows: repeat(2, var($sizeOfDisplayedMino));
+	grid-template-columns: repeat(4, $sizeOfDisplayedMino);
+	grid-template-rows: repeat(2, $sizeOfDisplayedMino);
 }
 .displayers .minos {
-	width: var($sizeOfDisplayedMino);
-	height: var($sizeOfDisplayedMino);
+	width: $sizeOfDisplayedMino;
+	height: $sizeOfDisplayedMino;
 }
