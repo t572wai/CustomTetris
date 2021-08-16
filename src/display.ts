@@ -97,7 +97,7 @@ function textOfKeyBindingsForPC(): string {
 		<table>
 			<tr>
 				<th>操作</th>
-				iSHi<th>キー</th>
+				<th>キー</th>
 			</tr>
 			<tr>
 				<td>右移動</td>
