@@ -1,6 +1,6 @@
 .minos {
-	width: var(--sizeOfMino);
-	height: var(--sizeOfMino);
+	width: var($sizeOfMino);
+	height: var($sizeOfMino);
 
 	border-top: 1px solid white;
 	border-left: 1px solid white;
@@ -87,10 +87,10 @@
 
 .displayers {
 	display: grid;
-	grid-template-columns: repeat(4, var(--sizeOfDisplayedMino));
-	grid-template-rows: repeat(2, var(--sizeOfDisplayedMino));
+	grid-template-columns: repeat(4, var($sizeOfDisplayedMino));
+	grid-template-rows: repeat(2, var($sizeOfDisplayedMino));
 }
 .displayers .minos {
-	width: var(--sizeOfDisplayedMino);
-	height: var(--sizeOfDisplayedMino);
+	width: var($sizeOfDisplayedMino);
+	height: var($sizeOfDisplayedMino);
 }

@@ -27,8 +27,8 @@ html {
 	width: auto;
 	height: auto;
 
-	grid-template-rows: 7px var(--sizeOfMino);
-	grid-template-columns: repeat(10, var(--sizeOfMino));
+	grid-template-rows: 7px var($sizeOfMino);
+	grid-template-columns: repeat(10, var($sizeOfMino));
 	grid-gap: 0px 0px;
 }
 

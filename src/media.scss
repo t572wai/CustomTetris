@@ -1,23 +1,19 @@
 @media (pointer: fine) {
-  :root {
-    --sizeOfMino: 30px;
-    --sizeOfDisplayedMino: 20px;
-  }
+	$sizeOfDisplayedMino: 20px;
+	$sizeOfMino: 30px;
 
-  #startButton {
-    width: 420px;
-    height: 100px;
-  }
+	#startButton {
+		width: 420px;
+		height: 100px;
+	}
 }
 
 @media (pointer: coarse) {
-  :root {
-    --sizeOfMino: 40px;
-    --sizeOfDisplayedMino: 25px;
-  }
+	$sizeOfMino: 40px;
+	$sizeOfDisplayedMino: 25px;
 
-  #startButton {
-    width: 400px;
-    height: 90px;
-  }
+	#startButton {
+		width: 400px;
+		height: 90px;
+	}
 }
