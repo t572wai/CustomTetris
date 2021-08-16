@@ -260,7 +260,7 @@ function displayGhost(): void {
 }
 
 function hardDrop(): void {
-	if (!currentMinoDidLockDown && !isPlayingTetris) {
+	if (!currentMinoDidLockDown && isPlayingTetris) {
 		isJustNowSpin = -1;
 		let hightOfDropping = checkGhost()
 		removeGhostMinos()
