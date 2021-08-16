@@ -80,11 +80,16 @@ function textOfOptions(): string {
 }
 
 function displayKeyBindings() {
+	$('#keyBindingsArea').html(textOfFromKeyToMainMenu());
 	if (TouchScreenQuery.matches) {
-		$('#keyBindingsArea').html(textOfKeyBindingsForTouch());
+		$('#keyBindingsArea').append(textOfKeyBindingsForTouch());
 	} else {
-		$('#keyBindingsArea').html(textOfKeyBindingsForPC());
+		$('#keyBindingsArea').append(textOfKeyBindingsForPC());
 	}
+}
+
+function textOfFromKeyToMainMenu(): string {
+	return '<button id="FromKeyToMainMenu">メインメニュー</button>';
 }
 
 function textOfKeyBindingsForTouch(): string {

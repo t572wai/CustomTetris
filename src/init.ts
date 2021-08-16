@@ -12,14 +12,21 @@ $(document).on('click','#startButton', () => {
 	initTetris();
 	startTetris()
 })
-$(document).on('touched','#startButton', () => {
-	initTetris();
-	startTetris();
-})
+//$(document).on('touched','#startButton', () => {
+//	initTetris();
+//	startTetris();
+//})
 
 $(document).on('click','#toKeyBindings', () => {
 	toKeyBindings();
 })
+
+$(document).on('click','#fromKeyToMainMenu', () => {
+	toMainMenu();
+})
+//$(document).on('touched','#fromKeyToMainMenu', () => {
+//	toMainMenu();
+//})
 
 toMainMenu()
 
