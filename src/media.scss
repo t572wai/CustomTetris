@@ -1,7 +1,6 @@
-@media (pointer: fine) {
-	$sizeOfDisplayedMino: 20px;
-	$sizeOfMino: 30px;
+@import 'variables';
 
+@media (pointer: fine) {
 	#startButton {
 		width: 420px;
 		height: 100px;
@@ -9,9 +8,6 @@
 }
 
 @media (pointer: coarse) {
-	$sizeOfMino: 40px;
-	$sizeOfDisplayedMino: 25px;
-
 	#startButton {
 		width: 400px;
 		height: 90px;

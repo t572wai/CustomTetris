@@ -1,0 +1,12 @@
+@media (pointer: fine) {
+	$sizeOfDisplayedMino: 20px;
+	$sizeOfMino: 30px;
+}
+
+@media (pointer: coarse) {
+	$sizeOfMino: 40px;
+	$sizeOfDisplayedMino: 25px;
+}
+
+$color1: #f4f4f4;
+$color2: #3197ee;
