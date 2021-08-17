@@ -10,14 +10,6 @@ function toGameRule(str: string): GameRule|undefined {
 	} else {
 		return undefined;
 	}
-	//GameRules.forEach((value) => {
-	//	console.log(value, str);
-	//	if (value == str as GameRule) {
-	//		console.log(value, str);
-	//		return value;
-	//	}
-	//})
-	//return undefined;
 }
 
 const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();

@@ -25,7 +25,7 @@ function initTetris() {
 function startToAppearMinos() {
 	console.log('start');
 	checkGenerationOfTetriminos()
-	console.log(followingMinos);
+	//console.log(followingMinos);
 	while(typeof followingMinos[0] === 'undefined'){
 		followingMinos.shift()
 	}
