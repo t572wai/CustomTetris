@@ -107,7 +107,7 @@ function textOfKeyBindingsForPC(): string {
 			<tr>
 				<td>右移動</td>
 				<td>
-					<p id='keyForRight'>
+					<p class='keyForAny' id='keyForRight'>
 						d
 					</p>
 				</td>
@@ -115,7 +115,7 @@ function textOfKeyBindingsForPC(): string {
 			<tr>
 				<td>ソフトドロップ</td>
 				<td>
-					<p id='keyForSoftDrop'>
+					<p class='keyForAny' id='keyForSoftDrop'>
 						s
 					</p>
 				</td>
@@ -123,7 +123,7 @@ function textOfKeyBindingsForPC(): string {
 			<tr>
 				<td>ハードドロップ</td>
 				<td>
-					<p id='keyForHardDrop'>
+					<p class='keyForAny' id='keyForHardDrop'>
 						w
 					</p>
 				</td>
@@ -131,7 +131,7 @@ function textOfKeyBindingsForPC(): string {
 			<tr>
 				<td>左回転</td>
 				<td>
-					<p id='keyForLeftSpin'>
+					<p class='keyForAny' id='keyForLeftRotation'>
 						ArrowLeft
 					</p>
 				</td>
@@ -139,7 +139,7 @@ function textOfKeyBindingsForPC(): string {
 			<tr>
 				<td>右回転</td>
 				<td>
-					<p id='keyForRightSpin'>
+					<p class='keyForAny' id='keyForRightRotation'>
 						ArrowRight
 					</p>
 				</td>
@@ -147,7 +147,7 @@ function textOfKeyBindingsForPC(): string {
 			<tr>
 				<td>ホールド</td>
 				<td>
-					<p id='keyForHold'>
+					<p class='keyForAny' id='keyForHold'>
 						Shift
 					</p>
 				</td>
