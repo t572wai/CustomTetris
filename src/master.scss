@@ -27,15 +27,20 @@ html {
 	width: auto;
 	height: auto;
 
-	padding-bottom: 1fr;
+	@include pc {
+		padding-bottom: calc(100% - $heightOfMatrix * $sizeOfMino-pc - $sizeOfTopMino-pc);
+	}
+	@include touch {
+		padding-bottom: calc(100% - $heightOfMatrix * $sizeOfMino - $sizeOfTopMino);
+	}
 
 	//grid-template-rows: 7px $sizeOfMino;
 	//grid-template-columns: repeat(10, $sizeOfMino);
 	@include pc {
-		@include setGrid(7px $sizeOfMino-pc, repeat(10, $sizeOfMino-pc));
+		@include setGrid($sizeOfTopMino-pc $sizeOfMino-pc, repeat(10, $sizeOfMino-pc));
 	}
 	@include touch {
-		@include setGrid(7px $sizeOfMino, repeat(10, $sizeOfMino));
+		@include setGrid($sizeOfTopMino $sizeOfMino, repeat(10, $sizeOfMino));
 	}
 	grid-gap: 0px 0px;
 }
