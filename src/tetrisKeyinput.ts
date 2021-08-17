@@ -71,7 +71,7 @@ addRightRotationActions('ArrowRight');
 addHoldActions('Shift');
 
 $(document).on('click', '.keyForAny', {"self": $(this)},(e1) => {
-	const type_pre = e1.data.self.attr('id');
+	const type_pre = $(e1.currentTarget).attr('id');
 	console.log(e1,type_pre);
 	if (typeof type_pre === 'string') {
 		const type = type_pre.slice(6)
