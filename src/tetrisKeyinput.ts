@@ -5,6 +5,8 @@ type Operate = typeof Operations[number];
 
 let keyBinding = new Map<Operate, string>();
 
+document.oncontextmenu = function () {return false;}
+
 function addRightKeyActions(key: string): void {
 	addKeyActions(key, onRight, () => {}, onRight, () => {}, 300, 50);
 	keyBinding.set('right', key);
