@@ -1,7 +1,7 @@
 @import 'variables';
 
 html {
-	//height: 100%;
+	height: 100%;
 	touch-action: manipulation;
 }
 #gameArea {
@@ -94,8 +94,8 @@ html {
 	grid-column: 1 / 4;
 
 	display: grid;
-	grid-template-rows: repeat(4, 80px);
-	grid-template-columns: 1fr repeat(3, 180px) 1fr;
+	grid-template-rows: repeat(4, 40px);
+	grid-template-columns: 1fr repeat(3, 100px) 1fr;
 
 	grid-row-gap: 10px 10px 20px;
 	grid-column-gap: 10px;
@@ -166,7 +166,7 @@ button {
 		@include setSize(auto, 60px);
 	}
 	@include touch {
-		@include setSize(auto, 80px);
+		@include setSize(auto, 40px);
 
 		padding: 10px;
 
