@@ -1,4 +1,4 @@
-const TouchScreenQuery = window.matchMedia('pointer: coarse');
+const TouchScreenQuery = window.matchMedia('(pointer: coarse)');
 /**
  * [fieldArray description]
  * @type {Array} fieldArray[y][x]=TetriminoEnum
