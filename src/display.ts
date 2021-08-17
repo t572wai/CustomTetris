@@ -90,7 +90,7 @@ function displayKeyBindings() {
 
 		for (const operation of Operations) {
 			console.log(operation, keyBinding.get(operation));
-			$('#keyFor'+operation).text(keyBinding.get(operation)!);
+			$('#keyFor'+toUpperFirstLetter(operation)).text(keyBinding.get(operation)!);
 		}
 	}
 }
