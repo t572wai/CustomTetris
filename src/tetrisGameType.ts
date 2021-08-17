@@ -5,14 +5,19 @@ const GameRules = ['normal', 'practiceFor4ren'] as const;
 type GameRule = typeof GameRules[number];
 
 function toGameRule(str: string): GameRule|undefined {
-	GameRules.forEach((value) => {
-		console.log(value, str);
-		if (value == str as GameRule) {
-			console.log(value, str);
-			return value;
-		}
-	})
-	return undefined;
+	if (GameRules.includes(str as GameRule)) {
+		return str as GameRule;
+	} else {
+		return undefined;
+	}
+	//GameRules.forEach((value) => {
+	//	console.log(value, str);
+	//	if (value == str as GameRule) {
+	//		console.log(value, str);
+	//		return value;
+	//	}
+	//})
+	//return undefined;
 }
 
 const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
