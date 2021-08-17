@@ -9,9 +9,9 @@ function startTetris() {
 function initTetris() {
 	const value = $('input[name=gameRule]:checked').val();
 	console.log(value);
-	if (typeof value == 'string') {
-		const value_str:string = value;
-		const gameRuleFromGameRuleInput = toGameRule(value_str);
+	if (typeof value === 'string') {
+		const gameRuleFromGameRuleInput = toGameRule(value);
+		console.log(gameRuleFromGameRuleInput);
 		if (typeof gameRuleFromGameRuleInput !== 'undefined') {
 			currentGameRule = gameRuleFromGameRuleInput;
 		} else {
