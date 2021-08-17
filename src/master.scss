@@ -135,11 +135,11 @@ body {
 	}
 	&[data-operate='rightRotation'] {
 		grid-row: 4;
-		grid-column: 3;
+		grid-column: 4;
 	}
 	&[data-operate='hold'] {
 		grid-row: 4;
-		grid-column: 4;
+		grid-column: 3;
 	}
 }
 
