@@ -1,6 +1,9 @@
 let dv2Border = 5;
 
-let keyBinding = new Map<string, string>();
+const Operations = ['left','right','hardDrop','softDrop','leftRotation','rightRotation','hold'] as const;
+type Operate = typeof Operations[number];
+
+let keyBinding = new Map<Operate, string>();
 
 function addRightKeyActions(key: string): void {
 	addKeyActions(key, onRight, () => {}, onRight, () => {}, 300, 50);
@@ -57,6 +60,9 @@ function addKeyBinding(type:string, key:string) {
 		case 'rightRotation':
 			addRightRotationActions(key);
 			break;
+		case 'hold':
+			addHoldActions(key);
+			break;
 		default:
 			break;
 	}
@@ -70,12 +76,20 @@ addLeftRotationActions('ArrowLeft');
 addRightRotationActions('ArrowRight');
 addHoldActions('Shift');
 
-$(document).on('click', '.keyForAny', {"self": $(this)},(e1) => {
+function toOperate(str: string): Operate|undefined {
+	if (Operations.includes(str as Operate)) {
+		return str as Operate;
+	} else {
+		return undefined;
+	}
+}
+
+$(document).on('click', '.keyForAny', (e1) => {
 	const type_pre = $(e1.currentTarget).attr('id');
 	//console.log(e1,type_pre);
 	if (typeof type_pre === 'string') {
 		const type = type_pre.slice(6)
-		const formerKey = keyBinding.get(type);
+		const formerKey = keyBinding.get(toOperate(type)!);
 		if (typeof formerKey !== 'undefined') {
 			removeKeyActions(formerKey);
 		}
