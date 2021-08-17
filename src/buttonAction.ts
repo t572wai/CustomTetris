@@ -4,6 +4,7 @@ let pressDidLongpressed = new Map<string, boolean>();
 
 function setButtonActions(obj: string, waitSec: number, intervalSec: number) {
 	let target = $(obj);
+	console.log(obj,target);
 	target.on('mousedown touchstart' , function (e) {
 		target.trigger('pressstart');
 		pressDidLongpressed.set(obj, false);
