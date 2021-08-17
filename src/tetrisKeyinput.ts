@@ -88,8 +88,9 @@ $(document).on('click', '.keyForAny', (e1) => {
 	const type_pre = $(e1.currentTarget).attr('id');
 	//console.log(e1,type_pre);
 	if (typeof type_pre === 'string') {
-		const type = type_pre.slice(6)
-		const formerKey = keyBinding.get(toOperate(type)!);
+		const type = type_pre.slice(6);
+		const type_lower = type.toLowerCase();
+		const formerKey = keyBinding.get(toOperate(type_lower)!);
 		if (typeof formerKey !== 'undefined') {
 			removeKeyActions(formerKey);
 		}
@@ -99,7 +100,7 @@ $(document).on('click', '.keyForAny', (e1) => {
 			$(document).off('.onClickKeyForAny');
 			if (typeof currentKey === 'string') {
 				//console.log(type,currentKey);
-				addKeyBinding(type, currentKey);
+				addKeyBinding(type_lower, currentKey);
 				$('#keyFor'+type).text(currentKey);
 			}
 		})
