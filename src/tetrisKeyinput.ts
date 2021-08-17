@@ -70,8 +70,9 @@ addLeftRotationActions('ArrowLeft');
 addRightRotationActions('ArrowRight');
 addHoldActions('Shift');
 
-$(document).on('click', '.keyForAny', {value: this},($this) => {
-	const type_pre = $($this).attr('id');
+$(document).on('click', '.keyForAny', {"self": this},(e_p) => {
+	const type_pre = $(e_p.data.self).attr('id');
+	console.log(type_pre);
 	if (typeof type_pre === 'string') {
 		const type = type_pre.slice(6)
 		const formerKey = keyBinding.get(type);
