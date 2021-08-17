@@ -4,7 +4,7 @@ type GameRuleClass = typeof GameRuleClasses[number];
 const GameRules = ['normal', 'practiceFor4ren'] as const;
 type GameRule = typeof GameRules[number];
 
-function toGameRule(str: string): GameRule|null {
+function toGameRule(str: string): GameRule|undefined {
 	GameRules.forEach((value) => {
 		console.log(value, str);
 		if (value == str) {
@@ -12,7 +12,7 @@ function toGameRule(str: string): GameRule|null {
 			return value;
 		}
 	})
-	return null;
+	return undefined;
 }
 
 const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
