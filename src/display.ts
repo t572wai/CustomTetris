@@ -56,7 +56,7 @@ function displayStartButton(): void {
 function displayOptions(): void {
 	$('#optionsArea').html(textOfOptions());
 
-	$('#gameRuleRadio input[value='+currentGameRule+']').prop('checked', true);
+	//$('#gameRuleRadio input[value='+currentGameRule+']').prop('checked', true);
 }
 
 function textOfStartButton(): string {
