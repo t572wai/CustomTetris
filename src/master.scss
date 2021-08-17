@@ -122,6 +122,18 @@ button {
 	background-color: $baseColor;
 
 	padding: 1px 6px;
+
+	@include pc {
+		@include setSize(auto, 60px);
+	}
+	@include touch {
+		@include setSize(auto, 80px);
+
+		padding: 10px;
+
+		margin-top: 25px;
+		margin-bottom: 25px;
+	}
 }
 button:hover {
 	border-color: $accentColor;
