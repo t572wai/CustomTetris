@@ -8,6 +8,7 @@ function startTetris() {
 
 function initTetris() {
 	const value = $('input[name=gameRule]').val();
+	console.log(value);
 	if (typeof value == 'string') {
 		const value_str:string = value;
 		const gameRuleFromGameRuleInput = toGameRule(value_str);
