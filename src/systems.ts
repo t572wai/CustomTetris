@@ -12,7 +12,7 @@ function initTetris() {
 	if (typeof value == 'string') {
 		const value_str:string = value;
 		const gameRuleFromGameRuleInput = toGameRule(value_str);
-		if (gameRuleFromGameRuleInput) {
+		if (typeof gameRuleFromGameRuleInput !== 'undefined') {
 			currentGameRule = gameRuleFromGameRuleInput;
 		} else {
 			currentGameRule = 'normal';
