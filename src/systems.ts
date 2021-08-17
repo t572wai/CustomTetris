@@ -286,7 +286,9 @@ function isLineFilled(array: Tetrimino[]) {
 function endTetris() {
 	console.log('end tetris');
 	isPlayingTetris = false;
-	swiper.destructor()
+	if (typeof swiper !== 'undefined') {
+		swiper.destructor()
+	}
 }
 
 function clearHoldQueue() {
