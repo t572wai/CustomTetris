@@ -124,7 +124,9 @@ $(document).on('click touched', '.buttonsToOperate', (e) => {
 	if (typeof data_operate === 'string') {
 		const currentOperate = toOperate(data_operate)!;
 		console.log(currentOperate);
-		switchOperate(currentOperate);
+		if (currentOperate!='left' && currentOperate!='right' && currentOperate!='softDrop') {
+			switchOperate(currentOperate);
+		}
 	}
 })
 
