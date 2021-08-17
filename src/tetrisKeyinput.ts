@@ -130,6 +130,8 @@ $(document).on('click touched', '.buttonsToOperate', (e) => {
 
 setButtonActions('.buttonsToOperate[data-operate="left"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="right"]', 300, 50);
+setButtonActions('.buttonsToOperate[data-operate="softDrop"]');
+
 $(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
 	console.log('longpress left');
 	onLeft()
@@ -137,6 +139,12 @@ $(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
 $(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
 	console.log('longpress right');
 	onRight()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="right"]', (e) => {
+	onSoftDrop(true);
+})
+	$(document).on('pressend', '.buttonsToOperate[data-operate="right"]', (e) => {
+	onSoftDrop(false);
 })
 
 function switchOperate(type:Operate, b?: boolean): void {
