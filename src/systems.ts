@@ -8,16 +8,15 @@ function startTetris() {
 
 function initTetris() {
 	const value = $('input[name=gameRule]:checked').val();
-	console.log(value);
+	//console.log(value);
 	if (typeof value === 'string') {
 		const gameRuleFromGameRuleInput = toGameRule(value);
-		console.log(gameRuleFromGameRuleInput);
+		//console.log(gameRuleFromGameRuleInput);
 		if (typeof gameRuleFromGameRuleInput !== 'undefined') {
 			currentGameRule = gameRuleFromGameRuleInput;
 		} else {
 			currentGameRule = 'normal';
 		}
-		currentGameRule = value as GameRule;
 	}
 	toGame()
 }
