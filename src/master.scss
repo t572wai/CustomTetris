@@ -93,8 +93,8 @@ html {
 	grid-column: 1 / 4;
 
 	display: grid;
-	grid-template-rows: min-content min-content min-content min-content;
-	grid-template-columns: min-content min-content min-content;
+	grid-template-rows: repeat(4, 80px);
+	grid-template-columns: repeat(3, 80px);
 }
 
 .buttonsToOperate {
