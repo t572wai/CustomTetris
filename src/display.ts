@@ -98,11 +98,11 @@ function textOfKeyBindingsForTouch(): string {
 		<div class="optionRadio">
 			<div class="radio">
 				<input type="radio" name="methodOfOperationForTouch" value="swipe" id="methodForTouch-swipe" checked>
-				<label for="methodForTouch-swipe">スワイプ</label>
+				<label for="methodForTouch-swipe" class="radio-label">スワイプ</label>
 			</div>
 			<div class="radio">
-				<input type="radio" name="methodOfOperationForTouch" value="button" id="methodForTouch-button" checked>
-				<label for="methodForTouch-button">ボタン</label>
+				<input type="radio" name="methodOfOperationForTouch" value="button" id="methodForTouch-button">
+				<label for="methodForTouch-button" class="radio-label">ボタン</label>
 			</div>
 		</div>
 	`
