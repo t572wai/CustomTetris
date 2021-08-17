@@ -17,6 +17,7 @@ function initTetris() {
 		} else {
 			currentGameRule = 'normal';
 		}
+		currentGameRule = value as GameRule;
 	}
 	toGame()
 }
