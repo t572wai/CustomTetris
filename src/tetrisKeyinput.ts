@@ -169,7 +169,7 @@ $(document).on('pressstart', '.buttonsToOperate[data-operate="hardDrop"]', (e) =
 $(document).on('pressstart', '.buttonsToOperate[data-operate="leftRotation"]', (e) => {
 	onLeftRotation()
 })
-$(document).on('pressstart', '.buttonsToOperate[data-operate="RightRotation"]', (e) => {
+$(document).on('pressstart', '.buttonsToOperate[data-operate="rightRotation"]', (e) => {
 	onRightRotation()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="hold"]', (e) => {
