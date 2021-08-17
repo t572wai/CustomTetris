@@ -72,7 +72,7 @@ addHoldActions('Shift');
 
 $(document).on('click', '.keyForAny', {"self": $(this)},(e1) => {
 	const type_pre = e1.data.self.attr('id');
-	console.log(e1.data.self,type_pre);
+	console.log(e1,type_pre);
 	if (typeof type_pre === 'string') {
 		const type = type_pre.slice(6)
 		const formerKey = keyBinding.get(type);
