@@ -65,7 +65,7 @@ function textOfOptions(): string {
 	let text = '';
 	text += '<button id="toKeyBindings">操作設定</button>'
 	text += `
-					<div class="radio optionRadio">
+					<div class="optionRadio">
 						<div class="radio">
 							<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
 							<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
@@ -93,7 +93,20 @@ function textOfFromKeyToMainMenu(): string {
 }
 
 function textOfKeyBindingsForTouch(): string {
-	return '';
+	let text = '';
+	text += `
+		<div class="optionRadio">
+			<div class="radio">
+				<input type="radio" name="methodOfOperationForTouch" value="swipe" id="methodForTouch-swipe" checked>
+				<label for="methodForTouch-swipe">スワイプ</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="methodOfOperationForTouch" value="button" id="methodForTouch-button" checked>
+				<label for="methodForTouch-button">ボタン</label>
+			</div>
+		</div>
+	`
+	return text;
 }
 
 function textOfKeyBindingsForPC(): string {
