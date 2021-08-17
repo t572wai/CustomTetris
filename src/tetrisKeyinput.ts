@@ -102,7 +102,7 @@ $(document).on('click', '.keyForAny', (e1) => {
 				//console.log(type,currentKey);
 				const thisKeybinding = keyBinding.get(toOperate(type_lower)!)!;
 				for (const iterator of keyBinding.entries()) {
-					if (iterator[1]==type_lower as Operate) {
+					if (iterator[1]==currentKey) {
 						keyBinding.set(iterator[0], thisKeybinding);
 					}
 				}
