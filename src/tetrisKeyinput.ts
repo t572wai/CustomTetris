@@ -81,6 +81,7 @@ $(document).on('click', '.keyForAny', {value: this},($this) => {
 		$(document).on('keydown', (e) => {
 			const currentKey = e.key;
 			$(document).off('keydown');
+			console.log(type,currentKey);
 			addKeyBinding(type, currentKey);
 			$('#keyFor'+type).text(currentKey);
 		})
