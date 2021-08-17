@@ -7,10 +7,12 @@ function setButtonActions(obj: string, waitSec: number, intervalSec: number) {
 	target.on('mousedown touchstart' , function (e) {
 		target.trigger('pressstart');
 		pressDidLongpressed.set(obj, false);
+		console.log('pressstart');
 		pressTimer.set(obj, setTimeout(function () {
 			target.trigger('longpress');
 			pressDidLongpressed.set(obj, true);
 			pressInterval.set(obj, setInterval(function () {
+				console.log('longpress');
 				target.trigger('longpress')
 			}, intervalSec))
 		}, waitSec))
