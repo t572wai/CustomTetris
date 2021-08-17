@@ -122,20 +122,24 @@ $(document).on('click', '.keyForAny', (e1) => {
 	}
 })
 
-$(document).on('click touched', '.buttonsToOperate', (e) => {
-	const data_operate = $(e.currentTarget).data('operate');
-	if (typeof data_operate === 'string') {
-		const currentOperate = toOperate(data_operate)!;
-		console.log(currentOperate);
-		if (currentOperate!='left' && currentOperate!='right' && currentOperate!='softDrop') {
-			switchOperate(currentOperate);
-		}
-	}
-})
+//$(document).on('click touched', '.buttonsToOperate', (e) => {
+//	const data_operate = $(e.currentTarget).data('operate');
+//	if (typeof data_operate === 'string') {
+//		const currentOperate = toOperate(data_operate)!;
+//		console.log(currentOperate);
+//		if (currentOperate!='left' && currentOperate!='right' && currentOperate!='softDrop') {
+//			switchOperate(currentOperate);
+//		}
+//	}
+//})
 
 setButtonActions('.buttonsToOperate[data-operate="left"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="right"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="softDrop"]');
+setButtonActions('.buttonsToOperate[data-operate="hardDrop"]');
+setButtonActions('.buttonsToOperate[data-operate="leftRotation"]');
+setButtonActions('.buttonsToOperate[data-operate="rightRotation"]');
+setButtonActions('.buttonsToOperate[data-operate="hold"]');
 
 $(document).on('pressstart', '.buttonsToOperate[data-operate="left"]', (e) => {
 	//console.log('pressstart');
@@ -156,8 +160,20 @@ $(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
 $(document).on('pressstart', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
 	onSoftDrop(true);
 })
-	$(document).on('pressend', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
+$(document).on('pressend', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
 	onSoftDrop(false);
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="hardDrop"]', (e) => {
+	onHardDrop()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="leftRotation"]', (e) => {
+	onLeftRotation()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="RightRotation"]', (e) => {
+	onRightRotation()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="hold"]', (e) => {
+	onHold()
 })
 
 function switchOperate(type:Operate, b?: boolean): void {
