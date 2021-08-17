@@ -2,7 +2,7 @@ let pressTimer = new Map<string, NodeJS.Timer>();
 let pressInterval = new Map<string, NodeJS.Timer>();
 let pressDidLongpressed = new Map<string, boolean>();
 
-function setButtonActions(obj: string, waitSec: number, intervalSec: number) {
+function setButtonActions(obj: string, waitSec: number = 300, intervalSec: number = 50) {
 	let target = $(obj);
 	//console.log(obj,target);
 	$(document).on('mousedown touchstart', obj, (e) => {
