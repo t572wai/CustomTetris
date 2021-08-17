@@ -48,5 +48,5 @@ function includesArray<T>(array: T[], elem: T): boolean {
 }
 
 function toUpperFirstLetter(str: string): string {
-  return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+  return str.charAt(0).toUpperCase() + str.substring(1);
 }

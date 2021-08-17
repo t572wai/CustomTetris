@@ -105,6 +105,7 @@ $(document).on('click', '.keyForAny', (e1) => {
 					//console.log(iterator[1],currentKey,thisKeybinding);
 					if (iterator[1]==currentKey) {
 						console.log(iterator[0],'#keyFor'+toUpperFirstLetter(iterator[0]));
+						removeKeyActions(currentKey);
 						addKeyBinding(iterator[0], thisKeybinding);
 						$('#keyFor'+toUpperFirstLetter(iterator[0])).text(thisKeybinding);
 					}
