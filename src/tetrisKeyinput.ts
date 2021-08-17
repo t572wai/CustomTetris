@@ -121,6 +121,7 @@ $(document).on('click', '.buttonsToOperate', (e1) => {
 	const data_operate = $(e1.currentTarget).data('operate');
 	if (typeof data_operate === 'string') {
 		const currentOperate = toOperate(data_operate)!;
+		console.log(currentOperate);
 		switchOperate(currentOperate);
 	}
 })
