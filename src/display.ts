@@ -265,13 +265,13 @@ function displayButtonsToOperate(): void {
 function textOfButtonsToOperate(): string {
 	let text = '';
 	text += `
-		<button class='buttonsToOperate' data-operate='left'>Left</button>
-		<button class='buttonsToOperate' data-operate='right'>Right</button>
-		<button class='buttonsToOperate' data-operate='softDrop'>SoftDrop</button>
-		<button class='buttonsToOperate' data-operate='hardDrop'>HardDrop</button>
-		<button class='buttonsToOperate' data-operate='leftRotation'>LeftRotation</button>
-		<button class='buttonsToOperate' data-operate='rightRotation'>RightRotation</button>
-		<button class='buttonsToOperate' data-operate='hold'>Hold</button>
+		<button class='buttonsToOperate' data-operate='left'>左</button>
+		<button class='buttonsToOperate' data-operate='right'>右</button>
+		<button class='buttonsToOperate' data-operate='softDrop'>ソフトドロップ</button>
+		<button class='buttonsToOperate' data-operate='hardDrop'>ハードドロップ</button>
+		<button class='buttonsToOperate' data-operate='leftRotation'>左回転</button>
+		<button class='buttonsToOperate' data-operate='rightRotation'>右回転</button>
+		<button class='buttonsToOperate' data-operate='hold'>ホールド</button>
 	`;
 	return text;
 }
