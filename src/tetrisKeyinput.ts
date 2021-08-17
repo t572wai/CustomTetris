@@ -140,10 +140,10 @@ $(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
 	console.log('longpress right');
 	onRight()
 })
-$(document).on('pressstart', '.buttonsToOperate[data-operate="right"]', (e) => {
+$(document).on('pressstart', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
 	onSoftDrop(true);
 })
-	$(document).on('pressend', '.buttonsToOperate[data-operate="right"]', (e) => {
+	$(document).on('pressend', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
 	onSoftDrop(false);
 })
 
