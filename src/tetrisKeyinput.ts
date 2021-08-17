@@ -79,6 +79,7 @@ $(document).on('click', '.keyForAny', {"self": $(this)},(e1) => {
 		if (typeof formerKey !== 'undefined') {
 			removeKeyActions(formerKey);
 		}
+		$(document).off('.onClickKeyForAny');
 		$(document).on('keydown.onClickKeyForAny', (e) => {
 			const currentKey = e.key;
 			$(document).off('.onClickKeyForAny');
