@@ -27,6 +27,8 @@ html {
 	width: auto;
 	height: auto;
 
+	padding-bottom: 1fr;
+
 	//grid-template-rows: 7px $sizeOfMino;
 	//grid-template-columns: repeat(10, $sizeOfMino);
 	@include pc {
