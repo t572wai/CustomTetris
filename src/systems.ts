@@ -7,7 +7,7 @@ function startTetris() {
 }
 
 function initTetris() {
-	const value = $('input[name=gameRule]:checked').val();
+	const value = $('input[name=gameRule]').val();
 	if (typeof value == 'string') {
 		const value_str:string = value;
 		const gameRuleFromGameRuleInput = toGameRule(value_str);
