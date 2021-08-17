@@ -98,31 +98,31 @@ html {
 }
 
 .buttonsToOperate {
-	[data-operate='left'] {
+	&[data-operate='left'] {
 		grid-row: 2;
 		grid-column: 1;
 	}
-	[data-operate='right'] {
+	&[data-operate='right'] {
 		grid-row: 2;
 		grid-column: 3;
 	}
-	[data-operate='softDrop'] {
+	&[data-operate='softDrop'] {
 		grid-row: 3;
 		grid-column: 2;
 	}
-	[data-operate='hardDrop'] {
+	&[data-operate='hardDrop'] {
 		grid-row: 1;
 		grid-column: 2;
 	}
-	[data-operate='leftRotation'] {
+	&[data-operate='leftRotation'] {
 		grid-row: 4;
 		grid-column: 1;
 	}
-	[data-operate='rightRotation'] {
+	&[data-operate='rightRotation'] {
 		grid-row: 4;
 		grid-column: 2;
 	}
-	[data-operate='hold'] {
+	&[data-operate='hold'] {
 		grid-row: 4;
 		grid-column: 3;
 	}
