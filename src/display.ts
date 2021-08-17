@@ -105,6 +105,14 @@ function textOfKeyBindingsForPC(): string {
 				<th>キー</th>
 			</tr>
 			<tr>
+				<td>左移動</td>
+				<td>
+					<p class='keyForAny' id='keyForLeft'>
+						a
+					</p>
+				</td>
+			</tr>
+			<tr>
 				<td>右移動</td>
 				<td>
 					<p class='keyForAny' id='keyForRight'>
