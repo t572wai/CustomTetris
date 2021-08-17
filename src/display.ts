@@ -55,6 +55,8 @@ function displayStartButton(): void {
 
 function displayOptions(): void {
 	$('#optionsArea').html(textOfOptions());
+
+	$('#gameRuleRadio input[value='+currentGameRule+']').prop('checked', true);
 }
 
 function textOfStartButton(): string {
@@ -65,8 +67,8 @@ function textOfOptions(): string {
 	let text = '';
 	text += '<button id="toKeyBindings">操作設定</button>'
 	text += `
-					<div class="optionRadio">
-						<div class="radio">
+					<div class="optionRadio" id="gameRuleRadioContainer">
+						<div class="radio" id="gameRuleRadio">
 							<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
 							<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
 						</div>
@@ -95,8 +97,8 @@ function textOfFromKeyToMainMenu(): string {
 function textOfKeyBindingsForTouch(): string {
 	let text = '';
 	text += `
-		<div class="optionRadio">
-			<div class="radio">
+		<div class="optionRadio" id="methodOfOperationForTouchRadioContainer">
+			<div class="radio" id="methodOperationForTouchRadio">
 				<input type="radio" name="methodOfOperationForTouch" value="swipe" id="methodForTouch-swipe" checked>
 				<label for="methodForTouch-swipe" class="radio-label">スワイプ</label>
 			</div>
