@@ -87,6 +87,10 @@ function displayKeyBindings() {
 		$('#keyBindingsArea').append(textOfKeyBindingsForTouch());
 	} else {
 		$('#keyBindingsArea').append(textOfKeyBindingsForPC());
+
+		for (const operation of Operations) {
+			$('#keyFor'+operation).text(keyBinding.get(operation)!);
+		}
 	}
 }
 
