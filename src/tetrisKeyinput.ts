@@ -117,6 +117,44 @@ $(document).on('click', '.keyForAny', (e1) => {
 	}
 })
 
+$(document).on('click', '.buttonsToOperate', (e1) => {
+	const data_operate = $(e1.currentTarget).data('operate');
+	if (typeof data_operate === 'string') {
+		const currentOperate = toOperate(data_operate)!;
+		switchOperate(currentOperate);
+	}
+})
+
+function switchOperate(type:Operate, b?: boolean): void {
+	switch(type) {
+		case 'left':
+			onLeft();
+			break;
+		case 'right':
+			onRight();
+			break;
+		case 'softDrop':
+			if (typeof b !== 'undefined') {
+				onSoftDrop(b);
+			}
+			break;
+		case 'hardDrop':
+			onHardDrop();
+			break;
+		case 'leftRotation':
+			onLeftRotation();
+			break;
+		case 'rightRotation':
+			onRightRotation();
+			break;
+		case 'hold':
+			onHold();
+			break;
+		default:
+			break;
+	}
+}
+
 $(document).on('swipedist', function (e, d, dv2) {
 	console.log(d);
 	switch (d) {

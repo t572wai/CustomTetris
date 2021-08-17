@@ -3,14 +3,16 @@ function startTetris() {
 	displayMatrix()
 	reset()
 	startToAppearMinos()
-	swiper = new Swiper(document, 70, 300, 50)
+	if (currentMethodOfOperationForTouch=='swipe') {
+		swiper = new Swiper(document, 70, 300, 50)
+	}
 }
 
 function initTetris() {
-	const value = $('input[name=gameRule]:checked').val();
+	const gameRule_pre = $('input[name="gameRule"]:checked').val();
 	//console.log(value);
-	if (typeof value === 'string') {
-		const gameRuleFromGameRuleInput = toGameRule(value);
+	if (typeof gameRule_pre === 'string') {
+		const gameRuleFromGameRuleInput = toGameRule(gameRule_pre);
 		//console.log(gameRuleFromGameRuleInput);
 		if (typeof gameRuleFromGameRuleInput !== 'undefined') {
 			currentGameRule = gameRuleFromGameRuleInput;
@@ -18,6 +20,13 @@ function initTetris() {
 			currentGameRule = 'normal';
 		}
 	}
+
+	const methodForTouch_pre = $('input[name="methodOfOperationForTouch"]:checked').val();
+	if (typeof methodForTouch_pre === 'string') {
+		//const methodForTouchFromInput =
+		currentMethodOfOperationForTouch = methodForTouch_pre;
+	}
+
 	toGame()
 }
 
@@ -93,6 +102,9 @@ function reset() {
 
 	clearHoldQueue();
 	clearNextQueue();
+	if (currentMethodOfOperationForTouch=='button') {
+		displayButtonsToOperate();
+	}
 	displayHold();
 	clearField();
 	resetBag();

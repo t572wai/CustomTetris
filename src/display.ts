@@ -258,6 +258,24 @@ function removeGhostMino(mino: Mino | Pos): void {
 	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
 }
 
+function displayButtonsToOperate(): void {
+	$('#buttonsToOperateArea').html(textOfButtonsToOperate);
+}
+
+function textOfButtonsToOperate(): string {
+	let text = '';
+	text += `
+		<button class='buttonsToOperate' date-operate='left'>Left</button>
+		<button class='buttonsToOperate' date-operate='right'>Right</button>
+		<button class='buttonsToOperate' date-operate='softDrop'>SoftDrop</button>
+		<button class='buttonsToOperate' date-operate='hardDrop'>HardDrop</button>
+		<button class='buttonsToOperate' date-operate='leftRotation'>LeftRotation</button>
+		<button class='buttonsToOperate' date-operate='rightRotation'>RightRotation</button>
+		<button class='buttonsToOperate' date-operate='hold'>Hold</button>
+	`;
+	return text;
+}
+
 function displayNext(): void {
 	$('#nextArea').html(textOfNext())
 }
