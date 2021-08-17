@@ -265,13 +265,13 @@ function displayButtonsToOperate(): void {
 function textOfButtonsToOperate(): string {
 	let text = '';
 	text += `
-		<button class='buttonsToOperate' date-operate='left'>Left</button>
-		<button class='buttonsToOperate' date-operate='right'>Right</button>
-		<button class='buttonsToOperate' date-operate='softDrop'>SoftDrop</button>
-		<button class='buttonsToOperate' date-operate='hardDrop'>HardDrop</button>
-		<button class='buttonsToOperate' date-operate='leftRotation'>LeftRotation</button>
-		<button class='buttonsToOperate' date-operate='rightRotation'>RightRotation</button>
-		<button class='buttonsToOperate' date-operate='hold'>Hold</button>
+		<button class='buttonsToOperate' data-operate='left'>Left</button>
+		<button class='buttonsToOperate' data-operate='right'>Right</button>
+		<button class='buttonsToOperate' data-operate='softDrop'>SoftDrop</button>
+		<button class='buttonsToOperate' data-operate='hardDrop'>HardDrop</button>
+		<button class='buttonsToOperate' data-operate='leftRotation'>LeftRotation</button>
+		<button class='buttonsToOperate' data-operate='rightRotation'>RightRotation</button>
+		<button class='buttonsToOperate' data-operate='hold'>Hold</button>
 	`;
 	return text;
 }
