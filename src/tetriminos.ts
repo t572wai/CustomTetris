@@ -383,12 +383,12 @@ function lockDown(): void {
 }
 
 function moveToLeft(callback: (b:boolean)=>void): void {
-	console.log('move to left');
+	//console.log('move to left');
 	operate(-1,0,0,callback)
 }
 
 function moveToRight(callback: (b:boolean)=>void): void {
-	console.log('move to right');
+	//console.log('move to right');
 	operate(1,0,0,callback)
 }
 
