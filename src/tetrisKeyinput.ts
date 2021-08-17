@@ -79,12 +79,14 @@ $(document).on('click', '.keyForAny', {"self": $(this)},(e1) => {
 		if (typeof formerKey !== 'undefined') {
 			removeKeyActions(formerKey);
 		}
-		$(document).on('keydown', (e) => {
+		$(document).on('keydown.onClickKeyForAny', (e) => {
 			const currentKey = e.key;
-			$(document).off('keydown');
-			console.log(type,currentKey);
-			addKeyBinding(type, currentKey);
-			$('#keyFor'+type).text(currentKey);
+			$(document).off('.onClickKeyForAny');
+			if (typeof currentKey === 'string') {
+				console.log(type,currentKey);
+				addKeyBinding(type, currentKey);
+				$('#keyFor'+type).text(currentKey);
+			}
 		})
 	}
 })
