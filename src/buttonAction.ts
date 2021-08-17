@@ -9,12 +9,12 @@ function setButtonActions(obj: string, waitSec: number = 300, intervalSec: numbe
 		//const $this: Document = this;
 		$(e.currentTarget).trigger('pressstart');
 		pressDidLongpressed.set(obj, false);
-		console.log('pressstart');
+		//console.log('pressstart');
 		pressTimer.set(obj, setTimeout(function () {
 			$(e.currentTarget).trigger('longpress');
 			pressDidLongpressed.set(obj, true);
 			pressInterval.set(obj, setInterval(function () {
-				console.log('longpress');
+				//console.log('longpress');
 				$(e.currentTarget).trigger('longpress')
 			}, intervalSec))
 		}, waitSec))

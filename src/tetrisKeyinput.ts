@@ -132,12 +132,16 @@ setButtonActions('.buttonsToOperate[data-operate="left"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="right"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="softDrop"]');
 
-$(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
-	console.log('longpress left');
+$(document).on('pressstart', '.buttonsToOperate[data-operate="left"]', (e) => {
 	onLeft()
 })
+$(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
+	onLeft()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="right"]', (e) => {
+	onRight()
+})
 $(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
-	console.log('longpress right');
 	onRight()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
