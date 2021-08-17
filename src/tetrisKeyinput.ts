@@ -100,6 +100,12 @@ $(document).on('click', '.keyForAny', (e1) => {
 			$(document).off('.onClickKeyForAny');
 			if (typeof currentKey === 'string') {
 				//console.log(type,currentKey);
+				const thisKeybinding = keyBinding.get(toOperate(type_lower)!)!;
+				for (const iterator of keyBinding.entries()) {
+					if (iterator[1]==type_lower as Operate) {
+						keyBinding.set(iterator[0], thisKeybinding);
+					}
+				}
 				addKeyBinding(type_lower, currentKey);
 				$('#keyFor'+type).text(currentKey);
 			}
