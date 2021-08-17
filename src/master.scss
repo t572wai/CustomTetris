@@ -37,10 +37,16 @@ html {
 	//grid-template-rows: 7px $sizeOfMino;
 	//grid-template-columns: repeat(10, $sizeOfMino);
 	@include pc {
-		@include setGrid($sizeOfTopMino-pc $sizeOfMino-pc 1fr, repeat(10, $sizeOfMino-pc));
+		@include setGrid(
+			$sizeOfTopMino-pc repeat($heightOfMatrix, $sizeOfMino-pc) 1fr,
+			repeat($widthOfMatrix, $sizeOfMino-pc)
+		);
 	}
 	@include touch {
-		@include setGrid($sizeOfTopMino $sizeOfMino 1fr, repeat(10, $sizeOfMino));
+		@include setGrid(
+			$sizeOfTopMino repeat($heightOfMatrix, $sizeOfMino) 1fr,
+			repeat($widthOfMatrix, $sizeOfMino)
+		);
 	}
 	grid-gap: 0px 0px;
 }
