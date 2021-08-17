@@ -93,8 +93,8 @@ html {
 	grid-column: 1 / 4;
 
 	display: grid;
-	grid-template-rows: 4;
-	grid-template-columns: 3;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .buttonsToOperate {
