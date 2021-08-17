@@ -130,11 +130,11 @@ $(document).on('click touched', '.buttonsToOperate', (e) => {
 
 setButtonActions('.buttonsToOperate[data-operate="left"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="right"]', 300, 50);
-$(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
+$(document).on('myLongpress', '.buttonsToOperate[data-operate="left"]', (e) => {
 	console.log('longpress left');
 	onLeft()
 })
-$(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
+$(document).on('myLongpress', '.buttonsToOperate[data-operate="right"]', (e) => {
 	console.log('longpress right');
 	onRight()
 })
