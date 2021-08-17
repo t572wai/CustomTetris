@@ -7,7 +7,7 @@ type GameRule = typeof GameRules[number];
 function toGameRule(str: string): GameRule|undefined {
 	GameRules.forEach((value) => {
 		console.log(value, str);
-		if (value == str) {
+		if (value == str as GameRule) {
 			console.log(value, str);
 			return value;
 		}
