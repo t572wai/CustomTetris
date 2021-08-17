@@ -102,6 +102,7 @@ $(document).on('click', '.keyForAny', (e1) => {
 				//console.log(type,currentKey);
 				const thisKeybinding = keyBinding.get(toOperate(type_lower)!)!;
 				for (const iterator of keyBinding.entries()) {
+					console.log(iterator[1],currentKey);
 					if (iterator[1]==currentKey) {
 						keyBinding.set(iterator[0], thisKeybinding);
 						$('#keyFor'+toUpperFirstLetter(iterator[0])).text(thisKeybinding);
