@@ -22,7 +22,7 @@ $(document).on('click','#toKeyBindings', () => {
 })
 
 $(document).on('click','#fromKeyToMainMenu', () => {
-	$(document).off('click', '.keyForAny');
+	$(document).off('.onClickKeyForAny');
 	toMainMenu();
 })
 //$(document).on('touched','#fromKeyToMainMenu', () => {
