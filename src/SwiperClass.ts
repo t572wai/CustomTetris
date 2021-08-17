@@ -30,6 +30,7 @@ class Swiper {
 		this.isSwiping = false;
 
 		this.onTouchstartAction = function (e) {
+				console.log('aaa');
 				e.preventDefault();
 				this.startX = e.touches[0].pageX;
 				this.startY = e.touches[0].pageY;
@@ -41,13 +42,14 @@ class Swiper {
 				this.isSwiping = false;
 			}
 
-		this.onTouchmoveAction = function (e) {
-					e.preventDefault();
+			this.onTouchmoveAction = function (e) {
+			console.log('aaa');
+			e.preventDefault();
 
-					const formerDirection = this.getDirection()
+			const formerDirection = this.getDirection()
 
-					this.moveX = e.touches[0].pageX;
-					this.moveY = e.touches[0].pageY;
+			this.moveX = e.touches[0].pageX;
+			this.moveY = e.touches[0].pageY;
 					this.moveT = Date.now();
 
 					this.currentDeltaX = this.moveX - this.startX;
@@ -80,8 +82,9 @@ class Swiper {
 					}
 				}
 
-		this.onTouchendAction = function (e) {
-			// console.log(this.moveX,this.getDistance2);
+				this.onTouchendAction = function (e) {
+					console.log('aaa');
+					// console.log(this.moveX,this.getDistance2);
 					if (this.isSwiping) {
 						console.log('%cswipeend','color:yellow');
 						this.target.trigger('swipeend', [this.currentDirection, this.currentVelocity2])
