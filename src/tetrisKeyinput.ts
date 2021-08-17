@@ -70,9 +70,9 @@ addLeftRotationActions('ArrowLeft');
 addRightRotationActions('ArrowRight');
 addHoldActions('Shift');
 
-$(document).on('click', '.keyForAny', {"self": this},(e1) => {
-	const type_pre = $(e1.data.self).attr('id');
-	console.log($(e1.data.self),type_pre);
+$(document).on('click', '.keyForAny', {"self": $(this)},(e1) => {
+	const type_pre = e1.data.self.attr('id');
+	console.log(e1.data.self,type_pre);
 	if (typeof type_pre === 'string') {
 		const type = type_pre.slice(6)
 		const formerKey = keyBinding.get(type);
@@ -89,7 +89,7 @@ $(document).on('click', '.keyForAny', {"self": this},(e1) => {
 	}
 })
 
-$(this).on('swipedist', function (e, d, dv2) {
+$(document).on('swipedist', function (e, d, dv2) {
 	console.log(d);
 	switch (d) {
 		case 'left':
@@ -101,7 +101,7 @@ $(this).on('swipedist', function (e, d, dv2) {
 	}
 })
 
-$(this).on('swipestart', function (e, d, dv2) {
+$(document).on('swipestart', function (e, d, dv2) {
 	switch (d) {
 		case 'up':
 			onHold()
@@ -109,7 +109,7 @@ $(this).on('swipestart', function (e, d, dv2) {
 	}
 })
 
-$(this).on('longswipe', function (e, d, dv2) {
+$(document).on('longswipe', function (e, d, dv2) {
 	//console.log(redLog + dv2 + resetLogColor);
 	// console.log(greenLog + d + resetLogColor);
 	if (d != "down") {
@@ -125,7 +125,7 @@ $(this).on('longswipe', function (e, d, dv2) {
 	}
 })
 
-$(this).on('swipeend', function (e, d, dv2) {
+$(document).on('swipeend', function (e, d, dv2) {
 	//console.log(redLog + dv2 + resetLogColor);
 	onSoftDrop(false)
 	switch (d) {
@@ -140,7 +140,7 @@ $(this).on('swipeend', function (e, d, dv2) {
 	}
 })
 
-$(this).on('touched', function (e, x, y) {
+$(document).on('touched', function (e, x, y) {
 	console.log(x,y);
 	if (x>300) {
 		onRightRotation()
