@@ -89,6 +89,7 @@ function displayKeyBindings() {
 		$('#keyBindingsArea').append(textOfKeyBindingsForPC());
 
 		for (const operation of Operations) {
+			console.log(operation, keyBinding.get(operation));
 			$('#keyFor'+operation).text(keyBinding.get(operation)!);
 		}
 	}
