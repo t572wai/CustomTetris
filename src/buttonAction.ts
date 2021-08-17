@@ -5,24 +5,25 @@ let pressDidLongpressed = new Map<string, boolean>();
 function setButtonActions(obj: string, waitSec: number, intervalSec: number) {
 	let target = $(obj);
 	//console.log(obj,target);
-	$(document).on('mousedown touchstart', obj, function (e) {
-		target.trigger('pressstart');
+	$(document).on('mousedown touchstart', obj, (e) => {
+		//const $this: Document = this;
+		$(e.currentTarget).trigger('pressstart');
 		pressDidLongpressed.set(obj, false);
 		console.log('pressstart');
 		pressTimer.set(obj, setTimeout(function () {
-			target.trigger('myLongpress');
+			$(e.currentTarget).trigger('longpress');
 			pressDidLongpressed.set(obj, true);
 			pressInterval.set(obj, setInterval(function () {
-				console.log('myLongpress');
-				target.trigger('longpress')
+				console.log('longpress');
+				$(e.currentTarget).trigger('longpress')
 			}, intervalSec))
 		}, waitSec))
 	})
 
-	$(document).on('mouseup touchend', obj, function (e) {
-		target.trigger('pressend');
+	$(document).on('mouseup touchend', obj, (e) => {
+		$(e.currentTarget).trigger('pressend');
 		if (pressDidLongpressed.get(obj)) {
-			target.trigger('shortpress');
+			$(e.currentTarget).trigger('shortpress');
 		}
 		clearTimeout(pressTimer.get(obj)!);
 		clearInterval(pressInterval.get(obj)!);
