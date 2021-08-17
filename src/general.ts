@@ -50,3 +50,7 @@ function includesArray<T>(array: T[], elem: T): boolean {
 function toUpperFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.substring(1);
 }
+
+function toLowerFirstLetter(str: string): string {
+  return str.charAt(0).toLowerCase() + str.substring(1);
+}

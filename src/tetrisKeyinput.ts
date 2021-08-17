@@ -89,7 +89,7 @@ $(document).on('click', '.keyForAny', (e1) => {
 	//console.log(e1,type_pre);
 	if (typeof type_pre === 'string') {
 		const type = type_pre.slice(6);
-		const type_lower = type.toLowerCase();
+		const type_lower = toLowerFirstLetter(type);
 		const formerKey = keyBinding.get(toOperate(type_lower)!);
 		if (typeof formerKey !== 'undefined') {
 			removeKeyActions(formerKey);
