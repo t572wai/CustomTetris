@@ -271,7 +271,7 @@ function textOfButtonsToOperate(): string {
 		<button class='buttonsToOperate' data-operate='hardDrop'><img src='imgs/right-double.png'></button>
 		<button class='buttonsToOperate' data-operate='leftRotation'><img src='imgs/leftRotation.png'></button>
 		<button class='buttonsToOperate' data-operate='rightRotation'><img src='imgs/rightRotation.png'></button>
-		<button class='buttonsToOperate' data-operate='hold'>ホールド</button>
+		<button class='buttonsToOperate' data-operate='hold'>Hold</button>
 	`;
 	return text;
 }
