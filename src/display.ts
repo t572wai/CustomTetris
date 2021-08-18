@@ -265,14 +265,23 @@ function displayButtonsToOperate(): void {
 function textOfButtonsToOperate(): string {
 	let text = '';
 	text += `
-		<button class='buttonsToOperate' data-operate='left'><img src='imgs/right.png'></button>
-		<button class='buttonsToOperate' data-operate='right'><img src='imgs/right.png'></button>
-		<button class='buttonsToOperate' data-operate='softDrop'><img src='imgs/right.png'></button>
-		<button class='buttonsToOperate' data-operate='hardDrop'><img src='imgs/right-double.png'></button>
-		<button class='buttonsToOperate' data-operate='leftRotation'><img src='imgs/leftRotation.png'></button>
-		<button class='buttonsToOperate' data-operate='rightRotation'><img src='imgs/rightRotation.png'></button>
+		<button class='buttonsToOperate' data-operate='left'></button>
+		<button class='buttonsToOperate' data-operate='right'></button>
+		<button class='buttonsToOperate' data-operate='softDrop'></button>
+		<button class='buttonsToOperate' data-operate='hardDrop'></button>
+		<button class='buttonsToOperate' data-operate='leftRotation'></button>
+		<button class='buttonsToOperate' data-operate='rightRotation'></button>
 		<button class='buttonsToOperate' data-operate='hold'>Hold</button>
 	`;
+	//text += `
+	//	<button class='buttonsToOperate' data-operate='left'><img src='imgs/right.png'></button>
+	//	<button class='buttonsToOperate' data-operate='right'><img src='imgs/right.png'></button>
+	//	<button class='buttonsToOperate' data-operate='softDrop'><img src='imgs/right.png'></button>
+	//	<button class='buttonsToOperate' data-operate='hardDrop'><img src='imgs/right-double.png'></button>
+	//	<button class='buttonsToOperate' data-operate='leftRotation'><img src='imgs/leftRotation.png'></button>
+	//	<button class='buttonsToOperate' data-operate='rightRotation'><img src='imgs/rightRotation.png'></button>
+	//	<button class='buttonsToOperate' data-operate='hold'>Hold</button>
+	//`;
 	return text;
 }
 
