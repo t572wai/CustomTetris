@@ -126,7 +126,7 @@ img {
 	&[data-operate='left'] {
 		grid-row: 2;
 		grid-column: 2;
-		background-image: url('img/right.png');
+		background-image: url('imgs/right.png');
 		transform: rotate(180deg);
 		> img {
 		}
@@ -134,19 +134,19 @@ img {
 	&[data-operate='right'] {
 		grid-row: 2;
 		grid-column: 4;
-		background-image: url('img/right.png');
+		background-image: url('imgs/right.png');
 	}
 	&[data-operate='softDrop'] {
 		grid-row: 3;
 		grid-column: 3;
 		margin-top: 10px;
-		background-image: url('img/right.png');
+		background-image: url('imgs/right.png');
 		transform: rotate(90deg);
 		> img {
 		}
 	}
 	&[data-operate='hardDrop'] {
-		background-image: url('img/right-double.png');
+		background-image: url('imgs/right-double.png');
 		grid-row: 1;
 		grid-column: 3;
 		margin-top: 30px;
@@ -155,13 +155,13 @@ img {
 		}
 	}
 	&[data-operate='leftRotation'] {
-		background-image: url('img/leftRotation.png');
+		background-image: url('imgs/leftRotation.png');
 		grid-row: 4;
 		grid-column: 2;
 		margin-top: 10px;
 	}
 	&[data-operate='rightRotation'] {
-		background-image: url('img/rightRotation.png');
+		background-image: url('imgs/rightRotation.png');
 		grid-row: 4;
 		grid-column: 4;
 		margin-top: 10px;
