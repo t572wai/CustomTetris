@@ -17,8 +17,9 @@ class GameOption<T> {
 		this._toString = toString;
 
 		$(document).on('change', 'input[name="'+this._optionName+'"]', (e) => {
-			const value = $('input[name="'+this._optionName+'"]').val();
+			const value = $('input[name="'+this._optionName+'"]:checked').val();
 			const value_T = toTypeFn(value);
+			console.log(value);
 			if (typeof value_T !== 'undefined') {
 				this._currentOption = value_T;
 			}
