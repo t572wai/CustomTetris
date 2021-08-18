@@ -116,6 +116,7 @@ body {
 	@include setSize(68px, 68px);
 	border-radius: 34px;
 	font-size: 20px;
+	text-align: center;
 
 	&[data-operate='left'] {
 		grid-row: 2;
