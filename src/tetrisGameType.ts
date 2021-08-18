@@ -4,12 +4,24 @@ type GameRuleClass = typeof GameRuleClasses[number];
 const GameRules = ['normal', 'practiceFor4ren'] as const;
 type GameRule = typeof GameRules[number];
 
+const gameRuleOption = new GameOption<GameRule>('gameRule', ['normal', 'practiceFor4ren'] as GameRule[], 0, toGameRule, toString, getTitle);
+
 function toGameRule(str: string): GameRule|undefined {
 	if (GameRules.includes(str as GameRule)) {
 		return str as GameRule;
 	} else {
 		return undefined;
 	}
+}
+function toString(arg: GameRule): string {
+	return arg as string;
+}
+function getTitle(arg: GameRule): string {
+	switch (arg) {
+		case 'normal': return 'Normal';
+		case 'practiceFor4ren': return '4ren'
+	}
+	return '';
 }
 
 const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
@@ -71,9 +83,9 @@ function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
 }
 
 function resetField() {
-	console.log(currentGameRule);
-	if (hasGameRuleType(currentGameRule, "Terrain")) {
-		const generateTerrainTemp = generateTerrain.get(currentGameRule);
+	console.log(gameRuleOption.currentOption);
+	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
+		const generateTerrainTemp = generateTerrain.get(gameRuleOption.currentOption);
 		if (typeof generateTerrainTemp !== 'undefined') {
 			fieldArray = generateTerrainTemp();
 		}
@@ -85,8 +97,8 @@ function resetField() {
 }
 
 function getRegularlyTerrain() {
-	if (hasGameRuleType(currentGameRule, "Terrain")) {
-		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(currentGameRule)
+	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
+		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(gameRuleOption.currentOption)
 		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
 			return generateRegularlyTerrainTemp()
 		}

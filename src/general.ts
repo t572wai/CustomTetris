@@ -54,3 +54,4 @@ function toUpperFirstLetter(str: string): string {
 function toLowerFirstLetter(str: string): string {
   return str.charAt(0).toLowerCase() + str.substring(1);
 }
+

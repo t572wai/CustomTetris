@@ -27,4 +27,4 @@ let isPlayingTetris: boolean;
 
 let swiper: Swiper;
 
-let currentGameRule: GameRule = 'normal';
+//let currentGameRule: GameRule = 'normal';

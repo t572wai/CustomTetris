@@ -9,17 +9,17 @@ function startTetris() {
 }
 
 function initTetris() {
-	const gameRule_pre = $('input[name="gameRule"]:checked').val();
-	//console.log(value);
-	if (typeof gameRule_pre === 'string') {
-		const gameRuleFromGameRuleInput = toGameRule(gameRule_pre);
-		//console.log(gameRuleFromGameRuleInput);
-		if (typeof gameRuleFromGameRuleInput !== 'undefined') {
-			currentGameRule = gameRuleFromGameRuleInput;
-		} else {
-			currentGameRule = 'normal';
-		}
-	}
+	//const gameRule_pre = $('input[name="gameRule"]:checked').val();
+	////console.log(value);
+	//if (typeof gameRule_pre === 'string') {
+	//	const gameRuleFromGameRuleInput = toGameRule(gameRule_pre);
+	//	//console.log(gameRuleFromGameRuleInput);
+	//	if (typeof gameRuleFromGameRuleInput !== 'undefined') {
+	//		currentGameRule = gameRuleFromGameRuleInput;
+	//	} else {
+	//		currentGameRule = 'normal';
+	//	}
+	//}
 
 	const methodForTouch_pre = $('input[name="methodOfOperationForTouch"]:checked').val();
 	if (typeof methodForTouch_pre === 'string') {
@@ -272,7 +272,7 @@ function clearLine(i: number) {
 	for (var j = i-1; j >= 0; j--) {
 		fieldArray[j+1] = cloneArray(fieldArray[j]);
 	}
-	const generateRegularlyTerrainFn = generateRegularlyTerrain.get(currentGameRule);
+	const generateRegularlyTerrainFn = generateRegularlyTerrain.get(gameRuleOption.currentOption);
 	if (typeof generateRegularlyTerrainFn !== 'undefined') {
 		fieldArray[0] = generateRegularlyTerrainFn();
 	}
