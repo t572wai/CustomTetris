@@ -111,8 +111,8 @@ body {
 }
 
 .buttonsToOperate {
-	@include setSize(48px, 48px);
-	border-radius: 24px;
+	@include setSize(68px, 68px);
+	border-radius: 34px;
 	font-size: 20px;
 
 	&[data-operate='left'] {
