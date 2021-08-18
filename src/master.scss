@@ -122,6 +122,8 @@ img {
 	font-size: 20px;
 	text-align: center;
 	margin: auto;
+	background-repeat: no-repeat;
+	background-size: contain;
 
 	&[data-operate='left'] {
 		grid-row: 2;
