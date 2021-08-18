@@ -123,15 +123,14 @@ img {
 	text-align: center;
 	margin: auto;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: 48px;
+	background-position: center;
 
 	&[data-operate='left'] {
 		grid-row: 2;
 		grid-column: 2;
 		background-image: url('imgs/right.png');
 		transform: rotate(180deg);
-		> img {
-		}
 	}
 	&[data-operate='right'] {
 		grid-row: 2;
@@ -144,8 +143,6 @@ img {
 		margin-top: 10px;
 		background-image: url('imgs/right.png');
 		transform: rotate(90deg);
-		> img {
-		}
 	}
 	&[data-operate='hardDrop'] {
 		background-image: url('imgs/right-double.png');
@@ -153,8 +150,6 @@ img {
 		grid-column: 3;
 		margin-top: 30px;
 		transform: rotate(90deg);
-		> img {
-		}
 	}
 	&[data-operate='leftRotation'] {
 		background-image: url('imgs/leftRotation.png');
