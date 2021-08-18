@@ -156,12 +156,14 @@ img {
 		grid-row: 4;
 		grid-column: 2;
 		margin-top: 10px;
+		background-position-x: calc(50% + 3px);
 	}
 	&[data-operate='rightRotation'] {
 		background-image: url('imgs/rightRotation.png');
 		grid-row: 4;
 		grid-column: 4;
 		margin-top: 10px;
+		background-position-x: calc(50% - 3px);
 	}
 	&[data-operate='hold'] {
 		grid-row: 4;
