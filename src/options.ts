@@ -36,7 +36,7 @@ class GameOption<T> {
 				</div>
 			`
 		}
-		$(obj).html(htmlText);
+		$(obj).append(htmlText);
 		$(obj+' input[name="'+this._optionName+'"]').val([this._enumOfT.toString(this._currentOption)]);
 	}
 }

@@ -55,7 +55,7 @@ function displayStartButton(): void {
 
 function displayOptions(): void {
 	$('#optionsArea').html(textOfOptions());
-	gameRuleOption.displayRadioOption('#optionsArea div');
+	gameRuleOption.displayRadioOption('#optionsArea');
 
 	//$('input[name="gameRule"]').val([gameRuleOption.currentOption]);
 }
