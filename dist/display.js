@@ -1,0 +1,1 @@
+(()=>{"use strict";window.matchMedia("(pointer: coarse)"),new Map})();
