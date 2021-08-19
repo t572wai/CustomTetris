@@ -8,6 +8,7 @@ type MethodOfOpForTouch = typeof MethodsOfOpForTouch[number];
 const MethodOfOpForTouchEnum: Enum<MethodOfOpForTouch> = {
 	defArray: MethodsOfOpForTouch,
 	toEnum: toMethodsOfOpForTouch,
+	toString: toString,
 	getTitle: getTitleOfMethodOfOpForTouch,
 }
 const MethodOfOpForTouchOption = new GameOption('methodOfOpForTouch', 0, MethodOfOpForTouchEnum);
