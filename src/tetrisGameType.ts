@@ -27,7 +27,6 @@ function getTitleOfGameRule(arg: GameRule): string {
 		case 'normal': return 'Normal';
 		case 'practiceFor4ren': return '4ren'
 	}
-	return '';
 }
 
 const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
