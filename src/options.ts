@@ -24,8 +24,8 @@ class GameOption<T> {
 
 	get currentOption(): T {
 		return this._currentOption;
-	}
 
+}
 	displayRadioOption(obj: string): void {
 		let htmlText = "<div id='"+this._optionName+"RadioContainer'>";
 		for (const option of this._enumOfT.defArray) {

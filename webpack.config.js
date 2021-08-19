@@ -7,9 +7,9 @@ module.exports = {
 	entry: {
 		main:`./src/index.js`,
 		general: './src/general.ts',
+		global: './src/global.ts',
 		options: './src/options.ts',
 		SwiperClass: './src/SwiperClass.ts',
-		global: './src/global.ts',
 		const: './src/const.ts',
 		buttonAction: './src/buttonAction.ts',
 		sounds: './src/sounds.ts',
