@@ -29,6 +29,7 @@ class GameOption<T> {
 	displayRadioOption(obj: string): void {
 		let htmlText = "<div id='"+this._optionName+"RadioContainer'>";
 		for (const option of this._enumOfT.defArray) {
+			console.log(this._enumOfT.toString(option));
 			htmlText += `
 				<div class='radio'>
 					<input type='radio' name='${this._optionName}' value='${this._enumOfT.toString(option)}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
