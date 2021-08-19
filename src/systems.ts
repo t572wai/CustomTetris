@@ -86,6 +86,8 @@ function reset() {
 	clearNextQueue();
 	if (MethodOfOpForTouchOption.currentOption=='button') {
 		displayButtonsToOperate();
+	} else {
+		hideButtonsToOperate();
 	}
 	displayHold();
 	clearField();

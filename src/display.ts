@@ -252,6 +252,9 @@ function removeGhostMino(mino: Mino | Pos): void {
 function displayButtonsToOperate(): void {
 	$('#buttonsToOperateArea').html(textOfButtonsToOperate);
 }
+function hideButtonsToOperate(): void {
+	$('#buttonsToOperateArea').html('');
+}
 
 function textOfButtonsToOperate(): string {
 	let text = '';
