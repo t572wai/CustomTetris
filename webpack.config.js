@@ -39,17 +39,7 @@ module.exports = {
 					"postcss-loader",
 					"sass-loader",
 				]
-			},
-			{
-				test: /\.ts$/,
-				use: [
-					//"typescript",
-					//"ts-loader",
-				]
 			}
 		]
-	},
-	resolve: {
-		extensions: ['.ts', '.js']
 	},
 };
