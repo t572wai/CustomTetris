@@ -1,5 +1,6 @@
 function startTetris() {
 	//ion.sound.play("startSound",{volume:'0.4'})
+	startSound.play()
 	displayMatrix()
 	reset()
 	startToAppearMinos()

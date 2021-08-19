@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/howler": "^2.2.3",
     "@types/jquery": "^3.5.6",
     "@types/jqueryui": "^1.12.16",
     "@types/node": "^16.6.1",
@@ -28,7 +29,6 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "@types/howler": "^2.2.3",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1"
