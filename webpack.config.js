@@ -8,7 +8,7 @@ module.exports = {
 		main:`./src/index.js`,
 		//general: './src/general.ts',
 		//global: './src/global.ts',
-		//gameOptions: './src/gameOptions.ts',
+		gameOptions: './src/gameOptions.ts',
 		//SwiperClass: './src/SwiperClass.ts',
 		//const: './src/const.ts',
 		//buttonAction: './src/buttonAction.ts',
@@ -43,7 +43,6 @@ module.exports = {
 			{
 				test: /\.ts$/,
 				use: [
-					"tsc",
 					"ts-loader",
 				]
 			}
