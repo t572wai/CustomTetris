@@ -22,6 +22,7 @@ function toMethodsOfOpForTouch(arg: any): MethodOfOpForTouch|undefined {
 	return undefined;
 }
 function toString(arg: MethodOfOpForTouch): string {
+	console.log(arg,arg as string);
 	return arg as string;
 }
 function getTitleOfMethodOfOpForTouch(arg: MethodOfOpForTouch): string {
