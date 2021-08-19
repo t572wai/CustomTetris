@@ -1,1 +1,0 @@
-(()=>{"use strict";$((function(){$("#gameoverDialog").dialog({title:"game over",buttons:{restart:function(){startTetris(),$(this).dialog("close")},toMainMenu:function(){toMainMenu(),$(this).dialog("close")}}})}))})();
