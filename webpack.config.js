@@ -6,7 +6,7 @@ module.exports = {
 
 	entry: {
 		main:`./src/index.js`,
-		sound: './src/sounds.ts',
+		//sound: './src/sounds.ts',
 	},
 	plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 
