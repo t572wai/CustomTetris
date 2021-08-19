@@ -3,8 +3,14 @@ type GameRuleClass = typeof GameRuleClasses[number];
 
 const GameRules = ['normal', 'practiceFor4ren'] as const;
 type GameRule = typeof GameRules[number];
+const EnumOfGameRule:Enum<GameRule> = {
+	defArray: GameRules,
+	toEnum: toGameRule,
+	toString: toString,
+	getTitle: getTitleOfGameRule,
+}
 
-const gameRuleOption = new GameOption<GameRule>('gameRule', ['normal', 'practiceFor4ren'] as GameRule[], 0, toGameRule, toString, getTitle);
+const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
 
 function toGameRule(str: string): GameRule|undefined {
 	if (GameRules.includes(str as GameRule)) {
@@ -16,7 +22,7 @@ function toGameRule(str: string): GameRule|undefined {
 function toString(arg: GameRule): string {
 	return arg as string;
 }
-function getTitle(arg: GameRule): string {
+function getTitleOfGameRule(arg: GameRule): string {
 	switch (arg) {
 		case 'normal': return 'Normal';
 		case 'practiceFor4ren': return '4ren'

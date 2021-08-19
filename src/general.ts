@@ -2,7 +2,7 @@
 
 //import { deepEqual } from "assert";
 
-function cloneArray<T>(array: T[]): T[] {
+function cloneArray<T>(array: readonly T[]): T[] {
 	return array.concat();
 }
 
@@ -55,3 +55,9 @@ function toLowerFirstLetter(str: string): string {
   return str.charAt(0).toLowerCase() + str.substring(1);
 }
 
+interface Enum<T> {
+	readonly defArray: readonly T[],
+	toEnum: (arg: any)=>T|undefined,
+	toString: (arg: T)=>string,
+	getTitle: (arg: T)=>string
+}
