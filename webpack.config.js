@@ -6,7 +6,21 @@ module.exports = {
 
 	entry: {
 		main:`./src/index.js`,
-		//sound: './src/sounds.ts',
+		general: './src/general.ts',
+		options: './src/options.ts',
+		SwiperClass: './src/SwiperClass.ts',
+		global: './src/global.ts',
+		const: './src/const.ts',
+		buttonAction: './src/buttonAction.ts',
+		sounds: './src/sounds.ts',
+		systems: './src/systems.ts',
+		display: './src/display.ts',
+		dialogs: './src/dialogs.ts',
+		init: './src/init.ts',
+		keyinput: './src/keyinput.ts',
+		tetriminos: './src/tetriminos.ts',
+		tetrisGameType: './src/tetrisGameType.ts',
+		tetrisKeyinput: './src/tetrisKeyinput.ts',
 	},
 	plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 

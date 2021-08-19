@@ -7,7 +7,7 @@
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --mode development --watch",
-    "build": "webpack --mode production && tsc"
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
