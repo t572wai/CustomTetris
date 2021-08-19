@@ -43,6 +43,7 @@ module.exports = {
 			{
 				test: /\.ts$/,
 				use: [
+					"tsc",
 					"ts-loader",
 				]
 			}
