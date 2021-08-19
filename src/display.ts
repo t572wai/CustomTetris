@@ -54,8 +54,8 @@ function displayStartButton(): void {
 }
 
 function displayOptions(): void {
-	gameRuleOption.displayRadioOption('#optionsArea');
-	//$('#optionsArea').html(textOfOptions());
+	$('#optionsArea').html(textOfOptions());
+	gameRuleOption.displayRadioOption('#optionsArea div');
 
 	//$('input[name="gameRule"]').val([gameRuleOption.currentOption]);
 }
@@ -64,23 +64,12 @@ function textOfStartButton(): string {
 	return	'<button id="startButton">ゲームスタート</button>'
 }
 
-//function textOfOptions(): string {
-//	let text = '';
-//	text += '<button id="toKeyBindings">操作設定</button>'
-//	text += `
-//					<div class="optionRadio" id="gameRuleRadioContainer">
-//						<div class="radio">
-//							<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
-//							<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
-//						</div>
-//						<div class="radio">
-//							<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren">
-//							<label for="gameRuleRadio-practiceFor4ren" class="radio-label">4REN</label>
-//						</div>
-//					</div>
-//					`
-//	return text;
-//}
+function textOfOptions(): string {
+	let text = '';
+	text += '<button id="toKeyBindings">操作設定</button>'
+	text += '<div></div>';
+	return text;
+}
 
 function displayKeyBindings() {
 	$('#keyBindingsArea').html(textOfFromKeyToMainMenu());
