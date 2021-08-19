@@ -28,32 +28,24 @@ let moveTimers: any;
 let ghostMinos: Mino[];
 
 function initMino( type: Tetrimino ) {
-	//if(typeof type == ) {
-		// console.log(type);
-		currentMinoType = type;
-		currentMinoFacing = 0;
-		currentMinoX = 4;
-		currentMinoY = 1;
-		currentMinoTiles = getTetrimino(currentMinoType,currentMinoX,currentMinoY,currentMinoType)
-		currentMinoIsVisible = true;
-		currentMinoDidLockDown = false;
-		currentMinoIsSoftDrop = false;
-		currentMinoIsHardDrop = false;
-		setNumberOfMoveWithLowerFace(0);
-		lowestPos = currentMinoY;
-		currentMinoLockedDownCallback = function () {}
-		//setIndicatorForLockDown(0)
-		moveTimers = {}
-		ghostMinos = []
-		isPlayingTetris = true;
-		//canHold = true;
-	//}else {
-	//	console.log("unknown mino error");
-	//}
+	currentMinoType = type;
+	currentMinoFacing = 0;
+	currentMinoX = 4;
+	currentMinoY = 1;
+	currentMinoTiles = getTetrimino(currentMinoType,currentMinoX,currentMinoY,currentMinoType)
+	currentMinoIsVisible = true;
+	currentMinoDidLockDown = false;
+	currentMinoIsSoftDrop = false;
+	currentMinoIsHardDrop = false;
+	setNumberOfMoveWithLowerFace(0);
+	lowestPos = currentMinoY;
+	currentMinoLockedDownCallback = function () {}
+	moveTimers = {}
+	ghostMinos = []
+	isPlayingTetris = true;
 }
 
 function setCurrentMinoY(y: number): number {
-	//console.log(y,current);
 	if (lowestPos < y) {
 		lowestPos = y;
 		setNumberOfMoveWithLowerFace(0)
@@ -62,25 +54,9 @@ function setCurrentMinoY(y: number): number {
 	return currentMinoY;
 }
 
-//function setIndicatorForLockDown(val) {
-//	console.log(val);
-//	indicatorForLockDown = val;
-//	if (indicatorForLockDown < 0) {
-//		// console.log(greenLog + indicatorForLockDown + resetLogColor);
-//		console.log(indicatorForLockDown);
-//		indicatorForLockDown = 0;
-//		setNumberOfMoveWithLowerFace(0)
-//	}
-
-//	return indicatorForLockDown;
-//}
-
 function setNumberOfMoveWithLowerFace(num: number): number {
 	console.log('%c' + num, 'color: red');
 	numberOfMoveWithLowerFace = num;
-	// if (!isAllowedOperate()) {
-	// 	lockDown()
-	// }
 
 	return numberOfMoveWithLowerFace;
 }
@@ -88,7 +64,6 @@ function setNumberOfMoveWithLowerFace(num: number): number {
 function lowerPos(): number {
 	let lower = -1;
 	$.each(currentMinoTiles ,(i, tile: Mino) => {
-		// console.log(tile);
 		if(tile.y>lower) lower=tile.y;
 	});
 	console.log(lower);
@@ -120,21 +95,16 @@ function isFilledOrWall(x: number, y:number): boolean{
 	if (isWall(x,y)) return true;
 
 	if (fieldArray[y][x]!='empty') return true;
-	// console.log(x,y,isWall(x,y),fieldArray[y][x]);
 
 	return false;
 }
 
 function canMove(followingMinos: Mino[]): boolean {
-	// console.log("check");
 	for (let tile of followingMinos) {
-		//console.log(tile);
 		if (isOutOfField(tile.x,tile.y)) {
-			//console.log(tile);
 			return false;
 		}
 		if (isOtherTiles(tile)) {
-			//console.log(tile,fieldArray);
 			return false;
 		}
 	}
@@ -155,12 +125,8 @@ function canBeAppeared(): boolean {
 
 function isOtherTiles(tile: Mino | Pos): boolean {
 	if (fieldArray[tile.y][tile.x] != 'empty') {
-		// console.log(tile);
-		//console.log(currentMinoIsVisible);
 		if ( !currentMinoIsVisible ) return true;
 		if ( !currentMinoTiles.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
-			// console.log(currentMinoTiles);
-			//console.log(tile,fieldArray[tile.y][tile.x]);
 			return true;
 		}
 	}
@@ -205,17 +171,13 @@ function moveWithDelay(dx: number, dy: number, timerName: string, callback: (b:b
 }
 
 function moveAndRotateWithDelay(dx: number, dy: number, sgn: number, timerName: string, callback: (b:boolean)=>void): void {
-	// console.log('moveWithDelay');
-	// console.log(currentFallingSpeed(currentLevel));
 	clearTimer(timerName)
 	setTimer(timerName,moveAndRotate.bind(null,dx,dy,sgn,callback),currentFallingSpeed(currentLevel))
-	// fallTimer = setTimeout(move.bind(null,dx,dy,callback),currentFallingSpeed(currentLevel))
 }
 
 function changeCurrentMinos(followingTiles: Mino[],callback: ()=>void): void {
 	let formerTiles = replaceMinos(currentMinoTiles,'empty')
 	currentMinoTiles = cloneArray(followingTiles)
-	// console.log(Date.now());
 	displayDiffer(formerTiles,function () {
 		displayDiffer(followingTiles,callback)
 	})
@@ -239,7 +201,6 @@ function checkGhost(): number {
 			}
 		}
 	}
-	// console.log(hightOfAbleToDrop);
 	let hightOfDropping = minArray(hightOfAbleToDrop)
 	if (hightOfDropping == 0) {
 		ghostMinos = []
@@ -252,11 +213,9 @@ function checkGhost(): number {
 
 function displayGhost(): void {
 	console.log('displayGhost');
-	// let formerGhost = cloneArray(ghostTiles);
 	removeGhostMinos()
 	checkGhost()
 	displayGhostMinos()
-	// console.log(Date.now());
 }
 
 function hardDrop(): void {
@@ -276,9 +235,7 @@ function hardDrop(): void {
 }
 
 function softDrop(b: boolean): void {
-	// console.log(b,canFall(),currentMinoIsSoftDrop);
 	if (b && canFall() && !currentMinoIsSoftDrop) {
-		// clearTimeout(fallTimer)
 		clearTimer('fall')
 		currentMinoIsSoftDrop = true
 		loopOfFall()
@@ -290,14 +247,11 @@ function softDrop(b: boolean): void {
 function startFall(): void {
 	if (!currentMinoDidLockDown) {
 		console.log('start to fall');
-		// console.log(this.type);
 		clearTimeout(currentMinoLockDownTimer)
-		// console.log('clear timer');
 		console.log(canMove(currentMinoTiles));
 		if (canBeAppeared()) {
 			currentMinoIsVisible = true;
 			currentMinoDidLockDown = false;
-			// console.log(this.tiles);
 			displayDiffer(currentMinoTiles,function () {
 				displayGhost()
 				if(!canFall())countLockDownTimer()
@@ -333,30 +287,20 @@ function loopOfFall(): void {
 			loopOfFall()
 		} else {
 			console.log('clearTimeout');
-			// setNumberOfMoveWithLowerFace(numberOfMoveWithLowerFace+1)
-			// clearTimeout(fallTimer)
 			clearTimer('fall')
-			// currentMinoIsFalling = false;
 			countLockDownTimer();
 		}
 	})
 }
 
 function restartFall(): void {
-	// console.log(isLoopingOfFalling);
 	if (canFall() && !isLoopingOfFalling) {
 		console.log('clear all timer');
 		clearTimeout(currentMinoLockDownTimer)
-		// clearTimeout(fallTimer)
 		clearTimer('fall')
-		// fallTimer = setTimeout(loopOfFall,currentFallingSpeed(currentLevel))
 		loopOfFall()
 	}
 }
-
-// function isFalling() {
-// 	return currentMinoIsFalling;
-// }
 
 function countLockDownTimer(): void {
 	console.log('set timer');
@@ -379,16 +323,13 @@ function lockDown(): void {
 	//})
 	let lower = lowerPos()
 	checkLine(currentMinoLockedDownCallback.bind(null,lower))
-	// currentMinoLockedDownCallback(lower)
 }
 
 function moveToLeft(callback: (b:boolean)=>void): void {
-	//console.log('move to left');
 	operate(-1,0,0,callback)
 }
 
 function moveToRight(callback: (b:boolean)=>void): void {
-	//console.log('move to right');
 	operate(1,0,0,callback)
 }
 
@@ -409,9 +350,7 @@ function operate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>voi
 }
 
 function onOperating(formerCanFall: boolean): void {
-	//console.log('with move to left or right');
 	let currentCanFall = canFall()
-	//console.log(currentCanFall, isAllowedOperate());
 	if (!currentCanFall && !isAllowedOperate()) {
 		lockDown()
 		return;
@@ -439,14 +378,11 @@ function canOperate(): boolean {
 
 function getTetriminoShape(type: Tetrimino): Pos[] | null {
 	let minoArray:Pos[] = [];
-	//console.log(type, ShapesOfTetriminoEnum.getByValue('string',type) );
 	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
-	// let minoArray = [];
 	let originPos:Pos = {x:0,y:0};
 	if (typeof shape != 'undefined') {
 		for (var i = 0; i < shape.length; i++) {
 			for (var j = 0; j < shape[i].length; j++) {
-				// console.log(j,i);
 				if (shape[i][j]!=-1){
 					minoArray.push({x:j,y:i});
 				}
@@ -455,7 +391,6 @@ function getTetriminoShape(type: Tetrimino): Pos[] | null {
 				}
 			}
 		}
-		// console.log(minoArray);
 		console.log();
 		return getMovedMinos(minoArray,-originPos.x,-originPos.y);
 	} else {
@@ -471,7 +406,6 @@ function getRotatedTetriminoShape(type: Tetrimino,d: number): Pos[] {
 	const shape: Pos[] | null = getTetriminoShape(type);
 	if (typeof shape !== null) {
 		const shape_pos: Pos[] = shape as Pos[];
-		//console.log(changeFacing(shape_pos,d));
 		if (type=='o') {
 			return shape_pos;
 		} else if (type=='i') {
