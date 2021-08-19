@@ -25,15 +25,15 @@
 //// })
 
 //import { Howl, Howler } from 'howler';
-const {Howl, Howler} = require('howler');
+const howler = require('howler');
 
-const lockDownSound = new Howl({
+const lockDownSound = new howler.Howl({
 	src: [
 		"sounds/lockDownSE.mp3",
 	]
 });
 
-const startSound = new Howl({
+const startSound = new howler.Howl({
 	src: [
 		"sounds/startSound.mp3",
 	]
