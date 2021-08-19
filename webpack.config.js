@@ -8,7 +8,7 @@ module.exports = {
 		main:`./src/index.js`,
 		general: './src/general.ts',
 		global: './src/global.ts',
-		options: './src/options.ts',
+		gameOptions: './src/gameOptions.ts',
 		SwiperClass: './src/SwiperClass.ts',
 		const: './src/const.ts',
 		buttonAction: './src/buttonAction.ts',
