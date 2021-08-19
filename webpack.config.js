@@ -4,7 +4,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin"); //installed via npm
 module.exports = {
 	mode: 'development',
 
-	entry: `./src/index.js`,
+	entry: {
+		main:`./src/index.js`,
+		sound: './src/sounds.ts',
+	},
 	plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 
 	output: {
@@ -21,6 +24,12 @@ module.exports = {
 					"css-loader",
 					"postcss-loader",
 					"sass-loader",
+				]
+			},
+			{
+				test: /\.ts$/,
+				use: [
+					"ts-loader",
 				]
 			}
 		]
