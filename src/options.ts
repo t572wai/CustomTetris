@@ -31,8 +31,8 @@ class GameOption<T> {
 		for (const option of this._enumOfT.defArray) {
 			htmlText += `
 				<div class='radio'>
-					<input type='radio' name='${this._optionName}' value='${option}' id='${this._optionName}-${option}'>
-					<label class='radio-label' for='${this._optionName}-${option}'>${this._enumOfT.getTitle(option)}</label>
+					<input type='radio' name='${this._optionName}' value='${this._enumOfT.toString(option)}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
+					<label class='radio-label' for='${this._optionName}-${this._enumOfT.toString(option)}'>${this._enumOfT.getTitle(option)}</label>
 				</div>
 			`
 		}
