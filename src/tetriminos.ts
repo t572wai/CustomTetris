@@ -321,7 +321,7 @@ function lockDown(): void {
 	//		console.log("lockDownSE end");
 	//	}
 	//})
-	lockDownSound.play()
+	//lockDownSound.play()
 	let lower = lowerPos()
 	checkLine(currentMinoLockedDownCallback.bind(null,lower))
 }
