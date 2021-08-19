@@ -3,6 +3,37 @@ let dv2Border = 5;
 const Operations = ['left','right','hardDrop','softDrop','leftRotation','rightRotation','hold'] as const;
 type Operate = typeof Operations[number];
 
+const MethodsOfOpForTouch = ['swipe', 'button'] as const;
+type MethodOfOpForTouch = typeof MethodsOfOpForTouch[number];
+const MethodOfOpForTouchEnum: Enum<MethodOfOpForTouch> = {
+	defArray: MethodsOfOpForTouch,
+	toEnum: toMethodsOfOpForTouch,
+	getTitle: getTitleOfMethodOfOpForTouch,
+}
+const MethodOfOpForTouchOption = new GameOption('methodOfOpForTouch', 0, MethodOfOpForTouchEnum);
+
+function toMethodsOfOpForTouch(arg: any): MethodOfOpForTouch|undefined {
+	if (typeof arg !== 'string') {
+		return undefined
+	}
+	if (MethodsOfOpForTouch.includes(arg as MethodOfOpForTouch)) {
+		return arg as MethodOfOpForTouch;
+	}
+	return undefined;
+}
+function toString(arg: MethodOfOpForTouch): string {
+	return arg as string;
+}
+function getTitleOfMethodOfOpForTouch(arg: MethodOfOpForTouch): string {
+	switch (arg) {
+		case 'swipe':
+			return 'スワイプ'
+
+		case 'button':
+			return 'ボタン';
+	}
+}
+
 let keyBinding = new Map<Operate, string>();
 
 document.oncontextmenu = function () {return false;}
@@ -125,16 +156,6 @@ $(document).on('click', '.keyForAny', (e1) => {
 	}
 })
 
-//$(document).on('click touched', '.buttonsToOperate', (e) => {
-//	const data_operate = $(e.currentTarget).data('operate');
-//	if (typeof data_operate === 'string') {
-//		const currentOperate = toOperate(data_operate)!;
-//		console.log(currentOperate);
-//		if (currentOperate!='left' && currentOperate!='right' && currentOperate!='softDrop') {
-//			switchOperate(currentOperate);
-//		}
-//	}
-//})
 
 setButtonActions('.buttonsToOperate[data-operate="left"]', 300, 50);
 setButtonActions('.buttonsToOperate[data-operate="right"]', 300, 50);

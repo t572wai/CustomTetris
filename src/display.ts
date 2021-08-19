@@ -64,28 +64,29 @@ function textOfStartButton(): string {
 	return	'<button id="startButton">ゲームスタート</button>'
 }
 
-function textOfOptions(): string {
-	let text = '';
-	text += '<button id="toKeyBindings">操作設定</button>'
-	text += `
-					<div class="optionRadio" id="gameRuleRadioContainer">
-						<div class="radio">
-							<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
-							<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
-						</div>
-						<div class="radio">
-							<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren">
-							<label for="gameRuleRadio-practiceFor4ren" class="radio-label">4REN</label>
-						</div>
-					</div>
-					`
-	return text;
-}
+//function textOfOptions(): string {
+//	let text = '';
+//	text += '<button id="toKeyBindings">操作設定</button>'
+//	text += `
+//					<div class="optionRadio" id="gameRuleRadioContainer">
+//						<div class="radio">
+//							<input type="radio" name="gameRule" value="normal" id="gameRuleRadio-normal" checked>
+//							<label for="gameRuleRadio-normal" class="radio-label">Normal</label>
+//						</div>
+//						<div class="radio">
+//							<input type="radio" name="gameRule" value="practiceFor4ren" id="gameRuleRadio-practiceFor4ren">
+//							<label for="gameRuleRadio-practiceFor4ren" class="radio-label">4REN</label>
+//						</div>
+//					</div>
+//					`
+//	return text;
+//}
 
 function displayKeyBindings() {
 	$('#keyBindingsArea').html(textOfFromKeyToMainMenu());
 	if (TouchScreenQuery.matches) {
-		$('#keyBindingsArea').append(textOfKeyBindingsForTouch());
+		MethodOfOpForTouchOption.displayRadioOption('#keyBindingsArea')
+		//$('#keyBindingsArea').append(textOfKeyBindingsForTouch());
 	} else {
 		$('#keyBindingsArea').append(textOfKeyBindingsForPC());
 
@@ -100,22 +101,22 @@ function textOfFromKeyToMainMenu(): string {
 	return '<button id="fromKeyToMainMenu">メインメニュー</button>';
 }
 
-function textOfKeyBindingsForTouch(): string {
-	let text = '';
-	text += `
-		<div class="optionRadio" id="methodOfOperationForTouchRadioContainer">
-			<div class="radio">
-				<input type="radio" name="methodOfOperationForTouch" value="swipe" id="methodForTouch-swipe" checked>
-				<label for="methodForTouch-swipe" class="radio-label">スワイプ</label>
-			</div>
-			<div class="radio">
-				<input type="radio" name="methodOfOperationForTouch" value="button" id="methodForTouch-button">
-				<label for="methodForTouch-button" class="radio-label">ボタン</label>
-			</div>
-		</div>
-	`
-	return text;
-}
+//function textOfKeyBindingsForTouch(): string {
+//	let text = '';
+//	text += `
+//		<div class="optionRadio" id="methodOfOperationForTouchRadioContainer">
+//			<div class="radio">
+//				<input type="radio" name="methodOfOperationForTouch" value="swipe" id="methodForTouch-swipe" checked>
+//				<label for="methodForTouch-swipe" class="radio-label">スワイプ</label>
+//			</div>
+//			<div class="radio">
+//				<input type="radio" name="methodOfOperationForTouch" value="button" id="methodForTouch-button">
+//				<label for="methodForTouch-button" class="radio-label">ボタン</label>
+//			</div>
+//		</div>
+//	`
+//	return text;
+//}
 
 function textOfKeyBindingsForPC(): string {
 	let text = '';

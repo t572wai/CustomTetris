@@ -1,4 +1,4 @@
-let currentMethodOfOperationForTouch = 'swipe';
+//let currentMethodOfOperationForTouch = 'swipe';
 
 const options = ['GameRule']
 

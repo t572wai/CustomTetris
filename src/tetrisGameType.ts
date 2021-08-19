@@ -12,12 +12,14 @@ const EnumOfGameRule:Enum<GameRule> = {
 
 const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
 
-function toGameRule(str: string): GameRule|undefined {
-	if (GameRules.includes(str as GameRule)) {
-		return str as GameRule;
-	} else {
+function toGameRule(arg: any): GameRule|undefined {
+	if (typeof arg !== 'string') {
 		return undefined;
 	}
+	if (GameRules.includes(arg as GameRule)) {
+		return arg as GameRule;
+	}
+	return undefined;
 }
 function toString(arg: GameRule): string {
 	return arg as string;
