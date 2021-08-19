@@ -12,7 +12,7 @@ module.exports = {
 		//SwiperClass: './src/SwiperClass.ts',
 		//const: './src/const.ts',
 		//buttonAction: './src/buttonAction.ts',
-		sounds: './src/sounds.ts',
+		//sounds: './src/sounds.ts',
 		//systems: './src/systems.ts',
 		//display: './src/display.ts',
 		//dialogs: './src/dialogs.ts',
@@ -43,7 +43,7 @@ module.exports = {
 			{
 				test: /\.ts$/,
 				use: [
-					"typescript",
+					//"typescript",
 					//"ts-loader",
 				]
 			}
