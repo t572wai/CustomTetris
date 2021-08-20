@@ -39,7 +39,7 @@ ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
 
 const NumOfNext = 6;
 
-const Actions = ['none','single','double','triple','tetris','mini_tspin','mini_tspin_single','tspin','tspin_single','tspin_double','tspin_triple','back_to_back','softDrop','hardDrop','ren'] as const;
+const Actions = ['none','single','double','triple','tetris','mini_tspin','mini_tspin_single','tspin','tspin_single','tspin_double','tspin_triple','back_to_back','softDrop','hardDrop','ren','singlePerfectClear','doublePerfectClear','triplePerfectClear','tetrisPerfectClear','tetrisBtoBPerfectClear'] as const;
 type Action = typeof Actions[number];
 
 const ScoreOfAction = new Map<Action, number>();
@@ -84,7 +84,7 @@ const ActionsEnum = [];
  * scoreに表示しないaction
  * @type {Array}
  */
-const notScorings:Action[] = ['hardDrop','softDrop','back_to_back','mini_tspin','tspin','none','ren']
+const notScorings:Action[] = ['hardDrop','softDrop','back_to_back','mini_tspin','tspin','none','ren','singlePerfectClear','doublePerfectClear','triplePerfectClear','tetrisPerfectClear','tetrisBtoBPerfectClear']
 
 //const Direction = defineEnum({
 //	Up: {
