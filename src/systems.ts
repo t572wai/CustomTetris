@@ -212,6 +212,7 @@ function checkAction(currentNumOfClearedLine: number): Action {
 }
 
 function checkPerfectClear(num: number): void {
+	console.log(totalClearedLine, totalFallenTetrimino);
 	if (totalClearedLine*10 == totalFallenTetrimino*4) {
 		scoring.set('perfectClear', scoring.get('perfectClear')!+1);
 		switch (num) {
