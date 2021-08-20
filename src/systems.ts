@@ -127,6 +127,7 @@ function isScoring(str: Action) {
 function resetScoringArray() {
 	scoring.set('score', 0);
 	scoring.set('ren', 0);
+	scoring.set('perfectClear', 0);
 	Actions.forEach(item => {
 		if (isScoring(item)) {
 			scoring.set(item, 0);
