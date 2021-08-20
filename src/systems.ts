@@ -172,10 +172,10 @@ function checkLine(callback: ()=>void) {
 	scoring.set('ren' ,(currentREN>0)?currentREN:0);
 	displayScoreArea();
 	afterAction(checkAction(numOfClearedLine));
-	checkPerfectClear(numOfClearedLine);
 	for (let ind of linesToClear) {
 		clearLine(ind)
 	}
+	checkPerfectClear(numOfClearedLine);
 	if (didClear) {
 		displayAllMinos()
 	}
