@@ -82,6 +82,7 @@ function updateMatrixArray(mino: Mino) {
 function reset() {
 	score = 0;
 	totalClearedLine = 0;
+	totalFallenTetrimino = 0;
 
 	clearHoldQueue();
 	clearNextQueue();
