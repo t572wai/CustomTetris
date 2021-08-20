@@ -323,6 +323,7 @@ function lockDown(): void {
 	//})
 	//lockDownSound.play()
 	let lower = lowerPos()
+	totalFallenTetrimino++;
 	checkLine(currentMinoLockedDownCallback.bind(null,lower))
 }
 

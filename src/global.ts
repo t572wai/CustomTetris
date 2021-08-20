@@ -20,6 +20,7 @@ let score: number;
 let currentREN:number = -1;
 
 let totalClearedLine: number;
+let totalFallenTetrimino: number;
 
 let isJustNowSpin: number;
 

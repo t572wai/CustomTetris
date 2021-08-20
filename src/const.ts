@@ -58,6 +58,11 @@ ScoreOfAction.set("back_to_back", 1.5);
 ScoreOfAction.set("softDrop", 1);
 ScoreOfAction.set("hardDrop", 2);
 ScoreOfAction.set("ren", 50);
+ScoreOfAction.set("singlePerfectClear", 800);
+ScoreOfAction.set("doublePerfectClear", 1200);
+ScoreOfAction.set("triplePerfectClear", 1800);
+ScoreOfAction.set("tetrisPerfectClear", 2000);
+ScoreOfAction.set("tetrisBtoBPerfectClear", 3200);
 
 const DisplayTitleOfAction = new Map<String, String>();
 DisplayTitleOfAction.set("none", '');
@@ -77,6 +82,7 @@ DisplayTitleOfAction.set("hardDrop", '');
 DisplayTitleOfAction.set("ren", '');
 DisplayTitleOfAction.set("score", 'score');
 DisplayTitleOfAction.set("ren", 'REN');
+DisplayTitleOfAction.set("perfectClear", "perfectClear");
 
 const ActionsEnum = [];
 

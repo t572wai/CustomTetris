@@ -170,6 +170,7 @@ function checkLine(callback: ()=>void) {
 	scoring.set('ren' ,(currentREN>0)?currentREN:0);
 	displayScoreArea();
 	afterAction(checkAction(numOfClearedLine));
+	checkPerfectClear(numOfClearedLine);
 	for (let ind of linesToClear) {
 		clearLine(ind)
 	}
@@ -206,6 +207,29 @@ function checkAction(currentNumOfClearedLine: number): Action {
 				default:
 					return 'none';
 			}
+	}
+}
+
+function checkPerfectClear(num: number): void {
+	if (totalClearedLine*10 == totalFallenTetrimino*4) {
+		scoring.set('perfectClear', scoring.get('perfectClear')!+1);
+		switch (num) {
+			case 1:
+				afterAction('singlePerfectClear')
+				break;
+			case 2:
+				afterAction('doublePerfectClear');
+				break;
+			case 3:
+				afterAction('triplePerfectClear');
+				break;
+			case 4:
+				afterAction('tetrisPerfectClear');
+				break;
+			default:
+				break;
+		}
+		displayScoreArea();
 	}
 }
 
