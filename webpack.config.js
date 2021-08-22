@@ -5,7 +5,7 @@ module.exports = {
 	mode: 'development',
 
 	entry: {
-		main:`./src/index.js`,
+		main:`./src/main.js`,
 		//general: './src/general.ts',
 		//global: './src/global.ts',
 		//gameOptions: './src/gameOptions.ts',
@@ -25,7 +25,7 @@ module.exports = {
 	plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 
 	output: {
-		filename: "index.js",
+		filename: "main.js",
 		path: path.join(__dirname, 'dist')
 	},
 
