@@ -25,7 +25,7 @@ module.exports = {
 	plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 
 	output: {
-		filename: "[name].js",
+		filename: "index.js",
 		path: path.join(__dirname, 'dist')
 	},
 
