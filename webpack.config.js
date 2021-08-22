@@ -5,7 +5,7 @@ module.exports = {
 	mode: 'development',
 
 	entry: {
-		main:`./src/main.js`,
+		main:`./src/index.js`,
 		//general: './src/general.ts',
 		//global: './src/global.ts',
 		//gameOptions: './src/gameOptions.ts',
