@@ -527,6 +527,182 @@ $(function () {
 	})
 })
 
+
+//
+//
+// gameOptions
+//
+//
+
+//let currentMethodOfOperationForTouch = 'swipe';
+
+const options = ['GameRule']
+
+class GameOption<T> {
+	private _optionName: string;
+	private _currentOption: T;
+	private _enumOfT: Enum<T>;
+
+	constructor(name:string, indOfDefault: number=0, enumOfT: Enum<T>) {
+		this._optionName = name;
+		this._enumOfT = enumOfT;
+		this._currentOption = this._enumOfT.defArray[indOfDefault];
+
+		$(document).on('change', 'input[name="'+this._optionName+'"]', (e) => {
+			const value = $('input[name="'+this._optionName+'"]:checked').val();
+			const value_T = this._enumOfT.toEnum(value);
+			console.log(value);
+			if (typeof value_T !== 'undefined') {
+				this._currentOption = value_T;
+			}
+		})
+	}
+
+	get currentOption(): T {
+		return this._currentOption;
+
+}
+	displayRadioOption(obj: string): void {
+		let htmlText = "<div id='"+this._optionName+"RadioContainer'>";
+		for (const option of this._enumOfT.defArray) {
+			console.log(this._enumOfT.toString(option));
+			htmlText += `
+				<div class='radio'>
+					<input type='radio' name='${this._optionName}' value='${this._enumOfT.toString(option)}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
+					<label class='radio-label' for='${this._optionName}-${this._enumOfT.toString(option)}'>${this._enumOfT.getTitle(option)}</label>
+				</div>
+			`
+		}
+		$(obj).append(htmlText);
+		$(obj+' input[name="'+this._optionName+'"]').val([this._enumOfT.toString(this._currentOption)]);
+	}
+}
+
+//
+//
+// tetrisGameType
+//
+//
+
+const GameRuleClasses = ['Normal','Terrain'] as const;
+type GameRuleClass = typeof GameRuleClasses[number];
+
+const GameRules = ['normal', 'practiceFor4ren'] as const;
+type GameRule = typeof GameRules[number];
+const EnumOfGameRule:Enum<GameRule> = {
+	defArray: GameRules,
+	toEnum: toGameRule,
+	toString: toString,
+	getTitle: getTitleOfGameRule,
+}
+
+const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
+
+function toGameRule(arg: any): GameRule|undefined {
+	if (typeof arg !== 'string') {
+		return undefined;
+	}
+	if (GameRules.includes(arg as GameRule)) {
+		return arg as GameRule;
+	}
+	return undefined;
+}
+function toString(arg: GameRule): string {
+	return arg as string;
+}
+function getTitleOfGameRule(arg: GameRule): string {
+	switch (arg) {
+		case 'normal': return 'Normal';
+		case 'practiceFor4ren': return '4ren'
+	}
+}
+
+const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
+gameRuleConfigs.set('normal', ['Normal']);
+gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
+
+const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
+generateTerrain.set('normal', () => {
+	let terrainArray:Tetrimino[][] = [];
+	for (let i = 0; i < fieldHeight; i++) {
+		terrainArray.push(new Array(fieldWidth).fill('empty'))
+	}
+	return terrainArray;
+})
+generateTerrain.set('practiceFor4ren', () => {
+	const generateTerrainFn = generateTerrain.get('normal');
+	if (typeof generateTerrainFn !== 'undefined') {
+		let terrainArray = generateTerrainFn();
+		forEachMinoOnField((pos) => {
+			if (pos.x<3 || pos.x>6) {
+				terrainArray[pos.y][pos.x] = 'wall';
+			}
+		})
+		terrainArray[21][3] = 'wall';
+		terrainArray[21][4] = 'wall';
+		terrainArray[21][5] = 'wall';
+
+		return terrainArray;
+	}
+	return []
+})
+
+const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
+generateRegularlyTerrain.set('normal', ()=>{
+	return Array(fieldWidth).fill('empty');
+})
+generateRegularlyTerrain.set('practiceFor4ren', ()=>{
+	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal');
+	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+		let terrain:Tetrimino[] = generateRegularlyTerrainTemp();
+		terrain[0] = 'wall';
+		terrain[1] = 'wall';
+		terrain[2] = 'wall';
+		terrain[7] = 'wall';
+		terrain[8] = 'wall';
+		terrain[9] = 'wall';
+
+		return terrain;
+	}
+	return [];
+})
+
+function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
+	const config = gameRuleConfigs.get(rule);
+	if (typeof config !== 'undefined') {
+		return config.includes(type);
+	}
+	return false;
+}
+
+function resetField() {
+	console.log(gameRuleOption.currentOption);
+	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
+		const generateTerrainTemp = generateTerrain.get(gameRuleOption.currentOption);
+		if (typeof generateTerrainTemp !== 'undefined') {
+			fieldArray = generateTerrainTemp();
+		}
+	} else {
+		const generateTerrainTemp = generateTerrain.get('normal');
+		if (typeof generateTerrainTemp !== 'undefined') {
+			fieldArray = generateTerrainTemp();
+		}}
+}
+
+function getRegularlyTerrain() {
+	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
+		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(gameRuleOption.currentOption)
+		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+			return generateRegularlyTerrainTemp()
+		}
+	} else {
+		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal')
+		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+			return generateRegularlyTerrainTemp()
+		}
+	}
+}
+
 //
 //
 // display
@@ -898,56 +1074,6 @@ function clearNextArea(): void {
 
 function clearScoreArea(): void {
 	$('#scoreArea').html('')
-}
-
-//
-//
-// gameOptions
-//
-//
-
-//let currentMethodOfOperationForTouch = 'swipe';
-
-const options = ['GameRule']
-
-class GameOption<T> {
-	private _optionName: string;
-	private _currentOption: T;
-	private _enumOfT: Enum<T>;
-
-	constructor(name:string, indOfDefault: number=0, enumOfT: Enum<T>) {
-		this._optionName = name;
-		this._enumOfT = enumOfT;
-		this._currentOption = this._enumOfT.defArray[indOfDefault];
-
-		$(document).on('change', 'input[name="'+this._optionName+'"]', (e) => {
-			const value = $('input[name="'+this._optionName+'"]:checked').val();
-			const value_T = this._enumOfT.toEnum(value);
-			console.log(value);
-			if (typeof value_T !== 'undefined') {
-				this._currentOption = value_T;
-			}
-		})
-	}
-
-	get currentOption(): T {
-		return this._currentOption;
-
-}
-	displayRadioOption(obj: string): void {
-		let htmlText = "<div id='"+this._optionName+"RadioContainer'>";
-		for (const option of this._enumOfT.defArray) {
-			console.log(this._enumOfT.toString(option));
-			htmlText += `
-				<div class='radio'>
-					<input type='radio' name='${this._optionName}' value='${this._enumOfT.toString(option)}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
-					<label class='radio-label' for='${this._optionName}-${this._enumOfT.toString(option)}'>${this._enumOfT.getTitle(option)}</label>
-				</div>
-			`
-		}
-		$(obj).append(htmlText);
-		$(obj+' input[name="'+this._optionName+'"]').val([this._enumOfT.toString(this._currentOption)]);
-	}
 }
 
 //
@@ -1922,131 +2048,6 @@ function leftRotation() {
 				// isJustNowSpin = b;
 			}
 		})
-	}
-}
-
-//
-//
-// tetrisGameType
-//
-//
-
-const GameRuleClasses = ['Normal','Terrain'] as const;
-type GameRuleClass = typeof GameRuleClasses[number];
-
-const GameRules = ['normal', 'practiceFor4ren'] as const;
-type GameRule = typeof GameRules[number];
-const EnumOfGameRule:Enum<GameRule> = {
-	defArray: GameRules,
-	toEnum: toGameRule,
-	toString: toString,
-	getTitle: getTitleOfGameRule,
-}
-
-const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
-
-function toGameRule(arg: any): GameRule|undefined {
-	if (typeof arg !== 'string') {
-		return undefined;
-	}
-	if (GameRules.includes(arg as GameRule)) {
-		return arg as GameRule;
-	}
-	return undefined;
-}
-function toString(arg: GameRule): string {
-	return arg as string;
-}
-function getTitleOfGameRule(arg: GameRule): string {
-	switch (arg) {
-		case 'normal': return 'Normal';
-		case 'practiceFor4ren': return '4ren'
-	}
-}
-
-const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
-gameRuleConfigs.set('normal', ['Normal']);
-gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
-
-const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
-generateTerrain.set('normal', () => {
-	let terrainArray:Tetrimino[][] = [];
-	for (let i = 0; i < fieldHeight; i++) {
-		terrainArray.push(new Array(fieldWidth).fill('empty'))
-	}
-	return terrainArray;
-})
-generateTerrain.set('practiceFor4ren', () => {
-	const generateTerrainFn = generateTerrain.get('normal');
-	if (typeof generateTerrainFn !== 'undefined') {
-		let terrainArray = generateTerrainFn();
-		forEachMinoOnField((pos) => {
-			if (pos.x<3 || pos.x>6) {
-				terrainArray[pos.y][pos.x] = 'wall';
-			}
-		})
-		terrainArray[21][3] = 'wall';
-		terrainArray[21][4] = 'wall';
-		terrainArray[21][5] = 'wall';
-
-		return terrainArray;
-	}
-	return []
-})
-
-const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
-generateRegularlyTerrain.set('normal', ()=>{
-	return Array(fieldWidth).fill('empty');
-})
-generateRegularlyTerrain.set('practiceFor4ren', ()=>{
-	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal');
-	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-		let terrain:Tetrimino[] = generateRegularlyTerrainTemp();
-		terrain[0] = 'wall';
-		terrain[1] = 'wall';
-		terrain[2] = 'wall';
-		terrain[7] = 'wall';
-		terrain[8] = 'wall';
-		terrain[9] = 'wall';
-
-		return terrain;
-	}
-	return [];
-})
-
-function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
-	const config = gameRuleConfigs.get(rule);
-	if (typeof config !== 'undefined') {
-		return config.includes(type);
-	}
-	return false;
-}
-
-function resetField() {
-	console.log(gameRuleOption.currentOption);
-	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
-		const generateTerrainTemp = generateTerrain.get(gameRuleOption.currentOption);
-		if (typeof generateTerrainTemp !== 'undefined') {
-			fieldArray = generateTerrainTemp();
-		}
-	} else {
-		const generateTerrainTemp = generateTerrain.get('normal');
-		if (typeof generateTerrainTemp !== 'undefined') {
-			fieldArray = generateTerrainTemp();
-		}}
-}
-
-function getRegularlyTerrain() {
-	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
-		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(gameRuleOption.currentOption)
-		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-			return generateRegularlyTerrainTemp()
-		}
-	} else {
-		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal')
-		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-			return generateRegularlyTerrainTemp()
-		}
 	}
 }
 
