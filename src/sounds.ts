@@ -1,21 +1,3 @@
-//$(document).ready(function () {
-//	ion.sound({
-//		sounds: [
-//			{
-//				name: "lockDownSE",
-//				preload: true
-//			},
-//			{
-//				name: "startSound",
-//				preload: true
-//			}
-//		],
-//		volume: "0.2",
-//		path: "sounds/",
-//		// preload: true
-//	})
-//})
-
 //import { Howl } from "howler";
 
 //// import {Howl} from 'howler';
