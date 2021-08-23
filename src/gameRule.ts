@@ -87,6 +87,7 @@ export class ChangeSizeOfMatrix extends GameRule {
 				for (let i = 0; i < matrixHeight + bufferHeight; i++) {
 					terrainArray.push(new Array(matrixWidth).fill('empty'))
 				}
+				console.log(terrainArray);
 				return terrainArray;
 			},
 			()=>{
