@@ -579,7 +579,37 @@ class GameOption<T> {
 //type GameRuleClass = typeof GameRuleClasses[number];
 
 //const GameRules = ['normal', 'practiceFor4ren'] as const;
-const GameRules: GameRule[] = [GameRule.Normal]
+
+const PracticeFor4ren = new GameRule(
+	'practiceFor4ren',
+	'4line REN',
+	() => {
+		let terrainArray = GameRule.Normal.generateTerrain();
+		forEachMinoOnField((pos) => {
+			if (pos.x<3 || pos.x>6) {
+				terrainArray[pos.y][pos.x] = 'wall';
+			}
+		})
+		terrainArray[21][3] = 'wall';
+		terrainArray[21][4] = 'wall';
+		terrainArray[21][5] = 'wall';
+
+		return terrainArray;
+	},
+	() => {
+		let terrain:Tetrimino[] = GameRule.Normal.generateRegularlyTerrain();
+		terrain[0] = 'wall';
+		terrain[1] = 'wall';
+		terrain[2] = 'wall';
+		terrain[7] = 'wall';
+		terrain[8] = 'wall';
+		terrain[9] = 'wall';
+
+		return terrain;
+	}
+)
+
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren]
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
