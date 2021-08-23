@@ -81,6 +81,16 @@ export class ChangeSizeOfMatrix extends GameRule {
 		matrixWidth: number = normalMatrixWidth,
 		bufferHeight: number = normalBufferHeight,
 	) {
-		super(name,title,GameRule.Normal.generateTerrain,GameRule.Normal.generateRegularlyTerrain,matrixHeight,matrixWidth,bufferHeight);
+		super(name,title,
+			()=>{
+				let terrainArray:Tetrimino[][] = [];
+				for (let i = 0; i < matrixHeight + bufferHeight; i++) {
+					terrainArray.push(new Array(matrixWidth).fill('empty'))
+				}
+				return terrainArray;
+			},
+			()=>{
+				return Array(matrixWidth).fill('empty');
+			},matrixHeight,matrixWidth,bufferHeight);
 	}
 }
