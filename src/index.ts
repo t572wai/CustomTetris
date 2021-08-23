@@ -2372,19 +2372,22 @@ function onHold() {
 
 initDialogs()
 
+$(document).off('click','#startButton');
 $(document).on('click','#startButton', () => {
 	initTetris();
 	startTetris()
 })
 //$(document).on('touched','#startButton', () => {
-//	initTetris();
-//	startTetris();
-//})
+	//	initTetris();
+	//	startTetris();
+	//})
 
+$(document).off('click','#toKeyBindings');
 $(document).on('click','#toKeyBindings', () => {
 	toKeyBindings();
 })
 
+$(document).off('click','#fromKeyToMainMenu');
 $(document).on('click','#fromKeyToMainMenu', () => {
 	$(document).off('.onClickKeyForAny');
 	toMainMenu();
