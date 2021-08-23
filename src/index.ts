@@ -2372,7 +2372,7 @@ function onHold() {
 
 initDialogs()
 
-$(document).off('click','#startButton');
+$('#startButton').off('click');
 $(document).on('click','#startButton', () => {
 	initTetris();
 	startTetris()
@@ -2382,12 +2382,12 @@ $(document).on('click','#startButton', () => {
 	//	startTetris();
 	//})
 
-$(document).off('click','#toKeyBindings');
+$('#toKeyBindings').off('click');
 $(document).on('click','#toKeyBindings', () => {
 	toKeyBindings();
 })
 
-$(document).off('click','#fromKeyToMainMenu');
+$('#fromKeyToMainMenu').off('click');
 $(document).on('click','#fromKeyToMainMenu', () => {
 	$(document).off('.onClickKeyForAny');
 	toMainMenu();
