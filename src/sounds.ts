@@ -9,17 +9,17 @@
 
 
 
-//import { Howl, Howler } from 'howler';
+import { Howl, Howler } from 'howler';
 //const howler = require('howler');
 
-//const lockDownSound = new howler.Howl({
-//	src: [
-//		"sounds/lockDownSE.mp3",
-//	]
-//});
+export const lockDownSound = new Howl({
+	src: [
+		"sounds/lockDownSE.mp3",
+	]
+});
 
-//const startSound = new howler.Howl({
-//	src: [
-//		"sounds/startSound.mp3",
-//	]
-//})
+export const startSound = new Howl({
+	src: [
+		"sounds/startSound.mp3",
+	]
+})

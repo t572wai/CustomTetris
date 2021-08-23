@@ -8,6 +8,7 @@ import { setButtonActions } from "./buttonAction";
 import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
+import { startSound, lockDownSound } from './sounds';
 
 //
 //
@@ -1138,7 +1139,7 @@ let swiper: Swiper;
 
 function startTetris() {
 	//ion.sound.play("startSound",{volume:'0.4'})
-	//startSound.play()
+	startSound.play()
 	displayMatrix()
 	reset()
 	startToAppearMinos()
@@ -1802,7 +1803,7 @@ function lockDown(): void {
 	//		console.log("lockDownSE end");
 	//	}
 	//})
-	//lockDownSound.play()
+	lockDownSound.play()
 	let lower = lowerPos()
 	totalFallenTetrimino++;
 	checkLine(currentMinoLockedDownCallback.bind(null,lower))
