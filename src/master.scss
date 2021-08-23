@@ -38,14 +38,14 @@ img {
 	//grid-template-columns: repeat(10, $sizeOfMino);
 	@include pc {
 		@include setGrid(
-			$sizeOfTopMino-pc repeat($heightOfMatrix, $sizeOfMino-pc) 1fr,
-			repeat($widthOfMatrix, $sizeOfMino-pc)
+			$sizeOfTopMino-pc repeat(var(--heightOfMatrix), $sizeOfMino-pc) 1fr,
+			repeat(var(--widthOfMatrix), $sizeOfMino-pc)
 		);
 	}
 	@include touch {
 		@include setGrid(
-			$sizeOfTopMino repeat($heightOfMatrix, $sizeOfMino) 1fr,
-			repeat($widthOfMatrix, $sizeOfMino)
+			$sizeOfTopMino repeat(var(--heightOfMatrix), $sizeOfMino) 1fr,
+			repeat(var(--widthOfMatrix), $sizeOfMino)
 		);
 	}
 	grid-gap: 0px 0px;

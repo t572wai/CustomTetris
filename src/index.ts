@@ -10,7 +10,7 @@ import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
 import { startSound, lockDownSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth } from "./global";
-import { GameRule } from './gameRule';
+import { ChangeSizeOfMatrix, GameRule } from './gameRule';
 
 //
 //
@@ -612,7 +612,13 @@ const PracticeFor4ren = new GameRule(
 	}
 )
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren]
+const SpreadMatrix = new ChangeSizeOfMatrix(
+	'spreadMatrix',
+	'spreadMatrix',
+	25,15,2
+)
+
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix]
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
@@ -924,6 +930,7 @@ function textOfKeyBindingsForPC(): string {
 
 function displayMatrix(): void {
 	let matrixText = "";
+	setSizeOfMatrix()
 
 	forEachMinoOnMatrix((pos) => {
 			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
@@ -942,6 +949,12 @@ function displayAllMinos(): void {
 	forEachMinoOnMatrix((pos) => {
 			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos");
 	})
+}
+
+function setSizeOfMatrix() {
+	//$(':root').style.setProperty()
+	document.documentElement.style.setProperty('--heightOfMatrix', gameRuleOption.currentOption.matrixHeight.toString());
+	document.documentElement.style.setProperty('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
 }
 
 function displayDiffer(differs: Mino[],callback: ()=>void): void {

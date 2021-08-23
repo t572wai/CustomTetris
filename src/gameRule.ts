@@ -57,11 +57,30 @@ export class GameRule {
 		return this._generateRegularlyTerrain;
 	}
 
+	get matrixHeight() {
+		return this._matrixHeight;
+	}
+	get matrixWidth() {
+		return this._matrixWidth;
+	}
+
 	static toString(rule: GameRule): string{
 		return rule._name;
 	}
 
 	static getTitle(rule: GameRule): string{
 		return rule._title;
+	}
+}
+
+export class ChangeSizeOfMatrix extends GameRule {
+	constructor(
+		name: string,
+		title: string,
+		matrixHeight: number = normalMatrixHeight,
+		matrixWidth: number = normalMatrixWidth,
+		bufferHeight: number = normalBufferHeight,
+	) {
+		super(name,title,GameRule.Normal.generateTerrain,GameRule.Normal.generateRegularlyTerrain,matrixHeight,matrixWidth,bufferHeight);
 	}
 }
