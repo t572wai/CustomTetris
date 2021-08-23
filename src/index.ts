@@ -2095,7 +2095,7 @@ function addHardDropKeyActions(key:string) {
 }
 
 function addSoftDropKeyActions(key:string) {
-	addKeyActions(key, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false), onSoftDrop.bind(null,false))
+	addKeyActions(key, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false), onSoftDrop.bind(null,true))
 	keyBinding.set('softDrop', key);
 }
 
