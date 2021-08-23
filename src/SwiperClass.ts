@@ -1,4 +1,4 @@
-class Swiper {
+export class Swiper {
 	target: JQuery;
 	dist: number;
 	waitSec: number;

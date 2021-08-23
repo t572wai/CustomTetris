@@ -1,3 +1,5 @@
+import { setButtonActions } from "./buttonAction";
+import { Swiper } from "./SwiperClass";
 //
 //
 // const
@@ -596,6 +598,10 @@ const EnumOfGameRule:Enum<GameRule> = {
 	getTitle: getTitleOfGameRule,
 }
 
+function toString(arg: string): string {
+	return arg as string;
+}
+
 const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
 
 function toGameRule(arg: any): GameRule|undefined {
@@ -607,9 +613,10 @@ function toGameRule(arg: any): GameRule|undefined {
 	}
 	return undefined;
 }
-function toString(arg: GameRule): string {
-	return arg as string;
-}
+
+//function toString(arg: GameRule): string {
+//	return arg as string;
+//}
 function getTitleOfGameRule(arg: GameRule): string {
 	switch (arg) {
 		case 'normal': return 'Normal';
@@ -2081,10 +2088,10 @@ function toMethodsOfOpForTouch(arg: any): MethodOfOpForTouch|undefined {
 	}
 	return undefined;
 }
-function toString(arg: MethodOfOpForTouch): string {
-	console.log(arg,arg as string);
-	return arg as string;
-}
+//function toString(arg: MethodOfOpForTouch): string {
+//	console.log(arg,arg as string);
+//	return arg as string;
+//}
 function getTitleOfMethodOfOpForTouch(arg: MethodOfOpForTouch): string {
 	switch (arg) {
 		case 'swipe':
