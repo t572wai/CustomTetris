@@ -2374,6 +2374,7 @@ initDialogs()
 
 $('#startButton').off('click');
 $(document).on('click','#startButton', () => {
+	console.log('start!!');
 	initTetris();
 	startTetris()
 })
