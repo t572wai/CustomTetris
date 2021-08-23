@@ -1804,9 +1804,11 @@ function lockDown(): void {
 	//	}
 	//})
 	lockDownSound.play()
-	let lower = lowerPos()
-	totalFallenTetrimino++;
-	checkLine(currentMinoLockedDownCallback.bind(null,lower))
+	lockDownSound.once('end', () => {
+		let lower = lowerPos()
+		totalFallenTetrimino++;
+		checkLine(currentMinoLockedDownCallback.bind(null,lower))
+	})
 }
 
 function moveToLeft(callback: (b:boolean)=>void): void {
