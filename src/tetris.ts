@@ -1,5 +1,7 @@
 import { setButtonActions } from "./buttonAction";
 import { Swiper } from "./SwiperClass";
+import { addKeyActions, removeKeyActions } from "./keyinput";
+import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
 //
 //
 // const

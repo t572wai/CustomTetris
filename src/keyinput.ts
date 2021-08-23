@@ -4,7 +4,7 @@ let presseds = new Map<string, boolean>();
 let timers = new Map<string, any>();
 let intervalTimers = new Map<string, any>();
 
-function addKeyActions(
+export function addKeyActions(
 		code: string,
 		keydownAc: ()=>void = function () {},
 		keyupAc: ()=>void = function () {},
@@ -52,6 +52,6 @@ function addKeyActions(
 	})
 }
 
-function removeKeyActions(code: string) {
+export function removeKeyActions(code: string) {
 	$(document).off('.'+code);
 }
