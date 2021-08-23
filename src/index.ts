@@ -2090,12 +2090,12 @@ function addLeftKeyActions(key:string) {
 }
 
 function addHardDropKeyActions(key:string) {
-	addKeyActions(key, onHardDrop)
+	addKeyActions(key, onHardDrop, ()=>{}, onHardDrop)
 	keyBinding.set('hardDrop', key);
 }
 
 function addSoftDropKeyActions(key:string) {
-	addKeyActions(key, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false))
+	addKeyActions(key, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false), onSoftDrop.bind(null,false))
 	keyBinding.set('softDrop', key);
 }
 
