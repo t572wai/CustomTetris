@@ -8,6 +8,7 @@ import { setButtonActions } from "./buttonAction";
 import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
+
 //
 //
 // const
@@ -1131,51 +1132,6 @@ let swiper: Swiper;
 
 //
 //
-// init
-//
-//
-
-// // ビジーwaitを使う方法
-// function sleep(waitMsec) {
-// 	var startMsec = new Date();
-//
-// 	// 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-// 	while (new Date() - startMsec < waitMsec);
-// }
-
-initDialogs()
-
-$(document).on('click','#startButton', () => {
-	initTetris();
-	startTetris()
-})
-//$(document).on('touched','#startButton', () => {
-//	initTetris();
-//	startTetris();
-//})
-
-$(document).on('click','#toKeyBindings', () => {
-	toKeyBindings();
-})
-
-$(document).on('click','#fromKeyToMainMenu', () => {
-	$(document).off('.onClickKeyForAny');
-	toMainMenu();
-})
-//$(document).on('touched','#fromKeyToMainMenu', () => {
-//	toMainMenu();
-//})
-
-toMainMenu()
-
-// $('#startButton').off()
-
-// reset();
-//
-// startToAppearMinos();
-
-//
-//
 // systems
 //
 //
@@ -1199,6 +1155,7 @@ function initTetris() {
 function startToAppearMinos() {
 	console.log('start');
 	checkGenerationOfTetriminos()
+
 	//console.log(followingMinos);
 	while(typeof followingMinos[0] === 'undefined'){
 		followingMinos.shift()
@@ -1773,7 +1730,6 @@ function startFall(): void {
 	if (!currentMinoDidLockDown) {
 		console.log('start to fall');
 		clearTimeout(currentMinoLockDownTimer)
-		console.log(canMove(currentMinoTiles));
 		if (canBeAppeared()) {
 			currentMinoIsVisible = true;
 			currentMinoDidLockDown = false;
@@ -2397,4 +2353,63 @@ function onLeftRotation() {
 
 function onHold() {
 	hold()
+}
+
+//
+//
+// init
+//
+//
+
+// // ビジーwaitを使う方法
+// function sleep(waitMsec) {
+// 	var startMsec = new Date();
+//
+// 	// 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+// 	while (new Date() - startMsec < waitMsec);
+// }
+
+initDialogs()
+
+$(document).on('click','#startButton', () => {
+	initTetris();
+	startTetris()
+})
+//$(document).on('touched','#startButton', () => {
+//	initTetris();
+//	startTetris();
+//})
+
+$(document).on('click','#toKeyBindings', () => {
+	toKeyBindings();
+})
+
+$(document).on('click','#fromKeyToMainMenu', () => {
+	$(document).off('.onClickKeyForAny');
+	toMainMenu();
+})
+//$(document).on('touched','#fromKeyToMainMenu', () => {
+//	toMainMenu();
+//})
+
+toMainMenu()
+
+// $('#startButton').off()
+
+// reset();
+//
+// startToAppearMinos();
+
+//
+//
+// main system
+//
+//
+
+function start() {
+// initDisplay()
+// initVars()
+// organizeBag()
+//
+// startToAppear(//)
 }
