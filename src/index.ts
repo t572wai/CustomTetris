@@ -10,7 +10,7 @@ import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
 import { startSound, lockDownSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth } from "./global";
-import { GameRule } from 'gameRule';
+import { GameRule } from './gameRule';
 
 //
 //
