@@ -991,7 +991,7 @@ function displayMino(mino: Mino): void {
 }
 
 function displayGhostMino(mino: Mino): void {
-	if (mino.y< normalBufferHeight) {
+	if (mino.y< gameRuleOption.currentOption.bufferHeight) {
 		return ;
 	}
 	let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos'></div>"
@@ -1210,7 +1210,7 @@ function isGameOver(indicator: number): boolean {
 }
 
 function isLockOut(indicator: number): boolean {
-	return indicator<normalBufferHeight;
+	return indicator<gameRuleOption.currentOption.bufferHeight;
 }
 
 function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>void): void {
@@ -1482,8 +1482,8 @@ function clearNextQueue() {
  * @param {function} fn [fn(x,y)]
  */
 function forEachMinoOnMatrix(fn: (p:Pos)=>void) {
-	for (let i = normalBufferHeight-1; i < normalFieldHeight; i++) {
-		for (let j = 0; j < normalFieldWidth; j++) {
+	for (let i = gameRuleOption.currentOption.bufferHeight-1; i < gameRuleOption.currentOption.fieldHeight; i++) {
+		for (let j = 0; j < gameRuleOption.currentOption.fieldWidth; j++) {
 			fn({x:j,y:i})
 		}
 	}
@@ -1494,8 +1494,8 @@ function forEachMinoOnMatrix(fn: (p:Pos)=>void) {
  * @param {function} fn [fn(x,y)]
  */
 function forEachMinoOnField(fn: (p:Pos)=>void) {
-	for (let i = 0; i < normalFieldHeight; i++) {
-		for (let j = 0; j < normalFieldWidth; j++) {
+	for (let i = 0; i < gameRuleOption.currentOption.fieldHeight; i++) {
+		for (let j = 0; j < gameRuleOption.currentOption.fieldWidth; j++) {
 			fn({x:j,y:i})
 		}
 	}
@@ -1590,14 +1590,14 @@ function clearTimer(name: string): void {
 }
 
 function isWall(x: number, y: number): boolean {
-	return (x<0 || x>normalFieldWidth-1 || y>normalFieldHeight-1)
+	return (x<0 || x>gameRuleOption.currentOption.fieldWidth-1 || y>gameRuleOption.currentOption.fieldHeight-1)
 }
 
 function isOutOfField(x: number, y: number): boolean {
 	return isWall(x,y) || y<0
 }
 function isOutOfMatrix(x: number, y: number): boolean {
-	return isWall(x,y) || y<normalBufferHeight-1
+	return isWall(x,y) || y<gameRuleOption.currentOption.bufferHeight-1
 }
 
 function isFilledOrWall(x: number, y:number): boolean{
@@ -1700,11 +1700,11 @@ function hideCurrentMino(callback: ()=>void) {
 function checkGhost(): number {
 	let hightOfAbleToDrop = []
 	for (let tile of currentMinoTiles) {
-		for (var i = tile.y; i < normalFieldHeight; i++) {
+		for (var i = tile.y; i < gameRuleOption.currentOption.fieldHeight; i++) {
 			if (isOtherTiles({x:tile.x,y:i})) {
 				hightOfAbleToDrop.push(i-tile.y-1)
 				break;
-			} else if (i==normalFieldHeight-1) {
+			} else if (i==gameRuleOption.currentOption.fieldHeight-1) {
 				hightOfAbleToDrop.push(i-tile.y)
 				break;
 			}

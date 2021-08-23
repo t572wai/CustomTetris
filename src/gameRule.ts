@@ -63,6 +63,18 @@ export class GameRule {
 	get matrixWidth() {
 		return this._matrixWidth;
 	}
+	get bufferHeight() {
+		return this._bufferHeight;
+	}
+	get bufferWidth() {
+		return this._bufferWidth;
+	}
+	get fieldHeight() {
+		return this._fieldHeight;
+	}
+	get fieldWidth() {
+		return this._fieldWidth;
+	}
 
 	static toString(rule: GameRule): string{
 		return rule._name;
