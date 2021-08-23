@@ -9,15 +9,14 @@ import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
 import { startSound, lockDownSound } from './sounds';
+import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth } from "./global";
+import { GameRule } from 'gameRule';
 
 //
 //
 // const
 //
 //
-
-const TetriminoUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
-type Tetrimino = typeof TetriminoUnion[number];
 
 const TetriminosFromNum = new Map<Number,Tetrimino>();
 TetriminosFromNum.set(-2,"wall");
@@ -29,18 +28,6 @@ TetriminosFromNum.set(3,"z");
 TetriminosFromNum.set(4,"j");
 TetriminosFromNum.set(5,"l");
 TetriminosFromNum.set(6,"t");
-
-type Pos = {
-	x: number,
-	y: number,
-}
-
-type Mino = {
-	x: number,
-	y: number,
-	mino: Tetrimino,
-}
-
 
 function FallingSpeed(level: number): number {
 	return 1000*(0.8 - ((level-1) * 0.007))**(level-1);
@@ -493,14 +480,6 @@ spinRule.set("t",[
 	]
 ])
 
-const matrixHeight: number = 20;
-const matrixWidth: number = 10;
-
-const bufferHeight: number = 2;
-const bufferWidth:number = matrixWidth;
-
-const fieldHeight: number = matrixHeight + bufferHeight;
-const fieldWidth:number = matrixWidth;
 
 //
 //
@@ -596,16 +575,17 @@ class GameOption<T> {
 //
 //
 
-const GameRuleClasses = ['Normal','Terrain'] as const;
-type GameRuleClass = typeof GameRuleClasses[number];
+//const GameRuleClasses = ['Normal','Terrain'] as const;
+//type GameRuleClass = typeof GameRuleClasses[number];
 
-const GameRules = ['normal', 'practiceFor4ren'] as const;
-type GameRule = typeof GameRules[number];
+//const GameRules = ['normal', 'practiceFor4ren'] as const;
+const GameRules: GameRule[] = [GameRule.Normal]
+//type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
 	toEnum: toGameRule,
-	toString: toString,
-	getTitle: getTitleOfGameRule,
+	toString: GameRule.toString,
+	getTitle: GameRule.toString,
 }
 
 function toString(arg: string): string {
@@ -615,9 +595,6 @@ function toString(arg: string): string {
 const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
 
 function toGameRule(arg: any): GameRule|undefined {
-	if (typeof arg !== 'string') {
-		return undefined;
-	}
 	if (GameRules.includes(arg as GameRule)) {
 		return arg as GameRule;
 	}
@@ -627,97 +604,99 @@ function toGameRule(arg: any): GameRule|undefined {
 //function toString(arg: GameRule): string {
 //	return arg as string;
 //}
-function getTitleOfGameRule(arg: GameRule): string {
-	switch (arg) {
-		case 'normal': return 'Normal';
-		case 'practiceFor4ren': return '4ren'
-	}
-}
+//function getTitleOfGameRule(arg: GameRule): string {
+//	switch (arg) {
+//		case 'normal': return 'Normal';
+//		case 'practiceFor4ren': return '4ren'
+//	}
+//}
 
-const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
-gameRuleConfigs.set('normal', ['Normal']);
-gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
+//const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
+//gameRuleConfigs.set('normal', ['Normal']);
+//gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
 
-const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
-generateTerrain.set('normal', () => {
-	let terrainArray:Tetrimino[][] = [];
-	for (let i = 0; i < fieldHeight; i++) {
-		terrainArray.push(new Array(fieldWidth).fill('empty'))
-	}
-	return terrainArray;
-})
-generateTerrain.set('practiceFor4ren', () => {
-	const generateTerrainFn = generateTerrain.get('normal');
-	if (typeof generateTerrainFn !== 'undefined') {
-		let terrainArray = generateTerrainFn();
-		forEachMinoOnField((pos) => {
-			if (pos.x<3 || pos.x>6) {
-				terrainArray[pos.y][pos.x] = 'wall';
-			}
-		})
-		terrainArray[21][3] = 'wall';
-		terrainArray[21][4] = 'wall';
-		terrainArray[21][5] = 'wall';
+//const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
+//generateTerrain.set('normal', () => {
+//	let terrainArray:Tetrimino[][] = [];
+//	for (let i = 0; i < normalFieldHeight; i++) {
+//		terrainArray.push(new Array(normalFieldWidth).fill('empty'))
+//	}
+//	return terrainArray;
+//})
+//generateTerrain.set('practiceFor4ren', () => {
+//	const generateTerrainFn = generateTerrain.get('normal');
+//	if (typeof generateTerrainFn !== 'undefined') {
+//		let terrainArray = generateTerrainFn();
+//		forEachMinoOnField((pos) => {
+//			if (pos.x<3 || pos.x>6) {
+//				terrainArray[pos.y][pos.x] = 'wall';
+//			}
+//		})
+//		terrainArray[21][3] = 'wall';
+//		terrainArray[21][4] = 'wall';
+//		terrainArray[21][5] = 'wall';
 
-		return terrainArray;
-	}
-	return []
-})
+//		return terrainArray;
+//	}
+//	return []
+//})
 
-const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
-generateRegularlyTerrain.set('normal', ()=>{
-	return Array(fieldWidth).fill('empty');
-})
-generateRegularlyTerrain.set('practiceFor4ren', ()=>{
-	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal');
-	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-		let terrain:Tetrimino[] = generateRegularlyTerrainTemp();
-		terrain[0] = 'wall';
-		terrain[1] = 'wall';
-		terrain[2] = 'wall';
-		terrain[7] = 'wall';
-		terrain[8] = 'wall';
-		terrain[9] = 'wall';
+//const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
+//generateRegularlyTerrain.set(GameRule.Normal, ()=>{
+//	return Array(normalFieldWidth).fill('empty');
+//})
+//generateRegularlyTerrain.set('practiceFor4ren', ()=>{
+//	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal');
+//	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+//		let terrain:Tetrimino[] = generateRegularlyTerrainTemp();
+//		terrain[0] = 'wall';
+//		terrain[1] = 'wall';
+//		terrain[2] = 'wall';
+//		terrain[7] = 'wall';
+//		terrain[8] = 'wall';
+//		terrain[9] = 'wall';
 
-		return terrain;
-	}
-	return [];
-})
+//		return terrain;
+//	}
+//	return [];
+//})
 
-function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
-	const config = gameRuleConfigs.get(rule);
-	if (typeof config !== 'undefined') {
-		return config.includes(type);
-	}
-	return false;
-}
+//function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
+//	const config = gameRuleConfigs.get(rule);
+//	if (typeof config !== 'undefined') {
+//		return config.includes(type);
+//	}
+//	return false;
+//}
 
 function resetField() {
 	console.log(gameRuleOption.currentOption);
-	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
-		const generateTerrainTemp = generateTerrain.get(gameRuleOption.currentOption);
-		if (typeof generateTerrainTemp !== 'undefined') {
-			fieldArray = generateTerrainTemp();
-		}
-	} else {
-		const generateTerrainTemp = generateTerrain.get('normal');
-		if (typeof generateTerrainTemp !== 'undefined') {
-			fieldArray = generateTerrainTemp();
-		}}
+	fieldArray = gameRuleOption.currentOption.generateTerrain();
+	//if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
+	//	const generateTerrainTemp = generateTerrain.get(gameRuleOption.currentOption);
+	//	if (typeof generateTerrainTemp !== 'undefined') {
+	//		fieldArray = generateTerrainTemp();
+	//	}
+	//} else {
+	//	const generateTerrainTemp = generateTerrain.get('normal');
+	//	if (typeof generateTerrainTemp !== 'undefined') {
+	//		fieldArray = generateTerrainTemp();
+	//	}}
 }
 
 function getRegularlyTerrain() {
-	if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
-		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(gameRuleOption.currentOption)
-		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-			return generateRegularlyTerrainTemp()
-		}
-	} else {
-		const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal')
-		if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-			return generateRegularlyTerrainTemp()
-		}
-	}
+	return gameRuleOption.currentOption.generateRegularlyTerrain();
+	//if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
+	//	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(gameRuleOption.currentOption)
+	//	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+	//		return generateRegularlyTerrainTemp()
+	//	}
+	//} else {
+	//	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal')
+	//	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
+	//		return generateRegularlyTerrainTemp()
+	//	}
+	//}
 }
 
 //
@@ -966,7 +945,7 @@ function displayMino(mino: Mino): void {
 }
 
 function displayGhostMino(mino: Mino): void {
-	if (mino.y< bufferHeight) {
+	if (mino.y< normalBufferHeight) {
 		return ;
 	}
 	let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos'></div>"
@@ -1185,7 +1164,7 @@ function isGameOver(indicator: number): boolean {
 }
 
 function isLockOut(indicator: number): boolean {
-	return indicator<bufferHeight;
+	return indicator<normalBufferHeight;
 }
 
 function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>void): void {
@@ -1424,10 +1403,11 @@ function clearLine(i: number) {
 	for (var j = i-1; j >= 0; j--) {
 		fieldArray[j+1] = cloneArray(fieldArray[j]);
 	}
-	const generateRegularlyTerrainFn = generateRegularlyTerrain.get(gameRuleOption.currentOption);
-	if (typeof generateRegularlyTerrainFn !== 'undefined') {
-		fieldArray[0] = generateRegularlyTerrainFn();
-	}
+	fieldArray[0] = getRegularlyTerrain();
+	//const generateRegularlyTerrainFn = generateRegularlyTerrain.get(gameRuleOption.currentOption);
+	//if (typeof generateRegularlyTerrainFn !== 'undefined') {
+	//	fieldArray[0] = generateRegularlyTerrainFn();
+	//}
 	totalClearedLine++;
 }
 
@@ -1456,8 +1436,8 @@ function clearNextQueue() {
  * @param {function} fn [fn(x,y)]
  */
 function forEachMinoOnMatrix(fn: (p:Pos)=>void) {
-	for (let i = bufferHeight-1; i < fieldHeight; i++) {
-		for (let j = 0; j < fieldWidth; j++) {
+	for (let i = normalBufferHeight-1; i < normalFieldHeight; i++) {
+		for (let j = 0; j < normalFieldWidth; j++) {
 			fn({x:j,y:i})
 		}
 	}
@@ -1468,8 +1448,8 @@ function forEachMinoOnMatrix(fn: (p:Pos)=>void) {
  * @param {function} fn [fn(x,y)]
  */
 function forEachMinoOnField(fn: (p:Pos)=>void) {
-	for (let i = 0; i < fieldHeight; i++) {
-		for (let j = 0; j < fieldWidth; j++) {
+	for (let i = 0; i < normalFieldHeight; i++) {
+		for (let j = 0; j < normalFieldWidth; j++) {
 			fn({x:j,y:i})
 		}
 	}
@@ -1564,14 +1544,14 @@ function clearTimer(name: string): void {
 }
 
 function isWall(x: number, y: number): boolean {
-	return (x<0 || x>fieldWidth-1 || y>fieldHeight-1)
+	return (x<0 || x>normalFieldWidth-1 || y>normalFieldHeight-1)
 }
 
 function isOutOfField(x: number, y: number): boolean {
 	return isWall(x,y) || y<0
 }
 function isOutOfMatrix(x: number, y: number): boolean {
-	return isWall(x,y) || y<bufferHeight-1
+	return isWall(x,y) || y<normalBufferHeight-1
 }
 
 function isFilledOrWall(x: number, y:number): boolean{
@@ -1674,11 +1654,11 @@ function hideCurrentMino(callback: ()=>void) {
 function checkGhost(): number {
 	let hightOfAbleToDrop = []
 	for (let tile of currentMinoTiles) {
-		for (var i = tile.y; i < fieldHeight; i++) {
+		for (var i = tile.y; i < normalFieldHeight; i++) {
 			if (isOtherTiles({x:tile.x,y:i})) {
 				hightOfAbleToDrop.push(i-tile.y-1)
 				break;
-			} else if (i==fieldHeight-1) {
+			} else if (i==normalFieldHeight-1) {
 				hightOfAbleToDrop.push(i-tile.y)
 				break;
 			}
