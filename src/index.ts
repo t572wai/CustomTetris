@@ -540,8 +540,8 @@ class GameOption<T> {
 		this._currentOption = this._enumOfT.defArray[indOfDefault];
 
 		$(document).on('change', 'input[name="'+this._optionName+'"]', (e) => {
-			const value = $('input[name="'+this._optionName+'"]:checked').val();
-			const value_T = this._enumOfT.toEnum(value);
+			const value = $('input[name="'+this._optionName+'"]:checked').val() as number;
+			const value_T = this._enumOfT.defArray[value];
 			console.log(value);
 			if (typeof value_T !== 'undefined') {
 				this._currentOption = value_T;
@@ -555,17 +555,20 @@ class GameOption<T> {
 }
 	displayRadioOption(obj: string): void {
 		let htmlText = "<div id='"+this._optionName+"RadioContainer'>";
-		for (const option of this._enumOfT.defArray) {
+		for (let i = 0; i < this._enumOfT.defArray.length; i++) {
+			const option = this._enumOfT.defArray[i];
 			console.log(this._enumOfT.toString(option));
 			htmlText += `
 				<div class='radio'>
-					<input type='radio' name='${this._optionName}' value='${this._enumOfT.toString(option)}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
+					<input type='radio' name='${this._optionName}' value='${i}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
 					<label class='radio-label' for='${this._optionName}-${this._enumOfT.toString(option)}'>${this._enumOfT.getTitle(option)}</label>
 				</div>
 			`
 		}
 		$(obj).append(htmlText);
-		$(obj+' input[name="'+this._optionName+'"]').val([this._enumOfT.toString(this._currentOption)]);
+		const currentIndex =this._enumOfT.defArray.lastIndexOf(this._currentOption).toString();
+		console.log(currentIndex);
+		$(obj+' input[name="'+this._optionName+'"]').val([currentIndex]);
 	}
 }
 
