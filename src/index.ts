@@ -1493,6 +1493,8 @@ function isLineFilled(array: Tetrimino[]) {
 function endTetris() {
 	console.log('end tetris');
 	isPlayingTetris = false;
+	clearTimer('fall');
+	clearTimeout(currentMinoLockDownTimer);
 	if (typeof swiper !== 'undefined') {
 		swiper.destructor()
 	}
