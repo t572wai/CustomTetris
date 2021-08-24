@@ -507,7 +507,7 @@ $(function () {
 	$('#gameoverDialog').dialog({
 		title: 'game over',
 		modal: true,
-		open: () => {
+		open: function () {
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		buttons: {
@@ -525,14 +525,14 @@ $(function () {
 	$('#pauseDialog').dialog({
 		title: 'pause',
 		modal: true,
-		open: () => {
+		open: function () {
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		buttons: {
-			'close': () => {
+			'close': function () {
 				$(this).dialog('close');
 			},
-			'toMainMenu': () => {
+			'toMainMenu': function () {
 				endTetris();
 				$(this).dialog('close');
 			}
