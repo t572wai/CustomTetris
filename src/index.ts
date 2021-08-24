@@ -528,9 +528,11 @@ $(function () {
 		open: function () {
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
+		close: function () {
+			addPauseKeyActions('Escape');
+		},
 		buttons: {
 			'close': function () {
-				addPauseKeyActions('Escape');
 				$(this).dialog('close');
 			},
 			'toMainMenu': function () {
@@ -802,6 +804,7 @@ function toMainMenu(): void {
 	clearHoldQueue();
 	clearNextQueue();
 	hideAll();
+	removeKeyActions('Escape')
 	$('#mainMenuArea').css('display','block');
 }
 function toGame() {
