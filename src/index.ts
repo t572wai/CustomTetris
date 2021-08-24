@@ -506,6 +506,10 @@ function initDialogs(): void {
 $(function () {
 	$('#gameoverDialog').dialog({
 		title: 'game over',
+		modal: true,
+		open: () => {
+			$('#gameoverDialog').parent().find('.ui-dialog-titlebar-close').hide();
+		},
 		buttons: {
 			'restart': function () {
 				startTetris();
@@ -515,7 +519,7 @@ $(function () {
 				toMainMenu();
 				$(this).dialog('close');
 			}
-		}
+		},
 	})
 })
 
