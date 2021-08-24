@@ -526,6 +526,8 @@ $(function () {
 		title: 'pause',
 		modal: true,
 		open: function () {
+			currentMinoLockDownTimer.pauseTimeout();
+			pauseTimer('fall');
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		close: function () {
@@ -534,6 +536,8 @@ $(function () {
 		buttons: {
 			'close': function () {
 				$(this).dialog('close');
+				currentMinoLockDownTimer.restartTimeout();
+				restartTimer('fall');
 			},
 			'toMainMenu': function () {
 				endTetris();
@@ -1635,7 +1639,7 @@ function pauseTimer(name: string): void {
 	moveTimers.get(name)!.pauseTimeout();
 }
 
-function restartTImer(name: string): void {
+function restartTimer(name: string): void {
 	if (name=='fall') isLoopingOfFalling = true;
 	moveTimers.get(name)!.restartTimeout();
 }
