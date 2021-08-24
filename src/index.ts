@@ -1305,7 +1305,8 @@ function hold() {
 		}
 		hideCurrentMino(function () {
 			clearTimer('fall')
-			clearTimeout(currentMinoLockDownTimer)
+			//clearTimeout(currentMinoLockDownTimer)
+			currentMinoLockDownTimer.clearTimeout()
 			startToAppearMinos()
 		})
 	}
@@ -1494,7 +1495,8 @@ function endTetris() {
 	console.log('end tetris');
 	isPlayingTetris = false;
 	clearTimer('fall');
-	clearTimeout(currentMinoLockDownTimer);
+	//clearTimeout(currentMinoLockDownTimer);
+	currentMinoLockDownTimer.clearTimeout();
 	if (typeof swiper !== 'undefined') {
 		swiper.destructor()
 	}
@@ -1554,7 +1556,7 @@ let lowestPos: number;
 let lowestPosWithLowerFace: number;
 let numberOfMoveWithLowerFace: number;
 let currentMinoDidLockDown: boolean;
-let currentMinoLockDownTimer: any;
+let currentMinoLockDownTimer: TimerOfAbilityToEsc = new TimerOfAbilityToEsc();
 let currentMinoLockedDownCallback: (lower: number) => void;
 
 let isLoopingOfFalling: boolean;
@@ -1805,7 +1807,8 @@ function softDrop(b: boolean): void {
 function startFall(): void {
 	if (!currentMinoDidLockDown) {
 		console.log('start to fall');
-		clearTimeout(currentMinoLockDownTimer)
+		//clearTimeout(currentMinoLockDownTimer)
+		currentMinoLockDownTimer.clearTimeout()
 		if (canBeAppeared()) {
 			currentMinoIsVisible = true;
 			currentMinoDidLockDown = false;
@@ -1853,7 +1856,8 @@ function loopOfFall(): void {
 function restartFall(): void {
 	if (canFall() && !isLoopingOfFalling) {
 		console.log('clear all timer');
-		clearTimeout(currentMinoLockDownTimer)
+		//clearTimeout(currentMinoLockDownTimer)
+		currentMinoLockDownTimer.clearTimeout()
 		clearTimer('fall')
 		loopOfFall()
 	}
@@ -1862,17 +1866,21 @@ function restartFall(): void {
 function countLockDownTimer(): void {
 	console.log('set timer');
 	if (!currentMinoDidLockDown) {
-		clearTimeout(currentMinoLockDownTimer)
-		currentMinoLockDownTimer = setTimeout(function () {
-			lockDown()
-		},500)
+		//clearTimeout(currentMinoLockDownTimer)
+		currentMinoLockDownTimer.clearTimeout()
+		currentMinoLockDownTimer = new TimerOfAbilityToEsc(lockDown, 500)
+		currentMinoLockDownTimer.setTimeout()
+		//currentMinoLockDownTimer = setTimeout(function () {
+		//	lockDown()
+		//},500)
 	}
 }
 
 function lockDown(): void {
 	console.log('mino locks down');
 	currentMinoDidLockDown = true;
-	clearTimeout(currentMinoLockDownTimer)
+	//clearTimeout(currentMinoLockDownTimer)
+	currentMinoLockDownTimer.clearTimeout()
 	//ion.sound.play("lockDownSE", {
 	//	ended_callback : function () {
 	//		console.log("lockDownSE end");
@@ -1918,7 +1926,8 @@ function onOperating(formerCanFall: boolean): void {
 	}
 	if (!formerCanFall) {
 		setNumberOfMoveWithLowerFace(numberOfMoveWithLowerFace+1);
-		clearTimeout(currentMinoLockDownTimer);
+		//clearTimeout(currentMinoLockDownTimer);
+		currentMinoLockDownTimer.clearTimeout()
 		if (currentCanFall) {
 			restartFall()
 		} else {

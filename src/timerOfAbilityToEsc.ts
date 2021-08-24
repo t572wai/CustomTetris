@@ -5,7 +5,7 @@ export class TimerOfAbilityToEsc {
 	private startTime: number;
 	private processTime: number;
 
-	constructor(callback: ()=>void,sec: number) {
+	constructor(callback: ()=>void = ()=>{},sec: number = 1000) {
 		this.waitSec = sec;
 		this.endCb = callback;
 		this.processTime = 0;
