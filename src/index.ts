@@ -537,8 +537,8 @@ $(function () {
 			},
 			'toMainMenu': function () {
 				endTetris();
-				toMainMenu();
 				$(this).dialog('close');
+				toMainMenu();
 			}
 		}
 	})
