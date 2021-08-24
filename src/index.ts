@@ -525,9 +525,19 @@ $(function () {
 	$('#pauseDialog').dialog({
 		title: 'pause',
 		modal: true,
+		closeOnEscape: false,
 		open: function () {
 			currentMinoLockDownTimer.pauseTimeout();
 			pauseTimer('fall');
+			addKeyActions('Escape', function() {
+				removeKeyActions('Escape');
+				$('#pauseDialog').dialog('close');
+				if (canFall()) {
+					restartTimer('fall');
+				} else {
+					currentMinoLockDownTimer.restartTimeout();
+				}
+			});
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		close: function () {
@@ -536,8 +546,11 @@ $(function () {
 		buttons: {
 			'close': function () {
 				$(this).dialog('close');
-				currentMinoLockDownTimer.restartTimeout();
-				restartTimer('fall');
+				if (canFall()) {
+					restartTimer('fall');
+				} else {
+					currentMinoLockDownTimer.restartTimeout();
+				}
 			},
 			'toMainMenu': function () {
 				endTetris();
