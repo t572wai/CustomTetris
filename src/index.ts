@@ -530,10 +530,12 @@ $(function () {
 		},
 		buttons: {
 			'close': function () {
+				addPauseKeyActions('Escape');
 				$(this).dialog('close');
 			},
 			'toMainMenu': function () {
 				endTetris();
+				toMainMenu();
 				$(this).dialog('close');
 			}
 		}
@@ -1194,6 +1196,7 @@ function startTetris() {
 	if (MethodOfOpForTouchOption.currentOption=='swipe') {
 		swiper = new Swiper(document, 70, 300, 50)
 	}
+	addPauseKeyActions('Escape')
 }
 
 function initTetris() {
@@ -2224,7 +2227,7 @@ addLeftRotationActions('ArrowLeft');
 addRightRotationActions('ArrowRight');
 addHoldActions('Shift');
 
-addPauseKeyActions('Escape');
+//addPauseKeyActions('Escape');
 
 function toOperate(str: string): Operate|undefined {
 	if (Operations.includes(str as Operate)) {
