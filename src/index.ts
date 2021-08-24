@@ -508,7 +508,7 @@ $(function () {
 		title: 'game over',
 		modal: true,
 		open: () => {
-			$('#gameoverDialog').parent().find('.ui-dialog-titlebar-close').hide();
+			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		buttons: {
 			'restart': function () {
@@ -520,6 +520,23 @@ $(function () {
 				$(this).dialog('close');
 			}
 		},
+	})
+
+	$('#pauseDialog').dialog({
+		title: 'pause',
+		modal: true,
+		open: () => {
+			$(this).parent().find('.ui-dialog-titlebar-close').hide();
+		},
+		buttons: {
+			'close': () => {
+				$(this).dialog('close');
+			},
+			'toMainMenu': () => {
+				endTetris();
+				$(this).dialog('close');
+			}
+		}
 	})
 })
 
@@ -2192,6 +2209,13 @@ function addKeyBinding(type:string, key:string) {
 	}
 }
 
+function addPauseKeyActions(key: string) {
+	addKeyActions(key, ()=> {
+		removeKeyActions(key);
+		$('#pauseDialog').dialog('open');
+	})
+}
+
 addRightKeyActions('d');
 addLeftKeyActions('a');
 addHardDropKeyActions('w');
@@ -2199,6 +2223,8 @@ addSoftDropKeyActions('s');
 addLeftRotationActions('ArrowLeft');
 addRightRotationActions('ArrowRight');
 addHoldActions('Shift');
+
+addPauseKeyActions('Escape');
 
 function toOperate(str: string): Operate|undefined {
 	if (Operations.includes(str as Operate)) {
