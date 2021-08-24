@@ -823,10 +823,12 @@ function toMainMenu(): void {
 	hideAll();
 	removeKeyActions('Escape')
 	$('#mainMenuArea').css('display','block');
+	$('#pauseButton').css('display', 'none');
 }
 function toGame() {
 	hideAll();
 	$('#gameArea').css('display','grid');
+	$('#pauseButton').css('display', 'block');
 }
 function toKeyBindings() {
 	hideAll();
@@ -2505,6 +2507,12 @@ $(document).on('click','#fromKeyToMainMenu', () => {
 	$(document).off('.onClickKeyForAny');
 	toMainMenu();
 })
+
+$('#pauseButton').off('click');
+$(document).on('click', '#pauseButton', ()=>{
+	$('#pauseDialog').dialog('open');
+})
+
 //$(document).on('touched','#fromKeyToMainMenu', () => {
 //	toMainMenu();
 //})

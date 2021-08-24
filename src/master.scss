@@ -179,6 +179,9 @@ img {
 }
 
 #pauseButton {
+	@include setSize(48px, 48px);
+	display: none;
+
 	position: fixed;
 	top: 20px;
 	left: 20px;
