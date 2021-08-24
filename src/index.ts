@@ -1590,6 +1590,7 @@ function setTimer(name: string, callback: ()=>void, delay: number): void {
 function clearTimer(name: string): void {
 	if(name=='fall') isLoopingOfFalling = false;
 	//clearTimeout(moveTimers[name])
+	console.log(name,moveTimers.get(name));
 	moveTimers.get(name)!.clearTimeout();
 }
 
