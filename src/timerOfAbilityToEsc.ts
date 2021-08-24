@@ -12,11 +12,13 @@ export class TimerOfAbilityToEsc {
 	}
 
 	setTimeout(): void {
+		this.processTime = 0;
 		this.timer = setTimeout(this.endCb, this.waitSec);
 		this.startTime = Date.now();
 	}
 	clearTimeout(): void {
 		clearTimeout(this.timer);
+		this.processTime = 0;
 	}
 
 	pauseTimeout() {
