@@ -11,6 +11,7 @@ import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray,
 import { startSound, lockDownSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth } from "./global";
 import { ChangeSizeOfMatrix, GameRule } from './gameRule';
+import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 
 //
 //
@@ -1532,7 +1533,7 @@ let indicatorForLockDown;
 
 let isMoving;
 
-let moveTimers: any;
+let moveTimers: Map<string, TimerOfAbilityToEsc>;
 
 let ghostMinos: Mino[];
 
@@ -1549,7 +1550,7 @@ function initMino( type: Tetrimino ) {
 	setNumberOfMoveWithLowerFace(0);
 	lowestPos = currentMinoY;
 	currentMinoLockedDownCallback = function () {}
-	moveTimers = {}
+	//moveTimers = {}
 	ghostMinos = []
 	isPlayingTetris = true;
 }
@@ -1579,14 +1580,27 @@ function lowerPos(): number {
 	return lower;
 }
 
-function setTimer(name: string, callback: (b: boolean)=>void, delay: number): void {
+function setTimer(name: string, callback: ()=>void, delay: number): void {
 	if(name=='fall') isLoopingOfFalling = true;
-	moveTimers[name] = setTimeout(callback,delay)
+	//moveTimers[name] = setTimeout(callback,delay)
+	moveTimers.set(name, new TimerOfAbilityToEsc(callback, delay));
+	moveTimers.get(name)!.setTimeout();
 }
 
 function clearTimer(name: string): void {
 	if(name=='fall') isLoopingOfFalling = false;
-	clearTimeout(moveTimers[name])
+	//clearTimeout(moveTimers[name])
+	moveTimers.get(name)!.clearTimeout();
+}
+
+function pauseTimer(name: string): void {
+	if (name=='fall') isLoopingOfFalling = false;
+	moveTimers.get(name)!.pauseTimeout();
+}
+
+function restartTImer(name: string): void {
+	if (name=='fall') isLoopingOfFalling = true;
+	moveTimers.get(name)!.restartTimeout();
 }
 
 function isWall(x: number, y: number): boolean {
