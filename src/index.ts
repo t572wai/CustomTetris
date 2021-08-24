@@ -972,6 +972,7 @@ function displayDifferWithDelay(differs: Mino[],callback: ()=>void) {
 
 	clearTimer('fall')
 	setTimer('fall',displayDiffer.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
+	console.log(moveTimers.get('fall'));
 }
 
 function displayGhostMinos(): void {
@@ -1592,7 +1593,10 @@ function clearTimer(name: string): void {
 	if(name=='fall') isLoopingOfFalling = false;
 	//clearTimeout(moveTimers[name])
 	console.log(name,moveTimers.get(name));
-	moveTimers.get(name)!.clearTimeout();
+	const Timer = moveTimers.get(name);
+	if (typeof Timer !== 'undefined') {
+		Timer.clearTimeout();
+	}
 }
 
 function pauseTimer(name: string): void {
