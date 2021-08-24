@@ -179,14 +179,17 @@ img {
 }
 
 #pauseButton {
-	@include setSize(48px, 48px);
+	@include setSize(56px, 56px);
 	display: none;
 
 	position: fixed;
 	top: 20px;
 	left: 20px;
 
+	padding: 4px;
+
 	background-image: url('imgs/menu.png');
+	background-origin: padding-box;
 	background-size: contain;
 	background-position: center;
 }
