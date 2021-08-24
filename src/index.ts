@@ -1583,6 +1583,7 @@ function lowerPos(): number {
 function setTimer(name: string, callback: ()=>void, delay: number): void {
 	if(name=='fall') isLoopingOfFalling = true;
 	//moveTimers[name] = setTimeout(callback,delay)
+	console.log(new TimerOfAbilityToEsc(callback, delay));
 	moveTimers.set(name, new TimerOfAbilityToEsc(callback, delay));
 	moveTimers.get(name)!.setTimeout();
 }
