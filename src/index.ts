@@ -1550,7 +1550,7 @@ function initMino( type: Tetrimino ) {
 	setNumberOfMoveWithLowerFace(0);
 	lowestPos = currentMinoY;
 	currentMinoLockedDownCallback = function () {}
-	//moveTimers = {}
+	moveTimers = new Map();
 	ghostMinos = []
 	isPlayingTetris = true;
 }
