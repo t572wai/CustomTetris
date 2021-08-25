@@ -993,7 +993,7 @@ function clearField(): void {
 function displayAllMinos(): void {
 	console.log(fieldArray);
 	forEachMinoOnMatrix((pos) => {
-			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos");
+			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos placedMinos");
 	})
 }
 
@@ -1039,7 +1039,7 @@ function removeGhostMinos(): void {
 }
 
 function displayMino(mino: Mino): void {
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos");
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos");
 }
 
 function displayGhostMino(mino: Mino): void {
@@ -1905,6 +1905,10 @@ function lockDown(): void {
 	currentMinoDidLockDown = true;
 	//clearTimeout(currentMinoLockDownTimer)
 	currentMinoLockDownTimer.clearTimeout()
+	for (const mino of currentMinoTiles) {
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').addClass('placedMinos')
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').removeClass('fallingMinos')
+	}
 	//ion.sound.play("lockDownSE", {
 	//	ended_callback : function () {
 	//		console.log("lockDownSE end");
