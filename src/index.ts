@@ -684,7 +684,7 @@ const HideFallingMinos = new ChangeStyle(
 	{},
 	)
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix]
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix, HideFallingMinos]
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
