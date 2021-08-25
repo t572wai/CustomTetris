@@ -1002,8 +1002,8 @@ function setSizeOfMatrix() {
 	setCssVar('--heightOfMatrix', gameRuleOption.currentOption.matrixHeight.toString());
 	setCssVar('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
 	if (TouchScreenQuery.matches){
-		const sizeOfMino = 15 * 20 / gameRuleOption.currentOption.matrixWidth;
-		console.log(`sizeOfMino is ${sizeOfMino}`);
+		const sizeOfMino = 15 * 10 / gameRuleOption.currentOption.matrixWidth;
+		//console.log(gameRuleOption.currentOption.matrixWidth,`sizeOfMino is ${sizeOfMino}`);
 		setCssVar('--sizeOfMino', sizeOfMino + 'px');
 	}
 }
