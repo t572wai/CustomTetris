@@ -626,10 +626,10 @@ class GameOption<T> {
 
 //const GameRules = ['normal', 'practiceFor4ren'] as const;
 
-const PracticeFor4ren = new GameRule(
-	'practiceFor4ren',
-	'4line REN',
-	() => {
+const PracticeFor4ren = new GameRule({
+	name:'practiceFor4ren',
+	title:'4line REN',
+	generateTerrain:() => {
 		let terrainArray = GameRule.Normal.generateTerrain();
 		forEachMinoOnField((pos) => {
 			if (pos.x<3 || pos.x>6) {
@@ -642,7 +642,7 @@ const PracticeFor4ren = new GameRule(
 
 		return terrainArray;
 	},
-	() => {
+	generateRegularlyTerrain:() => {
 		let terrain:Tetrimino[] = GameRule.Normal.generateRegularlyTerrain();
 		terrain[0] = 'wall';
 		terrain[1] = 'wall';
@@ -653,7 +653,7 @@ const PracticeFor4ren = new GameRule(
 
 		return terrain;
 	}
-)
+})
 
 const SpreadMatrix = new ChangeSizeOfMatrix(
 	'spreadMatrix',
@@ -661,28 +661,28 @@ const SpreadMatrix = new ChangeSizeOfMatrix(
 	25,15,2
 )
 
-const HideFallingMinos = new ChangeStyle(
-	'hideFallingMinos',
-	'hide falling minos',
-	{'background-color': '#348fca;'},
-	{'background-color': '#e7bd22;'},
-	{'background-color': '#246eab;'},
-	{'background-color': '#dc7a23;'},
-	{'background-color': '#2aa55d;'},
-	{'background-color': '#da4b3c;'},
-	{'background-color': '#824597;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': 'gray;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	{'background-color': '#0b1013;'},
-	)
+const HideFallingMinos = new ChangeStyle({
+	name:'hideFallingMinos',
+	title:'hide falling minos',
+	iStyleFalling: {'background-color': '#0b1013;'},
+	oStyleFalling: {'background-color': '#0b1013;'},
+	jStyleFalling: {'background-color': '#0b1013;'},
+	lStyleFalling: {'background-color': '#0b1013;'},
+	sStyleFalling: {'background-color': '#0b1013;'},
+	zStyleFalling: {'background-color': '#0b1013;'},
+	tStyleFalling: {'background-color': '#0b1013;'},
+	emptyStyleFalling: {'background-color': '#0b1013;'},
+	wallStyleFalling: {'background-color': '#0b1013;'},
+	iStyleGhost: {'background-color': '#0b1013;'},
+	oStyleGhost: {'background-color': '#0b1013;'},
+	jStyleGhost: {'background-color': '#0b1013;'},
+	lStyleGhost: {'background-color': '#0b1013;'},
+	sStyleGhost: {'background-color': '#0b1013;'},
+	zStyleGhost: {'background-color': '#0b1013;'},
+	tStyleGhost: {'background-color': '#0b1013;'},
+	emptyStyleGhost: {'background-color': '#0b1013;'},
+	wallStyleGhost: {'background-color': '#0b1013;'},
+})
 
 const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix, HideFallingMinos]
 //type GameRule = typeof GameRules[number];
