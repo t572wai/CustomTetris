@@ -7,7 +7,7 @@ import "./tetriminos.scss";
 import { setButtonActions } from "./buttonAction";
 import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
-import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter } from "./general";
+import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth } from "./global";
 import { ChangeSizeOfMatrix, GameRule } from './gameRule';
@@ -999,8 +999,14 @@ function displayAllMinos(): void {
 
 function setSizeOfMatrix() {
 	//$(':root').style.setProperty()
-	document.documentElement.style.setProperty('--heightOfMatrix', gameRuleOption.currentOption.matrixHeight.toString());
-	document.documentElement.style.setProperty('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
+	setCssVar('--heightOfMatrix', gameRuleOption.currentOption.matrixHeight.toString());
+	setCssVar('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
+	if (TouchScreenQuery.matches){
+		const sizeOfMino = 15 * 20 / gameRuleOption.currentOption.matrixWidth;
+		setCssVar('--sizeOfMino', sizeOfMino + 'px');
+		//setCssVar('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
+	}
+	//setCssVar('--')
 }
 
 function displayDiffer(differs: Mino[],callback: ()=>void): void {
