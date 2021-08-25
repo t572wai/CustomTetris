@@ -1024,6 +1024,7 @@ function setMinosStyle(): void {
 	for (const mino of TetriminoEnum.defArray) {
 		$('.'+mino+'Minos.fallingMinos').css(gameRuleOption.currentOption.getStyleFalling(mino));
 		$('.'+mino+'Minos.placedMinos').css(gameRuleOption.currentOption.getStyle(mino));
+		console.log(`style is ${gameRuleOption.currentOption.getStyleFalling(mino)} and ${gameRuleOption.currentOption.getStyle(mino)}`);
 	}
 }
 
