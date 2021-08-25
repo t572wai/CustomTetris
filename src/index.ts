@@ -1954,6 +1954,7 @@ function lockDown(): void {
 	for (const mino of currentMinoTiles) {
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').addClass('placedMinos')
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').removeClass('fallingMinos')
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
 	}
 	//ion.sound.play("lockDownSE", {
 	//	ended_callback : function () {
