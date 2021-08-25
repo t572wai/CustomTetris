@@ -1008,9 +1008,17 @@ function setSizeOfMatrix() {
 	}
 }
 
-function displayDiffer(differs: Mino[],callback: ()=>void): void {
+function displayDifferFallingMinos(differs: Mino[],callback: ()=>void): void {
 	for (var mino of differs) {
-		displayMino(mino)
+		displayFallingMino(mino)
+		updateMatrixArray(mino)
+	}
+
+	callback()
+}
+function displayDifferPlacedMinos(differs: Mino[],callback: ()=>void): void {
+	for (var mino of differs) {
+		displayPlacedMino(mino)
 		updateMatrixArray(mino)
 	}
 
@@ -1021,7 +1029,7 @@ function displayDifferWithDelay(differs: Mino[],callback: ()=>void) {
 	let differsTemp = cloneArray(differs)
 
 	clearTimer('fall')
-	setTimer('fall',displayDiffer.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
+	setTimer('fall',displayDifferFallingMinos.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
 	console.log(moveTimers.get('fall'));
 }
 
@@ -1038,8 +1046,11 @@ function removeGhostMinos(): void {
 	}
 }
 
-function displayMino(mino: Mino): void {
+function displayFallingMino(mino: Mino): void {
 	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos");
+}
+function displayPlacedMino(mino: Mino): void {
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos");
 }
 
 function displayGhostMino(mino: Mino): void {
@@ -1762,14 +1773,14 @@ function moveAndRotateWithDelay(dx: number, dy: number, sgn: number, timerName: 
 function changeCurrentMinos(followingTiles: Mino[],callback: ()=>void): void {
 	let formerTiles = replaceMinos(currentMinoTiles,'empty')
 	currentMinoTiles = cloneArray(followingTiles)
-	displayDiffer(formerTiles,function () {
-		displayDiffer(followingTiles,callback)
+	displayDifferPlacedMinos(formerTiles,function () {
+		displayDifferFallingMinos(followingTiles,callback)
 	})
 }
 
 function hideCurrentMino(callback: ()=>void) {
 	removeGhostMinos()
-	displayDiffer(replaceMinos(currentMinoTiles,'empty'),callback)
+	displayDifferPlacedMinos(replaceMinos(currentMinoTiles,'empty'),callback)
 }
 
 function checkGhost(): number {
@@ -1836,7 +1847,7 @@ function startFall(): void {
 		if (canBeAppeared()) {
 			currentMinoIsVisible = true;
 			currentMinoDidLockDown = false;
-			displayDiffer(currentMinoTiles,function () {
+			displayDifferFallingMinos(currentMinoTiles,function () {
 				displayGhost()
 				if(!canFall())countLockDownTimer()
 				loopOfFall()
