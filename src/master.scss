@@ -44,8 +44,8 @@ img {
 	}
 	@include touch {
 		@include setGrid(
-			$sizeOfTopMino repeat(var(--heightOfMatrix), $sizeOfMino) 1fr,
-			repeat(var(--widthOfMatrix), $sizeOfMino)
+			var(--sizeOfTopMino) repeat(var(--heightOfMatrix), var(--sizeOfMino)) 1fr,
+			repeat(var(--widthOfMatrix), var(--sizeOfMino))
 		);
 	}
 	grid-gap: 0px 0px;

@@ -2,13 +2,17 @@ $sizeOfMino-pc: 30px;
 $sizeOfDisplayedMino-pc: 20px;
 $sizeOfTopMino-pc: 7px;
 
-$sizeOfMino: 15px;
-$sizeOfDisplayedMino: 10px;
-$sizeOfTopMino: 5px;
+//$sizeOfMino: 15px;
+//$sizeOfDisplayedMino: 10px;
+//$sizeOfTopMino: 5px;
 
 :root {
 	--widthOfMatrix: 10;
 	--heightOfMatrix: 20;
+
+	--sizeOfMino: 15px;
+	--sizeOfDisplayedMino: calc(var(--sizeOfMino) * 2 / 3);
+	--sizeOfTopMino: calc(var(--sizeOfMino) / 4);
 }
 //$widthOfMatrix: 10;
 //$heightOfMatrix: 20;
