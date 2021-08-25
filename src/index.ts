@@ -9,8 +9,8 @@ import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound } from './sounds';
-import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth } from "./global";
-import { ChangeSizeOfMatrix, GameRule } from './gameRule';
+import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum } from "./global";
+import { ChangeSizeOfMatrix, ChangeStyle, GameRule } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 
 //
@@ -570,7 +570,7 @@ $(function () {
 
 //let currentMethodOfOperationForTouch = 'swipe';
 
-const options = ['GameRule']
+//const options = ['GameRule']
 
 class GameOption<T> {
 	private _optionName: string;
@@ -660,6 +660,29 @@ const SpreadMatrix = new ChangeSizeOfMatrix(
 	'spreadMatrix',
 	25,15,2
 )
+
+const HideFallingMinos = new ChangeStyle(
+	'hideFallingMinos',
+	'hide falling minos',
+	{'background-color': '#348fca;'},
+	{'background-color': '#e7bd22;'},
+	{'background-color': '#246eab;'},
+	{'background-color': '#dc7a23;'},
+	{'background-color': '#2aa55d;'},
+	{'background-color': '#da4b3c;'},
+	{'background-color': '#824597;'},
+	{'background-color': '#0b1013;'},
+	{'background-color': 'gray;'},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	)
 
 const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix]
 //type GameRule = typeof GameRules[number];
@@ -997,6 +1020,13 @@ function displayAllMinos(): void {
 	})
 }
 
+function setMinosStyle(): void {
+	for (const mino of TetriminoEnum.defArray) {
+		$('.'+mino+'Minos.fallingMinos').css(gameRuleOption.currentOption.getStyleFalling(mino));
+		$('.'+mino+'Minos.placedMinos').css(gameRuleOption.currentOption.getStyle(mino));
+	}
+}
+
 function setSizeOfMatrix() {
 	//$(':root').style.setProperty()
 	setCssVar('--heightOfMatrix', gameRuleOption.currentOption.matrixHeight.toString());
@@ -1235,6 +1265,7 @@ function startTetris() {
 		swiper = new Swiper(document, 70, 300, 50)
 	}
 	addPauseKeyActions('Escape')
+	setMinosStyle();
 }
 
 function initTetris() {

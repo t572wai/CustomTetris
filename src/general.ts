@@ -65,3 +65,7 @@ export interface Enum<T> {
 export function setCssVar(name: string, value: string): void {
 	document.documentElement.style.setProperty(name, value);
 }
+
+export interface CssProperty {
+	[property: string]: string,
+}

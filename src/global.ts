@@ -1,5 +1,14 @@
+import { Enum, toUpperFirstLetter } from "./general";
+
 const TetriminoUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
 export type Tetrimino = typeof TetriminoUnion[number];
+
+export const TetriminoEnum:Enum<Tetrimino> = {
+	defArray: TetriminoUnion,
+	toEnum: (arg: any)=> {return arg as Tetrimino},
+	toString: (arg: Tetrimino) => {return arg as string},
+	getTitle: (arg: Tetrimino) => {return toUpperFirstLetter(arg as string)},
+}
 
 export type Pos = {
 	x: number,
