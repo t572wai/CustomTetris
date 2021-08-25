@@ -1003,6 +1003,7 @@ function setSizeOfMatrix() {
 	setCssVar('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
 	if (TouchScreenQuery.matches){
 		const sizeOfMino = 15 * 20 / gameRuleOption.currentOption.matrixWidth;
+		console.log(sizeOfMino);
 		setCssVar('--sizeOfMino', sizeOfMino + 'px');
 	}
 }
