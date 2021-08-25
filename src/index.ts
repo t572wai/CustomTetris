@@ -1017,6 +1017,7 @@ function displayAllMinos(): void {
 	console.log(fieldArray);
 	forEachMinoOnMatrix((pos) => {
 			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos placedMinos");
+			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').css(gameRuleOption.currentOption.getStyle(fieldArray[pos.y][pos.x]));
 	})
 }
 
