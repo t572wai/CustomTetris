@@ -1266,6 +1266,7 @@ function startTetris() {
 		swiper = new Swiper(document, 70, 300, 50)
 	}
 	addPauseKeyActions('Escape')
+	console.log(gameRuleOption.currentOption);
 	setMinosStyle();
 }
 
