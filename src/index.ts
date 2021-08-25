@@ -1079,9 +1079,11 @@ function removeGhostMinos(): void {
 
 function displayFallingMino(mino: Mino): void {
 	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos");
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyleFalling(mino.mino));
 }
 function displayPlacedMino(mino: Mino): void {
 	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos");
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
 }
 
 function displayGhostMino(mino: Mino): void {
