@@ -51,8 +51,13 @@ img {
 	grid-gap: 0px 0px;
 }
 
-#holdArea {
+#pauseArea {
 	grid-row: 1;
+	grid-column: 1;
+}
+
+#holdArea {
+	grid-row: 2;
 	grid-column: 1;
 
 	display: grid;
@@ -81,7 +86,7 @@ img {
 #scoreArea {
 	margin-top: 30px;
 
-	grid-row: 2;
+	grid-row: 3;
 	grid-column: 1;
 }
 
@@ -182,9 +187,9 @@ img {
 	@include setSize(56px, 56px);
 	display: none;
 
-	position: fixed;
-	top: 20px;
-	left: 20px;
+	//position: fixed;
+	//top: 20px;
+	//left: 20px;
 
 	padding: 4px;
 
