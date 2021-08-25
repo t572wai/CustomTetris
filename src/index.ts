@@ -1004,9 +1004,7 @@ function setSizeOfMatrix() {
 	if (TouchScreenQuery.matches){
 		const sizeOfMino = 15 * 20 / gameRuleOption.currentOption.matrixWidth;
 		setCssVar('--sizeOfMino', sizeOfMino + 'px');
-		//setCssVar('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
 	}
-	//setCssVar('--')
 }
 
 function displayDiffer(differs: Mino[],callback: ()=>void): void {
