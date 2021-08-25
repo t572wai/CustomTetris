@@ -8,8 +8,8 @@
 		@include setSize(var(--sizeOfMino), var(--sizeOfMino));
 	}
 
-	border-top: 1px solid white;
-	border-left: 1px solid white;
+	border-top: min(1px, calc(var(--sizeOfMino) / 100)) solid white;
+	border-left: min(1px, calc(var(--sizeOfMino) / 100)) solid white;
 
 	grid-row: calc(attr(data-y) - 2);
 	grid-column: calc(attr(data-x));
