@@ -527,6 +527,7 @@ $(function () {
 		modal: true,
 		closeOnEscape: false,
 		open: function () {
+			isPausing = true;
 			currentMinoLockDownTimer.pauseTimeout();
 			pauseTimer('fall');
 			addKeyActions('Escape', function() {
@@ -542,6 +543,7 @@ $(function () {
 		},
 		close: function () {
 			addPauseKeyActions('Escape');
+			isPausing = false;
 		},
 		buttons: {
 			'close': function () {
@@ -1623,6 +1625,8 @@ let moveTimers: Map<string, TimerOfAbilityToEsc>;
 let ghostMinos: Mino[];
 let ghostPos: Pos;
 
+let isPausing: boolean;
+
 function initMino( type: Tetrimino ) {
 	currentMinoType = type;
 	currentMinoFacing = 0;
@@ -1639,6 +1643,7 @@ function initMino( type: Tetrimino ) {
 	moveTimers = new Map();
 	ghostMinos = []
 	isPlayingTetris = true;
+	isPausing = false;
 }
 
 function setCurrentMinoY(y: number): number {
@@ -2029,7 +2034,7 @@ function onOperating(formerCanFall: boolean): void {
 }
 
 function canOperate(): boolean {
-	return !currentMinoDidLockDown && isPlayingTetris;
+	return !currentMinoDidLockDown && isPlayingTetris && !isPausing;
 }
 
 
