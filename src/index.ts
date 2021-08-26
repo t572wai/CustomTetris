@@ -1750,6 +1750,10 @@ function fall(callback: (b: boolean)=>void): void {
 	moveWithDelay(0,1,'fall',callback);
 }
 
+function setShaftClass(pos: Pos|Mino): void {
+	$('.shaft').removeClass('shaft');
+	$(`.minos[data-x="${pos.x}"][data-y="${pos.y}"]`).addClass('shaft');
+}
 
 function move(dx: number, dy: number, callback: (b:boolean)=>void): void {
 	moveAndRotate(dx,dy,0,callback)
@@ -1762,6 +1766,7 @@ function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean
 		setCurrentMinoY(currentMinoY + dy);
 		changeCurrentMinos(followingTiles, function () {
 			currentMinoFacing = (currentMinoFacing + sgn) % 4;
+			setShaftClass({x:currentMinoX,y:currentMinoY});
 			displayGhost()
 			callback(true)
 		})
@@ -1793,6 +1798,7 @@ function changeCurrentMinos(followingTiles: Mino[],callback: ()=>void): void {
 	currentMinoTiles = cloneArray(followingTiles)
 	displayDifferPlacedMinos(formerTiles,function () {
 		displayDifferFallingMinos(followingTiles,callback)
+		setShaftClass({x:currentMinoX,y:currentMinoY});
 	})
 }
 

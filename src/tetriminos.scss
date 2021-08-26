@@ -13,6 +13,10 @@
 
 	grid-row: calc(attr(data-y) - 2);
 	grid-column: calc(attr(data-x));
+
+	&.hideFallingMinos.fallingMinos.shaft {
+		background-image: url('imgs/question.png');
+	}
 }
 
 .emptyMinos {
