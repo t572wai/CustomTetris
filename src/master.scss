@@ -88,6 +88,10 @@ img {
 
 	grid-row: 3;
 	grid-column: 1;
+
+	@include touch {
+		font-size: small;
+	}
 }
 
 #nextArea {
