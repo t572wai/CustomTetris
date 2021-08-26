@@ -490,7 +490,7 @@ spinRule.set("t",[
 
 function initDialogs(): void {
 	$('.dialogs').each((i, obj) => {
-		console.log(i,obj);
+		//console.log(i,obj);
 		$(obj).dialog({
 			autoOpen: false,
 			modal: false,
@@ -585,7 +585,7 @@ class GameOption<T> {
 		$(document).on('change', 'input[name="'+this._optionName+'"]', (e) => {
 			const value = $('input[name="'+this._optionName+'"]:checked').val() as number;
 			const value_T = this._enumOfT.defArray[value];
-			console.log(value);
+			//console.log(value);
 			if (typeof value_T !== 'undefined') {
 				this._currentOption = value_T;
 			}
@@ -600,7 +600,7 @@ class GameOption<T> {
 		let htmlText = "<div id='"+this._optionName+"RadioContainer'>";
 		for (let i = 0; i < this._enumOfT.defArray.length; i++) {
 			const option = this._enumOfT.defArray[i];
-			console.log(this._enumOfT.toString(option));
+			//console.log(this._enumOfT.toString(option));
 			htmlText += `
 				<div class='radio'>
 					<input type='radio' name='${this._optionName}' value='${i}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
@@ -610,7 +610,7 @@ class GameOption<T> {
 		}
 		$(obj).append(htmlText);
 		const currentIndex =this._enumOfT.defArray.lastIndexOf(this._currentOption).toString();
-		console.log(currentIndex);
+		//console.log(currentIndex);
 		$(obj+' input[name="'+this._optionName+'"]').val([currentIndex]);
 	}
 }
@@ -878,7 +878,7 @@ function displayKeyBindings() {
 		$('#keyBindingsArea').append(textOfKeyBindingsForPC());
 
 		for (const operation of Operations) {
-			console.log(operation, keyBinding.get(operation));
+			//console.log(operation, keyBinding.get(operation));
 			$('#keyFor'+toUpperFirstLetter(operation)).text(keyBinding.get(operation)!);
 		}
 	}
@@ -1274,7 +1274,7 @@ function startToAppearMinos() {
 	displayNext()
 	displayScoreArea()
 	currentMinoLockedDownCallback = function (ind: number) {
-		console.log(ind);
+		//console.log(ind);
 		withGameOver(ind,function () {
 			endTetris()
 			$('#gameoverDialog').dialog('open')
@@ -1491,7 +1491,7 @@ function isTSpin() {
 	if(currentMinoType!='t' || isJustNowSpin==-1) return -1;
 
 	let indicatorArray:Pos[] = getFilledTilesAroundT_normalized()
-	console.log(indicatorArray,includesArray<Pos>(indicatorArray,{x:-1,y:-1}) && includesArray<Pos>(indicatorArray,{x:1,y:-1}));
+	//console.log(indicatorArray,includesArray<Pos>(indicatorArray,{x:-1,y:-1}) && includesArray<Pos>(indicatorArray,{x:1,y:-1}));
 
 	if (isJustNowSpin==5) {
 		return 0;
@@ -1515,7 +1515,7 @@ function getFilledTilesAroundT(): Pos[] {
 	if (isFilledOrWall(currentMinoX+1,currentMinoY-1)) tiles.push({x: 1,y:-1})
 	if (isFilledOrWall(currentMinoX+1,currentMinoY+1)) tiles.push({x: 1,y: 1})
 
-	console.log(tiles);
+	//console.log(tiles);
 	return tiles;
 }
 
@@ -1662,7 +1662,7 @@ function lowerPos(): number {
 	$.each(currentMinoTiles ,(i, tile: Mino) => {
 		if(tile.y>lower) lower=tile.y;
 	});
-	console.log(lower);
+	//console.log(lower);
 	return lower;
 }
 
@@ -1677,7 +1677,7 @@ function setTimer(name: string, callback: ()=>void, delay: number): void {
 function clearTimer(name: string): void {
 	if(name=='fall') isLoopingOfFalling = false;
 	//clearTimeout(moveTimers[name])
-	console.log(name,moveTimers.get(name));
+	//console.log(name,moveTimers.get(name));
 	const Timer = moveTimers.get(name);
 	if (typeof Timer !== 'undefined') {
 		Timer.clearTimeout();
@@ -1825,7 +1825,7 @@ function checkGhost(): number {
 			}
 		}
 	}
-	let hightOfDropping = minArray(hightOfAbleToDrop)
+	const hightOfDropping = minArray(hightOfAbleToDrop)
 	if (hightOfDropping == 0) {
 		ghostMinos = []
 		ghostPos = {x:-1, y:-1}
@@ -1833,6 +1833,7 @@ function checkGhost(): number {
 		ghostMinos = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
 		ghostPos = {x:currentMinoX, y:currentMinoY+hightOfDropping}
 	}
+	console.log(hightOfDropping, ghostPos);
 	return hightOfDropping;
 }
 
@@ -2033,7 +2034,6 @@ function getTetriminoShape(type: Tetrimino): Pos[] | null {
 				}
 			}
 		}
-		console.log();
 		return getMovedMinos(minoArray,-originPos.x,-originPos.y);
 	} else {
 		return null;
