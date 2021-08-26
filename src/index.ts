@@ -1765,10 +1765,11 @@ function move(dx: number, dy: number, callback: (b:boolean)=>void): void {
 }
 
 function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void): void {
-	let followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn);
+	const followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn);
+	const differPos = getDifferOfMovedAndRotatedTetrimino(sgn);
 	if (canMove(followingTiles)) {
-		currentMinoX += dx;
-		setCurrentMinoY(currentMinoY + dy);
+		currentMinoX += dx + differPos.x;
+		setCurrentMinoY(currentMinoY + dy + differPos.y);
 		console.log(currentMinoX,currentMinoY);
 		changeCurrentMinos(followingTiles, function () {
 			currentMinoFacing = (currentMinoFacing + sgn) % 4;
@@ -2073,6 +2074,21 @@ function getTetrimino(type: Tetrimino, x: number, y: number, mino: Tetrimino): M
 
 function getRotatedTetrimino(type: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
 	return getRotatedTetriminoShape(type,d).map((pos: Pos) => ({x:x+pos.x,y:y+pos.y,mino:mino}));
+}
+function getDifferOfMovedAndRotatedTetrimino(sgn: number): Pos {
+	if (currentMinoType == 'o') {
+		return {x:0,y:0};
+	} else if (currentMinoType == 'i') {
+		const dif = [
+			{x:0,y:0},
+			{x:1,y:0},
+			{x:1,y:1},
+			{x:0,y:1}
+		]
+		return dif[(sgn + currentMinoFacing) % 4];
+	} else {
+		return {x:0,y:0};
+	}
 }
 
 function getMovedTetrimino(dx: number, dy: number): Mino[] {
