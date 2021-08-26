@@ -16,6 +16,8 @@
 
 	&.hideFallingMinos.fallingMinos.shaft {
 		background-image: url('imgs/question.png');
+		background-size: contain;
+		background-position: center;
 	}
 }
 
