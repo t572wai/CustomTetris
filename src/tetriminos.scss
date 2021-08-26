@@ -16,43 +16,75 @@
 }
 
 .emptyMinos {
-	background-color: #0b1013;
+	background-color: $emptyColor;
 }
 
 .iMinos {
-	background-color: #348fca;
+	background-color: $iColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .oMinos {
-	background-color: #e7bd22;
+	background-color: $oColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .sMinos {
-	background-color: #2aa55d;
+	background-color: $sColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .zMinos {
-	background-color: #da4b3c;
+	background-color: $zColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .jMinos {
-	background-color: #246eab;
+	background-color: $jColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .lMinos {
-	background-color: #dc7a23;
+	background-color: $lColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .tMinos {
-	background-color: #824597;
+	background-color: $tColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 
 .wallMinos {
-	background-color: gray;
+	background-color: $wallColor;
 }
 
 .ghostMinos {
-	background-color: #0b1013;
+	background-color: $emptyColor;
+
+	&.hideFallingMinos {
+		background-color: $emptyColor;
+	}
 }
 .ghostMinos {
 	content: '';
@@ -64,31 +96,31 @@
 }
 
 .iGhostMinos {
-	background-color: #348fca;
+	background-color: $iColor;
 }
 
 .oGhostMinos {
-	background-color: #e7bd22;
+	background-color: $oColor;
 }
 
 .sGhostMinos {
-	background-color: #2aa55d;
+	background-color: $sColor;
 }
 
 .zGhostMinos {
-	background-color: #da4b3c;
+	background-color: $zColor;
 }
 
 .jGhostMinos {
-	background-color: #246eab;
+	background-color: $jColor;
 }
 
 .lGhostMinos {
-	background-color: #dc7a23;
+	background-color: $lColor;
 }
 
 .tGhostMinos {
-	background-color: #824597;
+	background-color: $tColor;
 }
 
 .displayers {

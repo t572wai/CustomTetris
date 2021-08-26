@@ -662,26 +662,9 @@ const SpreadMatrix = new ChangeSizeOfMatrix(
 )
 
 const HideFallingMinos = new ChangeStyle({
-	name:'hideFallingMinos',
-	title:'hide falling minos',
-	iStyleFalling: {'background-color': '#0b1013;'},
-	oStyleFalling: {'background-color': '#0b1013;'},
-	jStyleFalling: {'background-color': '#0b1013;'},
-	lStyleFalling: {'background-color': '#0b1013;'},
-	sStyleFalling: {'background-color': '#0b1013;'},
-	zStyleFalling: {'background-color': '#0b1013;'},
-	tStyleFalling: {'background-color': '#0b1013;'},
-	emptyStyleFalling: {'background-color': '#0b1013;'},
-	wallStyleFalling: {'background-color': '#0b1013;'},
-	iStyleGhost: {'background-color': '#0b1013;'},
-	oStyleGhost: {'background-color': '#0b1013;'},
-	jStyleGhost: {'background-color': '#0b1013;'},
-	lStyleGhost: {'background-color': '#0b1013;'},
-	sStyleGhost: {'background-color': '#0b1013;'},
-	zStyleGhost: {'background-color': '#0b1013;'},
-	tStyleGhost: {'background-color': '#0b1013;'},
-	emptyStyleGhost: {'background-color': '#0b1013;'},
-	wallStyleGhost: {'background-color': '#0b1013;'},
+	name: 'hideFallingMinos',
+	title: 'hide falling minos',
+	cssClass: 'hideFallingMinos',
 })
 
 const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix, HideFallingMinos]
@@ -1016,18 +999,17 @@ function clearField(): void {
 function displayAllMinos(): void {
 	console.log(fieldArray);
 	forEachMinoOnMatrix((pos) => {
-			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos placedMinos");
-			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').css(gameRuleOption.currentOption.getStyle(fieldArray[pos.y][pos.x]));
+			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos placedMinos "+gameRuleOption.currentOption.cssClass);
 	})
 }
 
-function setMinosStyle(): void {
-	for (const mino of TetriminoEnum.defArray) {
-		$('.'+mino+'Minos.placedMinos').css(gameRuleOption.currentOption.getStyle(mino));
-		$('.'+mino+'Minos.fallingMinos').css(gameRuleOption.currentOption.getStyleFalling(mino));
-		console.log(`style is ${JSON.stringify(gameRuleOption.currentOption.getStyleFalling(mino))} and ${JSON.stringify(gameRuleOption.currentOption.getStyle(mino))}`);
-	}
-}
+//function setMinosStyle(): void {
+//	for (const mino of TetriminoEnum.defArray) {
+//		$('.'+mino+'Minos.placedMinos').css(gameRuleOption.currentOption.getStyle(mino));
+//		$('.'+mino+'Minos.fallingMinos').css(gameRuleOption.currentOption.getStyleFalling(mino));
+//		console.log(`style is ${JSON.stringify(gameRuleOption.currentOption.getStyleFalling(mino))} and ${JSON.stringify(gameRuleOption.currentOption.getStyle(mino))}`);
+//	}
+//}
 
 function setSizeOfMatrix() {
 	//$(':root').style.setProperty()
@@ -1079,12 +1061,12 @@ function removeGhostMinos(): void {
 }
 
 function displayFallingMino(mino: Mino): void {
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos");
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyleFalling(mino.mino));
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos "+gameRuleOption.currentOption.cssClass);
+	//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyleFalling(mino.mino));
 }
 function displayPlacedMino(mino: Mino): void {
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos");
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
+	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos "+gameRuleOption.currentOption.cssClass);
+	//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
 }
 
 function displayGhostMino(mino: Mino): void {
@@ -1270,7 +1252,7 @@ function startTetris() {
 	}
 	addPauseKeyActions('Escape')
 	console.log(gameRuleOption.currentOption);
-	setMinosStyle();
+	//setMinosStyle();
 }
 
 function initTetris() {
@@ -1955,7 +1937,7 @@ function lockDown(): void {
 	for (const mino of currentMinoTiles) {
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').addClass('placedMinos')
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').removeClass('fallingMinos')
-		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
+		//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
 	}
 	//ion.sound.play("lockDownSE", {
 	//	ended_callback : function () {
