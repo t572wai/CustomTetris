@@ -542,6 +542,7 @@ $(function () {
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		close: function () {
+			removeKeyActions('Escape');
 			addPauseKeyActions('Escape');
 			isPausing = false;
 		},
