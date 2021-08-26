@@ -2519,7 +2519,7 @@ $(document).on('swipeend', function (e, d, dv2) {
 $(document).on('touched', function (e, x, y) {
 	console.log(x,y);
 	const pointElement = jQuery(document.elementFromPoint(x,y)!);
-	if (pointElement.attr('id')=='pauseButton') {
+	if (pointElement.get(0).tagName == 'BUTTON') {
 		pointElement.trigger('click');
 	} else if (x > $(window).width()! / 2) {
 		onRightRotation()
