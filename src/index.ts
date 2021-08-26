@@ -1251,7 +1251,7 @@ function startTetris() {
 	reset()
 	startToAppearMinos()
 	if (MethodOfOpForTouchOption.currentOption=='swipe') {
-		swiper = new Swiper(document, 70, 300, 50)
+		swiper = new Swiper(document, 40, 300, 50)
 	}
 	addPauseKeyActions('Escape')
 	console.log(gameRuleOption.currentOption);
