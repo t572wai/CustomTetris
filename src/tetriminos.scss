@@ -90,6 +90,10 @@
 
 	&.hideFallingMinos {
 		background-color: $emptyColor;
+
+		&.ghostShaft {
+			background-color: $color3;
+		}
 	}
 }
 .ghostMinos {

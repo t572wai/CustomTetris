@@ -1621,6 +1621,7 @@ let isMoving;
 let moveTimers: Map<string, TimerOfAbilityToEsc>;
 
 let ghostMinos: Mino[];
+let ghostPos: Pos;
 
 function initMino( type: Tetrimino ) {
 	currentMinoType = type;
@@ -1754,6 +1755,10 @@ function setShaftClass(pos: Pos|Mino): void {
 	$('.shaft').removeClass('shaft');
 	$(`.minos[data-x="${pos.x}"][data-y="${pos.y}"]`).addClass('shaft');
 }
+function setGhostShaftClass(pos: Pos|Mino): void {
+	$('.ghostShaft').removeClass('ghostShaft');
+	$(`.minos[data-x="${pos.x}"][data-y="${pos.y}"] > .ghostMinos`).addClass('ghostShaft');
+}
 
 function move(dx: number, dy: number, callback: (b:boolean)=>void): void {
 	moveAndRotate(dx,dy,0,callback)
@@ -1823,8 +1828,10 @@ function checkGhost(): number {
 	let hightOfDropping = minArray(hightOfAbleToDrop)
 	if (hightOfDropping == 0) {
 		ghostMinos = []
+		ghostPos = {x:-1, y:-1}
 	} else {
 		ghostMinos = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
+		ghostPos = {x:currentMinoX, y:currentMinoY+hightOfDropping}
 	}
 	return hightOfDropping;
 }
@@ -1835,6 +1842,7 @@ function displayGhost(): void {
 	removeGhostMinos()
 	checkGhost()
 	displayGhostMinos()
+	setGhostShaftClass(ghostPos);
 }
 
 function hardDrop(): void {
