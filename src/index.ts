@@ -1751,6 +1751,19 @@ function fall(callback: (b: boolean)=>void): void {
 	moveWithDelay(0,1,'fall',callback);
 }
 
+function getShaft(): Pos {
+	if (currentMinoType!='i') {
+		return {x:currentMinoX,y:currentMinoY}
+	} else {
+		const dif = [
+			{x:0,y:0},
+			{x:1,y:0},
+			{x:1,y:1},
+			{x:0,y:1}
+		]
+		return {x:currentMinoX+dif[currentMinoFacing].x,y:currentMinoY+dif[currentMinoFacing].y}
+	}
+}
 function setShaftClass(pos: Pos|Mino): void {
 	$('.shaft').removeClass('shaft');
 	$(`.minos[data-x="${pos.x}"][data-y="${pos.y}"]`).addClass('shaft');
@@ -1766,14 +1779,13 @@ function move(dx: number, dy: number, callback: (b:boolean)=>void): void {
 
 function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void): void {
 	const followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn);
-	const differPos = getDifferOfMovedAndRotatedTetrimino(sgn);
 	if (canMove(followingTiles)) {
-		currentMinoX += dx + differPos.x;
-		setCurrentMinoY(currentMinoY + dy + differPos.y);
+		currentMinoX += dx;
+		setCurrentMinoY(currentMinoY + dy);
 		console.log(currentMinoX,currentMinoY);
 		changeCurrentMinos(followingTiles, function () {
 			currentMinoFacing = (currentMinoFacing + sgn) % 4;
-			setShaftClass({x:currentMinoX,y:currentMinoY});
+			setShaftClass(getShaft());
 			displayGhost()
 			callback(true)
 		})
@@ -1805,7 +1817,7 @@ function changeCurrentMinos(followingTiles: Mino[],callback: ()=>void): void {
 	currentMinoTiles = cloneArray(followingTiles)
 	displayDifferPlacedMinos(formerTiles,function () {
 		displayDifferFallingMinos(followingTiles,callback)
-		setShaftClass({x:currentMinoX,y:currentMinoY});
+		setShaftClass(getShaft());
 	})
 }
 
@@ -1833,7 +1845,7 @@ function checkGhost(): number {
 		ghostPos = {x:-1, y:-1}
 	} else {
 		ghostMinos = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
-		ghostPos = {x:currentMinoX, y:currentMinoY+hightOfDropping}
+		ghostPos = {x:getShaft().x,y:getShaft().y+hightOfDropping}
 	}
 	console.log(hightOfDropping, ghostPos);
 	return hightOfDropping;
