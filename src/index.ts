@@ -1769,6 +1769,7 @@ function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean
 	if (canMove(followingTiles)) {
 		currentMinoX += dx;
 		setCurrentMinoY(currentMinoY + dy);
+		console.log(currentMinoX,currentMinoY);
 		changeCurrentMinos(followingTiles, function () {
 			currentMinoFacing = (currentMinoFacing + sgn) % 4;
 			setShaftClass({x:currentMinoX,y:currentMinoY});
@@ -2071,7 +2072,7 @@ function getTetrimino(type: Tetrimino, x: number, y: number, mino: Tetrimino): M
 }
 
 function getRotatedTetrimino(type: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
-	return getRotatedTetriminoShape(type,d).map((array: Pos) => ({x:x+array.x,y:y+array.y,mino:mino}));
+	return getRotatedTetriminoShape(type,d).map((pos: Pos) => ({x:x+pos.x,y:y+pos.y,mino:mino}));
 }
 
 function getMovedTetrimino(dx: number, dy: number): Mino[] {
