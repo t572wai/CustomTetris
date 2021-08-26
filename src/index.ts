@@ -617,19 +617,19 @@ const PracticeFor4ren = new GameRule({
 	}
 })
 
-const SpreadMatrix = new ChangeSizeOfMatrix(
-	'spreadMatrix',
-	'spreadMatrix',
+const wideMatrix = new ChangeSizeOfMatrix(
+	'wide Matrix',
+	'wide Matrix',
 	25,15,2
 )
 
 const HideFallingMinos = new ChangeStyle({
 	name: 'hideFallingMinos',
-	title: 'hide falling minos',
+	title: 'to hide falling minos',
 	cssClass: 'hideFallingMinos',
 })
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, SpreadMatrix, HideFallingMinos]
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos]
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
