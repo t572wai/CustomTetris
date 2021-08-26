@@ -1073,7 +1073,7 @@ function displayGhostMino(mino: Mino): void {
 	if (mino.y< gameRuleOption.currentOption.bufferHeight) {
 		return ;
 	}
-	let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos'></div>"
+	let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos "+gameRuleOption.currentOption.cssClass+"'></div>"
 	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html(ghostText);
 }
 
