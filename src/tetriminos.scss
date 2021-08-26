@@ -22,7 +22,7 @@
 .iMinos {
 	background-color: $iColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
@@ -30,7 +30,7 @@
 .oMinos {
 	background-color: $oColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
@@ -38,7 +38,7 @@
 .sMinos {
 	background-color: $sColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
@@ -46,7 +46,7 @@
 .zMinos {
 	background-color: $zColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
@@ -54,7 +54,7 @@
 .jMinos {
 	background-color: $jColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
@@ -62,7 +62,7 @@
 .lMinos {
 	background-color: $lColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
@@ -70,7 +70,7 @@
 .tMinos {
 	background-color: $tColor;
 
-	&.hideFallingMinos {
+	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
 }
