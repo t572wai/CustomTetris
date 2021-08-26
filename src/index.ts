@@ -1866,7 +1866,7 @@ function displayGhost(): void {
 }
 
 function hardDrop(): void {
-	if (!currentMinoDidLockDown && isPlayingTetris) {
+	if (canOperate()) {
 		isJustNowSpin = -1;
 		let hightOfDropping = checkGhost()
 		removeGhostMinos()
@@ -1882,7 +1882,7 @@ function hardDrop(): void {
 }
 
 function softDrop(b: boolean): void {
-	if (b && canFall() && !currentMinoIsSoftDrop) {
+	if (b && canFall() && !currentMinoIsSoftDrop && !isPausing) {
 		clearTimer('fall')
 		currentMinoIsSoftDrop = true
 		loopOfFall()
