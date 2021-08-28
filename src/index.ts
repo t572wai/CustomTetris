@@ -8,7 +8,7 @@ import { setButtonActions } from "./buttonAction";
 import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
-import { startSound, lockDownSound } from './sounds';
+import { startSound, lockDownSound, hardDropSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum } from "./global";
 import { ChangeSizeOfMatrix, ChangeStyle, GameRule } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
@@ -1842,7 +1842,7 @@ function hardDrop(): void {
 		if (ghostMinos.length == 0) {
 			followingMinos = currentMinoTiles;
 		}
-		changeCurrentMinos(followingMinos,lockDown)
+		changeCurrentMinos(followingMinos,lockDown.bind(null,'hardDrop'))
 	}
 }
 
@@ -1920,7 +1920,7 @@ function countLockDownTimer(): void {
 	if (!currentMinoDidLockDown) {
 		//clearTimeout(currentMinoLockDownTimer)
 		currentMinoLockDownTimer.clearTimeout()
-		currentMinoLockDownTimer = new TimerOfAbilityToEsc(lockDown, 500)
+		currentMinoLockDownTimer = new TimerOfAbilityToEsc(lockDown.bind(null,'softDrop'), 500)
 		currentMinoLockDownTimer.setTimeout()
 		//currentMinoLockDownTimer = setTimeout(function () {
 		//	lockDown()
@@ -1928,7 +1928,7 @@ function countLockDownTimer(): void {
 	}
 }
 
-function lockDown(): void {
+function lockDown(type: 'softDrop'|'hardDrop'): void {
 	console.log('mino locks down');
 	currentMinoDidLockDown = true;
 	//clearTimeout(currentMinoLockDownTimer)
@@ -1943,12 +1943,18 @@ function lockDown(): void {
 	//		console.log("lockDownSE end");
 	//	}
 	//})
-	lockDownSound.play()
-	lockDownSound.once('end', () => {
+	const afterSoundFn = () => {
 		let lower = lowerPos()
 		totalFallenTetrimino++;
 		checkLine(currentMinoLockedDownCallback.bind(null,lower))
-	})
+	}
+	if (type=='hardDrop') {
+		hardDropSound.play();
+		hardDropSound.once('end', afterSoundFn)
+	} else {
+		lockDownSound.play()
+		lockDownSound.once('end', afterSoundFn)
+	}
 }
 
 function moveToLeft(callback: (b:boolean)=>void): void {
@@ -1978,7 +1984,7 @@ function operate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>voi
 function onOperating(formerCanFall: boolean): void {
 	let currentCanFall = canFall()
 	if (!currentCanFall && !isAllowedOperate()) {
-		lockDown()
+		lockDown('softDrop')
 		return;
 	}
 	if (!formerCanFall) {

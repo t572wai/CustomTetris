@@ -15,11 +15,19 @@ import { Howl, Howler } from 'howler';
 export const lockDownSound = new Howl({
 	src: [
 		"sounds/lockDownSE.mp3",
-	]
+	],
+	volume: 0.3
+});
+export const hardDropSound = new Howl({
+	src: [
+		"sounds/hardDropSE.mp3",
+	],
+	volume: 0.3
 });
 
 export const startSound = new Howl({
 	src: [
 		"sounds/startSound.mp3",
-	]
+	],
+	volume: 0.5
 })
