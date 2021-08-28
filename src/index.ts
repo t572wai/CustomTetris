@@ -8,7 +8,7 @@ import { setButtonActions } from "./buttonAction";
 import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
-import { startSound, lockDownSound, hardDropSound } from './sounds';
+import { startSound, lockDownSound, hardDropSound, tspinSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum } from "./global";
 import { ChangeSizeOfMatrix, ChangeStyle, GameRule } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
@@ -2168,8 +2168,8 @@ function rightRotation() {
 	console.log('rightSpin');
 	if (canOperate()) {
 		superRotation(0, function(b) {
-			if (b) {
-
+			if (b && isTSpin()!=-1) {
+				tspinSound.play()
 			}
 		})
 	}
@@ -2179,7 +2179,8 @@ function leftRotation() {
 	console.log('leftSpin');
 	if (canOperate()) {
 		superRotation(1, function (b) {
-			if (b) {
+			if (b && isTSpin()!=-1) {
+				tspinSound.play()
 				// isJustNowSpin = b;
 			}
 		})

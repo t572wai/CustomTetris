@@ -29,5 +29,12 @@ export const startSound = new Howl({
 	src: [
 		"sounds/startSound.mp3",
 	],
-	volume: 0.5
+	volume: 0.7
+})
+
+export const tspinSound = new Howl({
+	src: [
+		"sounds/tspinSE.mp3"
+	],
+	volume: 0.6
 })
