@@ -16,13 +16,13 @@ export const lockDownSound = new Howl({
 	src: [
 		"sounds/lockDownSE.mp3",
 	],
-	volume: 0.3
+	volume: 0.5
 });
 export const hardDropSound = new Howl({
 	src: [
 		"sounds/hardDropSE.mp3",
 	],
-	volume: 0.3
+	volume: 0.5
 });
 
 export const startSound = new Howl({
