@@ -140,16 +140,18 @@ img {
 		grid-column: 2;
 		background-image: url('imgs/right.png');
 		transform: rotate(180deg);
+		margin-top: -10px;
 	}
 	&[data-operate='right'] {
 		grid-row: 2;
 		grid-column: 4;
 		background-image: url('imgs/right.png');
+		margin-top: -10px;
 	}
 	&[data-operate='softDrop'] {
 		grid-row: 3;
 		grid-column: 3;
-		margin-top: 10px;
+		margin-top: 0px;
 		background-image: url('imgs/right.png');
 		transform: rotate(90deg);
 	}
@@ -157,28 +159,28 @@ img {
 		background-image: url('imgs/right-double.png');
 		grid-row: 1;
 		grid-column: 3;
-		margin-top: 30px;
+		margin-top: 20px;
 		transform: rotate(90deg);
 	}
 	&[data-operate='leftRotation'] {
 		background-image: url('imgs/leftRotation.png');
 		grid-row: 4;
 		grid-column: 2;
-		margin-top: 10px;
+		margin-top: 0px;
 		background-position-x: calc(50% + 3px);
 	}
 	&[data-operate='rightRotation'] {
 		background-image: url('imgs/rightRotation.png');
 		grid-row: 4;
 		grid-column: 4;
-		margin-top: 10px;
+		margin-top: 0px;
 		background-position-x: calc(50% - 3px);
 	}
 	&[data-operate='hold'] {
 		grid-row: 4;
 		grid-column: 3;
 		@include setSize(auto, 40px);
-		margin-top: 40px;
+		margin-top: 30px;
 	}
 }
 
