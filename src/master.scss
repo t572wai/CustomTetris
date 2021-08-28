@@ -191,6 +191,10 @@ img {
 	@include setSize(56px, 56px);
 	display: none;
 
+	@include touch {
+		position: relative;
+		top: -10px;
+	}
 	//position: fixed;
 	//top: 20px;
 	//left: 20px;
