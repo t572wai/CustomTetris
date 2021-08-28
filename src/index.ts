@@ -556,6 +556,11 @@ $(function () {
 					currentMinoLockDownTimer.restartTimeout();
 				}
 			},
+			'restart': function () {
+				endTetris();
+				$(this).dialog('close');
+				startTetris();
+			},
 			'toMainMenu': function () {
 				endTetris();
 				$(this).dialog('close');
