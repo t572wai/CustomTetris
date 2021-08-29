@@ -1948,10 +1948,10 @@ function lockDown(type: 'softDrop'|'hardDrop'): void {
 		totalFallenTetrimino++;
 		checkLine(currentMinoLockedDownCallback.bind(null,lower))
 	}
-	if (type=='hardDrop') {
+	if ( type == 'hardDrop' ) {
 		hardDropSound.play();
 		hardDropSound.once('end', afterSoundFn)
-	} else {
+	} else if ( isTSpin() != -1 ) {
 		lockDownSound.play()
 		lockDownSound.once('end', afterSoundFn)
 	}
