@@ -4,15 +4,24 @@ let presseds = new Map<string, boolean>();
 let timers = new Map<string, any>();
 let intervalTimers = new Map<string, any>();
 
-export function addKeyActions(
-		code: string,
-		keydownAc: ()=>void = function () {},
-		keyupAc: ()=>void = function () {},
-		longpressAc: ()=>void = function () {},
-		shortpressAc: ()=>void = function () {},
-		sec: number = 0,
-		interval: number = 0
-	) {
+export function addKeyActions({
+	code,
+	keydownAc = () => {},
+	keyupAc = () => {},
+	longpressAc = () => {},
+	shortpressAc = () => {},
+	sec = 100,
+	interval = 100
+}:
+{
+	code: string,
+	keydownAc?: ()=>void,
+	keyupAc?: ()=>void,
+	longpressAc?: ()=>void,
+	shortpressAc?: ()=>void,
+	sec?: number,
+	interval?: number
+}) {
 	longpresses.set(code, false);
 	longpresses.set(code, false);
 

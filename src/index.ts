@@ -531,7 +531,7 @@ $(function () {
 			isPausing = true;
 			currentMinoLockDownTimer.pauseTimeout();
 			pauseTimer('fall');
-			addKeyActions('Escape', function() {
+			addKeyActions({code:'Escape', keydownAc:function() {
 				removeKeyActions('Escape');
 				$('#pauseDialog').dialog('close');
 				if (canFall()) {
@@ -539,7 +539,7 @@ $(function () {
 				} else {
 					currentMinoLockDownTimer.restartTimeout();
 				}
-			});
+			}});
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
 		},
 		close: function () {
@@ -2195,7 +2195,7 @@ function leftRotation() {
 //
 //
 
-let dv2Border = 5;
+let dv2Border = 4.5;
 
 const Operations = ['left','right','hardDrop','softDrop','leftRotation','rightRotation','hold'] as const;
 type Operate = typeof Operations[number];
@@ -2244,37 +2244,37 @@ document.addEventListener('touchmove', function (e) {
 }, {passive: false})
 
 function addRightKeyActions(key: string): void {
-	addKeyActions(key, onRight, () => {}, onRight, () => {}, 300, 50);
+	addKeyActions({code:key, keydownAc:onRight, longpressAc:onRight, sec:300, interval:50});
 	keyBinding.set('right', key);
 }
 
 function addLeftKeyActions(key:string) {
-	addKeyActions(key, onLeft, () => {}, onLeft, () => {}, 300, 50);
+	addKeyActions({code:key, keydownAc:onLeft, longpressAc:onLeft, sec:300, interval:50});
 	keyBinding.set('left', key);
 }
 
 function addHardDropKeyActions(key:string) {
-	addKeyActions(key, onHardDrop, ()=>{}, onHardDrop)
+	addKeyActions({code:key, keydownAc:onHardDrop, longpressAc:onHardDrop, sec:300, interval: 300})
 	keyBinding.set('hardDrop', key);
 }
 
 function addSoftDropKeyActions(key:string) {
-	addKeyActions(key, onSoftDrop.bind(null,true), onSoftDrop.bind(null,false), onSoftDrop.bind(null,true))
+	addKeyActions({code:key, keydownAc:onSoftDrop.bind(null,true), keyupAc:onSoftDrop.bind(null,false), longpressAc:onSoftDrop.bind(null,true)})
 	keyBinding.set('softDrop', key);
 }
 
 function addLeftRotationActions(key:string) {
-	addKeyActions(key, onLeftRotation)
+	addKeyActions({code:key, keydownAc:onLeftRotation})
 	keyBinding.set('leftRotation', key);
 }
 
 function addRightRotationActions(key:string) {
-	addKeyActions(key, onRightRotation)
+	addKeyActions({code:key, keydownAc:onRightRotation})
 	keyBinding.set('rightRotation', key);
 }
 
 function addHoldActions(key:string) {
-	addKeyActions(key, onHold)
+	addKeyActions({code:key, keydownAc:onHold})
 	keyBinding.set('hold', key);
 }
 
@@ -2307,10 +2307,10 @@ function addKeyBinding(type:string, key:string) {
 }
 
 function addPauseKeyActions(key: string) {
-	addKeyActions(key, ()=> {
+	addKeyActions({code:key, keydownAc:()=> {
 		removeKeyActions(key);
 		$('#pauseDialog').dialog('open');
-	})
+	}})
 }
 
 addRightKeyActions('d');
