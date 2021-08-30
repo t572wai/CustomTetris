@@ -1253,7 +1253,7 @@ function initTetris() {
 
 function startToAppearMinos() {
 	console.log('start');
-	checkGenerationOfTetriminos(followingMinos)
+	followingMinos = checkGenerationOfTetriminos(followingMinos)
 	console.log(followingMinos);
 
 	initMino(followingMinos[0]);
