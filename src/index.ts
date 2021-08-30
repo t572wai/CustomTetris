@@ -1298,7 +1298,7 @@ function checkGenerationOfTetriminos(minos: Tetrimino[]) {
 
 function generateTetriminos(): Tetrimino[] {
 	//ミノをランダムにソート
-	const nextArray = shuffle(TetriminoEnum.defArray);
+	const nextArray = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
 	return nextArray;
 }
 
