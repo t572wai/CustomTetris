@@ -650,6 +650,7 @@ const StackingForPerfect: GameRule = new GameRule({
 	},
 	arrangeFirstSituation: () => {
 		holdMinoType = 'i'
+		displayHold()
 	},
 	arrangeSituation: () => {
 		if (totalFallenTetrimino%4==0) {
@@ -657,6 +658,7 @@ const StackingForPerfect: GameRule = new GameRule({
 			fieldArray = StackingForPerfect.generateTerrain();
 			displayAllMinos()
 			displayHold()
+			followingMinos = [];
 		}
 	}
 })
@@ -1248,6 +1250,7 @@ function startTetris() {
 	startSound.play()
 	displayMatrix()
 	reset()
+	gameRuleOption.currentOption.arrangeFirstSituation();
 	startToAppearMinos()
 	if (MethodOfOpForTouchOption.currentOption=='swipe') {
 		swiper = new Swiper(document, 40, 300, 50)

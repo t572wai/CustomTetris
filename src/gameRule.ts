@@ -117,6 +117,9 @@ export class GameRule {
 	get shouldGenerateTetriminos() {
 		return this._shouldGenerateTetriminos;
 	}
+	get arrangeFirstSituation() {
+		return this._arrangeFirstSituation;
+	}
 	get arrangeSituation() {
 		return this._arrangeSituation;
 	}
