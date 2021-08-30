@@ -2069,6 +2069,7 @@ function getRotatedTetriminoShape(type: Tetrimino,d: number): Pos[] {
 			]
 			return getMovedMinos(changeFacing(shape_pos,d), differ[d][0], differ[d][1]);
 		} else {
+			console.log(type, shape, shape_pos);
 			return changeFacing(shape_pos,d);
 		}
 	} else {
