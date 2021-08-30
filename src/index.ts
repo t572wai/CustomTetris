@@ -10,7 +10,7 @@ import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound, hardDropSound, tspinSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum } from "./global";
-import { ChangeSizeOfMatrix, ChangeStyle, GameRule } from './gameRule';
+import { ChangeSizeOfMatrix, GameRule } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 import { GameOption } from "./gameOptions";
 
@@ -628,13 +628,37 @@ const wideMatrix = new ChangeSizeOfMatrix(
 	25,15,2
 )
 
-const HideFallingMinos = new ChangeStyle({
+const HideFallingMinos = new GameRule({
 	name: 'hideFallingMinos',
 	title: 'to hide falling minos',
 	cssClass: 'hideFallingMinos',
 })
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos]
+const StackingForPerfect = new GameRule({
+	name: 'stackingForPerfect',
+	title: 'パフェ積み',
+	generateTerrain: () => {
+		const normalTerrain = GameRule.Normal.generateTerrain();
+		return setWall(normalTerrain,
+					[
+						{x:0,y:21},{x:1,y:21},{x:2,y:21},{x:6,y:21},{x:7,y:21},{x:8,y:21},{x:9,y:21},
+						{x:0,y:20},{x:1,y:20},{x:2,y:20},{x:3,y:20},{x:6,y:20},{x:7,y:20},{x:8,y:20},{x:9,y:20},
+						{x:0,y:19},{x:1,y:19},{x:2,y:19},{x:6,y:19},{x:7,y:19},{x:8,y:19},{x:9,y:19},
+						{x:0,y:18},{x:1,y:18},{x:6,y:18},{x:7,y:18},{x:8,y:18},{x:9,y:18}
+					]
+				)
+	}
+})
+
+function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
+	let field_cloned = cloneArray(field);
+	for (const pos of poses) {
+		field_cloned[pos.y][pos.x] = 'wall';
+	}
+	return field_cloned;
+}
+
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect]
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
@@ -1173,7 +1197,7 @@ function clearScoreArea(): void {
 let currentLevel: number = 1;
 
 //let currentMino: Mino;
-let followingMinos:(Tetrimino | undefined)[] = [];
+let followingMinos:Tetrimino[] = [];
 
 let holdMinoType: Tetrimino;
 
@@ -1229,12 +1253,8 @@ function initTetris() {
 
 function startToAppearMinos() {
 	console.log('start');
-	checkGenerationOfTetriminos()
+	checkGenerationOfTetriminos(followingMinos)
 
-	//console.log(followingMinos);
-	while(typeof followingMinos[0] === 'undefined'){
-		followingMinos.shift()
-	}
 	initMino(followingMinos[0]);
 	followingMinos.shift()
 	displayHold()
@@ -1270,22 +1290,16 @@ function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>v
 	}
 }
 
-function checkGenerationOfTetriminos() {
-	if (followingMinos.length < NumOfNext+1) {
-		generateTetriminos()
+function checkGenerationOfTetriminos(minos: Tetrimino[]) {
+	if (minos.length < NumOfNext+1) {
+		minos = minos.concat(generateTetriminos());
 	}
 }
 
-function generateTetriminos() {
+function generateTetriminos(): Tetrimino[] {
 	//ミノをランダムにソート
-	const nextArrayWithNumber = shuffle<number>([0,1,2,3,4,5,6]);
-	const nextArray = nextArrayWithNumber.map((i) => {
-		const tetriminoTemp = TetriminosFromNum.get(i);
-		if(typeof tetriminoTemp !== 'undefined'){
-			return tetriminoTemp as Tetrimino;
-		}
-	})
-	followingMinos = followingMinos.concat(nextArray);
+	const nextArray = shuffle(TetriminoEnum.defArray);
+	return nextArray;
 }
 
 function updateMatrixArray(mino: Mino) {

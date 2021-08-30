@@ -1,5 +1,5 @@
-import { CssProperty as CssProperties } from "./general";
-import { normalBufferHeight, normalBufferWidth, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Tetrimino } from "./global";
+import { CssProperty as CssProperties, shuffle } from "./general";
+import { normalBufferHeight, normalBufferWidth, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Tetrimino, TetriminoEnum } from "./global";
 
 export class GameRule {
 	private _name: string;
@@ -13,6 +13,10 @@ export class GameRule {
 	private _fieldHeight: number;
 	private _fieldWidth: number;
 	private _cssClass: string;
+	private _followingMinos: Tetrimino[];
+	private _nextNum: number;
+	private _shouldGenerateTetriminos: ()=>void;
+	private _generateNextTetriminos: ()=>Tetrimino[];
 
 	constructor(
 		{
@@ -24,6 +28,9 @@ export class GameRule {
 			matrixWidth = normalMatrixWidth,
 			bufferHeight = normalBufferHeight,
 			cssClass = GameRule.Normal._cssClass,
+			nextNum = 6,
+			shouldGenerateTetriminos = GameRule.Normal._shouldGenerateTetriminos,
+			generateNextTetriminos = GameRule.Normal._generateNextTetriminos,
 		}:
 		{
 			name: string,
@@ -34,6 +41,9 @@ export class GameRule {
 			matrixWidth?: number,
 			bufferHeight?: number,
 			cssClass?: string,
+			nextNum?: number,
+			shouldGenerateTetriminos?: ()=>void,
+			generateNextTetriminos?: ()=>Tetrimino[],
 		}
 		) {
 			this._name = name;
@@ -50,6 +60,11 @@ export class GameRule {
 			this._fieldWidth = this._matrixWidth;
 
 			this._cssClass = cssClass;
+
+			this._followingMinos = [];
+			this._nextNum = nextNum;
+			this._shouldGenerateTetriminos = shouldGenerateTetriminos;
+			this._generateNextTetriminos = generateNextTetriminos;
 
 	}
 
@@ -69,7 +84,18 @@ export class GameRule {
 		matrixHeight:normalMatrixHeight,
 		matrixWidth:normalMatrixWidth,
 		bufferHeight:normalBufferHeight,
-		cssClass: 'normal'
+		cssClass: 'normal',
+		nextNum: 6,
+		shouldGenerateTetriminos: () => {
+			if (GameRule.Normal._followingMinos.length < GameRule.Normal._nextNum+1) {
+				GameRule.Normal._generateNextTetriminos()
+			}
+		},
+		generateNextTetriminos: () => {
+			//ミノをランダムにソート
+			const nextMinos = shuffle(TetriminoEnum.defArray);
+			return nextMinos;
+		}
 	})
 
 	get generateTerrain() {
@@ -77,6 +103,9 @@ export class GameRule {
 	}
 	get generateRegularlyTerrain() {
 		return this._generateRegularlyTerrain;
+	}
+	get shouldGenerateTetriminos() {
+		return this._shouldGenerateTetriminos;
 	}
 
 	get matrixHeight() {
@@ -138,24 +167,3 @@ export class ChangeSizeOfMatrix extends GameRule {
 		});
 	}
 }
-
-	export class ChangeStyle extends GameRule {
-		constructor(
-			{
-				name,
-				title,
-				cssClass,
-			}:
-			{
-				name: string,
-				title: string,
-				cssClass: string,
-			}
-		) {
-			super({
-				name:name,
-				title:title,
-				cssClass:cssClass,
-			})
-		}
-	}
