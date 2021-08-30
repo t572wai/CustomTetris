@@ -1276,6 +1276,7 @@ function startToAppearMinos() {
 		},function () {
 			canHold = true;
 			fieldArray = gameRuleOption.currentOption.arrangeTerrain(fieldArray, totalFallenTetrimino);
+			displayAllMinos();
 			startToAppearMinos()
 		})
 	}
