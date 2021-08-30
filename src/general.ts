@@ -4,7 +4,7 @@
 
 export function cloneArray<T>(array: readonly T[]): T[] {
 	console.log(array);
-	return array.concat();
+	return [...array];
 }
 
 export function shuffle<T>(arrayTemp: readonly T[]): T[] {
