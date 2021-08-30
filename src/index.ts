@@ -1292,8 +1292,11 @@ function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>v
 }
 
 function checkGenerationOfTetriminos(minos: Tetrimino[]) {
+	let newMinos;
 	if (minos.length < NumOfNext+1) {
-		minos = minos.concat(generateTetriminos());
+		return minos.concat(generateTetriminos());
+	} else {
+		return minos;
 	}
 }
 
