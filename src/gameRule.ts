@@ -131,7 +131,10 @@ export class ChangeSizeOfMatrix extends GameRule {
 			},
 			generateRegularlyTerrain:()=>{
 				return Array(matrixWidth).fill('empty');
-			}
+			},
+			matrixHeight: matrixHeight,
+			matrixWidth: matrixWidth,
+			bufferHeight: bufferHeight,
 		});
 	}
 }
