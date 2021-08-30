@@ -641,18 +641,20 @@ const StackingForPerfect: GameRule = new GameRule({
 		const normalTerrain = GameRule.Normal.generateTerrain();
 		return setWall(normalTerrain,
 					[
-						{x:0,y:21},{x:1,y:21},{x:2,y:21},{x:6,y:21},{x:7,y:21},{x:8,y:21},{x:9,y:21},
-						{x:0,y:20},{x:1,y:20},{x:2,y:20},{x:3,y:20},{x:6,y:20},{x:7,y:20},{x:8,y:20},{x:9,y:20},
-						{x:0,y:19},{x:1,y:19},{x:2,y:19},{x:6,y:19},{x:7,y:19},{x:8,y:19},{x:9,y:19},
-						{x:0,y:18},{x:1,y:18},{x:6,y:18},{x:7,y:18},{x:8,y:18},{x:9,y:18}
+						{x:0,y:21},{x:1,y:21},{x:2,y:21},{x:7,y:21},{x:8,y:21},{x:9,y:21},
+						{x:0,y:20},{x:1,y:20},{x:2,y:20},{x:3,y:20},{x:7,y:20},{x:8,y:20},{x:9,y:20},
+						{x:0,y:19},{x:1,y:19},{x:2,y:19},{x:7,y:19},{x:8,y:19},{x:9,y:19},
+						{x:0,y:18},{x:1,y:18},{x:7,y:18},{x:8,y:18},{x:9,y:18}
 					]
 				)
 	},
-	arrangeTerrain: (field: Tetrimino[][], totalFallenTetriminoTemp: number) => {
-		if (totalFallenTetriminoTemp%3==0) {
-			return StackingForPerfect.generateTerrain();
-		} else {
-			return field;
+	arrangeFirstSituation: () => {
+		holdMinoType = 'i'
+	},
+	arrangeTerrain: () => {
+		if (totalFallenTetrimino%3==0) {
+			holdMinoType = 'i';
+			fieldArray = StackingForPerfect.generateTerrain();
 		}
 	}
 })
@@ -1275,8 +1277,7 @@ function startToAppearMinos() {
 			$('#gameoverDialog').dialog('open')
 		},function () {
 			canHold = true;
-			fieldArray = gameRuleOption.currentOption.arrangeTerrain(fieldArray, totalFallenTetrimino);
-			displayAllMinos();
+			gameRuleOption.currentOption.arrangeSituation();
 			startToAppearMinos()
 		})
 	}
