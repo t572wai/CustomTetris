@@ -72,6 +72,7 @@ export class GameRule {
 			this._shouldGenerateTetriminos = shouldGenerateTetriminos;
 			this._generateNextTetriminos = generateNextTetriminos;
 
+			this._arrangeFirstSituation = arrangeFirstSituation;
 			this._arrangeSituation = arrangeTerrain;
 
 	}
