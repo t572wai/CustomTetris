@@ -17,6 +17,7 @@ export class GameRule {
 	private _nextNum: number;
 	private _shouldGenerateTetriminos: ()=>void;
 	private _generateNextTetriminos: ()=>Tetrimino[];
+	private _arrangeTerrain: (field:Tetrimino[][], data:any)=>Tetrimino[][];
 
 	constructor(
 		{
@@ -31,6 +32,7 @@ export class GameRule {
 			nextNum = 6,
 			shouldGenerateTetriminos = GameRule.Normal._shouldGenerateTetriminos,
 			generateNextTetriminos = GameRule.Normal._generateNextTetriminos,
+			arrangeTerrain = GameRule.Normal._arrangeTerrain,
 		}:
 		{
 			name: string,
@@ -44,6 +46,7 @@ export class GameRule {
 			nextNum?: number,
 			shouldGenerateTetriminos?: ()=>void,
 			generateNextTetriminos?: ()=>Tetrimino[],
+			arrangeTerrain?: (field: Tetrimino[][], data: any)=>Tetrimino[][]
 		}
 		) {
 			this._name = name;
@@ -65,6 +68,8 @@ export class GameRule {
 			this._nextNum = nextNum;
 			this._shouldGenerateTetriminos = shouldGenerateTetriminos;
 			this._generateNextTetriminos = generateNextTetriminos;
+
+			this._arrangeTerrain = arrangeTerrain;
 
 	}
 
@@ -93,9 +98,10 @@ export class GameRule {
 		},
 		generateNextTetriminos: () => {
 			//ミノをランダムにソート
-			const nextMinos = shuffle(TetriminoEnum.defArray);
+			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
 			return nextMinos;
-		}
+		},
+		arrangeTerrain: (field)=>{return field}
 	})
 
 	get generateTerrain() {
@@ -106,6 +112,9 @@ export class GameRule {
 	}
 	get shouldGenerateTetriminos() {
 		return this._shouldGenerateTetriminos;
+	}
+	get arrangeTerrain() {
+		return this._arrangeTerrain;
 	}
 
 	get matrixHeight() {
