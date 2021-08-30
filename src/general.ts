@@ -3,6 +3,7 @@
 //import { deepEqual } from "assert";
 
 export function cloneArray<T>(array: readonly T[]): T[] {
+	console.log(array);
 	return array.concat();
 }
 
