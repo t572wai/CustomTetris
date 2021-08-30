@@ -651,10 +651,12 @@ const StackingForPerfect: GameRule = new GameRule({
 	arrangeFirstSituation: () => {
 		holdMinoType = 'i'
 	},
-	arrangeTerrain: () => {
-		if (totalFallenTetrimino%3==0) {
+	arrangeSituation: () => {
+		if (totalFallenTetrimino%4==0) {
 			holdMinoType = 'i';
 			fieldArray = StackingForPerfect.generateTerrain();
+			displayAllMinos()
+			displayHold()
 		}
 	}
 })

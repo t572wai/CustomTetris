@@ -34,7 +34,7 @@ export class GameRule {
 			shouldGenerateTetriminos = GameRule.Normal._shouldGenerateTetriminos,
 			generateNextTetriminos = GameRule.Normal._generateNextTetriminos,
 			arrangeFirstSituation = GameRule.Normal._arrangeFirstSituation,
-			arrangeTerrain = GameRule.Normal._arrangeSituation,
+			arrangeSituation: arrangeTerrain = GameRule.Normal._arrangeSituation,
 		}:
 		{
 			name: string,
@@ -49,7 +49,7 @@ export class GameRule {
 			shouldGenerateTetriminos?: ()=>void,
 			generateNextTetriminos?: ()=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
-			arrangeTerrain?: (data?: any)=>void,
+			arrangeSituation?: (data?: any)=>void,
 		}
 		) {
 			this._name = name;
@@ -105,7 +105,7 @@ export class GameRule {
 			return nextMinos;
 		},
 		arrangeFirstSituation: ()=>{},
-		arrangeTerrain: ()=>{},
+		arrangeSituation: ()=>{},
 	})
 
 	get generateTerrain() {
