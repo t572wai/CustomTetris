@@ -1462,7 +1462,7 @@ function checkAction(currentNumOfClearedLine: number): Action {
 
 function checkPerfectClear(num: number): void {
 	console.log(totalClearedLine, totalFallenTetrimino);
-	if (totalClearedLine*10 == totalFallenTetrimino*4) {
+	if (fieldArray.find((line) => line.find((mino) => mino != 'empty') !== undefined) == undefined) {
 		scoring.set('perfectClear', scoring.get('perfectClear')!+1);
 		switch (num) {
 			case 1:
