@@ -1267,7 +1267,10 @@ function initTetris() {
 
 function startToAppearMinos() {
 	console.log('start');
-	followingMinos = checkGenerationOfTetriminos(followingMinos)
+
+	if ( gameRuleOption.currentOption.shouldGenerateTetriminos(followingMinos) ) {
+		followingMinos = gameRuleOption.currentOption.generateNextTetriminos(followingMinos);
+	}
 	console.log(followingMinos);
 
 	initMino(followingMinos[0]);
@@ -1306,20 +1309,20 @@ function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>v
 	}
 }
 
-function checkGenerationOfTetriminos(minos: Tetrimino[]) {
-	let newMinos;
-	if (minos.length < NumOfNext+1) {
-		return minos.concat(generateTetriminos());
-	} else {
-		return minos;
-	}
-}
+//function checkGenerationOfTetriminos(minos: Tetrimino[]) {
+//	let newMinos;
+//	if (minos.length < NumOfNext+1) {
+//		return minos.concat(generateTetriminos());
+//	} else {
+//		return minos;
+//	}
+//}
 
-function generateTetriminos(): Tetrimino[] {
-	//ミノをランダムにソート
-	const nextArray = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
-	return nextArray;
-}
+//function generateTetriminos(): Tetrimino[] {
+//	//ミノをランダムにソート
+//	const nextArray = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
+//	return nextArray;
+//}
 
 function updateMatrixArray(mino: Mino) {
 	//console.log(tile,fieldArray[tile[1]]);

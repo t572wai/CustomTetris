@@ -15,8 +15,8 @@ export class GameRule {
 	private _cssClass: string;
 	private _followingMinos: Tetrimino[];
 	private _nextNum: number;
-	private _shouldGenerateTetriminos: ()=>void;
-	private _generateNextTetriminos: ()=>Tetrimino[];
+	private _shouldGenerateTetriminos: (array: Tetrimino[])=>boolean;
+	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
 	private _arrangeFirstSituation: (data?: any)=>void;
 	private _arrangeSituation: (data?:any)=>void;
 
@@ -46,8 +46,8 @@ export class GameRule {
 			bufferHeight?: number,
 			cssClass?: string,
 			nextNum?: number,
-			shouldGenerateTetriminos?: ()=>void,
-			generateNextTetriminos?: ()=>Tetrimino[],
+			shouldGenerateTetriminos?: (array: Tetrimino[])=>boolean,
+			generateNextTetriminos?: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
 			arrangeSituation?: (data?: any)=>void,
 		}
@@ -77,7 +77,7 @@ export class GameRule {
 
 	}
 
-	public static Normal = new GameRule({
+	public static Normal: GameRule = new GameRule({
 		name:'normal',
 		title:'Normal',
 		generateTerrain:()=>{
@@ -95,15 +95,13 @@ export class GameRule {
 		bufferHeight:normalBufferHeight,
 		cssClass: 'normal',
 		nextNum: 6,
-		shouldGenerateTetriminos: () => {
-			if (GameRule.Normal._followingMinos.length < GameRule.Normal._nextNum+1) {
-				GameRule.Normal._generateNextTetriminos()
-			}
+		shouldGenerateTetriminos: (followingMinos: Tetrimino[]) => {
+			return followingMinos.length < GameRule.Normal.nextNum + 1
 		},
-		generateNextTetriminos: () => {
+		generateNextTetriminos: (array: Tetrimino[]) => {
 			//ミノをランダムにソート
 			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
-			return nextMinos;
+			return array.concat(nextMinos);
 		},
 		arrangeFirstSituation: ()=>{},
 		arrangeSituation: ()=>{},
@@ -123,6 +121,13 @@ export class GameRule {
 	}
 	get arrangeSituation() {
 		return this._arrangeSituation;
+	}
+
+	get nextNum() {
+		return this._nextNum;
+	}
+	get generateNextTetriminos() {
+		return this._generateNextTetriminos;
 	}
 
 	get matrixHeight() {
