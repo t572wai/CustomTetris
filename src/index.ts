@@ -9,7 +9,7 @@ import { Swiper } from "./SwiperClass";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound, hardDropSound, tspinSound } from './sounds';
-import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum } from "./global";
+import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum, getMirrorField, getMirrorFieldAtRnd } from "./global";
 import { ChangeSizeOfMatrix, GameRule } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 import { GameOption } from "./gameOptions";
@@ -639,14 +639,15 @@ const StackingForPerfect: GameRule = new GameRule({
 	title: 'パフェ積み',
 	generateTerrain: () => {
 		const normalTerrain = GameRule.Normal.generateTerrain();
-		return setWall(normalTerrain,
+
+		return getMirrorFieldAtRnd(setWall(normalTerrain,
 					[
 						{x:0,y:21},{x:1,y:21},{x:2,y:21},{x:7,y:21},{x:8,y:21},{x:9,y:21},
 						{x:0,y:20},{x:1,y:20},{x:2,y:20},{x:3,y:20},{x:7,y:20},{x:8,y:20},{x:9,y:20},
 						{x:0,y:19},{x:1,y:19},{x:2,y:19},{x:7,y:19},{x:8,y:19},{x:9,y:19},
 						{x:0,y:18},{x:1,y:18},{x:7,y:18},{x:8,y:18},{x:9,y:18}
 					]
-				)
+				))
 	},
 	arrangeFirstSituation: () => {
 		holdMinoType = 'i'

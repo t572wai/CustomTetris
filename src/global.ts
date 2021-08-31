@@ -29,3 +29,23 @@ export const normalBufferWidth:number = normalMatrixWidth;
 
 export const normalFieldHeight: number = normalMatrixHeight + normalBufferHeight;
 export const normalFieldWidth:number = normalMatrixWidth;
+
+export function getMirrorField(field: readonly Tetrimino[][]) {
+	let mirrorArray = [] as Tetrimino[][];
+
+	for (const line of field) {
+		mirrorArray.push(line.reverse())
+	}
+
+	return mirrorArray;
+}
+
+export function getMirrorFieldAtRnd(field: Tetrimino[][]): Tetrimino[][] {
+	const rnd = Math.floor(Math.random() * 2);
+
+	if (rnd == 0) {
+		return field;
+	} else {
+		return getMirrorField(field);
+	}
+}
