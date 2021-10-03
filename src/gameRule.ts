@@ -19,6 +19,9 @@ export class GameRule {
 	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
 	private _arrangeFirstSituation: (data?: any)=>void;
 	private _arrangeSituation: (data?:any)=>void;
+	private _data: any;
+	private _getterOfData: (data:any)=>any;
+	private _setterOfData: (data:any)=>any;
 
 	constructor(
 		{
@@ -35,6 +38,8 @@ export class GameRule {
 			generateNextTetriminos = GameRule.Normal._generateNextTetriminos,
 			arrangeFirstSituation = GameRule.Normal._arrangeFirstSituation,
 			arrangeSituation: arrangeTerrain = GameRule.Normal._arrangeSituation,
+			getterOfData = GameRule.Normal._getterOfData,
+			setterOfData = GameRule.Normal._setterOfData,
 		}:
 		{
 			name: string,
@@ -50,6 +55,8 @@ export class GameRule {
 			generateNextTetriminos?: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
 			arrangeSituation?: (data?: any)=>void,
+			getterOfData?: (data:any)=>any,
+			setterOfData?: (data:any)=>any,
 		}
 		) {
 			this._name = name;
@@ -74,6 +81,9 @@ export class GameRule {
 
 			this._arrangeFirstSituation = arrangeFirstSituation;
 			this._arrangeSituation = arrangeTerrain;
+
+			this._getterOfData = getterOfData;
+			this._setterOfData = setterOfData;
 
 	}
 
@@ -105,6 +115,8 @@ export class GameRule {
 		},
 		arrangeFirstSituation: ()=>{},
 		arrangeSituation: ()=>{},
+		getterOfData: (data: any)=>{return null},
+		setterOfData: (data: any)=>{return null},
 	})
 
 	get generateTerrain() {
@@ -150,6 +162,12 @@ export class GameRule {
 	}
 	get cssClass() {
 		return this._cssClass;
+	}
+	get data() {
+		return this._getterOfData(this._data);
+	}
+	set data(data: any) {
+		this._data = this._setterOfData(data);
 	}
 
 	static toString(rule: GameRule): string{

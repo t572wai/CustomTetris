@@ -670,34 +670,73 @@ const WantToTSpin = new GameRule({
 	generateTerrain: () => {
 		const normalTerrain = GameRule.Normal.generateTerrain();
 
-		return setWall(normalTerrain, [
-			...lineWithHole(7,[2,3]),
-			...lineWithHole(8,[1,2,3]),
-			...lineWithHole(9,[1]),
-			...lineWithHole(10,[1,2]),
-			...lineWithHole(11,[1,2]),
-			...lineWithHole(12,[1,2,3]),
-			...lineWithHole(13,[3]),
-			...lineWithHole(14,[2,3]),
-			...lineWithHole(15,[2,3]),
-			...lineWithHole(16,[1,2,3]),
-			...lineWithHole(17,[1]),
-			...lineWithHole(18,[1,2]),
-			...lineWithHole(19,[1,2]),
-			...lineWithHole(20,[1,2,3]),
-			...lineWithHole(21,[2]),
-		])
+		switch (WantToTSpin.data) {
+			case 0:
+				return setWall(normalTerrain, [
+					...lineWithHole(7,[2,3]),
+					...lineWithHole(8,[1,2,3]),
+					...lineWithHole(9,[1]),
+					...lineWithHole(10,[1,2]),
+					...lineWithHole(11,[1,2]),
+					...lineWithHole(12,[1,2,3]),
+					...lineWithHole(13,[3]),
+					...lineWithHole(14,[2,3]),
+					...lineWithHole(15,[2,3]),
+					...lineWithHole(16,[1,2,3]),
+					...lineWithHole(17,[1]),
+					...lineWithHole(18,[1,2]),
+					...lineWithHole(19,[1,2]),
+					...lineWithHole(20,[1,2,3]),
+					...lineWithHole(21,[2]),
+				]);
+			case 1:
+				return setWall(normalTerrain, [
+					...lineWithHole(8,[0,1]),
+					...lineWithHole(9,[0,1,2]),
+					...lineWithHole(10,[2]),
+					...lineWithHole(11,[1,2]),
+					...lineWithHole(12,[2]),
+					...lineWithHole(13,[2]),
+					...lineWithHole(14,[1,2]),
+					...lineWithHole(15,[2]),
+					...lineWithHole(16,[2]),
+					...lineWithHole(17,[1,2]),
+					...lineWithHole(18,[2]),
+					...lineWithHole(19,[2]),
+					...lineWithHole(20,[1,2]),
+					...lineWithHole(21,[2]),
+				])
+			default:
+				return normalTerrain;
+		}
+
 	},
 	arrangeFirstSituation: () => {
 		followingMinos = ['t','t','t','t','t','t','t'];
+		WantToTSpin.data(Math.floor(Math.random() * 2));
 	},
 	arrangeSituation: () => {
 		followingMinos = ['t','t','t','t','t','t','t'];
-		if (totalFallenTetrimino%7==0) {
+		let loopNum;
+		switch (WantToTSpin.data) {
+			case 0:
+				loopNum = 7;
+				break;
+				case 1:
+					loopNum = 4;
+					break;
+			default:
+				loopNum = 1;
+				break;
+			}
+		if (totalFallenTetrimino%loopNum==0) {
+			WantToTSpin.data(Math.floor(Math.random() * 2));
 			fieldArray = WantToTSpin.generateTerrain();
 			displayAllMinos()
 		}
-	}
+	},
+	setterOfData: (data: 0) => {return data;},
+	getterOfData: (data: 0) => {return data;},
 })
 
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
