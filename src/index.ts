@@ -705,7 +705,26 @@ const WantToTSpin = new GameRule({
 					...lineWithHole(19,[2]),
 					...lineWithHole(20,[1,2]),
 					...lineWithHole(21,[2]),
-				])
+				]);
+			case 2:
+				return setWall(normalTerrain, [
+					...lineWithHole(6,[1,2]),
+					...lineWithHole(7,[1,2,3,4,5]),
+					...lineWithHole(8,[1,2,3,4,5]),
+					...lineWithHole(9,[4,5]),
+					...lineWithHole(10,[4,5,6]),
+					...lineWithHole(11,[6]),
+					...lineWithHole(12,[4,5,6]),
+					...lineWithHole(13,[4,5,6]),
+					...lineWithHole(14,[4]),
+					...lineWithHole(15,[6]),
+					...lineWithHole(16,[5,6,7]),
+					...lineWithHole(17,[5,6]),
+					...lineWithHole(18,[4,5]),
+					...lineWithHole(19,[4]),
+					...lineWithHole(20,[2,3]),
+					...lineWithHole(21,[3]),
+				]);
 			default:
 				return normalTerrain;
 		}
@@ -722,9 +741,12 @@ const WantToTSpin = new GameRule({
 			case 0:
 				loopNum = 7;
 				break;
-				case 1:
-					loopNum = 4;
-					break;
+			case 1:
+				loopNum = 4;
+				break;
+			case 2:
+				loopNum = 10;
+				break;
 			default:
 				loopNum = 1;
 				break;
