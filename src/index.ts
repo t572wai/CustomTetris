@@ -671,6 +671,14 @@ const WantToTSpin = new GameRule({
 		const normalTerrain = GameRule.Normal.generateTerrain();
 
 		return setWall(normalTerrain, [
+			...lineWithHole(8,[2,3]),
+			...lineWithHole(9,[1,2,3]),
+			...lineWithHole(10,[1]),
+			...lineWithHole(11,[1,2]),
+			...lineWithHole(12,[1,2]),
+			...lineWithHole(13,[1,2,3]),
+			...lineWithHole(13,[3]),
+			...lineWithHole(14,[2,3]),
 			...lineWithHole(15,[2,3]),
 			...lineWithHole(16,[1,2,3]),
 			...lineWithHole(17,[1]),
@@ -684,8 +692,8 @@ const WantToTSpin = new GameRule({
 		followingMinos = ['t','t','t','t','t','t','t'];
 	},
 	arrangeSituation: () => {
-		if (totalFallenTetrimino%3==0) {
-			followingMinos = ['t','t','t','t','t','t','t'];
+		followingMinos = ['t','t','t','t','t','t','t'];
+		if (totalFallenTetrimino%7==0) {
 			fieldArray = WantToTSpin.generateTerrain();
 			displayAllMinos()
 		}
