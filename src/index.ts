@@ -1360,12 +1360,12 @@ let swiper: Swiper;
 function startTetris() {
 	//ion.sound.play("startSound",{volume:'0.4'})
 	startSound.play()
-	initFollowingMinos()
-	gameRuleOption.currentOption.arrangeFirstSituation();
 	console.log(followingMinos);
 	displayMatrix()
 	reset()
+	initFollowingMinos()
 	startToAppearMinos()
+	gameRuleOption.currentOption.arrangeFirstSituation();
 	if (MethodOfOpForTouchOption.currentOption=='swipe') {
 		swiper = new Swiper(document, 40, 300, 50)
 	}
