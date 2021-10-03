@@ -732,7 +732,7 @@ const WantToTSpin = new GameRule({
 	},
 	arrangeFirstSituation: () => {
 		followingMinos = ['t','t','t','t','t','t','t'];
-		WantToTSpin.data = Math.floor(Math.random() * 2);
+		WantToTSpin.data = Math.floor(Math.random() * 3);
 	},
 	arrangeSituation: () => {
 		followingMinos = ['t','t','t','t','t','t','t'];
@@ -752,7 +752,7 @@ const WantToTSpin = new GameRule({
 				break;
 			}
 		if (totalFallenTetrimino%loopNum==0) {
-			WantToTSpin.data = Math.floor(Math.random() * 2);
+			WantToTSpin.data = Math.floor(Math.random() * 3);
 			fieldArray = WantToTSpin.generateTerrain();
 			displayAllMinos()
 		}
