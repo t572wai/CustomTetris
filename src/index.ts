@@ -1233,6 +1233,7 @@ function displayNext(): void {
 function textOfNext(): string {
 	let text = "<p id='nextHead'>Next</p>";
 	for (let i = 0; i < NumOfNext; i++) {
+		console.log(followingMinos[i]);
 		if(typeof followingMinos[i] !== 'undefined') {
 			text += textOfMinoAlone(followingMinos[i] as Tetrimino);
 		}
