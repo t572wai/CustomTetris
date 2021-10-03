@@ -745,7 +745,7 @@ const WantToTSpin = new GameRule({
 				loopNum = 4;
 				break;
 			case 2:
-				loopNum = 10;
+				loopNum = 7;
 				break;
 			default:
 				loopNum = 1;
@@ -1356,9 +1356,9 @@ let swiper: Swiper;
 function startTetris() {
 	//ion.sound.play("startSound",{volume:'0.4'})
 	startSound.play()
+	gameRuleOption.currentOption.arrangeFirstSituation();
 	displayMatrix()
 	reset()
-	gameRuleOption.currentOption.arrangeFirstSituation();
 	startToAppearMinos()
 	if (MethodOfOpForTouchOption.currentOption=='swipe') {
 		swiper = new Swiper(document, 40, 300, 50)
