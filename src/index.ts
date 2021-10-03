@@ -1385,6 +1385,8 @@ function initFollowingMinos() {
 
 function startToAppearMinos() {
 	console.log('start');
+	console.log(followingMinos);
+
 
 	initMino(followingMinos[0]);
 	followingMinos.shift()
