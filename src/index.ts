@@ -1381,14 +1381,13 @@ function initFollowingMinos() {
 		followingMinos = gameRuleOption.currentOption.generateNextTetriminos(followingMinos);
 	}
 	console.log(followingMinos);
-
-	initMino(followingMinos[0]);
-	followingMinos.shift()
 }
 
 function startToAppearMinos() {
 	console.log('start');
 
+	initMino(followingMinos[0]);
+	followingMinos.shift()
 	displayHold()
 	displayNext()
 	displayScoreArea()
