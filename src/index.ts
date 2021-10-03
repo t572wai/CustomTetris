@@ -754,6 +754,7 @@ const WantToTSpin = new GameRule({
 				break;
 			}
 		if (totalFallenTetrimino%loopNum==0) {
+			totalFallenTetrimino = 0;
 			WantToTSpin.data = Math.floor(Math.random() * 3);
 			fieldArray = WantToTSpin.generateTerrain();
 			displayAllMinos()
@@ -1358,6 +1359,7 @@ let swiper: Swiper;
 function startTetris() {
 	//ion.sound.play("startSound",{volume:'0.4'})
 	startSound.play()
+	initFollowingMinos()
 	gameRuleOption.currentOption.arrangeFirstSituation();
 	displayMatrix()
 	reset()
@@ -1374,10 +1376,7 @@ function initTetris() {
 	toGame()
 }
 
-
-function startToAppearMinos() {
-	console.log('start');
-
+function initFollowingMinos() {
 	if ( gameRuleOption.currentOption.shouldGenerateTetriminos(followingMinos) ) {
 		followingMinos = gameRuleOption.currentOption.generateNextTetriminos(followingMinos);
 	}
@@ -1385,6 +1384,11 @@ function startToAppearMinos() {
 
 	initMino(followingMinos[0]);
 	followingMinos.shift()
+}
+
+function startToAppearMinos() {
+	console.log('start');
+
 	displayHold()
 	displayNext()
 	displayScoreArea()
@@ -1396,6 +1400,7 @@ function startToAppearMinos() {
 		},function () {
 			canHold = true;
 			gameRuleOption.currentOption.arrangeSituation();
+			initFollowingMinos()
 			startToAppearMinos()
 		})
 	}
@@ -1473,6 +1478,7 @@ function hold() {
 			clearTimer('fall')
 			//clearTimeout(currentMinoLockDownTimer)
 			currentMinoLockDownTimer.clearTimeout()
+			initFollowingMinos()
 			startToAppearMinos()
 		})
 	}
