@@ -670,6 +670,7 @@ const WantToTSpin = new GameRule({
 	generateTerrain: () => {
 		const normalTerrain = GameRule.Normal.generateTerrain();
 
+		console.log(WantToTSpin.data);
 		switch (WantToTSpin.data) {
 			case 0:
 				return setWall(normalTerrain, [
@@ -737,6 +738,7 @@ const WantToTSpin = new GameRule({
 	arrangeSituation: () => {
 		followingMinos = ['t','t','t','t','t','t','t'];
 		let loopNum;
+		console.log(WantToTSpin.data);
 		switch (WantToTSpin.data) {
 			case 0:
 				loopNum = 7;
