@@ -1361,6 +1361,7 @@ function startTetris() {
 	startSound.play()
 	initFollowingMinos()
 	gameRuleOption.currentOption.arrangeFirstSituation();
+	console.log(followingMinos);
 	displayMatrix()
 	reset()
 	startToAppearMinos()
