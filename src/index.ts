@@ -677,7 +677,7 @@ const WantToTSpin = new GameRule({
 		])
 	},
 	arrangeFirstSituation: () => {
-		followingMinos = ['t'];
+		followingMinos = ['t','t','t','t','t','t','t'];
 	},
 	arrangeSituation: () => {
 		if (totalFallenTetrimino%1==0) {
