@@ -664,6 +664,30 @@ const StackingForPerfect: GameRule = new GameRule({
 	}
 })
 
+const WantToTSpin = new GameRule({
+	name: 'want to t-spin',
+	title: 'T-spinをしたい',
+	generateTerrain: () => {
+		const normalTerrain = GameRule.Normal.generateTerrain();
+
+		return setWall(normalTerrain, [
+			{x:1, y:19},
+			{x:0, y:20},{x:4, y:20},{x:5, y:20},{x:6, y:20},{x:7, y:20},{x:8, y:20},{x:9, y:20},
+			{x:0, y:21},{x:1, y:21},{x:3, y:21},{x:4, y:21},{x:5, y:21},{x:6, y:21},{x:7, y:21},{x:8, y:21},{x:9, y:21},
+		])
+	},
+	arrangeFirstSituation: () => {
+		followingMinos = ['t'];
+	},
+	arrangeSituation: () => {
+		if (totalFallenTetrimino%1==0) {
+			followingMinos = ['t'];
+		}
+		fieldArray = WantToTSpin.generateTerrain();
+		displayAllMinos()
+	}
+})
+
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
 	let field_cloned = cloneArray(field);
 	for (const pos of poses) {
@@ -672,7 +696,7 @@ function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino
 	return field_cloned;
 }
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect]
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect, WantToTSpin];
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
