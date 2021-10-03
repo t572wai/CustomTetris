@@ -671,9 +671,13 @@ const WantToTSpin = new GameRule({
 		const normalTerrain = GameRule.Normal.generateTerrain();
 
 		return setWall(normalTerrain, [
-			{x:1, y:19},
-			{x:0, y:20},{x:4, y:20},{x:5, y:20},{x:6, y:20},{x:7, y:20},{x:8, y:20},{x:9, y:20},
-			{x:0, y:21},{x:1, y:21},{x:3, y:21},{x:4, y:21},{x:5, y:21},{x:6, y:21},{x:7, y:21},{x:8, y:21},{x:9, y:21},
+			...lineWithHole(15,[2,3]),
+			...lineWithHole(16,[1,2,3]),
+			...lineWithHole(17,[1]),
+			...lineWithHole(18,[1,2]),
+			...lineWithHole(19,[1,2]),
+			...lineWithHole(20,[1,2,3]),
+			...lineWithHole(21,[2]),
 		])
 	},
 	arrangeFirstSituation: () => {
@@ -681,7 +685,7 @@ const WantToTSpin = new GameRule({
 	},
 	arrangeSituation: () => {
 		if (totalFallenTetrimino%1==0) {
-			followingMinos = ['t'];
+			followingMinos = ['t','t','t','t','t','t','t'];
 		}
 		fieldArray = WantToTSpin.generateTerrain();
 		displayAllMinos()
@@ -694,6 +698,16 @@ function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino
 		field_cloned[pos.y][pos.x] = 'wall';
 	}
 	return field_cloned;
+}
+
+function lineWithHole(y: number, holes: number[]): Pos[] {
+	let line = [] as Pos[];
+	for (let x = 0; x < gameRuleOption.currentOption.fieldWidth; x++) {
+		if (!holes.includes(x)) {
+			line.push({x:x, y:y});
+		}
+	}
+	return line;
 }
 
 const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect, WantToTSpin];
