@@ -671,12 +671,12 @@ const WantToTSpin = new GameRule({
 		const normalTerrain = GameRule.Normal.generateTerrain();
 
 		return setWall(normalTerrain, [
-			...lineWithHole(8,[2,3]),
-			...lineWithHole(9,[1,2,3]),
-			...lineWithHole(10,[1]),
+			...lineWithHole(7,[2,3]),
+			...lineWithHole(8,[1,2,3]),
+			...lineWithHole(9,[1]),
+			...lineWithHole(10,[1,2]),
 			...lineWithHole(11,[1,2]),
-			...lineWithHole(12,[1,2]),
-			...lineWithHole(13,[1,2,3]),
+			...lineWithHole(12,[1,2,3]),
 			...lineWithHole(13,[3]),
 			...lineWithHole(14,[2,3]),
 			...lineWithHole(15,[2,3]),
