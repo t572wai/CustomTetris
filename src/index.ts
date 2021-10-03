@@ -686,9 +686,9 @@ const WantToTSpin = new GameRule({
 	arrangeSituation: () => {
 		if (totalFallenTetrimino%3==0) {
 			followingMinos = ['t','t','t','t','t','t','t'];
+			fieldArray = WantToTSpin.generateTerrain();
+			displayAllMinos()
 		}
-		fieldArray = WantToTSpin.generateTerrain();
-		displayAllMinos()
 	}
 })
 
