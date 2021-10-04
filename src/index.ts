@@ -2581,37 +2581,47 @@ setButtonActions('.buttonsToOperate[data-operate="rightRotation"]');
 setButtonActions('.buttonsToOperate[data-operate="hold"]');
 
 $(document).on('pressstart', '.buttonsToOperate[data-operate="left"]', (e) => {
+	e.preventDefault();
 	//console.log('pressstart');
 	onLeft()
 })
 $(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
+	e.preventDefault();
 	//console.log('longpress');
 	onLeft()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="right"]', (e) => {
+	e.preventDefault();
 	//console.log('pressstart');
 	onRight()
 })
 $(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
+	e.preventDefault();
 	//console.log('longpress');
 	onRight()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
+	e.preventDefault();
 	onSoftDrop(true);
 })
 $(document).on('pressend', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
+	e.preventDefault();
 	onSoftDrop(false);
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="hardDrop"]', (e) => {
+	e.preventDefault();
 	onHardDrop()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="leftRotation"]', (e) => {
+	e.preventDefault();
 	onLeftRotation()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="rightRotation"]', (e) => {
+	e.preventDefault();
 	onRightRotation()
 })
 $(document).on('pressstart', '.buttonsToOperate[data-operate="hold"]', (e) => {
+	e.preventDefault();
 	onHold()
 })
 
