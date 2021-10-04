@@ -728,7 +728,7 @@ const WantToTSpin = new GameRule({
 				]);
 			case 3:
 				return setWall(normalTerrain, [
-					...lineWithHole(10, [1,2]),
+					...lineWithHole(9, [1,2]),
 					...lineWithHole(10, [1,2,3]),
 					...lineWithHole(11, [3]),
 					...lineWithHole(12, [2,3,4]),
