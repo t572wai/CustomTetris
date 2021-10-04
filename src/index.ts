@@ -766,7 +766,7 @@ const WantToTSpin = new GameRule({
 				loopNum = 7;
 				break;
 			case 3:
-				loopNum = 10;
+				loopNum = 6;
 				break;
 			default:
 				loopNum = 1;
