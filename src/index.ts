@@ -783,6 +783,39 @@ const WantToTSpin = new GameRule({
 	getterOfData: (data: 0) => {return data;},
 })
 
+const LElevator = new GameRule({
+	name: 'LElevator',
+	title: 'Lエレベーター',
+	generateTerrain: () => {
+		const normalTerrain = GameRule.Normal.generateTerrain();
+
+		return setWall(normalTerrain, [
+			...lineWithHole(7, [1,8]),
+			...lineWithHole(8, [1,2,3,6,7,8]),
+			...lineWithHole(9, [1,2,6]),
+			...lineWithHole(10, [2,6,8]),
+			...lineWithHole(11, [0,1,2,6,7,8]),
+			...lineWithHole(12, [1,7,8]),
+			...lineWithHole(13, [1,2,3,8]),
+			...lineWithHole(14, [1,2,6,7,8]),
+			...lineWithHole(15, [2,6]),
+			...lineWithHole(16, [0,1,2,6,8]),
+			...lineWithHole(17, [1,6,7,8]),
+			...lineWithHole(18, [1,2,3,7,8]),
+			...lineWithHole(19, [1,2,4,6,8]),
+			{x:0, y:20},{x:1, y:20},{x:9, y:20},
+			{x:8, y:21},{x:9, y:21},
+		])
+	},
+	arrangeFirstSituation: () => {
+		followingMinos = ['l','l','l','l','l','l','l'];
+		holdMinoType = 'l';
+	},
+	arrangeSituation: () => {
+		followingMinos = ['l','l','l','l','l','l','l'];
+	}
+})
+
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
 	let field_cloned = cloneArray(field);
 	for (const pos of poses) {
@@ -801,7 +834,7 @@ function lineWithHole(y: number, holes: number[]): Pos[] {
 	return line;
 }
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect, WantToTSpin];
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect, WantToTSpin, LElevator];
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
