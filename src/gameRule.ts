@@ -19,6 +19,7 @@ export class GameRule {
 	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
 	private _arrangeFirstSituation: (data?: any)=>void;
 	private _arrangeSituation: (data?:any)=>void;
+	private _isAllowedOperation: (numberOfMoved?: number)=>boolean;
 	private _data: any;
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
@@ -38,6 +39,7 @@ export class GameRule {
 			generateNextTetriminos = GameRule.Normal._generateNextTetriminos,
 			arrangeFirstSituation = GameRule.Normal._arrangeFirstSituation,
 			arrangeSituation: arrangeTerrain = GameRule.Normal._arrangeSituation,
+			isAllowedOperation = GameRule.Normal._isAllowedOperation,
 			getterOfData = GameRule.Normal._getterOfData,
 			setterOfData = GameRule.Normal._setterOfData,
 		}:
@@ -55,6 +57,7 @@ export class GameRule {
 			generateNextTetriminos?: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
 			arrangeSituation?: (data?: any)=>void,
+			isAllowedOperation?: (numOfMoved?: number)=>boolean,
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
 		}
@@ -81,6 +84,8 @@ export class GameRule {
 
 			this._arrangeFirstSituation = arrangeFirstSituation;
 			this._arrangeSituation = arrangeTerrain;
+
+			this._isAllowedOperation = isAllowedOperation;
 
 			this._getterOfData = getterOfData;
 			this._setterOfData = setterOfData;
@@ -115,6 +120,7 @@ export class GameRule {
 		},
 		arrangeFirstSituation: ()=>{},
 		arrangeSituation: ()=>{},
+		isAllowedOperation: (numOfMoved?: number)=>{return numOfMoved!<15},
 		getterOfData: (data: any)=>{return null},
 		setterOfData: (data: any)=>{return null},
 	})
@@ -162,6 +168,9 @@ export class GameRule {
 	}
 	get cssClass() {
 		return this._cssClass;
+	}
+	get isAllowedOperation() {
+		return this._isAllowedOperation;
 	}
 	get data() {
 		return this._getterOfData(this._data);

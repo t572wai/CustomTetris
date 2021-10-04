@@ -813,6 +813,9 @@ const LElevator = new GameRule({
 	},
 	arrangeSituation: () => {
 		followingMinos = ['l','l','l','l','l','l','l'];
+	},
+	isAllowedOperation: () => {
+		return true;
 	}
 })
 
@@ -2174,10 +2177,6 @@ function moveToRight(callback: (b:boolean)=>void): void {
 	operate(1,0,0,callback)
 }
 
-function isAllowedOperate(): boolean {
-	return numberOfMoveWithLowerFace<15;
-}
-
 function operate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void): void {
 	if (canOperate()) {
 		const formerCanFall = canFall();
@@ -2192,7 +2191,7 @@ function operate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>voi
 
 function onOperating(formerCanFall: boolean): void {
 	let currentCanFall = canFall()
-	if (!currentCanFall && !isAllowedOperate()) {
+	if (!currentCanFall && !gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
 		lockDown('softDrop')
 		return;
 	}
