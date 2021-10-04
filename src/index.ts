@@ -774,7 +774,7 @@ const WantToTSpin = new GameRule({
 			}
 		if (totalFallenTetrimino%loopNum==0) {
 			totalFallenTetrimino = 0;
-			WantToTSpin.data = Math.floor(Math.random() * 3);
+			WantToTSpin.data = Math.floor(Math.random() * 4);
 			fieldArray = WantToTSpin.generateTerrain();
 			displayAllMinos()
 		}
