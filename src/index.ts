@@ -870,6 +870,7 @@ const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 		)
 	}
 );
+$(document).off('click', '.infoButtons');
 $(document).on('click', '.infoButtons', function() {
 	gameRuleOption.customFunc($(this).data('op'))
 })
