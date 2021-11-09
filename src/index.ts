@@ -855,7 +855,7 @@ const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 	'gameRule',
 	0,
 	EnumOfGameRule,
-	(op: string) => `<button onclick=${gameRuleOption.customFunc.bind(op)}><i class="fas fa-info-circle"></i></button>`,
+	(op: string) => `<button onclick=gameRuleOption.customFunc.bind(${op})><i class="fas fa-info-circle"></i></button>`,
 	(op: string) => {
 		$("#infoDialog").html(
 			when(op)
