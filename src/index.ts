@@ -855,7 +855,7 @@ const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 	'gameRule',
 	0,
 	EnumOfGameRule,
-	(op: string) => `<button onclick=gameRuleOption.customFunc.bind(${op})><i class="fas fa-info-circle"></i></button>`,
+	(op: string) => {return `<button class="infoButtons" data-op="${op}"><i class="fas fa-info-circle"></i></button>`},
 	(op: string) => {
 		$("#infoDialog").html(
 			when(op)
@@ -868,9 +868,11 @@ const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 				.on(v => v=='LElevator', () => 'Lミノを無限に回し続けられます')
 				.otherwise(() => 'info')
 		)
-
 	}
 );
+$(document).on('click', '.infoButtons', function() {
+	gameRuleOption.customFunc($(this).data('op'))
+})
 
 function toGameRule(arg: any): GameRule|undefined {
 	if (GameRules.includes(arg as GameRule)) {
