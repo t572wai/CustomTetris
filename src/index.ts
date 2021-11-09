@@ -868,6 +868,7 @@ const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 				.on(v => v=='LElevator', () => 'Lミノを無限に回し続けられます')
 				.otherwise(() => 'info')
 		)
+		$('#infoDialog').dialog('open');
 	}
 );
 $(document).off('click', '.infoButtons');
