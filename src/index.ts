@@ -13,6 +13,7 @@ import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFiel
 import { ChangeSizeOfMatrix, GameRule } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 import { GameOption } from "./gameOptions";
+import { when } from "./when";
 
 //
 //
@@ -623,7 +624,7 @@ const PracticeFor4ren = new GameRule({
 })
 
 const wideMatrix = new ChangeSizeOfMatrix(
-	'wide Matrix',
+	'wideMatrix',
 	'wide Matrix',
 	25,15,2
 )
@@ -665,7 +666,7 @@ const StackingForPerfect: GameRule = new GameRule({
 })
 
 const WantToTSpin = new GameRule({
-	name: 'want to t-spin',
+	name: 'wantToT-spin',
 	title: 'T-spinをしたい',
 	generateTerrain: () => {
 		const normalTerrain = GameRule.Normal.generateTerrain();
@@ -850,7 +851,26 @@ function toString(arg: string): string {
 	return arg as string;
 }
 
-const gameRuleOption = new GameOption<GameRule>('gameRule', 0, EnumOfGameRule);
+const gameRuleOption = new GameOption<GameRule>(
+	'gameRule',
+	0,
+	EnumOfGameRule,
+	(op: string) => `<button onclick=gameRuleOption.customFunc.bind(${op})><i class="fas fa-info-circle"></i></button>`,
+	(op: string) => {
+		$("#infoDialog").html(
+			when(op)
+				.on(v => v=='normal', () => '普通のテトリス')
+				.on(v => v=='practiceFor4ren', () => '4列RENの練習')
+				.on(v => v=='wideMatrix', () => '大きさが15×25になったテトリス')
+				.on(v => v=='hideFallingMinos', () => '落ちてくるミノが隠れています。<br>代わりにミノの回転の中心(Oミノは左上、Iミノは上向きで左から2番目)の位置が白く表示されます。')
+				.on(v => v=='stackingForPerfect', () => 'パフェ積み(左右反転あり、Iミノホールド)の練習')
+				.on(v => v=='wantToT-spin', () => 'ひたすらTスピンができます')
+				.on(v => v=='LElevator', () => 'Lミノを無限に回し続けられます')
+				.otherwise(() => 'info')
+		)
+
+	}
+);
 
 function toGameRule(arg: any): GameRule|undefined {
 	if (GameRules.includes(arg as GameRule)) {
@@ -859,102 +879,14 @@ function toGameRule(arg: any): GameRule|undefined {
 	return undefined;
 }
 
-//function toString(arg: GameRule): string {
-//	return arg as string;
-//}
-//function getTitleOfGameRule(arg: GameRule): string {
-//	switch (arg) {
-//		case 'normal': return 'Normal';
-//		case 'practiceFor4ren': return '4ren'
-//	}
-//}
-
-//const gameRuleConfigs = new Map<GameRule,GameRuleClass[]>();
-//gameRuleConfigs.set('normal', ['Normal']);
-//gameRuleConfigs.set('practiceFor4ren', ['Terrain']);
-
-//const generateTerrain = new Map<GameRule, ()=>Tetrimino[][]>();
-//generateTerrain.set('normal', () => {
-//	let terrainArray:Tetrimino[][] = [];
-//	for (let i = 0; i < normalFieldHeight; i++) {
-//		terrainArray.push(new Array(normalFieldWidth).fill('empty'))
-//	}
-//	return terrainArray;
-//})
-//generateTerrain.set('practiceFor4ren', () => {
-//	const generateTerrainFn = generateTerrain.get('normal');
-//	if (typeof generateTerrainFn !== 'undefined') {
-//		let terrainArray = generateTerrainFn();
-//		forEachMinoOnField((pos) => {
-//			if (pos.x<3 || pos.x>6) {
-//				terrainArray[pos.y][pos.x] = 'wall';
-//			}
-//		})
-//		terrainArray[21][3] = 'wall';
-//		terrainArray[21][4] = 'wall';
-//		terrainArray[21][5] = 'wall';
-
-//		return terrainArray;
-//	}
-//	return []
-//})
-
-//const generateRegularlyTerrain = new Map<GameRule, ()=>Tetrimino[]>();
-//generateRegularlyTerrain.set(GameRule.Normal, ()=>{
-//	return Array(normalFieldWidth).fill('empty');
-//})
-//generateRegularlyTerrain.set('practiceFor4ren', ()=>{
-//	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal');
-//	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-//		let terrain:Tetrimino[] = generateRegularlyTerrainTemp();
-//		terrain[0] = 'wall';
-//		terrain[1] = 'wall';
-//		terrain[2] = 'wall';
-//		terrain[7] = 'wall';
-//		terrain[8] = 'wall';
-//		terrain[9] = 'wall';
-
-//		return terrain;
-//	}
-//	return [];
-//})
-
-//function hasGameRuleType(rule: GameRule,type: GameRuleClass) {
-//	const config = gameRuleConfigs.get(rule);
-//	if (typeof config !== 'undefined') {
-//		return config.includes(type);
-//	}
-//	return false;
-//}
 
 function resetField() {
 	console.log(gameRuleOption.currentOption);
 	fieldArray = gameRuleOption.currentOption.generateTerrain();
-	//if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
-	//	const generateTerrainTemp = generateTerrain.get(gameRuleOption.currentOption);
-	//	if (typeof generateTerrainTemp !== 'undefined') {
-	//		fieldArray = generateTerrainTemp();
-	//	}
-	//} else {
-	//	const generateTerrainTemp = generateTerrain.get('normal');
-	//	if (typeof generateTerrainTemp !== 'undefined') {
-	//		fieldArray = generateTerrainTemp();
-	//	}}
 }
 
 function getRegularlyTerrain() {
 	return gameRuleOption.currentOption.generateRegularlyTerrain();
-	//if (hasGameRuleType(gameRuleOption.currentOption, "Terrain")) {
-	//	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get(gameRuleOption.currentOption)
-	//	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-	//		return generateRegularlyTerrainTemp()
-	//	}
-	//} else {
-	//	const generateRegularlyTerrainTemp = generateRegularlyTerrain.get('normal')
-	//	if (typeof generateRegularlyTerrainTemp !== 'undefined') {
-	//		return generateRegularlyTerrainTemp()
-	//	}
-	//}
 }
 
 //
