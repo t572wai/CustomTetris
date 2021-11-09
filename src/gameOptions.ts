@@ -41,7 +41,7 @@ export class GameOption<T> {
 				<div class='radio'>
 					<input type='radio' name='${this._optionName}' value='${i}' id='${this._optionName}-${this._enumOfT.toString(option)}'>
 					<label class='radio-label' for='${this._optionName}-${this._enumOfT.toString(option)}'>${this._enumOfT.getTitle(option)}</label>
-					<button class='gameRuleInfo' id='${this._optionName}-info'>i</button>
+					
 					${this._customElements(this._enumOfT.toString(option))}
 				</div>
 			`
