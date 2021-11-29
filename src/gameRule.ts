@@ -1,4 +1,4 @@
-import { CssProperty as CssProperties, shuffle } from "./general";
+import { cloneArray, CssProperty as CssProperties, shuffle } from "./general";
 import { normalBufferHeight, normalBufferWidth, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, Tetrimino, TetriminoEnum } from "./global";
 
 export class GameRule {
@@ -24,6 +24,7 @@ export class GameRule {
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
 	private _spinRule: Map<Tetrimino, Pos[][][]>;
+	private _getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[];
 	
 
 	constructor(
@@ -45,6 +46,7 @@ export class GameRule {
 			getterOfData = GameRule.Normal._getterOfData,
 			setterOfData = GameRule.Normal._setterOfData,
 			spinRule = GameRule.Normal._spinRule,
+			getRotatedTetriminoShape = GameRule.Normal._getRotatedTetriminoShape,
 		}:
 		{
 			name: string,
@@ -64,6 +66,7 @@ export class GameRule {
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
 			spinRule?: Map<Tetrimino, Pos[][][]>,
+			getRotatedTetriminoShape?: (type:Tetrimino, d:number)=>Pos[],
 		}
 		) {
 			this._name = name;
@@ -95,6 +98,7 @@ export class GameRule {
 			this._setterOfData = setterOfData;
 
 			this._spinRule = spinRule;
+			this._getRotatedTetriminoShape = getRotatedTetriminoShape;
 	}
 
 	public static Normal: GameRule = new GameRule({
@@ -187,7 +191,23 @@ export class GameRule {
 			s: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
 			z: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
 			t: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
-		})
+		}),
+		getRotatedTetriminoShape: (type: Tetrimino,d: number): Pos[] => {
+			const shape_pos: Pos[] = getTetriminoShape(type)!;
+			if (type=='o') {
+				return shape_pos;
+			} else if (type=='i') {
+				const differ = [
+					[0,0],
+					[1,0],
+					[1,1],
+					[0,1]
+				]
+				return getMovedMinos(changeFacing(shape_pos,d), differ[d][0], differ[d][1]);
+			} else {
+				return changeFacing(shape_pos,d);
+			}
+		}
 	})
 
 	get generateTerrain() {
@@ -246,6 +266,9 @@ export class GameRule {
 	get spinRule() {
 		return this._spinRule;
 	}
+	get getRotatedTetriminoShape() {
+		return this._getRotatedTetriminoShape;
+	}
 
 	static toString(rule: GameRule): string{
 		return rule._name;
@@ -272,7 +295,7 @@ export class ChangeSizeOfMatrix extends GameRule {
 				for (let i = 0; i < matrixHeight + bufferHeight; i++) {
 					terrainArray.push(new Array(matrixWidth).fill('empty'))
 				}
-				console.log(terrainArray);
+				// console.log(terrainArray);
 				return terrainArray;
 			},
 			generateRegularlyTerrain:()=>{
@@ -285,15 +308,27 @@ export class ChangeSizeOfMatrix extends GameRule {
 	}
 }
 
+export const ShapesOfTetrimino = new Map<Tetrimino,number[][]>();
+ShapesOfTetrimino.set("i", [[1,0,1,1]]);
+ShapesOfTetrimino.set("o", [[1,1],[0,1]])
+ShapesOfTetrimino.set("s", [[-1,1,1],[1,0,-1]])
+ShapesOfTetrimino.set("z", [[1,1,-1],[-1,0,1]])
+ShapesOfTetrimino.set("j", [[1,-1,-1],[1,0,1]])
+ShapesOfTetrimino.set("l", [[-1,-1,1],[1,0,1]])
+ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
+
+export function getMovedMinos(tiles: Pos[], dx: number, dy: number): Pos[] {
+	return tiles.map((tile) => ({x:tile.x+dx,y:tile.y+dy}))
+}
+
 function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
 	let regulatedSpinRule = basicRule;
 	TetriminoEnum.defArray.forEach((type) => {
 		if (type!='i' && type!='empty' && type!='wall') {
-			console.log(type,basicRule.get(type));
 			const basicOne = basicRule.get(type)![0][0];
 			regulatedSpinRule.set(type, [
 				[
-					basicOne, 
+					basicOne,
 					basicOne.map((p) => ({x:-p.x, y:p.y})),
 				],
 				[
@@ -335,6 +370,73 @@ function setRegulatedSpinRule
 		preSpinRule.set("s", s);
 		preSpinRule.set("z", z);
 		preSpinRule.set("t", t);
-		console.log(preSpinRule);
 		return spinRuleRegulator(preSpinRule);
 	}
+
+	function getTetriminoShape(type: Tetrimino): Pos[] | null {
+	let minoArray:Pos[] = [];
+	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
+	let originPos:Pos = {x:0,y:0};
+	if (typeof shape != 'undefined') {
+		for (var i = 0; i < shape.length; i++) {
+			for (var j = 0; j < shape[i].length; j++) {
+				if (shape[i][j]!=-1){
+					minoArray.push({x:j,y:i});
+				}
+				if (shape[i][j]==0) {
+					originPos = {x:j,y:i}
+				}
+			}
+		}
+		return getMovedMinos(minoArray,-originPos.x,-originPos.y);
+	} else {
+		return null;
+	}
+}
+
+// function getRotatedTetriminoShape(type: Tetrimino,d: number): Pos[] {
+// 	const shape: Pos[] | null = getTetriminoShape(type);
+// 	if (typeof shape !== null) {
+// 		const shape_pos: Pos[] = shape as Pos[];
+// 		if (type=='o') {
+// 			return shape_pos;
+// 		} else if (type=='i') {
+// 			const differ = [
+// 				[0,0],
+// 				[1,0],
+// 				[1,1],
+// 				[0,1]
+// 			]
+// 			return getMovedMinos(changeFacing(shape_pos,d), differ[d][0], differ[d][1]);
+// 		} else {
+// 			console.log(type, shape, shape_pos);
+// 			return changeFacing(shape_pos,d);
+// 		}
+// 	} else {
+// 		return []
+// 	}
+// }
+
+/**
+ * [changeDirection description]
+ * @param  {Array<number>} tiles               [x,y]
+ * @param  {number} sgn                 [0-3]
+ * @return {Array<number>}       [0-3]
+ */
+export function changeFacing(tiles: Pos[], sgn: number): Pos[] {
+	//console.log(tiles);
+	let newTiles:Pos[] = cloneArray<Pos>(tiles)
+	//console.log(newTiles);
+	if (sgn==0) {
+		return newTiles;
+	} else if(sgn==1) {
+		newTiles = newTiles.map((tile) => ({x: -tile.y, y: tile.x}))
+		return newTiles;
+	} else if(sgn==2) {
+		newTiles = newTiles.map((tile) => ({x:-tile.x, y:-tile.y}))
+		return newTiles;
+	} else {
+		newTiles = newTiles.map((tile) => ({x: tile.y, y: -tile.x}))
+		return newTiles;
+	}
+}

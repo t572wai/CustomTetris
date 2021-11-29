@@ -10,7 +10,7 @@ import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound, hardDropSound, tspinSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum, getMirrorField, getMirrorFieldAtRnd } from "./global";
-import { ChangeSizeOfMatrix, GameRule } from './gameRule';
+import { changeFacing, ChangeSizeOfMatrix, GameRule, getMovedMinos, ShapesOfTetrimino } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 import { GameOption } from "./gameOptions";
 import { when } from "./when";
@@ -36,14 +36,7 @@ function FallingSpeed(level: number): number {
 	return 1000*(0.8 - ((level-1) * 0.007))**(level-1);
 }
 
-const ShapesOfTetrimino = new Map<Tetrimino,number[][]>();
-ShapesOfTetrimino.set("i", [[1,0,1,1]]);
-ShapesOfTetrimino.set("o", [[1,1],[0,1]])
-ShapesOfTetrimino.set("s", [[-1,1,1],[1,0,-1]])
-ShapesOfTetrimino.set("z", [[1,1,-1],[-1,0,1]])
-ShapesOfTetrimino.set("j", [[1,-1,-1],[1,0,1]])
-ShapesOfTetrimino.set("l", [[-1,-1,1],[1,0,1]])
-ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
+
 
 const NumOfNext = 6;
 
@@ -474,6 +467,19 @@ const LElevator = new GameRule({
 	}
 })
 
+const OSpin = new GameRule({
+	name: 'OSpin',
+	title: 'Oスピン',
+	// spinRule: GameRule.Normal.spinRule.set('o', [[[{x:0,y:0}]]]),
+	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
+		if (type=='o') {
+			return changeFacing(getTetriminoShape(type)!,d);
+		} else {
+			return GameRule.Normal.getRotatedTetriminoShape(type, d);
+		}
+	}
+})
+
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
 	let field_cloned = cloneArray(field);
 	for (const pos of poses) {
@@ -492,7 +498,7 @@ function lineWithHole(y: number, holes: number[]): Pos[] {
 	return line;
 }
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, StackingForPerfect, WantToTSpin, LElevator];
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, OSpin, StackingForPerfect, WantToTSpin, LElevator];
 //type GameRule = typeof GameRules[number];
 const EnumOfGameRule:Enum<GameRule> = {
 	defArray: GameRules,
@@ -1807,65 +1813,17 @@ function canOperate(): boolean {
 }
 
 
-function getTetriminoShape(type: Tetrimino): Pos[] | null {
-	let minoArray:Pos[] = [];
-	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
-	let originPos:Pos = {x:0,y:0};
-	if (typeof shape != 'undefined') {
-		for (var i = 0; i < shape.length; i++) {
-			for (var j = 0; j < shape[i].length; j++) {
-				if (shape[i][j]!=-1){
-					minoArray.push({x:j,y:i});
-				}
-				if (shape[i][j]==0) {
-					originPos = {x:j,y:i}
-				}
-			}
-		}
-		return getMovedMinos(minoArray,-originPos.x,-originPos.y);
-	} else {
-		return null;
-	}
-}
-
-function getMovedMinos(tiles: Pos[], dx: number, dy: number): Pos[] {
-	return tiles.map((tile) => ({x:tile.x+dx,y:tile.y+dy}))
-}
-
-function getRotatedTetriminoShape(type: Tetrimino,d: number): Pos[] {
-	const shape: Pos[] | null = getTetriminoShape(type);
-	if (typeof shape !== null) {
-		const shape_pos: Pos[] = shape as Pos[];
-		if (type=='o') {
-			return shape_pos;
-		} else if (type=='i') {
-			const differ = [
-				[0,0],
-				[1,0],
-				[1,1],
-				[0,1]
-			]
-			return getMovedMinos(changeFacing(shape_pos,d), differ[d][0], differ[d][1]);
-		} else {
-			console.log(type, shape, shape_pos);
-			return changeFacing(shape_pos,d);
-		}
-	} else {
-		return []
-	}
-}
 
 function getTetrimino(type: Tetrimino, x: number, y: number, mino: Tetrimino): Mino[] {
 	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
 }
 
 function getRotatedTetrimino(type: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
-	return getRotatedTetriminoShape(type,d).map((pos: Pos) => ({x:x+pos.x,y:y+pos.y,mino:mino}));
+	return gameRuleOption.currentOption.getRotatedTetriminoShape(type,d).map((pos: Pos) => ({x:x+pos.x,y:y+pos.y,mino:mino}));
 }
+
 function getDifferOfMovedAndRotatedTetrimino(sgn: number): Pos {
-	if (currentMinoType == 'o') {
-		return {x:0,y:0};
-	} else if (currentMinoType == 'i') {
+	if (currentMinoType == 'i') {
 		const dif = [
 			{x:0,y:0},
 			{x:1,y:0},
@@ -1897,29 +1855,7 @@ function signOfRotation(formerFacing: number, followingFacing: number): number {
 }
 
 
-/**
- * [changeDirection description]
- * @param  {Array<number>} tiles               [x,y]
- * @param  {number} sgn                 [0-3]
- * @return {Array<number>}       [0-3]
- */
-function changeFacing(tiles: Pos[], sgn: number): Pos[] {
-	//console.log(tiles);
-	let newTiles:Pos[] = cloneArray<Pos>(tiles)
-	//console.log(newTiles);
-	if (sgn==0) {
-		return newTiles;
-	} else if(sgn==1) {
-		newTiles = newTiles.map((tile) => ({x: -tile.y, y: tile.x}))
-		return newTiles;
-	} else if(sgn==2) {
-		newTiles = newTiles.map((tile) => ({x:-tile.x, y:-tile.y}))
-		return newTiles;
-	} else {
-		newTiles = newTiles.map((tile) => ({x: tile.y, y: -tile.x}))
-		return newTiles;
-	}
-}
+
 
 
 function superRotation(spinDirection: number, callback: (b:boolean)=>void): void {
@@ -2409,3 +2345,7 @@ function start() {
 //
 // startToAppear(//)
 }
+function getTetriminoShape(type: string): Pos[] | null {
+	throw new Error("Function not implemented.");
+}
+
