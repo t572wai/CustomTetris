@@ -473,6 +473,7 @@ const OSpin = new GameRule({
 	// spinRule: GameRule.Normal.spinRule.set('o', [[[{x:0,y:0}]]]),
 	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
 		if (type=='o') {
+			console.log(changeFacing(getTetriminoShape(type)!,d));
 			return changeFacing(getTetriminoShape(type)!,d);
 		} else {
 			return GameRule.Normal.getRotatedTetriminoShape(type, d);
