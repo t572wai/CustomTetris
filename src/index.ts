@@ -168,6 +168,7 @@ function setRegulatedSpinRule
 		preSpinRule.set("s", s);
 		preSpinRule.set("z", z);
 		preSpinRule.set("t", t);
+		console.log(preSpinRule);
 		return spinRuleRegulator(preSpinRule);
 	}
 
