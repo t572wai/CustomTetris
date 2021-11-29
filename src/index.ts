@@ -122,7 +122,7 @@ const notScorings:Action[] = ['hardDrop','softDrop','back_to_back','mini_tspin',
 function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
 	let regulatedSpinRule = basicRule;
 	TetriminoEnum.defArray.forEach((type) => {
-		if (type!='i') {
+		if (isNormalMinoType(type)) {
 			console.log(type,basicRule.get(type));
 			const basicOne = basicRule.get(type)![0][0];
 			regulatedSpinRule.set(type, [
@@ -549,6 +549,15 @@ spinRule.set("t",[
 ]) 
 */
 
+//
+//
+// tiny
+//
+//
+
+function isNormalMinoType(type:Tetrimino): boolean {
+	return type!='i' && type!='empty' && type!='wall';
+}
 
 //
 //
