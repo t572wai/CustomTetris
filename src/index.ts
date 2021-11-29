@@ -119,63 +119,126 @@ const notScorings:Action[] = ['hardDrop','softDrop','back_to_back','mini_tspin',
 //	}
 //})
 
+function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
+	let regulatedSpinRule = basicRule;
+	TetriminoEnum.defArray.forEach((type) => {
+		if (type!='i') {
+			const basicOne = basicRule.get(type)![0][0];
+			regulatedSpinRule.set(type, [
+				[
+					basicOne, 
+					basicOne.map((p) => ({x:-p.x, y:p.y})),
+				],
+				[
+					basicOne.map((p) => ({x:-p.x, y:-p.y})),
+					basicOne.map((p) => ({x:-p.x, y:-p.y})),
+				],
+				[
+					basicOne.map((p) => ({x:-p.x, y:p.y})),
+					basicOne,
+				],
+				[
+					basicOne.map((p) => ({x:p.x, y:-p.y})),
+					basicOne.map((p) => ({x:p.x, y:-p.y})),
+				],
+			])
+		}
+	})
+	return basicRule;
+}
+
+function setRegulatedSpinRule
+	(
+		{i,o,l,j,s,z,t}:
+		{
+			i:Pos[][][],
+			o:Pos[][][],
+			l:Pos[][][],
+			j:Pos[][][],
+			s:Pos[][][],
+			z:Pos[][][],
+			t:Pos[][][]
+		}
+	): Map<Tetrimino, Pos[][][]> {
+		let preSpinRule = new Map<Tetrimino, Pos[][][]>();
+		preSpinRule.set("i", i);
+		preSpinRule.set("o", o);
+		preSpinRule.set("l", l);
+		preSpinRule.set("j", j);
+		preSpinRule.set("s", s);
+		preSpinRule.set("z", z);
+		preSpinRule.set("t", t);
+		return spinRuleRegulator(preSpinRule);
+	}
+
 /**
  * SRSのとき、中心がどれだけ変わるかの値
  * @type {Object} spinRule[minoType][formerDirection][0:right,1:left][num]=[dx,dy]
  *
  */
-const spinRule = new Map<Tetrimino,Pos[][][]>();
-spinRule.set("i", [
-	[
-		[
-			{x:-2,y:0},
-			{x:1,y:0},
-			{x:-2,y:1},
-			{x:1,y:-2}
-		],[
-			{x:-1,y:0},
-			{x:2,y:0},
-			{x:-1,y:-2},
-			{x:2,y:1}
-		]
-	],[
-		[
-			{x:-1,y:0},
-			{x:2,y:0},
-			{x:-1,y:-2},
-			{x:2,y:1}
-		],[
-			{x:2,y:0},
-			{x:-1,y:0},
-			{x:2,y:-1},
-			{x:-1,y:2}
-		]
-	],[
-		[
-			{x:2,y:0},
-			{x:-1,y:0},
-			{x:2,y:-1},
-			{x:-1,y:2}
-		],[
-			{x:1,y:0},
-			{x:-2,y:0},
-			{x:1,y:2},
-			{x:-2,y:-1}
-		]
-	],[
-		[
-			{x:-2,y:0},
-			{x:1,y:0},
-			{x:1,y:2},
-			{x:-2,y:-1}
-		],[
-			{x:1,y:0},
-			{x:-2,y:0},
-			{x:-2,y:1},
-			{x:1,y:-2}
-		]
-	]
-])
+const spinRule = setRegulatedSpinRule
+	(
+		{
+			i: [
+					[
+						[
+							{x:-2,y:0},
+							{x:1,y:0},
+							{x:-2,y:1},
+							{x:1,y:-2}
+						],[
+							{x:-1,y:0},
+							{x:2,y:0},
+							{x:-1,y:-2},
+							{x:2,y:1}
+						]
+					],[
+						[
+							{x:-1,y:0},
+							{x:2,y:0},
+							{x:-1,y:-2},
+							{x:2,y:1}
+						],[
+							{x:2,y:0},
+							{x:-1,y:0},
+							{x:2,y:-1},
+							{x:-1,y:2}
+						]
+					],[
+						[
+							{x:2,y:0},
+							{x:-1,y:0},
+							{x:2,y:-1},
+							{x:-1,y:2}
+						],[
+							{x:1,y:0},
+							{x:-2,y:0},
+							{x:1,y:2},
+							{x:-2,y:-1}
+						]
+					],[
+						[
+							{x:-2,y:0},
+							{x:1,y:0},
+							{x:1,y:2},
+							{x:-2,y:-1}
+						],[
+							{x:1,y:0},
+							{x:-2,y:0},
+							{x:-2,y:1},
+							{x:1,y:-2}
+						]
+					]
+				],
+			o: [[[{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}]]],
+			l: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			j: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			s: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			z: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			t: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+		}
+	)
+/**
 spinRule.set("o", [
 	[
 		[//right
@@ -481,7 +544,8 @@ spinRule.set("t",[
 			{x:-1,y:-2}
 		]
 	]
-])
+]) 
+*/
 
 
 //
