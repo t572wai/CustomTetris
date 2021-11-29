@@ -1,5 +1,5 @@
 import { CssProperty as CssProperties, shuffle } from "./general";
-import { normalBufferHeight, normalBufferWidth, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Tetrimino, TetriminoEnum } from "./global";
+import { normalBufferHeight, normalBufferWidth, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, Tetrimino, TetriminoEnum } from "./global";
 
 export class GameRule {
 	private _name: string;
@@ -23,6 +23,8 @@ export class GameRule {
 	private _data: any;
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
+	private _spinRule: Map<Tetrimino, Pos[][][]>;
+	
 
 	constructor(
 		{
@@ -42,6 +44,7 @@ export class GameRule {
 			isAllowedOperation = GameRule.Normal._isAllowedOperation,
 			getterOfData = GameRule.Normal._getterOfData,
 			setterOfData = GameRule.Normal._setterOfData,
+			spinRule = GameRule.Normal._spinRule,
 		}:
 		{
 			name: string,
@@ -60,6 +63,7 @@ export class GameRule {
 			isAllowedOperation?: (numOfMoved?: number)=>boolean,
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
+			spinRule?: Map<Tetrimino, Pos[][][]>,
 		}
 		) {
 			this._name = name;
@@ -90,6 +94,7 @@ export class GameRule {
 			this._getterOfData = getterOfData;
 			this._setterOfData = setterOfData;
 
+			this._spinRule = spinRule;
 	}
 
 	public static Normal: GameRule = new GameRule({
@@ -123,6 +128,66 @@ export class GameRule {
 		isAllowedOperation: (numOfMoved?: number)=>{return numOfMoved!<15},
 		getterOfData: (data: any)=>{return null},
 		setterOfData: (data: any)=>{return null},
+		spinRule: setRegulatedSpinRule(
+		{
+			i: [
+					[
+						[
+							{x:-2,y:0},
+							{x:1,y:0},
+							{x:-2,y:1},
+							{x:1,y:-2}
+						],[
+							{x:-1,y:0},
+							{x:2,y:0},
+							{x:-1,y:-2},
+							{x:2,y:1}
+						]
+					],[
+						[
+							{x:-1,y:0},
+							{x:2,y:0},
+							{x:-1,y:-2},
+							{x:2,y:1}
+						],[
+							{x:2,y:0},
+							{x:-1,y:0},
+							{x:2,y:-1},
+							{x:-1,y:2}
+						]
+					],[
+						[
+							{x:2,y:0},
+							{x:-1,y:0},
+							{x:2,y:-1},
+							{x:-1,y:2}
+						],[
+							{x:1,y:0},
+							{x:-2,y:0},
+							{x:1,y:2},
+							{x:-2,y:-1}
+						]
+					],[
+						[
+							{x:-2,y:0},
+							{x:1,y:0},
+							{x:1,y:2},
+							{x:-2,y:-1}
+						],[
+							{x:1,y:0},
+							{x:-2,y:0},
+							{x:-2,y:1},
+							{x:1,y:-2}
+						]
+					]
+				],
+			o: [[[{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}]]],
+			l: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			j: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			s: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			z: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+			t: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
+		})
 	})
 
 	get generateTerrain() {
@@ -178,6 +243,9 @@ export class GameRule {
 	set data(data: any) {
 		this._data = this._setterOfData(data);
 	}
+	get spinRule() {
+		return this._spinRule;
+	}
 
 	static toString(rule: GameRule): string{
 		return rule._name;
@@ -216,3 +284,57 @@ export class ChangeSizeOfMatrix extends GameRule {
 		});
 	}
 }
+
+function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
+	let regulatedSpinRule = basicRule;
+	TetriminoEnum.defArray.forEach((type) => {
+		if (type!='i' && type!='empty' && type!='wall') {
+			console.log(type,basicRule.get(type));
+			const basicOne = basicRule.get(type)![0][0];
+			regulatedSpinRule.set(type, [
+				[
+					basicOne, 
+					basicOne.map((p) => ({x:-p.x, y:p.y})),
+				],
+				[
+					basicOne.map((p) => ({x:-p.x, y:-p.y})),
+					basicOne.map((p) => ({x:-p.x, y:-p.y})),
+				],
+				[
+					basicOne.map((p) => ({x:-p.x, y:p.y})),
+					basicOne,
+				],
+				[
+					basicOne.map((p) => ({x:p.x, y:-p.y})),
+					basicOne.map((p) => ({x:p.x, y:-p.y})),
+				],
+			])
+		}
+	})
+	return basicRule;
+}
+
+function setRegulatedSpinRule
+	(
+		{i,o,l,j,s,z,t}:
+		{
+			i:Pos[][][],
+			o:Pos[][][],
+			l:Pos[][][],
+			j:Pos[][][],
+			s:Pos[][][],
+			z:Pos[][][],
+			t:Pos[][][]
+		}
+	): Map<Tetrimino, Pos[][][]> {
+		let preSpinRule = new Map<Tetrimino, Pos[][][]>();
+		preSpinRule.set("i", i);
+		preSpinRule.set("o", o);
+		preSpinRule.set("l", l);
+		preSpinRule.set("j", j);
+		preSpinRule.set("s", s);
+		preSpinRule.set("z", z);
+		preSpinRule.set("t", t);
+		console.log(preSpinRule);
+		return spinRuleRegulator(preSpinRule);
+	}
