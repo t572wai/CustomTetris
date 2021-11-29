@@ -123,6 +123,7 @@ function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino,
 	let regulatedSpinRule = basicRule;
 	TetriminoEnum.defArray.forEach((type) => {
 		if (type!='i') {
+			console.log(type,basicRule.get(type));
 			const basicOne = basicRule.get(type)![0][0];
 			regulatedSpinRule.set(type, [
 				[
