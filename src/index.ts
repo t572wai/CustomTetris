@@ -10,7 +10,7 @@ import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound, hardDropSound, tspinSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum, getMirrorField, getMirrorFieldAtRnd } from "./global";
-import { changeFacing, ChangeSizeOfMatrix, GameRule, getMovedMinos, ShapesOfTetrimino } from './gameRule';
+import { changeFacing, ChangeSizeOfMatrix, GameRule, getMovedMinos, getTetriminoShape, ShapesOfTetrimino } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 import { GameOption } from "./gameOptions";
 import { when } from "./when";
@@ -2346,7 +2346,7 @@ function start() {
 //
 // startToAppear(//)
 }
-function getTetriminoShape(type: string): Pos[] | null {
-	throw new Error("Function not implemented.");
-}
+// function getTetriminoShape(type: string): Pos[] | null {
+// 	throw new Error("Function not implemented.");
+// }
 

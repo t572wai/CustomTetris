@@ -373,7 +373,7 @@ function setRegulatedSpinRule
 		return spinRuleRegulator(preSpinRule);
 	}
 
-	function getTetriminoShape(type: Tetrimino): Pos[] | null {
+	export function getTetriminoShape(type: Tetrimino): Pos[] | null {
 	let minoArray:Pos[] = [];
 	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
 	let originPos:Pos = {x:0,y:0};
