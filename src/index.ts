@@ -470,7 +470,7 @@ const LElevator = new GameRule({
 const OSpin = new GameRule({
 	name: 'OSpin',
 	title: 'Oスピン',
-	spinRule: GameRule.Normal.spinRule.set('o', [[[{x:1,y:0},{x:0,y:1},{x:0,y:0},{x:0,y:0},]]]),
+	spinRule: GameRule.Normal.spinRule.set('o', [[[{x:-1,y:0},{x:0,y:1},{x:0,y:0},{x:0,y:0},]]]),
 	cssClass: 'ospin',
 	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
 		if (type=='o') {
