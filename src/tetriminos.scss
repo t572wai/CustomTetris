@@ -39,6 +39,10 @@
 	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
 	}
+
+	&.ospin.shaft {
+		background-color: white;
+	}
 }
 
 .sMinos {
