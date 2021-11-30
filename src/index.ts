@@ -10,7 +10,7 @@ import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Enum, toUpperFirstLetter, cloneArray, shuffle, includesArray, minArray, toLowerFirstLetter, setCssVar } from "./general";
 import { startSound, lockDownSound, hardDropSound, tspinSound } from './sounds';
 import { Tetrimino, Pos, Mino, normalBufferHeight, normalFieldHeight, normalFieldWidth, TetriminoEnum, getMirrorField, getMirrorFieldAtRnd } from "./global";
-import { changeFacing, ChangeSizeOfMatrix, GameRule, getMovedMinos, getTetriminoShape, ShapesOfTetrimino } from './gameRule';
+import { changeFacing, ChangeSizeOfMatrix, GameRule, getMovedMinos, getTetriminoShape, ShapesOfTetrimino, spinRuleRegulator } from './gameRule';
 import { TimerOfAbilityToEsc } from "./timerOfAbilityToEsc";
 import { GameOption } from "./gameOptions";
 import { when } from "./when";
@@ -470,7 +470,7 @@ const LElevator = new GameRule({
 const OSpin = new GameRule({
 	name: 'OSpin',
 	title: 'Oスピン',
-	spinRule: GameRule.Normal.spinRule.set('o', [[[{x:-1,y:0},{x:0,y:1},{x:0,y:0},{x:0,y:0},]]]),
+	spinRule: spinRuleRegulator(GameRule.Normal.spinRule.set('o', [[[{x:-1,y:0},{x:0,y:1},{x:0,y:0},{x:0,y:0},]]])),
 	cssClass: 'ospin',
 	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
 		if (type=='o') {
