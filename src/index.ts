@@ -1889,6 +1889,8 @@ function moveSRS(spinDirection: number,i: number,callback: (b:boolean)=>void): v
 			const spinRuleTemp = gameRuleOption.currentOption.spinRule.get(currentMinoType);
 			if (typeof spinRuleTemp !== 'undefined') {
 				const spinRuleTemp_defined = spinRuleTemp as Pos[][][];
+				console.log(spinRuleTemp_defined);
+				
 				if(spinRuleTemp_defined[currentMinoFacing][spinDirection][i]) {
 					moveSRS(spinDirection,++i,callback)
 				} else {
