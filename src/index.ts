@@ -2351,7 +2351,4 @@ function start() {
 //
 // startToAppear(//)
 }
-// function getTetriminoShape(type: string): Pos[] | null {
-// 	throw new Error("Function not implemented.");
-// }
 
