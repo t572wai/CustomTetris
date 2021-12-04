@@ -324,7 +324,7 @@ export function getMovedMinos(tiles: Pos[], dx: number, dy: number): Pos[] {
 export function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
 	let regulatedSpinRule = basicRule;
 	TetriminoEnum.defArray.forEach((type) => {
-		if (type!='i' && type!='empty' && type!='wall') {
+		if (type!='i' && type!='o' && type!='empty' && type!='wall') {
 			const basicOne = basicRule.get(type)![0][0];
 			regulatedSpinRule.set(type, [
 				[
