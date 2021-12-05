@@ -49,11 +49,11 @@ export function includesArray<T>(array: readonly T[], elem: T): boolean {
 }
 
 export function toUpperFirstLetter(str: string): string {
-  return str.charAt(0).toUpperCase() + str.substring(1);
+	return str.charAt(0).toUpperCase() + str.substring(1);
 }
 
 export function toLowerFirstLetter(str: string): string {
-  return str.charAt(0).toLowerCase() + str.substring(1);
+	return str.charAt(0).toLowerCase() + str.substring(1);
 }
 
 export interface Enum<T> {

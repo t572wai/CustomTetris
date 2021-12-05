@@ -578,6 +578,7 @@ const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 				.on(v => v=='stackingForPerfect', () => 'パフェ積み(左右反転あり、Iミノホールド)の練習')
 				.on(v => v=='wantToT-spin', () => 'ひたすらTスピンができます')
 				.on(v => v=='LElevator', () => 'Lミノを無限に回し続けられます')
+				.on(v => v=='ospin', () => 'O-Spinができる')
 				.otherwise(() => 'info')
 		)
 		$('#infoDialog').dialog('open');
