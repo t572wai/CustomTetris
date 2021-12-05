@@ -70,3 +70,4 @@ export function setCssVar(name: string, value: string): void {
 export interface CssProperty {
 	[property: string]: string,
 }
+
