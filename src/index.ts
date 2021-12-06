@@ -531,7 +531,7 @@ const OSpin = new GameRule({
 		}
 	},
 	justBeforeLockDown: (data: any): boolean => {
-		if (currentMinoType!='o') {
+		if (currentMinoType!='o' || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
 			return true;
 		} else {
 			currentMinoType = 'i';
