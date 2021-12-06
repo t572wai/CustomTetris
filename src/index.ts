@@ -1570,6 +1570,8 @@ function isFilledOrWall(x: number, y:number): boolean{
 }
 
 function canMove(followingMinos: Mino[]): boolean {
+	console.log('abcde'+followingMinos);
+	
 	for (let tile of followingMinos) {
 		if (isOutOfField(tile.x,tile.y)) {
 			return false;
