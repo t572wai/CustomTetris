@@ -536,9 +536,12 @@ const OSpin = new GameRule({
 		} else {
 			currentMinoType = 'i';
 			currentMinoLockDownTimer.clearTimeout();
+			numberOfMoveWithLowerFace = 0;
 			return false;
 		}
-	}
+	},
+	getterOfData: (data: boolean)=>{return data;},
+	setterOfData: (data: boolean)=>{return data;},
 })
 
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
