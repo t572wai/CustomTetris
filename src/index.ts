@@ -532,13 +532,13 @@ const OSpin = new GameRule({
 	},
 	justBeforeLockDown: (data: any): boolean => {
 		if (currentMinoType!='o' || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
-			OSpin.data(false);
+			gameRuleOption.currentOption.data(false);
 			return true;
 		} else {
 			currentMinoType = 'i';
 			currentMinoLockDownTimer.clearTimeout();
 			numberOfMoveWithLowerFace = 0;
-			OSpin.data(true);
+			gameRuleOption.currentOption.data(true);
 			return false;
 		}
 	},
