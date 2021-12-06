@@ -535,6 +535,7 @@ const OSpin = new GameRule({
 			return true;
 		} else {
 			currentMinoType = 'i';
+			currentMinoLockDownTimer.clearTimeout();
 			return false;
 		}
 	}
