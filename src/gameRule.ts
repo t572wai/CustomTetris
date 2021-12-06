@@ -25,6 +25,7 @@ export class GameRule {
 	private _setterOfData: (data:any)=>any;
 	private _spinRule: Map<Tetrimino, Pos[][][]>;
 	private _getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[];
+	private _justBeforeLockDown: (data:any)=>boolean;
 	
 
 	constructor(
@@ -47,6 +48,7 @@ export class GameRule {
 			setterOfData = GameRule.Normal._setterOfData,
 			spinRule = GameRule.Normal._spinRule,
 			getRotatedTetriminoShape = GameRule.Normal._getRotatedTetriminoShape,
+			justBeforeLockDown = GameRule.Normal._justBeforeLockDown,
 		}:
 		{
 			name: string,
@@ -67,6 +69,7 @@ export class GameRule {
 			setterOfData?: (data:any)=>any,
 			spinRule?: Map<Tetrimino, Pos[][][]>,
 			getRotatedTetriminoShape?: (type:Tetrimino, d:number)=>Pos[],
+			justBeforeLockDown?: (data: any)=>boolean,
 		}
 		) {
 			this._name = name;
@@ -99,6 +102,8 @@ export class GameRule {
 
 			this._spinRule = spinRule;
 			this._getRotatedTetriminoShape = getRotatedTetriminoShape;
+
+			this._justBeforeLockDown = justBeforeLockDown;
 	}
 
 	public static Normal: GameRule = new GameRule({
@@ -207,7 +212,8 @@ export class GameRule {
 			} else {
 				return changeFacing(shape_pos,d);
 			}
-		}
+		},
+		justBeforeLockDown: ()=>{return true},
 	})
 
 	get generateTerrain() {
@@ -268,6 +274,10 @@ export class GameRule {
 	}
 	get getRotatedTetriminoShape() {
 		return this._getRotatedTetriminoShape;
+	}
+
+	get justBeforeLockDown() {
+		return this._justBeforeLockDown;
 	}
 
 	static toString(rule: GameRule): string{

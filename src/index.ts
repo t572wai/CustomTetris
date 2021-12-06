@@ -529,6 +529,14 @@ const OSpin = new GameRule({
 		} else {
 			return GameRule.Normal.getRotatedTetriminoShape(type, d);
 		}
+	},
+	justBeforeLockDown: (data: any): boolean => {
+		if (currentMinoType!='o') {
+			return true;
+		} else {
+			currentMinoType = 'i';
+			return false;
+		}
 	}
 })
 
@@ -1788,33 +1796,35 @@ function countLockDownTimer(): void {
 }
 
 function lockDown(type: 'softDrop'|'hardDrop'): void {
-	console.log('mino locks down');
-	currentMinoDidLockDown = true;
-	//clearTimeout(currentMinoLockDownTimer)
-	currentMinoLockDownTimer.clearTimeout()
-	for (const mino of currentMinoTiles) {
-		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').addClass('placedMinos')
-		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').removeClass('fallingMinos')
-		//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
-	}
-	//ion.sound.play("lockDownSE", {
-	//	ended_callback : function () {
-	//		console.log("lockDownSE end");
-	//	}
-	//})
-	const afterSoundFn = () => {
-		let lower = lowerPos()
-		totalFallenTetrimino++;
-		checkLine(currentMinoLockedDownCallback.bind(null,lower))
-	}
-	if (type == 'hardDrop' ) {
-		hardDropSound.play();
-		hardDropSound.once('end', afterSoundFn)
-	} else if ( isTSpin() == -1 ) {
-		lockDownSound.play()
-		lockDownSound.once('end', afterSoundFn)
-	} else {
-		afterSoundFn()
+	if (gameRuleOption.currentOption.justBeforeLockDown(null)) {
+		console.log('mino locks down');
+		currentMinoDidLockDown = true;
+		//clearTimeout(currentMinoLockDownTimer)
+		currentMinoLockDownTimer.clearTimeout()
+		for (const mino of currentMinoTiles) {
+			$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').addClass('placedMinos')
+			$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').removeClass('fallingMinos')
+			//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
+		}
+		//ion.sound.play("lockDownSE", {
+		//	ended_callback : function () {
+		//		console.log("lockDownSE end");
+		//	}
+		//})
+		const afterSoundFn = () => {
+			let lower = lowerPos()
+			totalFallenTetrimino++;
+			checkLine(currentMinoLockedDownCallback.bind(null,lower))
+		}
+		if (type == 'hardDrop' ) {
+			hardDropSound.play();
+			hardDropSound.once('end', afterSoundFn)
+		} else if ( isTSpin() == -1 ) {
+			lockDownSound.play()
+			lockDownSound.once('end', afterSoundFn)
+		} else {
+			afterSoundFn()
+		}
 	}
 }
 
