@@ -532,16 +532,21 @@ const OSpin = new GameRule({
 	},
 	justBeforeLockDown: (data: any): boolean => {
 		if (currentMinoType!='o' || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
+			OSpin.data(false);
 			return true;
 		} else {
 			currentMinoType = 'i';
 			currentMinoLockDownTimer.clearTimeout();
 			numberOfMoveWithLowerFace = 0;
+			OSpin.data(true);
 			return false;
 		}
 	},
 	getterOfData: (data: boolean)=>{return data;},
-	setterOfData: (data: boolean)=>{return data;},
+	setterOfData: (data: boolean)=>{
+		$(':root').css('--didTransform', data.toString());
+		return data;
+	},
 })
 
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
