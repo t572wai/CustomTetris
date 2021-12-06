@@ -554,7 +554,7 @@ const OSpin = new GameRule({
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{
-		$(':root').css('--didTransform', data.toString());
+		$('.iMinos.ospin').css('background-color', (data)?'#e7bd22':'#348fca')
 		return data;
 	},
 })

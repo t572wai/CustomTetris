@@ -1,9 +1,5 @@
 @import 'variables';
 
-:root {
-	--didTransform: false;
-}
-
 .minos {
 	@include pc {
 		@include setSize($sizeOfMino-pc, $sizeOfMino-pc);
@@ -34,12 +30,6 @@
 
 	&.hideFallingMinos.fallingMinos {
 		background-color: $emptyColor;
-	}
-
-	&.ospin {
-		@if val(--didTransform) {
-			background-color: $oColor;
-		}
 	}
 }
 
