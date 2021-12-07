@@ -260,6 +260,9 @@ export class GameRule {
 	get cssClass() {
 		return this._cssClass;
 	}
+	set cssClass(cssClass: string) {
+		this._cssClass = cssClass;
+	}
 	get isAllowedOperation() {
 		return this._isAllowedOperation;
 	}
