@@ -1937,6 +1937,8 @@ function getMovedTetrimino(dx: number, dy: number): Mino[] {
 }
 
 function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number, type: Tetrimino = currentMinoType): Mino[] {
+	console.log(currentMinoX,dx,currentMinoY,dy);
+	
 	return getRotatedTetrimino(type,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,type);
 }
 
