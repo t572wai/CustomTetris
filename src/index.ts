@@ -540,13 +540,12 @@ const OSpin = new GameRule({
 			gameRuleOption.currentOption.data = false;
 			return true;
 		} else {
-			currentMinoType = 'i';
 			if(b0) {
-				moveAndRotate(-1, 2, 1, ()=>{});
+				moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
 			} else if (bm1) {
-				moveAndRotate(-2, 2, 1, ()=>{});
+				moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
 			} else {
-				moveAndRotate(0, 2, 1, ()=>{});
+				moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
 			currentMinoLockDownTimer.clearTimeout();
 			numberOfMoveWithLowerFace = 0;
@@ -557,14 +556,14 @@ const OSpin = new GameRule({
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{
-		if (data) {
-			// $('.fallingMinos').each((i,e) => {
-			// 	$(e).addClass('transformed');
-			// })
-			OSpin.cssClass = 'ospin transformed';
-		} else {
-			OSpin.cssClass = 'ospin';
-		}
+		// if (data) {
+		// 	// $('.fallingMinos').each((i,e) => {
+		// 	// 	$(e).addClass('transformed');
+		// 	// })
+		// 	OSpin.cssClass = 'ospin transformed';
+		// } else {
+		// 	OSpin.cssClass = 'ospin';
+		// }
 		return data;
 	},
 })
@@ -1622,7 +1621,8 @@ function isOtherTiles(tile: Mino | Pos): boolean {
 }
 
 function fall(callback: (b: boolean)=>void): void {
-	moveWithDelay(0,1,'fall',callback);
+	// moveWithDelay(0,1,'fall',callback);
+	moveReflexivelyWithDelay(0,1,'fall',callback);
 }
 
 function getShaft(): Pos {
@@ -1651,8 +1651,31 @@ function move(dx: number, dy: number, callback: (b:boolean)=>void): void {
 	moveAndRotate(dx,dy,0,callback)
 }
 
-function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void): void {
-	const followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn);
+function moveReflexively(dx: number, dy: number, callback: (b:boolean)=>void): void {
+	const followingMinos = getMovedReflexivelyTetrimino(dx,dy);
+	if (canMove(followingMinos)) {
+		currentMinoX += dx;
+		setCurrentMinoY(currentMinoY + dy);
+		changeCurrentMinos(followingMinos, () => {
+			setShaftClass(getShaft());
+			displayGhost();
+			callback(true);
+		});
+	} else {
+		callback(false);
+	}
+}
+
+function getMovedReflexivelyTetrimino(dx: number, dy: number) {
+	let followingMinos = [] as Mino[];
+	currentMinoTiles.forEach((mino) => {
+		followingMinos.push({x:mino.x+dx, y:mino.y+dy, mino:mino.mino});
+	});
+	return followingMinos;
+}
+
+function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void, shapeType: Tetrimino = currentMinoType, mino: Tetrimino = currentMinoType): void {
+	const followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn,shapeType,mino);
 	if (canMove(followingTiles)) {
 		currentMinoX += dx;
 		setCurrentMinoY(currentMinoY + dy);
@@ -1679,6 +1702,10 @@ function replaceMinos(tiles: Mino[], type: Tetrimino): Mino[] {
 
 function moveWithDelay(dx: number, dy: number, timerName: string, callback: (b:boolean)=>void): void {
 	moveAndRotateWithDelay(dx,dy,0,timerName,callback)
+}
+function moveReflexivelyWithDelay(dx: number, dy: number, timerName: string, callback: (b:boolean)=>void): void {
+	clearTimer(timerName);
+	setTimer(timerName, moveReflexively.bind(null,dx,dy,callback),currentFallingSpeed(currentLevel));
 }
 
 function moveAndRotateWithDelay(dx: number, dy: number, sgn: number, timerName: string, callback: (b:boolean)=>void): void {
@@ -1918,8 +1945,8 @@ function getTetrimino(type: Tetrimino, x: number, y: number, mino: Tetrimino): M
 	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
 }
 
-function getRotatedTetrimino(type: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
-	return gameRuleOption.currentOption.getRotatedTetriminoShape(type,d).map((pos: Pos) => ({x:x+pos.x,y:y+pos.y,mino:mino}));
+function getRotatedTetrimino(shapeType: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
+	return gameRuleOption.currentOption.getRotatedTetriminoShape(shapeType,d).map((pos: Pos) => ({x:x+pos.x,y:y+pos.y,mino:mino}));
 }
 
 function getDifferOfMovedAndRotatedTetrimino(sgn: number): Pos {
@@ -1940,10 +1967,10 @@ function getMovedTetrimino(dx: number, dy: number): Mino[] {
 	return getTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,currentMinoType)
 }
 
-function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number, type: Tetrimino = currentMinoType): Mino[] {
+function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number, shapeType: Tetrimino = currentMinoType, mino: Tetrimino = currentMinoType): Mino[] {
 	console.log(currentMinoX,dx,currentMinoY,dy);
 	
-	return getRotatedTetrimino(type,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,type);
+	return getRotatedTetrimino(shapeType,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,mino);
 }
 
 /**
