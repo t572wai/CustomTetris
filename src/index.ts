@@ -531,6 +531,8 @@ const OSpin = new GameRule({
 		}
 	},
 	justBeforeLockDown: (data: any): boolean => {
+		console.log(currentMinoX, currentMinoY);
+		
 		let bm1 = canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
 		let b0 = canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
 		let b1 = canMove(getMovedAndRotatedTetrimino(1,2,1,'i'));
