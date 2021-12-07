@@ -554,9 +554,11 @@ const OSpin = new GameRule({
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{
-		$('.fallingMinos').each((i,e) => {
-			$(e).addClass('transformed');
-		})
+		if (data) {
+			$('.fallingMinos').each((i,e) => {
+				$(e).addClass('transformed');
+			})
+		}
 		return data;
 	},
 })
