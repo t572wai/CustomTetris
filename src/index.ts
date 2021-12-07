@@ -1583,6 +1583,8 @@ function canMove(followingMinos: Mino[]): boolean {
 			return false;
 		}
 		if (isOtherTiles(tile)) {
+			console.log(tile);
+			
 			return false;
 		}
 	}
