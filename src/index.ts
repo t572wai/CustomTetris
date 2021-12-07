@@ -551,6 +551,7 @@ const OSpin = new GameRule({
 			currentMinoLockDownTimer.clearTimeout();
 			numberOfMoveWithLowerFace = 0;
 			gameRuleOption.currentOption.data = true;
+			loopOfFall();
 			return false;
 		}
 	},
