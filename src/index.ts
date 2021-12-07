@@ -1586,6 +1586,8 @@ function canMove(followingMinos: Mino[]): boolean {
 			return false;
 		}
 	}
+	console.log('true');
+	
 	return true;
 }
 
