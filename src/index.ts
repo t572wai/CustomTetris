@@ -1808,7 +1808,7 @@ function startFall(): void {
 }
 
 function canFall(): boolean {
-	let fallenTiles = getMovedTetrimino(0,1)
+	let fallenTiles = getMovedReflexivelyTetrimino(0,1)
 	let b = canMove(fallenTiles);
 	if (isPlayingTetris) {
 		return b;
