@@ -554,7 +554,9 @@ const OSpin = new GameRule({
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{
-		$('.iMinos.ospin').css('background-color', (data)?'#e7bd22':'#348fca')
+		$('.fallingMinos').each((i,e) => {
+			$(e).addClass('transformed');
+		})
 		return data;
 	},
 })
