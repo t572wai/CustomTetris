@@ -1931,7 +1931,7 @@ function getMovedTetrimino(dx: number, dy: number): Mino[] {
 }
 
 function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number, type: Tetrimino = currentMinoType): Mino[] {
-	return getRotatedTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,type);
+	return getRotatedTetrimino(type,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,type);
 }
 
 /**
