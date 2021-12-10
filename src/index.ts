@@ -1535,6 +1535,8 @@ function setTimer(name: string, callback: ()=>void, delay: number): void {
 	if(name=='fall') isLoopingOfFalling = true;
 	//moveTimers[name] = setTimeout(callback,delay)
 	console.log(new TimerOfAbilityToEsc(callback, delay));
+	console.log('$$set timer '+name);
+	
 	moveTimers.set(name, new TimerOfAbilityToEsc(callback, delay));
 	moveTimers.get(name)!.setTimeout();
 	if (name=='fall' && isPausing) {
@@ -1737,19 +1739,6 @@ function checkGhost(): number {
 			hightOfAbleToDrop++;
 		}
 	}
-	// let hightOfAbleToDrop = []
-	// for (let tile of currentMinoTiles) {
-	// 	for (var i = tile.y; i < gameRuleOption.currentOption.fieldHeight; i++) {
-	// 		if (isOtherTiles({x:tile.x,y:i})) {
-	// 			hightOfAbleToDrop.push(i-tile.y-1)
-	// 			break;
-	// 		} else if (i==gameRuleOption.currentOption.fieldHeight-1) {
-	// 			hightOfAbleToDrop.push(i-tile.y)
-	// 			break;
-	// 		}
-	// 	}
-	// }
-	// const hightOfDropping = minArray(hightOfAbleToDrop)
 	if (hightOfAbleToDrop == 0) {
 		ghostMinos = []
 		ghostPos = {x:-1, y:-1}
