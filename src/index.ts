@@ -1537,6 +1537,9 @@ function setTimer(name: string, callback: ()=>void, delay: number): void {
 	console.log(new TimerOfAbilityToEsc(callback, delay));
 	moveTimers.set(name, new TimerOfAbilityToEsc(callback, delay));
 	moveTimers.get(name)!.setTimeout();
+	if (name=='fall' && isPausing) {
+		pauseTimer('fall');
+	}
 }
 
 function clearTimer(name: string): void {
