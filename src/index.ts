@@ -1754,6 +1754,7 @@ function checkGhost(): number {
 		ghostPos = {x:-1, y:-1}
 	} else {
 		ghostMinos = getMovedReflexivelyTetrimino(0, hightOfAbleToDrop);
+		console.log('ghostMinos');
 		console.log(ghostMinos);
 		
 		ghostPos = {x:getShaft().x,y:getShaft().y+hightOfAbleToDrop}
