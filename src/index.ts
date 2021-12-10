@@ -555,17 +555,7 @@ const OSpin = new GameRule({
 		}
 	},
 	getterOfData: (data: boolean)=>{return data;},
-	setterOfData: (data: boolean)=>{
-		// if (data) {
-		// 	// $('.fallingMinos').each((i,e) => {
-		// 	// 	$(e).addClass('transformed');
-		// 	// })
-		// 	OSpin.cssClass = 'ospin transformed';
-		// } else {
-		// 	OSpin.cssClass = 'ospin';
-		// }
-		return data;
-	},
+	setterOfData: (data: boolean)=>{return data;},
 })
 
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
@@ -1350,7 +1340,7 @@ function checkPerfectClear(num: number): void {
  * @return {number} -1:normal 0:t-spin 1:mini t-spin
  */
 function isTSpin() {
-	if(currentMinoType!='t' || isJustNowSpin==-1) return -1;
+	if(currentMinoShape!='t' || isJustNowSpin==-1) return -1;
 
 	let indicatorArray:Pos[] = getFilledTilesAroundT_normalized()
 	//console.log(indicatorArray,includesArray<Pos>(indicatorArray,{x:-1,y:-1}) && includesArray<Pos>(indicatorArray,{x:1,y:-1}));
@@ -1456,6 +1446,7 @@ function forEachMinoOnField(fn: (p:Pos)=>void) {
 //
 
 let currentMinoType: Tetrimino;
+let currentMinoShape: Tetrimino;
 
 let currentMinoFacing: number;
 let currentMinoX: number;
@@ -1489,10 +1480,11 @@ let isPausing: boolean;
 
 function initMino( type: Tetrimino ) {
 	currentMinoType = type;
+	currentMinoShape = type;
 	currentMinoFacing = 0;
 	currentMinoX = 4;
 	currentMinoY = 1;
-	currentMinoTiles = getTetrimino(currentMinoType,currentMinoX,currentMinoY,currentMinoType)
+	currentMinoTiles = getTetrimino(currentMinoShape,currentMinoX,currentMinoY,currentMinoType)
 	currentMinoIsVisible = true;
 	currentMinoDidLockDown = false;
 	currentMinoIsSoftDrop = false;
@@ -1629,7 +1621,7 @@ function fall(callback: (b: boolean)=>void): void {
 }
 
 function getShaft(): Pos {
-	if (currentMinoType!='i') {
+	if (currentMinoShape!='i') {
 		return {x:currentMinoX,y:currentMinoY}
 	} else {
 		const dif = [
@@ -1677,7 +1669,7 @@ function getMovedReflexivelyTetrimino(dx: number, dy: number) {
 	return followingMinos;
 }
 
-function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void, shapeType: Tetrimino = currentMinoType, mino: Tetrimino = currentMinoType): void {
+function moveAndRotate(dx: number, dy: number, sgn: number, callback: (b:boolean)=>void, shapeType: Tetrimino = currentMinoShape, mino: Tetrimino = currentMinoType): void {
 	const followingTiles = getMovedAndRotatedTetrimino(dx,dy,sgn,shapeType,mino);
 	if (canMove(followingTiles)) {
 		currentMinoX += dx;
@@ -1939,8 +1931,8 @@ function canOperate(): boolean {
 
 
 
-function getTetrimino(type: Tetrimino, x: number, y: number, mino: Tetrimino): Mino[] {
-	return getRotatedTetrimino(type,x,y,currentMinoFacing,mino)
+function getTetrimino(shapeType: Tetrimino, x: number, y: number, mino: Tetrimino): Mino[] {
+	return getRotatedTetrimino(shapeType,x,y,currentMinoFacing,mino)
 }
 
 function getRotatedTetrimino(shapeType: Tetrimino, x: number, y: number, d: number, mino: Tetrimino): Mino[] {
@@ -1948,7 +1940,7 @@ function getRotatedTetrimino(shapeType: Tetrimino, x: number, y: number, d: numb
 }
 
 function getDifferOfMovedAndRotatedTetrimino(sgn: number): Pos {
-	if (currentMinoType == 'i') {
+	if (currentMinoShape == 'i') {
 		const dif = [
 			{x:0,y:0},
 			{x:1,y:0},
@@ -1962,10 +1954,10 @@ function getDifferOfMovedAndRotatedTetrimino(sgn: number): Pos {
 }
 
 function getMovedTetrimino(dx: number, dy: number): Mino[] {
-	return getTetrimino(currentMinoType,currentMinoX+dx,currentMinoY+dy,currentMinoType)
+	return getTetrimino(currentMinoShape,currentMinoX+dx,currentMinoY+dy,currentMinoType)
 }
 
-function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number, shapeType: Tetrimino = currentMinoType, mino: Tetrimino = currentMinoType): Mino[] {
+function getMovedAndRotatedTetrimino(dx: number, dy: number, sgn: number, shapeType: Tetrimino = currentMinoShape, mino: Tetrimino = currentMinoType): Mino[] {
 	console.log(currentMinoX,dx,currentMinoY,dy);
 	
 	return getRotatedTetrimino(shapeType,currentMinoX+dx,currentMinoY+dy,(currentMinoFacing+sgn)%4,mino);
@@ -1997,7 +1989,7 @@ function moveSRS(spinDirection: number,i: number,callback: (b:boolean)=>void): v
 	let dx = 0;
 	let dy = 0;
 	if (i!=0) {
-		const spinRuleTemp = gameRuleOption.currentOption.spinRule.get(currentMinoType);
+		const spinRuleTemp = gameRuleOption.currentOption.spinRule.get(currentMinoShape);
 		console.log(`spinRule:${spinRuleTemp}`);
 		
 		if (typeof spinRuleTemp !== 'undefined') {
@@ -2011,7 +2003,7 @@ function moveSRS(spinDirection: number,i: number,callback: (b:boolean)=>void): v
 	let sgn = (spinDirection==0)?1:3;
 	operate(dx,dy,sgn,function(b){
 		if (!b) {
-			const spinRuleTemp = gameRuleOption.currentOption.spinRule.get(currentMinoType);
+			const spinRuleTemp = gameRuleOption.currentOption.spinRule.get(currentMinoShape);
 			if (typeof spinRuleTemp !== 'undefined') {
 				const spinRuleTemp_defined = spinRuleTemp as Pos[][][];
 				console.log(spinRuleTemp_defined);
