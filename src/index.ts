@@ -1538,6 +1538,8 @@ function setTimer(name: string, callback: ()=>void, delay: number): void {
 	moveTimers.set(name, new TimerOfAbilityToEsc(callback, delay));
 	moveTimers.get(name)!.setTimeout();
 	if (name=='fall' && isPausing) {
+		console.log('set with pausing');
+		
 		pauseTimer('fall');
 	}
 }
