@@ -1584,10 +1584,6 @@ function isFilledOrWall(x: number, y:number): boolean{
 }
 
 function canMove(followingMinos: Mino[]): boolean {
-	console.log('abcde');
-	console.log(followingMinos);
-	
-	
 	for (let tile of followingMinos) {
 		if (isOutOfField(tile.x,tile.y)) {
 			return false;
@@ -1759,9 +1755,6 @@ function checkGhost(): number {
 		ghostPos = {x:-1, y:-1}
 	} else {
 		ghostMinos = getMovedReflexivelyTetrimino(0, hightOfAbleToDrop);
-		console.log('ghostMinos');
-		console.log(ghostMinos);
-		
 		ghostPos = {x:getShaft().x,y:getShaft().y+hightOfAbleToDrop}
 	}
 	console.log(hightOfAbleToDrop, ghostPos);
