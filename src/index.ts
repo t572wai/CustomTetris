@@ -1503,7 +1503,7 @@ function initMino( type: Tetrimino ) {
 	moveTimers = new Map();
 	ghostMinos = []
 	isPlayingTetris = true;
-	isPausing = false;
+	// isPausing = false;
 }
 
 function setCurrentMinoY(y: number): number {
