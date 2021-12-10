@@ -1728,28 +1728,36 @@ function hideCurrentMino(callback: ()=>void) {
 }
 
 function checkGhost(): number {
-	let hightOfAbleToDrop = []
-	for (let tile of currentMinoTiles) {
-		for (var i = tile.y; i < gameRuleOption.currentOption.fieldHeight; i++) {
-			if (isOtherTiles({x:tile.x,y:i})) {
-				hightOfAbleToDrop.push(i-tile.y-1)
-				break;
-			} else if (i==gameRuleOption.currentOption.fieldHeight-1) {
-				hightOfAbleToDrop.push(i-tile.y)
-				break;
-			}
+	let hightOfAbleToDrop = 0;
+	while (true) {
+		if (canMove(getMovedReflexivelyTetrimino(0,hightOfAbleToDrop))) {
+			break;
+		} else {
+			hightOfAbleToDrop++;
 		}
 	}
-	const hightOfDropping = minArray(hightOfAbleToDrop)
-	if (hightOfDropping == 0) {
+	// let hightOfAbleToDrop = []
+	// for (let tile of currentMinoTiles) {
+	// 	for (var i = tile.y; i < gameRuleOption.currentOption.fieldHeight; i++) {
+	// 		if (isOtherTiles({x:tile.x,y:i})) {
+	// 			hightOfAbleToDrop.push(i-tile.y-1)
+	// 			break;
+	// 		} else if (i==gameRuleOption.currentOption.fieldHeight-1) {
+	// 			hightOfAbleToDrop.push(i-tile.y)
+	// 			break;
+	// 		}
+	// 	}
+	// }
+	// const hightOfDropping = minArray(hightOfAbleToDrop)
+	if (hightOfAbleToDrop == 0) {
 		ghostMinos = []
 		ghostPos = {x:-1, y:-1}
 	} else {
-		ghostMinos = getMovedAndRotatedTetrimino(0,hightOfDropping,0)
-		ghostPos = {x:getShaft().x,y:getShaft().y+hightOfDropping}
+		ghostMinos = getMovedReflexivelyTetrimino(0, hightOfAbleToDrop);
+		ghostPos = {x:getShaft().x,y:getShaft().y+hightOfAbleToDrop}
 	}
-	console.log(hightOfDropping, ghostPos);
-	return hightOfDropping;
+	console.log(hightOfAbleToDrop, ghostPos);
+	return hightOfAbleToDrop;
 }
 
 
