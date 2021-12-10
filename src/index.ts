@@ -1730,7 +1730,7 @@ function hideCurrentMino(callback: ()=>void) {
 function checkGhost(): number {
 	let hightOfAbleToDrop = 0;
 	while (true) {
-		if (canMove(getMovedReflexivelyTetrimino(0,hightOfAbleToDrop))) {
+		if (!canMove(getMovedReflexivelyTetrimino(0,hightOfAbleToDrop))) {
 			break;
 		} else {
 			hightOfAbleToDrop++;
