@@ -1082,361 +1082,74 @@ let swiper: Swiper;
 
 //let currentGameRule: GameRule = 'normal';
 
-//
-//
-// systems
-//
-//
-
-function startTetris() {
-	//ion.sound.play("startSound",{volume:'0.4'})
-	startSound.play()
-	console.log(followingMinos);
-	displayMatrix()
-	reset()
-	initFollowingMinos()
-	startToAppearMinos()
-	gameRuleOption.currentOption.arrangeFirstSituation();
-	if (MethodOfOpForTouchOption.currentOption=='swipe') {
-		swiper = new Swiper(document, 40, 300, 50)
+class Tetris<Tetrimino> {
+	main(): void {
+		this.genPhase();
 	}
-	addPauseKeyActions('Escape')
-	console.log(gameRuleOption.currentOption);
-	//setMinosStyle();
-}
 
-function initTetris() {
-	toGame()
-}
+	genPhase(): Promise<any> {
+		return new Promise((resolve, reject) => {
 
-function initFollowingMinos() {
-	if ( gameRuleOption.currentOption.shouldGenerateTetriminos(followingMinos) ) {
-		followingMinos = gameRuleOption.currentOption.generateNextTetriminos(followingMinos);
-	}
-	console.log(followingMinos);
-}
-
-function startToAppearMinos() {
-	console.log('start');
-	console.log(followingMinos);
-
-
-	initMino(followingMinos[0]);
-	followingMinos.shift()
-	displayHold()
-	displayNext()
-	displayScoreArea()
-	currentMinoLockedDownCallback = function (ind: number) {
-		//console.log(ind);
-		withGameOver(ind,function () {
-			endTetris()
-			$('#gameoverDialog').dialog('open')
-		},function () {
-			canHold = true;
-			gameRuleOption.currentOption.arrangeSituation();
-			initFollowingMinos()
-			startToAppearMinos()
 		})
+		.then(() => {this.fallPhase()});
 	}
-	startFall()
-}
+	fallPhase(): Promise<void> {
+		return new Promise<boolean>((resolve, reject) => {
 
-function isGameOver(indicator: number): boolean {
-	// console.log(indicator);
-	return isLockOut(indicator);
-}
-
-function isLockOut(indicator: number): boolean {
-	return indicator<gameRuleOption.currentOption.bufferHeight;
-}
-
-function withGameOver(indicator: number, gameoverCb: ()=>void, continueCb: ()=>void): void {
-	if (isGameOver(indicator)) {
-		gameoverCb()
-	} else {
-		continueCb()
-	}
-}
-
-//function checkGenerationOfTetriminos(minos: Tetrimino[]) {
-//	let newMinos;
-//	if (minos.length < NumOfNext+1) {
-//		return minos.concat(generateTetriminos());
-//	} else {
-//		return minos;
-//	}
-//}
-
-//function generateTetriminos(): Tetrimino[] {
-//	//ミノをランダムにソート
-//	const nextArray = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
-//	return nextArray;
-//}
-
-function updateMatrixArray(mino: Mino) {
-	//console.log(tile,fieldArray[tile[1]]);
-	fieldArray[mino.y][mino.x] = mino.mino;
-}
-
-function reset() {
-	score = 0;
-	totalClearedLine = 0;
-	totalFallenTetrimino = 0;
-
-	clearHoldQueue();
-	clearNextQueue();
-	if (MethodOfOpForTouchOption.currentOption=='button') {
-		displayButtonsToOperate();
-	} else {
-		hideButtonsToOperate();
-	}
-	displayHold();
-	clearField();
-	resetBag();
-	resetScoringArray();
-	displayScoreArea();
-}
-
-function hold() {
-	if (!currentMinoDidLockDown && canHold) {
-		canHold = false;
-		if (holdMinoType && holdMinoType != 'empty') {
-			// console.log(holdMinoType);
-			let minoTypeTemp = holdMinoType;
-			holdMinoType = currentMinoType;
-			followingMinos.unshift(minoTypeTemp)
-		} else {
-			holdMinoType = currentMinoType;
-		}
-		hideCurrentMino(function () {
-			clearTimer('fall')
-			//clearTimeout(currentMinoLockDownTimer)
-			currentMinoLockDownTimer.clearTimeout()
-			initFollowingMinos()
-			startToAppearMinos()
 		})
+		.then((doHardDrop) => {(doHardDrop)?this.patternPhase():this.lockPhase()});
 	}
-}
-
-function resetBag() {
-	canHold = true;
-}
-
-function isScoring(str: Action) {
-	return !notScorings.includes(str);
-}
-
-function resetScoringArray() {
-	scoring.set('score', 0);
-	scoring.set('ren', 0);
-	scoring.set('perfectClear', 0);
-	Actions.forEach(item => {
-		if (isScoring(item)) {
-			scoring.set(item, 0);
-		}
-	});
-}
-
-function addScore(actionStr: Action,rate=1) {
-	const action = ScoreOfAction.get(actionStr);
-	if (typeof action !== 'undefined') {
-		score += action*rate;
-		if (isScoring(actionStr)) {
-			const scoringTemp = scoring.get(actionStr);
-			if (typeof scoringTemp !== 'undefined') {
-				scoring.set(actionStr,scoringTemp+1);
+	lockPhase(): Promise<void> {
+		return new Promise<
+			{isMoved:boolean,isThereSpaceToFall:boolean,didResetLockDownTimer:boolean}
+		>((resolve, reject) => {
+		})
+		.then(({isMoved,isThereSpaceToFall,didResetLockDownTimer}) => {
+			if (isMoved) {
+				if (isThereSpaceToFall) {
+					this.fallPhase();
+				} else {
+					if (didResetLockDownTimer) {
+						this.lockPhase();
+					} else {
+						this.patternPhase();
+					}
+				}
+			} else {
+				this.patternPhase();
 			}
-		}
-		scoring.set('score', score);
-		displayScoreArea()
+		});
 	}
-}
-
-function checkLine(callback: ()=>void) {
-	let didClear = false;
-	let linesToClear = [];
-	for (var i = 0; i < fieldArray.length; i++) {
-		if (isLineFilled(fieldArray[i])) {
-			linesToClear.push(i)
-			didClear = true;
-		}
-	}
-	const numOfClearedLine = linesToClear.length;
-	if (numOfClearedLine > 0) {
-		currentREN++;
-		if (currentREN>0) {
-			addScore('ren', currentREN*currentLevel)
-		}
-	} else {
-		currentREN = -1;
-	}
-	scoring.set('ren' ,(currentREN>0)?currentREN:0);
-	displayScoreArea();
-	afterAction(checkAction(numOfClearedLine));
-	for (let ind of linesToClear) {
-		clearLine(ind)
-	}
-	checkPerfectClear(numOfClearedLine);
-	if (didClear) {
-		displayAllMinos()
-	}
-	callback()
-}
-
-
-function checkAction(currentNumOfClearedLine: number): Action {
-	switch (currentNumOfClearedLine) {
-		case 1:
-			switch(isTSpin()) {
-				case 0:
-					return 'tspin_single';
-				case 1:
-					return 'mini_tspin_single';
-				default:
-					return 'single';
+	patternPhase(): Promise<void> {
+		return new Promise<boolean>((resolve, reject) => {
+		})
+		.then((didPatternMatch) => {
+			if(didPatternMatch) {
+				this.markBlockForDestruction()
+			} else {
+				this.iteratePhase()
 			}
-		case 2:
-			return (isTSpin()==0)?'tspin_double':'double';
-		case 3:
-			return (isTSpin()==0)?'tspin_triple':'triple';
-		case 4:
-			return 'tetris';
-		default:
-			switch(isTSpin()) {
-				case 0:
-					return 'tspin';
-				case 1:
-					return 'mini_tspin';
-				default:
-					return 'none';
-			}
+		});
 	}
-}
-
-function checkPerfectClear(num: number): void {
-	console.log(totalClearedLine, totalFallenTetrimino);
-	if (fieldArray.find((line) => line.find((mino) => mino != 'empty') !== undefined) == undefined) {
-		scoring.set('perfectClear', scoring.get('perfectClear')!+1);
-		switch (num) {
-			case 1:
-				afterAction('singlePerfectClear')
-				break;
-			case 2:
-				afterAction('doublePerfectClear');
-				break;
-			case 3:
-				afterAction('triplePerfectClear');
-				break;
-			case 4:
-				afterAction('tetrisPerfectClear');
-				break;
-			default:
-				break;
-		}
-		displayScoreArea();
+	markBlockForDestruction(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {})
+					.then(() => this.iteratePhase());
 	}
-}
-
-/**
- * @return {number} -1:normal 0:t-spin 1:mini t-spin
- */
-function isTSpin() {
-	if(currentMinoShape!='t' || isJustNowSpin==-1) return -1;
-
-	let indicatorArray:Pos[] = getFilledTilesAroundT_normalized()
-	//console.log(indicatorArray,includesArray<Pos>(indicatorArray,{x:-1,y:-1}) && includesArray<Pos>(indicatorArray,{x:1,y:-1}));
-
-	if (isJustNowSpin==5) {
-		return 0;
+	iteratePhase(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {})
+					.then(() => this.animatePhase());
 	}
-
-	if (indicatorArray.length<3) {
-		return -1;
-	} else if (includesArray(indicatorArray,{x:-1,y:-1}) && includesArray(indicatorArray,{x:1,y:-1})) {
-		return 0;
-	} else {
-		console.log(indicatorArray);
-		return 1;
+	animatePhase(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {})
+					.then(() => this.eliminatePhase());
 	}
-}
-
-function getFilledTilesAroundT(): Pos[] {
-	let tiles:Pos[] = [];
-
-	if (isFilledOrWall(currentMinoX-1,currentMinoY-1)) tiles.push({x:-1,y:-1})
-	if (isFilledOrWall(currentMinoX-1,currentMinoY+1)) tiles.push({x:-1,y: 1})
-	if (isFilledOrWall(currentMinoX+1,currentMinoY-1)) tiles.push({x: 1,y:-1})
-	if (isFilledOrWall(currentMinoX+1,currentMinoY+1)) tiles.push({x: 1,y: 1})
-
-	//console.log(tiles);
-	return tiles;
-}
-
-function getFilledTilesAroundT_normalized(): Pos[] {
-	return changeFacing(getFilledTilesAroundT(),currentMinoFacing)
-}
-
-function afterAction(type: Action) {
-	// console.log(type);
-	addScore(type,currentLevel)
-}
-
-function clearLine(i: number) {
-	for (var j = i-1; j >= 0; j--) {
-		fieldArray[j+1] = cloneArray(fieldArray[j]);
+	eliminatePhase(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {})
+					.then(() => this.completionPhase());
 	}
-	fieldArray[0] = getRegularlyTerrain();
-	//const generateRegularlyTerrainFn = generateRegularlyTerrain.get(gameRuleOption.currentOption);
-	//if (typeof generateRegularlyTerrainFn !== 'undefined') {
-	//	fieldArray[0] = generateRegularlyTerrainFn();
-	//}
-	totalClearedLine++;
-}
-
-function isLineFilled(array: Tetrimino[]) {
-	return  !array.find((e) => e == "empty");
-}
-
-function endTetris() {
-	console.log('end tetris');
-	isPlayingTetris = false;
-	clearTimer('fall');
-	//clearTimeout(currentMinoLockDownTimer);
-	currentMinoLockDownTimer.clearTimeout();
-	if (typeof swiper !== 'undefined') {
-		swiper.destructor()
-	}
-}
-
-function clearHoldQueue() {
-	holdMinoType = 'empty';
-}
-
-function clearNextQueue() {
-	followingMinos = [];
-}
-
-/**
- *
- * @param {function} fn [fn(x,y)]
- */
-function forEachMinoOnMatrix(fn: (p:Pos)=>void) {
-	for (let i = gameRuleOption.currentOption.bufferHeight-1; i < gameRuleOption.currentOption.fieldHeight; i++) {
-		for (let j = 0; j < gameRuleOption.currentOption.fieldWidth; j++) {
-			fn({x:j,y:i})
-		}
-	}
-}
-
-/**
- *
- * @param {function} fn [fn(x,y)]
- */
-function forEachMinoOnField(fn: (p:Pos)=>void) {
-	for (let i = 0; i < gameRuleOption.currentOption.fieldHeight; i++) {
-		for (let j = 0; j < gameRuleOption.currentOption.fieldWidth; j++) {
-			fn({x:j,y:i})
-		}
+	completionPhase(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {})
+					.then(() => this.genPhase());
 	}
 }
 
