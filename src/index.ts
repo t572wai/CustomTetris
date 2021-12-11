@@ -536,7 +536,7 @@ const OSpin = new GameRule({
 		let bm1 = canMove(getMovedAndRotatedTetrimino(-2,2,1,'i'));
 		let b0 = canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
 		let b1 = canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
-		if (currentMinoType!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
+		if (currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
 			gameRuleOption.currentOption.data = false;
 			return true;
 		} else {
@@ -547,6 +547,7 @@ const OSpin = new GameRule({
 			} else {
 				moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
+			currentMinoShape = 'i';
 			currentMinoLockDownTimer.clearTimeout();
 			numberOfMoveWithLowerFace = 0;
 			gameRuleOption.currentOption.data = true;
