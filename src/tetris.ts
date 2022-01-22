@@ -49,6 +49,9 @@ export class Tetris<TetriminoClass extends string> {
 	}, this.getFallingSpeed(this._currentLevel));
 	private _lockDownTimer: TimerAbleToEsc = new TimerAbleToEsc(()=>{}, 500);
 
+	constructor(gameRule: GameRule<TetriminoClass>) {
+		this._gameRule = gameRule;
+	}
 
 	main(): void {
 		this.arrangeToTetris();

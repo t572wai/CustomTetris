@@ -1,5 +1,5 @@
 import { GameOption } from "./gameOptions";
-import { ChangeSizeOfMatrix, GameRule } from "./gameRule";
+import { ChangeSizeOfMatrix, GameRule, GameRuleNormal } from "./gameRule";
 import { cloneArray, Enum } from "./general";
 import { Pos, Tetrimino } from "./global";
 import { Tetris } from "./tetris";
@@ -161,7 +161,7 @@ $(function () {
 //
 //
 
-const PracticeFor4ren = new GameRule<Tetrimino>({
+const PracticeFor4ren = new GameRuleNormal({
 	name:'practiceFor4ren',
 	title:'4line REN',
 	generateTerrain:() => {
@@ -196,13 +196,13 @@ const wideMatrix = new ChangeSizeOfMatrix<Tetrimino>(
 	25,15,2
 )
 
-const HideFallingMinos = new GameRule<Tetrimino>({
+const HideFallingMinos = new GameRuleNormal({
 	name: 'hideFallingMinos',
 	title: 'to hide falling minos',
 	cssClass: 'hideFallingMinos',
 })
 
-const StackingForPerfect: GameRule<Tetrimino> = new GameRule({
+const StackingForPerfect: GameRule<Tetrimino> = new GameRuleNormal({
 	name: 'stackingForPerfect',
 	title: 'パフェ積み',
 	generateTerrain: () => {
@@ -232,7 +232,7 @@ const StackingForPerfect: GameRule<Tetrimino> = new GameRule({
 	}
 })
 
-const WantToTSpin = new GameRule<Tetrimino>({
+const WantToTSpin = new GameRuleNormal({
 	name: 'wantToT-spin',
 	title: 'T-spinをしたい',
 	generateTerrain: () => {
@@ -351,7 +351,7 @@ const WantToTSpin = new GameRule<Tetrimino>({
 	getterOfData: (data: 0) => {return data;},
 })
 
-const LElevator = new GameRule({
+const LElevator = new GameRuleNormal({
 	name: 'LElevator',
 	title: 'Lエレベーター',
 	generateTerrain: () => {
@@ -387,7 +387,7 @@ const LElevator = new GameRule({
 	}
 })
 
-const OSpin = new GameRule({
+const OSpin = new GameRuleNormal({
 	name: 'OSpin',
 	title: 'Oスピン',
 	spinRule: spinRuleRegulator(GameRule.Normal.spinRule.set('o', [
@@ -566,3 +566,47 @@ function getRegularlyTerrain() {
 //
 
 let currentTetris: Tetris<string>;
+
+function startTetris(): void {
+	currentTetris = new Tetris()
+}
+
+//
+//
+// init
+//
+//
+
+initDialogs()
+
+$('#startButton').off('click');
+$(document).on('click','#startButton', () => {
+	console.log('start!!');
+	startTetris()
+})
+//$(document).on('touched','#startButton', () => {
+	//	initTetris();
+	//	startTetris();
+	//})
+
+$('#toKeyBindings').off('click');
+$(document).on('click','#toKeyBindings', () => {
+	toKeyBindings();
+})
+
+$('#fromKeyToMainMenu').off('click');
+$(document).on('click','#fromKeyToMainMenu', () => {
+	$(document).off('.onClickKeyForAny');
+	toMainMenu();
+})
+
+$('#pauseButton').off('click');
+$(document).on('click', '#pauseButton', ()=>{
+	$('#pauseDialog').dialog('open');
+})
+
+//$(document).on('touched','#fromKeyToMainMenu', () => {
+//	toMainMenu();
+//})
+
+toMainMenu()
