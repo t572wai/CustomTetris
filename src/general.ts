@@ -58,7 +58,7 @@ export function toLowerFirstLetter(str: string): string {
 
 export interface Enum<T> {
 	readonly defArray: readonly T[],
-	toEnum: (arg: any)=>T|undefined,
+	isEnum: (arg: any)=>arg is T,
 	toString: (arg: T)=>string,
 	getTitle: (arg: T)=>string
 }

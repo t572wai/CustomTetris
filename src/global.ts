@@ -1,25 +1,62 @@
 import { cloneArray, Enum, toUpperFirstLetter } from "./general";
 
-const TetriminoUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
+export const TetriminoUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
 export type Tetrimino = typeof TetriminoUnion[number];
+
+export function isTetrimino(value: any): value is Tetrimino{
+	if (typeof value === "string") {
+		return TetriminoUnion.includes(value as Tetrimino);
+	}
+	return false;
+}
 
 export const TetriminoEnum:Enum<Tetrimino> = {
 	defArray: TetriminoUnion,
-	toEnum: (arg: any)=> {return arg as Tetrimino},
+	isEnum: isTetrimino,
 	toString: (arg: Tetrimino) => {return arg as string},
 	getTitle: (arg: Tetrimino) => {return toUpperFirstLetter(arg as string)},
 }
+
+const TileAttrsUnion = ['empty','filled', 'undefined'] as const;
+export type TileAttrs = typeof TileAttrsUnion[number];
+
+const MinoAttrsUnion = ['empty', 'block', 'wall', 'undefined'] as const;
+export type MinoAttrs = typeof MinoAttrsUnion[number];
+
+export const MinoAttrsMap = new Map<string, MinoAttrs>();
+TetriminoEnum.defArray.forEach((mino) => {
+	if (mino=="empty") {
+		MinoAttrsMap.set(mino, 'empty');
+	} else if (mino=="wall") {
+		MinoAttrsMap.set(mino, 'wall');
+	} else {
+		MinoAttrsMap.set(mino, 'block');
+	}
+})
+export function getMinosByAttr(attr: MinoAttrs): string[] {
+	let minos: string[] = [];
+	for (const entry of MinoAttrsMap.entries()) {
+		if (entry[1] == attr) {
+			minos.push(entry[0]);
+		}
+	}
+	return minos;
+}
+
 
 export type Pos = {
 	x: number,
 	y: number,
 }
 
-export type Mino = {
+export type Mino<TetriminoClass> = {
 	x: number,
 	y: number,
-	mino: Tetrimino,
+	mino: TetriminoClass,
 }
+
+const BlockTypeUnion = ["falling","placed","ghost"] as const;
+export type BlockType = typeof BlockTypeUnion[number];
 
 export const normalMatrixHeight: number = 20;
 export const normalMatrixWidth: number = 10;
@@ -83,8 +120,11 @@ export function changeFacing(tiles: Pos[], sgn: number): Pos[] {
 	}
 }
 
-export function getMovedMinos(tiles: Pos[], dx: number, dy: number): Pos[] {
-	return tiles.map((tile) => ({x:tile.x+dx,y:tile.y+dy}))
+export function getMovedMinos<T>(minos: Mino<T>[], dx: number, dy: number): Mino<T>[] {
+	return minos.map((mino) => ({x:mino.x+dx,y:mino.y+dy,mino:mino.mino}))
+}
+export function getMovedShape(poses: Pos[], dx: number, dy: number): Pos[] {
+	return poses.map((pos) => ({x:pos.x+dx,y:pos.y+dy}));
 }
 
 export function getTetriminoShape(type: Tetrimino): Pos[] | null {
@@ -102,7 +142,7 @@ export function getTetriminoShape(type: Tetrimino): Pos[] | null {
 				}
 			}
 		}
-		return getMovedMinos(minoArray,-originPos.x,-originPos.y);
+		return getMovedShape(minoArray,-originPos.x,-originPos.y);
 	} else {
 		return null;
 	}
