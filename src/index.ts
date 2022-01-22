@@ -538,7 +538,7 @@ $(document).on('click', '.infoButtons', function() {
 	gameRuleOption.customFunc($(this).data('op'))
 })
 
-function toGameRule<TetriminoClass>(arg: any): arg is GameRule<TetriminoClass> {
+function toGameRule<TetriminoClass extends string>(arg: any): arg is GameRule<TetriminoClass> {
 	return (GameRules.includes(arg as GameRule<TetriminoClass>));
 }
 
@@ -568,7 +568,7 @@ function getRegularlyTerrain() {
 let currentTetris: Tetris<string>;
 
 function startTetris(): void {
-	currentTetris = new Tetris()
+	currentTetris = gameRuleOption.currentOption.createTetris();
 }
 
 //
