@@ -67,6 +67,9 @@ export const normalBufferWidth:number = normalMatrixWidth;
 export const normalFieldHeight: number = normalMatrixHeight + normalBufferHeight;
 export const normalFieldWidth:number = normalMatrixWidth;
 
+const Actions = ['none','single','double','triple','tetris','mini_tspin','mini_tspin_single','tspin','tspin_single','tspin_double','tspin_triple','back_to_back','softDrop','hardDrop','ren','singlePerfectClear','doublePerfectClear','triplePerfectClear','tetrisPerfectClear','tetrisBtoBPerfectClear'] as const;
+type Action = typeof Actions[number];
+
 export function getMirrorField(field: readonly Tetrimino[][]) {
 	let mirrorArray = [] as Tetrimino[][];
 
@@ -130,7 +133,7 @@ export function getMovedShape(poses: Pos[], dx: number, dy: number): Pos[] {
 export function getTetriminoShape(type: Tetrimino): Pos[] | null {
 	let minoArray:Pos[] = [];
 	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
-	let originPos:Pos = {x:0,y:0};
+	let originPos:Pos = {x:0,y:0};     
 	if (typeof shape != 'undefined') {
 		for (var i = 0; i < shape.length; i++) {
 			for (var j = 0; j < shape[i].length; j++) {

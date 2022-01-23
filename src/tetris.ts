@@ -22,6 +22,9 @@ export class Tetris<TetriminoClass extends string> {
 	private _bag: TetriminoClass[];
 	private _currentPhase: PhaseType = 'notStart';
 
+	/**
+	 *  TetriminoClassEnum[y][x] = Tetrimino
+	 */
 	private _fieldArray: TetriminoClass[][] = [];
 	private _fieldAttrArray: TileAttrs[][] = [];
 
@@ -43,6 +46,8 @@ export class Tetris<TetriminoClass extends string> {
 
 	private _minoEnum: Enum<TetriminoClass>;
 
+	private _score: Map<ScoreOfAction, number>;
+
 	private _fallTimer: TimerAbleToEsc
 	= new TimerAbleToEsc(()=>{
 		this.move(0,1);
@@ -53,7 +58,7 @@ export class Tetris<TetriminoClass extends string> {
 		this._gameRule = gameRule;
 	}
 
-	main(): void {
+	start(): void {
 		this.arrangeToTetris();
 		this.genPhase();
 	}
