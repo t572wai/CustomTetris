@@ -810,12 +810,7 @@ function clearField(): void {
 	displayAllMinos();
 }
 
-function displayAllMinos(): void {
-	console.log(fieldArray);
-	forEachMinoOnMatrix((pos) => {
-			$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+fieldArray[pos.y][pos.x]+"Minos placedMinos "+gameRuleOption.currentOption.cssClass);
-	})
-}
+
 
 //function setMinosStyle(): void {
 //	for (const mino of TetriminoEnum.defArray) {

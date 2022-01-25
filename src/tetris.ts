@@ -28,13 +28,6 @@ export class Tetris<TetriminoClass extends string> {
 	private _fieldArray: TetriminoClass[][] = [];
 	private _fieldAttrArray: TileAttrs[][] = [];
 
-	private _matrixHeight: number = 20;
-	private _matrixWidth: number = 10;
-	private _bufferHeight: number= 5;
-	private _bufferWidth: number = this._matrixWidth;
-	private _fieldHeight: number = this._matrixHeight + this._bufferHeight;
-	private _fieldWidth: number = this._matrixWidth;
-
 	private _currentLevel: number = 1;
 
 	private _isSoftDrop: boolean;
@@ -182,10 +175,10 @@ export class Tetris<TetriminoClass extends string> {
 	
 	
 	get matrixHeight() {
-		return this._matrixHeight;
+		return this._gameRule.matrixHeight;
 	}
 	get matrixWidth() {
-		return this._matrixWidth;
+		return this._gameRule.matrixWidth;
 	}
 
 	set currentPos(pos: Pos) {
@@ -202,7 +195,7 @@ export class Tetris<TetriminoClass extends string> {
 		return false;
 	}
 	isOutOfField(x: number, y: number): boolean {
-		return (x>=0 && x<=this._fieldWidth && y>=0 && y<=this._fieldHeight);
+		return (x>=0 && x<=this._gameRule.fieldWidth && y>=0 && y<=this._gameRule.fieldHeight);
 	}
 
 	isTetriminoVisible(): boolean {
@@ -219,8 +212,42 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	//
+	// display
+	//
+
+	displayAllMinos(): void {
+		this.forEachMinoOnMatrix((pos) => {
+				$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+this._fieldArray[pos.y][pos.x]+"Minos placedMinos "+this._gameRule.cssClass);
+		})
+	}
+
+	//
 	// various
 	//
+
+	/**
+	 *
+	 * @param {function} fn [fn(x,y)]
+	 */
+	forEachMinoOnMatrix(fn: (p:Pos)=>void) {
+		for (let i = this._gameRule.bufferHeight-1; i < this._gameRule.fieldHeight; i++) {
+			for (let j = 0; j < this._gameRule.fieldWidth; j++) {
+				fn({x:j,y:i})
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @param {function} fn [fn(x,y)]
+	 */
+	forEachMinoOnField(fn: (p:Pos)=>void) {
+		for (let i = 0; i < this._gameRule.fieldHeight; i++) {
+			for (let j = 0; j < this._gameRule.fieldWidth; j++) {
+				fn({x:j,y:i})
+			}
+		}
+	}
 
 	canMove(minos: Mino<TetriminoClass>[] | Pos[]): boolean {
 		for (let tile of minos) {
