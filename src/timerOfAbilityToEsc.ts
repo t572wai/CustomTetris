@@ -1,19 +1,19 @@
 export class TimerAbleToEsc {
 	private timer: NodeJS.Timer;
-	private endCb: ()=>void;
+	private _endCb: ()=>void;
 	private _waitSec: number;
 	private startTime: number;
 	private processTime: number;
 
 	constructor(callback: ()=>void = ()=>{},sec: number = 1000) {
 		this._waitSec = sec;
-		this.endCb = callback;
+		this._endCb = callback;
 		this.processTime = 0;
 	}
 
 	setTimeout(): void {
 		this.processTime = 0;
-		this.timer = setTimeout(this.endCb, this._waitSec);
+		this.timer = setTimeout(this._endCb, this._waitSec);
 		this.startTime = Date.now();
 	}
 	clearTimeout(): void {
@@ -29,10 +29,13 @@ export class TimerAbleToEsc {
 	}
 	restartTimeout() {
 		this.startTime = Date.now();
-		this.timer = setTimeout(this.endCb,this._waitSec-this.processTime);
+		this.timer = setTimeout(this._endCb,this._waitSec-this.processTime);
 	}
 
 	set waitSec(sec: number) {
 		this._waitSec = sec;
+	}
+	set endCb(cb: () => void) {
+		this._endCb = cb;
 	}
 }

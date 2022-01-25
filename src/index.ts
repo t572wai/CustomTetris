@@ -1,7 +1,8 @@
 import { GameOption } from "./gameOptions";
-import { ChangeSizeOfMatrix, GameRule, GameRuleNormal } from "./gameRule";
-import { cloneArray, Enum } from "./general";
-import { Pos, Tetrimino } from "./global";
+import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
+import { cloneArray, Enum, setCssVar, toUpperFirstLetter } from "./general";
+import { changeFacing, getMirrorFieldAtRnd, getTetriminoShape, Operations, Pos, ShapesOfTetrimino, Tetrimino } from "./global";
+import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
 
@@ -113,16 +114,16 @@ $(function () {
 		modal: true,
 		closeOnEscape: false,
 		open: function () {
-			isPausing = true;
-			currentMinoLockDownTimer.pauseTimeout();
-			pauseTimer('fall');
+			currentTetris.isPausing = true;
+			currentTetris.lockDownTimer.pauseTimeout();
+			currentTetris.fallTimer.pauseTimeout();
 			addKeyActions({code:'Escape', keydownAc:function() {
 				removeKeyActions('Escape');
 				$('#pauseDialog').dialog('close');
-				if (canFall()) {
-					restartTimer('fall');
+				if (currentTetris.canFall()) {
+					currentTetris.fallTimer.restartTimeout();
 				} else {
-					currentMinoLockDownTimer.restartTimeout();
+					currentTetris.lockDownTimer.restartTimeout();
 				}
 			}});
 			$(this).parent().find('.ui-dialog-titlebar-close').hide();
@@ -130,24 +131,24 @@ $(function () {
 		close: function () {
 			removeKeyActions('Escape');
 			addPauseKeyActions('Escape');
-			isPausing = false;
+			currentTetris.isPausing = false;
 		},
 		buttons: {
 			'close': function () {
 				$(this).dialog('close');
-				if (canFall()) {
-					restartTimer('fall');
+				if (currentTetris.canFall()) {
+					currentTetris.fallTimer.restartTimeout();
 				} else {
-					currentMinoLockDownTimer.restartTimeout();
+					currentTetris.lockDownTimer.restartTimeout();
 				}
 			},
 			'restart': function () {
-				endTetris();
+				currentTetris.end();
 				$(this).dialog('close');
 				startTetris();
 			},
 			'toMainMenu': function () {
-				endTetris();
+				currentTetris.end();
 				$(this).dialog('close');
 				toMainMenu();
 			}
@@ -218,16 +219,16 @@ const StackingForPerfect: GameRule<Tetrimino> = new GameRuleNormal({
 				))
 	},
 	arrangeFirstSituation: () => {
-		holdMinoType = 'i'
+		currentTetris.holdMinoType = 'i'
 		displayHold()
 	},
 	arrangeSituation: () => {
-		if (totalFallenTetrimino%4==0) {
-			holdMinoType = 'i';
-			fieldArray = StackingForPerfect.generateTerrain();
-			displayAllMinos()
+		if (currentTetris.totalFallenTetrimino%4==0) {
+			currentTetris.holdMinoType = 'i';
+			currentTetris.fieldArray = StackingForPerfect.generateTerrain();
+			currentTetris.displayAllMinos()
 			displayHold()
-			followingMinos = [];
+			currentTetris.followingMinos = [];
 		}
 	}
 })
@@ -316,11 +317,11 @@ const WantToTSpin = new GameRuleNormal({
 
 	},
 	arrangeFirstSituation: () => {
-		followingMinos = ['t','t','t','t','t','t','t'];
+		currentTetris.followingMinos = ['t','t','t','t','t','t','t'];
 		WantToTSpin.data = Math.floor(Math.random() * 3);
 	},
 	arrangeSituation: () => {
-		followingMinos = ['t','t','t','t','t','t','t'];
+		currentTetris.followingMinos = ['t','t','t','t','t','t','t'];
 		let loopNum;
 		console.log(WantToTSpin.data);
 		switch (WantToTSpin.data) {
@@ -340,11 +341,11 @@ const WantToTSpin = new GameRuleNormal({
 				loopNum = 1;
 				break;
 			}
-		if (totalFallenTetrimino%loopNum==0) {
-			totalFallenTetrimino = 0;
+		if (currentTetris.totalFallenTetrimino%loopNum==0) {
+			currentTetris.totalFallenTetrimino = 0;
 			WantToTSpin.data = Math.floor(Math.random() * 4);
-			fieldArray = WantToTSpin.generateTerrain();
-			displayAllMinos()
+			currentTetris.fieldArray = WantToTSpin.generateTerrain();
+			currentTetris.displayAllMinos()
 		}
 	},
 	setterOfData: (data: 0) => {return data;},
@@ -376,11 +377,11 @@ const LElevator = new GameRuleNormal({
 		])
 	},
 	arrangeFirstSituation: () => {
-		followingMinos = ['l','l','l','l','l','l','l'];
-		holdMinoType = 'l';
+		currentTetris.followingMinos = ['l','l','l','l','l','l','l'];
+		currentTetris.holdMinoType = 'l';
 	},
 	arrangeSituation: () => {
-		followingMinos = ['l','l','l','l','l','l','l'];
+		currentTetris.followingMinos = ['l','l','l','l','l','l','l'];
 	},
 	isAllowedOperation: () => {
 		return true;
@@ -451,11 +452,9 @@ const OSpin = new GameRuleNormal({
 		}
 	},
 	justBeforeLockDown: (data: any): boolean => {
-		console.log(currentMinoX, currentMinoY);
-		
-		let bm1 = canMove(getMovedAndRotatedTetrimino(-2,2,1,'i'));
-		let b0 = canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
-		let b1 = canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
+		let bm1 = currentTetris.canMove(getMovedAndRotatedTetrimino(-2,2,1,'i'));
+		let b0 = currentTetris.canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
+		let b1 = currentTetris.canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
 		if (currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
 			gameRuleOption.currentOption.data = false;
 			return true;
@@ -468,7 +467,7 @@ const OSpin = new GameRuleNormal({
 				moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
 			currentMinoShape = 'i';
-			currentMinoLockDownTimer.clearTimeout();
+			currentTetris.lockDownTimer.clearTimeout();
 			numberOfMoveWithLowerFace = 0;
 			gameRuleOption.currentOption.data = true;
 			loopOfFall();
@@ -798,7 +797,7 @@ function displayMatrix(): void {
 	let matrixText = "";
 	setSizeOfMatrix()
 
-	forEachMinoOnMatrix((pos) => {
+	currentTetris.forEachMinoOnMatrix((pos) => {
 			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
 	})
 
@@ -806,8 +805,8 @@ function displayMatrix(): void {
 }
 
 function clearField(): void {
-	resetField();
-	displayAllMinos();
+	currentTetris.resetField();
+	currentTetris.displayAllMinos();
 }
 
 
@@ -831,64 +830,7 @@ function setSizeOfMatrix() {
 	}
 }
 
-function displayDifferFallingMinos(differs: Mino[],callback: ()=>void): void {
-	for (var mino of differs) {
-		displayFallingMino(mino)
-		updateMatrixArray(mino)
-	}
 
-	callback()
-}
-function displayDifferPlacedMinos(differs: Mino[],callback: ()=>void): void {
-	for (var mino of differs) {
-		displayPlacedMino(mino)
-		updateMatrixArray(mino)
-	}
-
-	callback()
-}
-
-function displayDifferWithDelay(differs: Mino[],callback: ()=>void) {
-	let differsTemp = cloneArray(differs)
-
-	clearTimer('fall')
-	setTimer('fall',displayDifferFallingMinos.bind(null,differsTemp,callback),currentFallingSpeed(currentLevel))
-	console.log(moveTimers.get('fall'));
-}
-
-function displayGhostMinos(): void {
-	for (let tile of ghostMinos) {
-		displayGhostMino(tile)
-	}
-}
-
-function removeGhostMinos(): void {
-	const formerGhost = cloneArray<Mino>(ghostMinos)
-	for (let tile of formerGhost) {
-		removeGhostMino(tile)
-	}
-}
-
-function displayFallingMino(mino: Mino): void {
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos "+gameRuleOption.currentOption.cssClass);
-	//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyleFalling(mino.mino));
-}
-function displayPlacedMino(mino: Mino): void {
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos "+gameRuleOption.currentOption.cssClass);
-	//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
-}
-
-function displayGhostMino(mino: Mino): void {
-	if (mino.y< gameRuleOption.currentOption.bufferHeight) {
-		return ;
-	}
-	let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos "+gameRuleOption.currentOption.cssClass+"'></div>"
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html(ghostText);
-}
-
-function removeGhostMino(mino: Mino | Pos): void {
-	$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
-}
 
 function displayButtonsToOperate(): void {
 	$('#buttonsToOperateArea').html(textOfButtonsToOperate);
@@ -926,10 +868,9 @@ function displayNext(): void {
 
 function textOfNext(): string {
 	let text = "<p id='nextHead'>Next</p>";
-	for (let i = 0; i < NumOfNext; i++) {
-		console.log(followingMinos[i]);
-		if(typeof followingMinos[i] !== 'undefined') {
-			text += textOfMinoAlone(followingMinos[i] as Tetrimino);
+	for (let i = 0; i < gameRuleOption.currentOption.nextNum; i++) {
+		if(typeof currentTetris.followingMinos[i] !== 'undefined') {
+			text += textOfMinoAlone(currentTetris.followingMinos[i] as Tetrimino);
 		}
 	}
 	return text;
@@ -940,7 +881,7 @@ function displayHold(): void {
 }
 
 function textOfHold(): string {
-	let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(holdMinoType);
+	let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(currentTetris.holdMinoType);
 	return text;
 }
 
@@ -1005,4 +946,8 @@ function clearNextArea(): void {
 
 function clearScoreArea(): void {
 	$('#scoreArea').html('')
+}
+
+function addPauseKeyActions(arg0: string) {
+	throw new Error("Function not implemented.");
 }

@@ -1,5 +1,5 @@
 import { GameRule } from "./gameRule";
-import { Enum } from "./general";
+import { cloneArray, Enum } from "./general";
 import { Action, BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetrimino, Mino, MinoAttrsMap, Pos, Tetrimino, TileAttrs } from "./global";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
@@ -29,24 +29,32 @@ export class Tetris<TetriminoClass extends string> {
 	private _fieldAttrArray: TileAttrs[][] = [];
 
 	private _currentLevel: number = 1;
-
-	private _isSoftDrop: boolean;
-
+	
 	private _currentMinos: Mino<TetriminoClass>[] = [];
 	private _currentPos: Pos = {x:-1,y:-1};
+	private _ghostMinos: Mino<TetriminoClass>[];
 
+	private _followingMinos: TetriminoClass[];
+	
 	private _gameRule: GameRule<TetriminoClass>;
-
+	
 	private _minoEnum: Enum<TetriminoClass>;
 
+	private _totalFallenTetrimino: number = 0;
+	
 	private _score: Map<Action, number>;
-
+	
 	private _fallTimer: TimerAbleToEsc
 	= new TimerAbleToEsc(()=>{
 		this.move(0,1);
 	}, this.getFallingSpeed(this._currentLevel));
 	private _lockDownTimer: TimerAbleToEsc = new TimerAbleToEsc(()=>{}, 500);
+	
+	private _isPausing: boolean = false;
+	private _isSoftDrop: boolean;
 
+	private _holdMinoType: TetriminoClass;
+	
 	constructor(gameRule: GameRule<TetriminoClass>) {
 		this._gameRule = gameRule;
 	}
@@ -54,6 +62,9 @@ export class Tetris<TetriminoClass extends string> {
 	start(): void {
 		this.arrangeToTetris();
 		this.genPhase();
+	}
+	end(): void {
+
 	}
 
 	arrangeToTetris(): void {
@@ -184,6 +195,48 @@ export class Tetris<TetriminoClass extends string> {
 	set currentPos(pos: Pos) {
 		this._currentPos = pos;
 	}
+
+	get followingMinos() {
+		return this._followingMinos;
+	}
+	set followingMinos(minos: TetriminoClass[]) {
+		this._followingMinos = minos;
+	}
+
+	get isPausing(): boolean {
+		return this._isPausing;
+	}
+	set isPausing(bool: boolean) {
+		this._isPausing = bool;
+	}
+
+	get fallTimer() {
+		return this._fallTimer;
+	}
+	get lockDownTimer() {
+		return this._lockDownTimer;
+	}
+
+	get holdMinoType() {
+		return this._holdMinoType;
+	}
+	set holdMinoType(type: TetriminoClass) {
+		this._holdMinoType = type;
+	}
+
+	get fieldArray() {
+		return this._fieldArray;
+	}
+	set fieldArray(array: TetriminoClass[][]) {
+		this._fieldArray = array;
+	}
+
+	get totalFallenTetrimino() {
+		return this._totalFallenTetrimino;
+	}
+	set totalFallenTetrimino(num: number) {
+		this._totalFallenTetrimino = num;
+	}
 	
 	isOtherTiles(tile: Mino<TetriminoClass> | Pos): boolean {
 		if (this._fieldAttrArray[tile.y][tile.x] == 'empty') {
@@ -219,6 +272,66 @@ export class Tetris<TetriminoClass extends string> {
 		this.forEachMinoOnMatrix((pos) => {
 				$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+this._fieldArray[pos.y][pos.x]+"Minos placedMinos "+this._gameRule.cssClass);
 		})
+	}
+	displayDifferFallingMinos(differs: Mino<TetriminoClass>[],callback: ()=>void): void {
+		for (var mino of differs) {
+			this.displayFallingMino(mino)
+			this.updateFieldArray(mino)
+		}
+
+		callback()
+	}
+	displayDifferPlacedMinos(differs: Mino<TetriminoClass>[],callback: ()=>void): void {
+		for (var mino of differs) {
+			this.displayPlacedMino(mino)
+			this.updateFieldArray(mino)
+		}
+
+		callback()
+	}
+
+	displayDifferWithDelay(differs: Mino<TetriminoClass>[],callback: ()=>void) {
+		let differsTemp = cloneArray(differs)
+
+		this._fallTimer.clearTimeout();
+		this._fallTimer.setTimeout()
+		this._fallTimer.endCb = this.displayDifferFallingMinos.bind(null,differsTemp,callback);
+		this._fallTimer.waitSec = this.getFallingSpeed(this._currentLevel);
+		// console.log(moveTimers.get('fall'));
+	}
+
+	displayGhostMinos(): void {
+		for (let tile of this._ghostMinos) {
+			this.displayGhostMino(tile)
+		}
+	}
+
+	removeGhostMinos(): void {
+		const formerGhost = cloneArray<Mino<TetriminoClass>>(this._ghostMinos)
+		for (let tile of formerGhost) {
+			this.removeGhostMino(tile)
+		}
+	}
+
+	displayFallingMino(mino: Mino<TetriminoClass>): void {
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos "+this._gameRule.cssClass);
+		//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyleFalling(mino.mino));
+	}
+	displayPlacedMino(mino: Mino<TetriminoClass>): void {
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos "+this._gameRule.cssClass);
+		//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
+	}
+
+	displayGhostMino(mino: Mino<TetriminoClass>): void {
+		if (mino.y< this._gameRule.bufferHeight) {
+			return ;
+		}
+		let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos "+this._gameRule.cssClass+"'></div>"
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html(ghostText);
+	}
+
+	removeGhostMino(mino: Mino<TetriminoClass> | Pos): void {
+		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
 	}
 
 	//
