@@ -68,7 +68,7 @@ export const normalFieldHeight: number = normalMatrixHeight + normalBufferHeight
 export const normalFieldWidth:number = normalMatrixWidth;
 
 const Actions = ['none','single','double','triple','tetris','mini_tspin','mini_tspin_single','tspin','tspin_single','tspin_double','tspin_triple','back_to_back','softDrop','hardDrop','ren','singlePerfectClear','doublePerfectClear','triplePerfectClear','tetrisPerfectClear','tetrisBtoBPerfectClear'] as const;
-type Action = typeof Actions[number];
+export type Action = typeof Actions[number];
 
 export function getMirrorField(field: readonly Tetrimino[][]) {
 	let mirrorArray = [] as Tetrimino[][];

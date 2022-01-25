@@ -1,6 +1,6 @@
 import { GameRule } from "./gameRule";
 import { Enum } from "./general";
-import { BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetrimino, Mino, MinoAttrsMap, Pos, Tetrimino, TileAttrs } from "./global";
+import { Action, BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetrimino, Mino, MinoAttrsMap, Pos, Tetrimino, TileAttrs } from "./global";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
 
@@ -46,7 +46,7 @@ export class Tetris<TetriminoClass extends string> {
 
 	private _minoEnum: Enum<TetriminoClass>;
 
-	private _score: Map<ScoreOfAction, number>;
+	private _score: Map<Action, number>;
 
 	private _fallTimer: TimerAbleToEsc
 	= new TimerAbleToEsc(()=>{
