@@ -273,6 +273,27 @@ export class Tetris<TetriminoClass extends string> {
 				$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+this._fieldArray[pos.y][pos.x]+"Minos placedMinos "+this._gameRule.cssClass);
 		})
 	}
+
+	displayMino(mino: Mino<TetriminoClass>, blockType: BlockType)
+	displayMino(mino: Mino<TetriminoClass>[], blockType: BlockType)
+	displayMino(mino: Mino<TetriminoClass>|Mino<TetriminoClass>[], blockType: BlockType) {
+		if (Array.isArray(mino)) {
+			for (const amino of mino) {
+				displayMino(amino);
+			}
+		} else {
+			if (blockType === 'ghost') {
+				
+			} else {
+				const classes: string = when(blockType)
+										.on(v => v=='falling', () => 'minos '+mino.mino+"Minos fallingMinos "+this._gameRule.cssClass)
+										.on(v => v=='placed', () => 'minos '+mino.mino+"Minos placedMinos "+this._gameRule.cssClass)
+										.otherwise(() => 'undefinedBlock')
+				$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class',classes);
+			}
+		}
+	}
+
 	displayDifferFallingMinos(differs: Mino<TetriminoClass>[],callback: ()=>void): void {
 		for (var mino of differs) {
 			this.displayFallingMino(mino)
@@ -396,27 +417,6 @@ export class Tetris<TetriminoClass extends string> {
 		this.updateDiffOfField(anti, 'placed');
 	}
 
-	updateDiffOfField(diff: Mino<TetriminoClass>[], blockType: BlockType) {
-		for (const mino of diff) {
-			this.displayMino(mino, blockType);
-			if (blockType != 'ghost') {
-				this.updateFieldArray(mino);
-			}
-		}
-	}
-
-	displayMino(mino: Mino<TetriminoClass>, blockType: BlockType) {
-		if (blockType === 'ghost') {
-			
-		} else {
-			const classes: string = when(blockType)
-									.on(v => v=='falling', () => 'minos '+mino.mino+"Minos fallingMinos "+this._gameRule.cssClass)
-									.on(v => v=='placed', () => 'minos '+mino.mino+"Minos placedMinos "+this._gameRule.cssClass)
-									.otherwise(() => 'undefinedBlock')
-			$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class',classes);
-		}
-	}
-
 	updateFieldArray(mino: Mino<TetriminoClass>) {
 		this._fieldArray[mino.y][mino.x] = mino.mino;
 		const minoAttr = MinoAttrsMap.get(mino.mino as string);
@@ -427,6 +427,14 @@ export class Tetris<TetriminoClass extends string> {
 
 	replaceMinoType(minos: Mino<TetriminoClass>[] | Pos[], type: TetriminoClass): Mino<TetriminoClass>[] {
 		return minos.map((mino)=>({x: mino.x, y: mino.y, mino: type}));
+	}
+	updateDiffOfField(diff: Mino<TetriminoClass>[], blockType: BlockType) {
+		for (const mino of diff) {
+			this.displayMino(mino, blockType);
+			if (blockType != 'ghost') {
+				this.updateFieldArray(mino);
+			}
+		}
 	}
 
 	intoTetriMino(value: string): TetriminoClass
