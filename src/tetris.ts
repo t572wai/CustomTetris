@@ -295,23 +295,6 @@ export class Tetris<TetriminoClass extends string> {
 		}
 	}
 
-	displayDifferFallingMinos(differs: Mino<TetriminoClass>[],callback: ()=>void): void {
-		for (var mino of differs) {
-			this.displayFallingMino(mino)
-			this.updateFieldArray(mino)
-		}
-
-		callback()
-	}
-	displayDifferPlacedMinos(differs: Mino<TetriminoClass>[],callback: ()=>void): void {
-		for (var mino of differs) {
-			this.displayPlacedMino(mino)
-			this.updateFieldArray(mino)
-		}
-
-		callback()
-	}
-
 	displayDifferWithDelay(differs: Mino<TetriminoClass>[],callback: ()=>void) {
 		let differsTemp = cloneArray(differs)
 
