@@ -318,7 +318,6 @@ export class Tetris<TetriminoClass extends string> {
 		this._fallTimer.setTimeout()
 		this._fallTimer.endCb = this.displayDifferFallingMinos.bind(null,differsTemp,callback);
 		this._fallTimer.waitSec = this.getFallingSpeed(this._currentLevel);
-		// console.log(moveTimers.get('fall'));
 	}
 
 	displayGhostMinos(): void {
