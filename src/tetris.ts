@@ -290,6 +290,7 @@ export class Tetris<TetriminoClass extends string> {
 										.on(v => v=='placed', () => 'minos '+mino.mino+"Minos placedMinos "+this._gameRule.cssClass)
 										.otherwise(() => 'undefinedBlock')
 				$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class',classes);
+				this.updateFieldArray(mino)
 			}
 		}
 	}
@@ -331,15 +332,6 @@ export class Tetris<TetriminoClass extends string> {
 		for (let tile of formerGhost) {
 			this.removeGhostMino(tile)
 		}
-	}
-
-	displayFallingMino(mino: Mino<TetriminoClass>): void {
-		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos fallingMinos "+this._gameRule.cssClass);
-		//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyleFalling(mino.mino));
-	}
-	displayPlacedMino(mino: Mino<TetriminoClass>): void {
-		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class','minos '+mino.mino+"Minos placedMinos "+this._gameRule.cssClass);
-		//$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').css(gameRuleOption.currentOption.getStyle(mino.mino));
 	}
 
 	displayGhostMino(mino: Mino<TetriminoClass>): void {
