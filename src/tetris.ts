@@ -69,7 +69,7 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	arrangeToTetris(): void {
-
+		this.displayMatrix();
 	}
 
 	genPhase(): Promise<any> {
