@@ -69,6 +69,7 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	arrangeToTetris(): void {
+		this.reset();
 		this.displayMatrix();
 	}
 
@@ -330,6 +331,13 @@ export class Tetris<TetriminoClass extends string> {
 	// various
 	//
 
+	reset() {
+		this.clearHoldQueue();
+		this.clearNextQueue();
+
+		this.clearField();
+	}
+
 	/**
 	 *
 	 * @param {function} fn [fn(x,y)]
@@ -442,6 +450,10 @@ export class Tetris<TetriminoClass extends string> {
 
 	resetField(): void {
 		this._fieldArray = this._gameRule.generateTerrain();
+	}
+	clearField(): void {
+		this.resetField();
+		this.displayAllMinos();
 	}
 
 	clearHoldQueue() {
