@@ -1,3 +1,8 @@
+import "./_variables.scss";
+import "./master.scss";
+import "./media.scss";
+import "./tetriminos.scss";
+
 import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";

@@ -271,15 +271,15 @@ export class Tetris<TetriminoClass extends string> {
 	//
 
 	displayMatrix(): void {
-	let matrixText = "";
-	this.setSizeOfMatrix()
+		let matrixText = "";
+		this.setSizeOfMatrix()
 
-	this.forEachMinoOnMatrix((pos) => {
-			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
-	})
+		this.forEachMinoOnMatrix((pos) => {
+				matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
+		})
 
-	$('#field').html(matrixText);
-}
+		$('#field').html(matrixText);
+	}
 
 	displayAllMinos(): void {
 		this.forEachMinoOnMatrix((pos) => {
