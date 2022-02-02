@@ -915,6 +915,7 @@ function getRegularlyTerrain() {
 let currentTetris: Tetris<string>;
 
 function startTetris(): void {
+	toGame();
 	currentTetris = gameRuleOption.currentOption.createTetris();
 	currentTetris.start();
 }
