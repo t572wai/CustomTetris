@@ -1,5 +1,5 @@
 import { GameRule } from "./gameRule";
-import { cloneArray, Enum } from "./general";
+import { cloneArray, Enum, setCssVar, TouchScreenQuery } from "./general";
 import { Action, BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetrimino, Mino, MinoAttrsMap, Pos, Tetrimino, TileAttrs } from "./global";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
@@ -269,6 +269,17 @@ export class Tetris<TetriminoClass extends string> {
 	// display
 	//
 
+	displayMatrix(): void {
+	let matrixText = "";
+	this.setSizeOfMatrix()
+
+	currentTetris.forEachMinoOnMatrix((pos) => {
+			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
+	})
+
+	$('#field').html(matrixText);
+}
+
 	displayAllMinos(): void {
 		this.forEachMinoOnMatrix((pos) => {
 				$('.minos[data-x="'+pos.x+'"][data-y="'+pos.y+'"]').attr('class','minos '+this._fieldArray[pos.y][pos.x]+"Minos placedMinos "+this._gameRule.cssClass);
@@ -417,6 +428,17 @@ export class Tetris<TetriminoClass extends string> {
 			return res;
 		}
 	}
+
+	setSizeOfMatrix() {
+		//$(':root').style.setProperty()
+		setCssVar('--heightOfMatrix', this._gameRule.matrixHeight.toString());
+		setCssVar('--widthOfMatrix', this._gameRule.matrixWidth.toString());
+		if (TouchScreenQuery.matches){
+			const sizeOfMino = 15 * 10 / this._gameRule.matrixWidth;
+			//console.log(gameRuleOption.currentOption.matrixWidth,`sizeOfMino is ${sizeOfMino}`);
+			setCssVar('--sizeOfMino', sizeOfMino + 'px');
+	}
+}
 
 	resetField(): void {
 		this._fieldArray = this._gameRule.generateTerrain();

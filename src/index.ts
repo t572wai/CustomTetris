@@ -1,7 +1,7 @@
 import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
-import { cloneArray, Enum, setCssVar, toLowerFirstLetter, toUpperFirstLetter } from "./general";
+import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
 import { changeFacing, getMirrorFieldAtRnd, getTetriminoShape, isTetrimino, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
@@ -966,7 +966,7 @@ toMainMenu()
 //
 //
 
-const TouchScreenQuery = window.matchMedia('(pointer: coarse)');
+
 
 //
 //
@@ -1140,17 +1140,6 @@ function textOfKeyBindingsForPC(): string {
 // フィールド
 //
 //
-
-function displayMatrix(): void {
-	let matrixText = "";
-	setSizeOfMatrix()
-
-	currentTetris.forEachMinoOnMatrix((pos) => {
-			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
-	})
-
-	$('#field').html(matrixText);
-}
 
 function clearField(): void {
 	currentTetris.resetField();

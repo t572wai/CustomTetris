@@ -71,3 +71,4 @@ export interface CssProperty {
 	[property: string]: string,
 }
 
+export const TouchScreenQuery = window.matchMedia('(pointer: coarse)');
