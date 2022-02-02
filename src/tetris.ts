@@ -273,7 +273,7 @@ export class Tetris<TetriminoClass extends string> {
 	let matrixText = "";
 	this.setSizeOfMatrix()
 
-	currentTetris.forEachMinoOnMatrix((pos) => {
+	this.forEachMinoOnMatrix((pos) => {
 			matrixText += "<div class='minos' data-x='"+pos.x+"' data-y='"+pos.y+"'></div>"
 	})
 
