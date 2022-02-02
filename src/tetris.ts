@@ -459,7 +459,7 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	clearHoldQueue() {
-		this._holdMinoType = this.intoTetriMino( getMinosByAttr("empty")[0]);
+		// this._holdMinoType = this.intoTetriMino( getMinosByAttr("empty")[0]);
 	}
 	clearNextQueue() {
 		this._followingMinos = [];
