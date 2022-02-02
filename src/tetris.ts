@@ -64,7 +64,8 @@ export class Tetris<TetriminoClass extends string> {
 		this.genPhase();
 	}
 	end(): void {
-
+		this.clearHoldQueue();
+		this.clearNextQueue();
 	}
 
 	arrangeToTetris(): void {
@@ -274,16 +275,20 @@ export class Tetris<TetriminoClass extends string> {
 		})
 	}
 
-	displayMino(mino: Mino<TetriminoClass>, blockType: BlockType)
-	displayMino(mino: Mino<TetriminoClass>[], blockType: BlockType)
+	displayMino(mino: Mino<TetriminoClass>, blockType: BlockType): void;
+	displayMino(mino: Mino<TetriminoClass>[], blockType: BlockType): void;
 	displayMino(mino: Mino<TetriminoClass>|Mino<TetriminoClass>[], blockType: BlockType) {
 		if (Array.isArray(mino)) {
 			for (const amino of mino) {
-				displayMino(amino);
+				this.displayMino(amino, blockType);
 			}
 		} else {
 			if (blockType === 'ghost') {
-				
+				if (mino.y< this._gameRule.bufferHeight) {
+					return ;
+				}
+				const ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos "+this._gameRule.cssClass+"'></div>"
+				$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html(ghostText);
 			} else {
 				const classes: string = when(blockType)
 										.on(v => v=='falling', () => 'minos '+mino.mino+"Minos fallingMinos "+this._gameRule.cssClass)
@@ -295,19 +300,8 @@ export class Tetris<TetriminoClass extends string> {
 		}
 	}
 
-	displayDifferWithDelay(differs: Mino<TetriminoClass>[],callback: ()=>void) {
-		let differsTemp = cloneArray(differs)
-
-		this._fallTimer.clearTimeout();
-		this._fallTimer.setTimeout()
-		this._fallTimer.endCb = this.displayDifferFallingMinos.bind(null,differsTemp,callback);
-		this._fallTimer.waitSec = this.getFallingSpeed(this._currentLevel);
-	}
-
 	displayGhostMinos(): void {
-		for (let tile of this._ghostMinos) {
-			this.displayGhostMino(tile)
-		}
+		this.displayMino(this._ghostMinos, "ghost");
 	}
 
 	removeGhostMinos(): void {
@@ -315,14 +309,6 @@ export class Tetris<TetriminoClass extends string> {
 		for (let tile of formerGhost) {
 			this.removeGhostMino(tile)
 		}
-	}
-
-	displayGhostMino(mino: Mino<TetriminoClass>): void {
-		if (mino.y< this._gameRule.bufferHeight) {
-			return ;
-		}
-		let ghostText = "<div class='ghostMinos "+mino.mino+"GhostMinos "+this._gameRule.cssClass+"'></div>"
-		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html(ghostText);
 	}
 
 	removeGhostMino(mino: Mino<TetriminoClass> | Pos): void {
@@ -434,6 +420,13 @@ export class Tetris<TetriminoClass extends string> {
 
 	resetField(): void {
 		this._fieldArray = this._gameRule.generateTerrain();
+	}
+
+	clearHoldQueue() {
+		this._holdMinoType = this.intoTetriMino( getMinosByAttr("empty")[0]);
+	}
+	clearNextQueue() {
+		this._followingMinos = [];
 	}
 
 

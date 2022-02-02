@@ -1,7 +1,8 @@
+import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
-import { cloneArray, Enum, setCssVar, toUpperFirstLetter } from "./general";
-import { changeFacing, getMirrorFieldAtRnd, getTetriminoShape, Operations, Pos, ShapesOfTetrimino, Tetrimino } from "./global";
+import { cloneArray, Enum, setCssVar, toLowerFirstLetter, toUpperFirstLetter } from "./general";
+import { changeFacing, getMirrorFieldAtRnd, getTetriminoShape, isTetrimino, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
@@ -68,6 +69,352 @@ const ActionsEnum = [];
  * @type {Array}
  */
 const notScorings:Action[] = ['hardDrop','softDrop','back_to_back','mini_tspin','tspin','none','ren','singlePerfectClear','doublePerfectClear','triplePerfectClear','tetrisPerfectClear','tetrisBtoBPerfectClear']
+
+//
+//
+// tetrisKeyinput
+//
+//
+
+let dv2Border = 4.5;
+
+const MethodsOfOpForTouch = ['swipe', 'button'] as const;
+type MethodOfOpForTouch = typeof MethodsOfOpForTouch[number];
+const MethodOfOpForTouchEnum: Enum<MethodOfOpForTouch> = {
+	defArray: MethodsOfOpForTouch,
+	isEnum: toMethodsOfOpForTouch,
+	toString: toString,
+	getTitle: getTitleOfMethodOfOpForTouch,
+}
+const MethodOfOpForTouchOption = new GameOption('methodOfOpForTouch', 0, MethodOfOpForTouchEnum);
+
+function toMethodsOfOpForTouch(arg: any): arg is MethodOfOpForTouch {
+	return MethodsOfOpForTouch.includes(arg as MethodOfOpForTouch);
+}
+//function toString(arg: MethodOfOpForTouch): string {
+//	console.log(arg,arg as string);
+//	return arg as string;
+//}
+function getTitleOfMethodOfOpForTouch(arg: MethodOfOpForTouch): string {
+	switch (arg) {
+		case 'swipe':
+			return 'スワイプ'
+
+		case 'button':
+			return 'ボタン';
+	}
+}
+
+let keyBinding = new Map<Operate, string>();
+
+document.oncontextmenu = function () {return false;}
+document.body.oncontextmenu = () => {
+	return false;
+}
+document.addEventListener('touchmove', function (e) {
+	e.preventDefault();
+}, {passive: false})
+
+function addRightKeyActions(key: string): void {
+	addKeyActions({code:key, keydownAc:onRight, longpressAc:onRight, sec:300, interval:50});
+	keyBinding.set('right', key);
+}
+
+function addLeftKeyActions(key:string) {
+	addKeyActions({code:key, keydownAc:onLeft, longpressAc:onLeft, sec:300, interval:50});
+	keyBinding.set('left', key);
+}
+
+function addHardDropKeyActions(key:string) {
+	addKeyActions({code:key, keydownAc:onHardDrop, longpressAc:onHardDrop, sec:300, interval: 300})
+	keyBinding.set('hardDrop', key);
+}
+
+function addSoftDropKeyActions(key:string) {
+	addKeyActions({code:key, keydownAc:onSoftDrop.bind(null,true), keyupAc:onSoftDrop.bind(null,false), longpressAc:onSoftDrop.bind(null,true)})
+	keyBinding.set('softDrop', key);
+}
+
+function addLeftRotationActions(key:string) {
+	addKeyActions({code:key, keydownAc:onLeftRotation})
+	keyBinding.set('leftRotation', key);
+}
+
+function addRightRotationActions(key:string) {
+	addKeyActions({code:key, keydownAc:onRightRotation})
+	keyBinding.set('rightRotation', key);
+}
+
+function addHoldActions(key:string) {
+	addKeyActions({code:key, keydownAc:onHold})
+	keyBinding.set('hold', key);
+}
+
+function addKeyBinding(type:string, key:string) {
+	switch (type) {
+		case 'left':
+			addLeftKeyActions(key);
+			break;
+		case 'right':
+			addRightKeyActions(key)
+			break;
+		case 'softDrop':
+			addSoftDropKeyActions(key);
+			break;
+		case 'hardDrop':
+			addHardDropKeyActions(key);
+			break;
+		case 'leftRotation':
+			addLeftRotationActions(key);
+			break;
+		case 'rightRotation':
+			addRightRotationActions(key);
+			break;
+		case 'hold':
+			addHoldActions(key);
+			break;
+		default:
+			break;
+	}
+}
+
+function addPauseKeyActions(key: string) {
+	addKeyActions({code:key, keydownAc:()=> {
+		removeKeyActions(key);
+		$('#pauseDialog').dialog('open');
+	}})
+}
+
+addRightKeyActions('d');
+addLeftKeyActions('a');
+addHardDropKeyActions('w');
+addSoftDropKeyActions('s');
+addLeftRotationActions('ArrowLeft');
+addRightRotationActions('ArrowRight');
+addHoldActions('Shift');
+
+//addPauseKeyActions('Escape');
+
+function toOperate(str: string): Operate|undefined {
+	if (Operations.includes(str as Operate)) {
+		return str as Operate;
+	} else {
+		return undefined;
+	}
+}
+
+$(document).on('click', '.keyForAny', (e1) => {
+	const type_pre = $(e1.currentTarget).attr('id');
+	//console.log(e1,type_pre);
+	if (typeof type_pre === 'string') {
+		const type = type_pre.slice(6);
+		const type_lower = toLowerFirstLetter(type);
+		const formerKey = keyBinding.get(toOperate(type_lower)!);
+		if (typeof formerKey !== 'undefined') {
+			removeKeyActions(formerKey);
+		}
+		$(document).off('.onClickKeyForAny');
+		$(document).on('keydown.onClickKeyForAny', (e) => {
+			const currentKey = e.key;
+			$(document).off('.onClickKeyForAny');
+			if (typeof currentKey === 'string') {
+				//console.log(type,currentKey);
+				const thisKeybinding = keyBinding.get(toOperate(type_lower)!)!;
+				for (const iterator of keyBinding.entries()) {
+					//console.log(iterator[1],currentKey,thisKeybinding);
+					if (iterator[1]==currentKey) {
+						console.log(iterator[0],'#keyFor'+toUpperFirstLetter(iterator[0]));
+						removeKeyActions(currentKey);
+						addKeyBinding(iterator[0], thisKeybinding);
+						$('#keyFor'+toUpperFirstLetter(iterator[0])).text(thisKeybinding);
+					}
+				}
+				addKeyBinding(type_lower, currentKey);
+				$('#keyFor'+type).text(currentKey);
+			}
+		})
+	}
+})
+
+
+setButtonActions('.buttonsToOperate[data-operate="left"]', 300, 50);
+setButtonActions('.buttonsToOperate[data-operate="right"]', 300, 50);
+setButtonActions('.buttonsToOperate[data-operate="softDrop"]');
+setButtonActions('.buttonsToOperate[data-operate="hardDrop"]');
+setButtonActions('.buttonsToOperate[data-operate="leftRotation"]');
+setButtonActions('.buttonsToOperate[data-operate="rightRotation"]');
+setButtonActions('.buttonsToOperate[data-operate="hold"]');
+
+$(document).on('pressstart', '.buttonsToOperate[data-operate="left"]', (e) => {
+	e.preventDefault();
+	//console.log('pressstart');
+	onLeft()
+})
+$(document).on('longpress', '.buttonsToOperate[data-operate="left"]', (e) => {
+	e.preventDefault();
+	//console.log('longpress');
+	onLeft()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="right"]', (e) => {
+	e.preventDefault();
+	//console.log('pressstart');
+	onRight()
+})
+$(document).on('longpress', '.buttonsToOperate[data-operate="right"]', (e) => {
+	e.preventDefault();
+	//console.log('longpress');
+	onRight()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
+	e.preventDefault();
+	onSoftDrop(true);
+})
+$(document).on('pressend', '.buttonsToOperate[data-operate="softDrop"]', (e) => {
+	e.preventDefault();
+	onSoftDrop(false);
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="hardDrop"]', (e) => {
+	e.preventDefault();
+	onHardDrop()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="leftRotation"]', (e) => {
+	e.preventDefault();
+	onLeftRotation()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="rightRotation"]', (e) => {
+	e.preventDefault();
+	onRightRotation()
+})
+$(document).on('pressstart', '.buttonsToOperate[data-operate="hold"]', (e) => {
+	e.preventDefault();
+	onHold()
+})
+
+function switchOperate(type:Operate, b?: boolean): void {
+	switch(type) {
+		case 'left':
+			onLeft();
+			break;
+		case 'right':
+			onRight();
+			break;
+		case 'softDrop':
+			if (typeof b !== 'undefined') {
+				onSoftDrop(b);
+			}
+			break;
+		case 'hardDrop':
+			onHardDrop();
+			break;
+		case 'leftRotation':
+			onLeftRotation();
+			break;
+		case 'rightRotation':
+			onRightRotation();
+			break;
+		case 'hold':
+			onHold();
+			break;
+		default:
+			break;
+	}
+}
+
+$(document).on('swipedist', function (e, d, dv2) {
+	console.log(d);
+	switch (d) {
+		case 'left':
+			onLeft()
+			break;
+		case 'right':
+			onRight()
+			break;
+	}
+})
+
+$(document).on('swipestart', function (e, d, dv2) {
+	switch (d) {
+		case 'up':
+			onHold()
+			break;
+	}
+})
+
+$(document).on('longswipe', function (e, d, dv2) {
+	//console.log(redLog + dv2 + resetLogColor);
+	// console.log(greenLog + d + resetLogColor);
+	if (d != "down") {
+		onSoftDrop(false)
+	}
+	switch (d) {
+		case 'down':
+			onSoftDrop(true)
+			break;
+		case 'up':
+			onHold()
+			break;
+	}
+})
+
+$(document).on('swipeend', function (e, d, dv2) {
+	//console.log(redLog + dv2 + resetLogColor);
+	onSoftDrop(false)
+	switch (d) {
+		case 'down':
+			if (dv2 > dv2Border) {
+				onHardDrop()
+			}
+			break;
+		case 'up':
+			onHold()
+			break;
+	}
+})
+
+$(document).on('touched', function (e, x, y) {
+	console.log(x,y);
+	const pointElement = jQuery(document.elementFromPoint(x,y)!);
+	if (pointElement.get(0).tagName == 'BUTTON') {
+		pointElement.trigger('click');
+	} else if (x > $(window).width()! / 2) {
+		onRightRotation()
+	} else {
+		onLeftRotation()
+	}
+})
+
+
+function onLeft() {
+	// moveToLeft(function (b) {
+	// 	// if(b)restartFall()
+	// })
+}
+
+function onRight() {
+	// moveToRight(function (b) {
+	// 	// if(b)restartFall()
+	// })
+}
+
+function onSoftDrop(b: boolean) {
+	// softDrop(b)
+}
+
+function onHardDrop() {
+	// hardDrop()
+}
+
+function onRightRotation() {
+	// rightRotation()
+}
+
+function onLeftRotation() {
+	// leftRotation()
+}
+
+function onHold() {
+	// hold()
+}
 
 //
 //
@@ -167,7 +514,7 @@ const PracticeFor4ren = new GameRuleNormal({
 	title:'4line REN',
 	generateTerrain:() => {
 		let terrainArray = GameRule.Normal.generateTerrain();
-		forEachMinoOnField((pos) => {
+		currentTetris.forEachMinoOnField((pos) => {
 			if (pos.x<3 || pos.x>6) {
 				terrainArray[pos.y][pos.x] = 'wall';
 			}
@@ -452,27 +799,28 @@ const OSpin = new GameRuleNormal({
 		}
 	},
 	justBeforeLockDown: (data: any): boolean => {
-		let bm1 = currentTetris.canMove(getMovedAndRotatedTetrimino(-2,2,1,'i'));
-		let b0 = currentTetris.canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
-		let b1 = currentTetris.canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
-		if (currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
-			gameRuleOption.currentOption.data = false;
-			return true;
-		} else {
-			if(b0) {
-				moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
-			} else if (bm1) {
-				moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
-			} else {
-				moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
-			}
-			currentMinoShape = 'i';
-			currentTetris.lockDownTimer.clearTimeout();
-			numberOfMoveWithLowerFace = 0;
-			gameRuleOption.currentOption.data = true;
-			loopOfFall();
-			return false;
-		}
+		// let bm1 = currentTetris.canMove(getMovedAndRotatedTetrimino(-2,2,1,'i'));
+		// let b0 = currentTetris.canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
+		// let b1 = currentTetris.canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
+		// if (currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
+		// 	gameRuleOption.currentOption.data = false;
+		// 	return true;
+		// } else {
+		// 	if(b0) {
+		// 		moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
+		// 	} else if (bm1) {
+		// 		moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
+		// 	} else {
+		// 		moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
+		// 	}
+		// 	currentMinoShape = 'i';
+		// 	currentTetris.lockDownTimer.clearTimeout();
+		// 	numberOfMoveWithLowerFace = 0;
+		// 	gameRuleOption.currentOption.data = true;
+		// 	loopOfFall();
+		// 	return false;
+		// }
+		return false;
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{return data;},
@@ -633,12 +981,11 @@ function hideAll() {
 
 function toMainMenu(): void {
 	displayMainMenu();
-	clearField();
 	clearScoreArea();
 	clearHoldArea();
 	clearNextArea();
-	clearHoldQueue();
-	clearNextQueue();
+	clearField();
+	currentTetris.end();
 	hideAll();
 	removeKeyActions('Escape')
 	$('#mainMenuArea').css('display','block');
@@ -881,8 +1228,13 @@ function displayHold(): void {
 }
 
 function textOfHold(): string {
-	let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(currentTetris.holdMinoType);
-	return text;
+	const hold = currentTetris.holdMinoType;
+	if (isTetrimino(hold)) {
+		let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(hold);
+		return text;
+	} else {
+		return "";
+	}
 }
 
 function textOfMinoAlone(type: Tetrimino): string {
@@ -930,9 +1282,9 @@ function displayScoreArea(): void {
 
 function textOfScoreArea(): string {
 	let text = ''
-	scoring.forEach((val,key) => {
-		text += DisplayTitleOfAction.get(key)+":"+scoring.get(key)+"<br>"
-	})
+	// scoring.forEach((val,key) => {
+	// 	text += DisplayTitleOfAction.get(key)+":"+scoring.get(key)+"<br>"
+	// })
 	return text;
 }
 
@@ -946,8 +1298,4 @@ function clearNextArea(): void {
 
 function clearScoreArea(): void {
 	$('#scoreArea').html('')
-}
-
-function addPauseKeyActions(arg0: string) {
-	throw new Error("Function not implemented.");
 }
