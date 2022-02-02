@@ -421,6 +421,8 @@ export class Tetris<TetriminoClass extends string> {
 
 	intoTetriMino(value: string | string[]): TetriminoClass | TetriminoClass[] | undefined {
 		if (typeof value === 'string') {
+			console.log(this._minoEnum);
+			
 			if (this._minoEnum.isEnum(value)) {
 				return value
 			} else {
