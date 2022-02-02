@@ -69,8 +69,8 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	arrangeToTetris(): void {
-		this.reset();
 		this.displayMatrix();
+		this.reset();
 	}
 
 	genPhase(): Promise<any> {
