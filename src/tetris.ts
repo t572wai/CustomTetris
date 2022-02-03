@@ -455,6 +455,7 @@ export class Tetris<TetriminoClass extends string> {
 	}
 	clearField(): void {
 		console.log(this);
+		console.log(this);
 		
 		this.resetField();
 		this.displayAllMinos();
