@@ -61,7 +61,8 @@ export class Tetris<TetriminoClass extends string> {
 
 	start(): void {
 		this.arrangeToTetris();
-		this.genPhase();
+		this.genPhase()
+		.then(() => {console.log('genPhase');this.fallPhase()});
 	}
 	end(): void {
 		this.clearHoldQueue();
@@ -85,7 +86,7 @@ export class Tetris<TetriminoClass extends string> {
 			this.placeToStartPos();
 			console.log('genPhase');
 		})
-		.then(() => {console.log('genPhase');this.fallPhase()});
+		
 	}
 	fallPhase(): Promise<void> {
 		console.log('fallPhase');
