@@ -454,6 +454,8 @@ export class Tetris<TetriminoClass extends string> {
 		this._fieldArray = this._gameRule.generateTerrain();
 	}
 	clearField(): void {
+		console.log(this);
+		
 		this.resetField();
 		this.displayAllMinos();
 	}

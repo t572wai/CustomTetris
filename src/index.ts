@@ -1147,6 +1147,8 @@ function textOfKeyBindingsForPC(): string {
 //
 
 function clearField(): void {
+	console.log(currentTetris);
+	
 	currentTetris.resetField();
 	currentTetris.displayAllMinos();
 }
