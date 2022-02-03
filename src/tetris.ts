@@ -38,7 +38,7 @@ export class Tetris<TetriminoClass extends string> {
 	
 	private _gameRule: GameRule<TetriminoClass>;
 	
-	private _minoEnum: Enum<TetriminoClass>;
+	// private _minoEnum: Enum<TetriminoClass>;
 
 	private _totalFallenTetrimino: number = 0;
 	
@@ -444,9 +444,9 @@ export class Tetris<TetriminoClass extends string> {
 
 	intoTetriMino(value: string | string[]): TetriminoClass | TetriminoClass[] | undefined {
 		if (typeof value === 'string') {
-			console.log(this._minoEnum);
+			console.log(this._gameRule.TetriminoEnum);
 			
-			if (this._minoEnum.isEnum(value)) {
+			if (this._gameRule.TetriminoEnum.isEnum(value)) {
 				return value
 			} else {
 				return;
@@ -454,7 +454,7 @@ export class Tetris<TetriminoClass extends string> {
 		} else {
 			let res: TetriminoClass[] = [];
 			for (const str of value) {
-				if (this._minoEnum.isEnum(str)) {
+				if (this._gameRule.TetriminoEnum.isEnum(str)) {
 					res.push(str);
 				}
 			}

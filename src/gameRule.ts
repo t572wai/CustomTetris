@@ -5,7 +5,7 @@ import { Tetris } from "./tetris";
 export class GameRule<TetriminoClass extends string> {
 	private _name: string;
 	private _title: string;
-	private _TetriminoClassEnum: Enum<TetriminoClass> | undefined;
+	private _TetriminoClassEnum: Enum<TetriminoClass>;
 	private _generateTerrain: ()=>TetriminoClass[][];
 	private _generateRegularlyTerrain: ()=>TetriminoClass[];
 	private _matrixHeight: number;
@@ -33,6 +33,7 @@ export class GameRule<TetriminoClass extends string> {
 		{
 			name,
 			title,
+			TetriminoClassEnum,
 			generateTerrain,
 			generateRegularlyTerrain,
 			matrixHeight = normalMatrixHeight,
@@ -54,6 +55,7 @@ export class GameRule<TetriminoClass extends string> {
 		{
 			name: string,
 			title: string,
+			TetriminoClassEnum: Enum<TetriminoClass>,
 			generateTerrain: ()=>TetriminoClass[][],
 			generateRegularlyTerrain: ()=>TetriminoClass[],
 			matrixHeight: number,
@@ -75,6 +77,8 @@ export class GameRule<TetriminoClass extends string> {
 		) {
 			this._name = name;
 			this._title = title;
+
+			this._TetriminoClassEnum = TetriminoClassEnum;
 
 			this._generateTerrain = generateTerrain;
 			this._generateRegularlyTerrain = generateRegularlyTerrain;
@@ -110,6 +114,7 @@ export class GameRule<TetriminoClass extends string> {
 	public static Normal: GameRule<Tetrimino> = new GameRule<Tetrimino>({
 		name:'normal',
 		title:'Normal',
+		TetriminoClassEnum: TetriminoEnum,
 		generateTerrain:()=>{
 			let terrainArray:Tetrimino[][] = [];
 			for (let i = 0; i < normalFieldHeight; i++) {
@@ -224,6 +229,10 @@ export class GameRule<TetriminoClass extends string> {
 		return tetris;
 	}
 
+	get TetriminoEnum() {
+		return this._TetriminoClassEnum;
+	}
+
 	get generateTerrain() {
 		return this._generateTerrain;
 	}
@@ -310,6 +319,7 @@ export class GameRuleNormal extends GameRule<Tetrimino> {
 	constructor({
 			name,
 			title,
+			TetriminoClassEnum = GameRule.Normal.TetriminoEnum,
 			generateTerrain = GameRule.Normal.generateTerrain,
 			generateRegularlyTerrain = GameRule.Normal.generateRegularlyTerrain,
 			matrixHeight = normalMatrixHeight,
@@ -331,6 +341,7 @@ export class GameRuleNormal extends GameRule<Tetrimino> {
 		{
 			name: string,
 			title: string,
+			TetriminoClassEnum?: Enum<Tetrimino>,
 			generateTerrain?: ()=>Tetrimino[][],
 			generateRegularlyTerrain?: ()=>Tetrimino[],
 			matrixHeight?: number,
@@ -352,6 +363,7 @@ export class GameRuleNormal extends GameRule<Tetrimino> {
 		super({
 			name: name,
 			title: title,
+			TetriminoClassEnum: TetriminoClassEnum,
 			generateTerrain: generateTerrain,
 			generateRegularlyTerrain: generateRegularlyTerrain,
 			matrixHeight: matrixHeight,
