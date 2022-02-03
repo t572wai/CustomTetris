@@ -81,9 +81,11 @@ export class Tetris<TetriminoClass extends string> {
 			
 			this._currentPhase = 'gen';
 			this.arrangeBag();
+			console.log('genPhase');
 			this.placeToStartPos();
+			console.log('genPhase');
 		})
-		.then(() => {this.fallPhase()});
+		.then(() => {console.log('genPhase');this.fallPhase()});
 	}
 	fallPhase(): Promise<void> {
 		console.log('fallPhase');
