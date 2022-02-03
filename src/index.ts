@@ -922,6 +922,8 @@ let currentTetris: Tetris<string>;
 function startTetris(): void {
 	toGame();
 	currentTetris = gameRuleOption.currentOption.createTetris();
+	console.log(currentTetris);
+	
 	currentTetris.start();
 }
 
