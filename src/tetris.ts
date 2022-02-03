@@ -73,18 +73,15 @@ export class Tetris<TetriminoClass extends string> {
 		this.reset();
 	}
 
-	genPhase(): Promise<any> {
+	genPhase(): Promise<void> {
 		console.log('genPhase');
 		
-		return new Promise((resolve, reject) => {
-			console.log('genPhase');
+		return new Promise<void>((resolve, reject) => {
 			
 			this._currentPhase = 'gen';
 			this.arrangeBag();
-			console.log('genPhase');
 			this.placeToStartPos();
-			console.log('genPhase');
-			resolve(null);
+			resolve();
 		})
 		.then(() => {this.fallPhase()});
 	}
@@ -93,7 +90,10 @@ export class Tetris<TetriminoClass extends string> {
 		
 		return new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'fall';
+			console.log('fallPhase');
 			this.fall();
+			console.log('fallPhase');
+			resolve(false);
 		})
 		.then((doHardDrop) => {(doHardDrop)?this.patternPhase():this.lockPhase()});
 	}
@@ -104,6 +104,7 @@ export class Tetris<TetriminoClass extends string> {
 			{isMoved:boolean,isThereSpaceToFall:boolean,didResetLockDownTimer:boolean}
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
+			resolve({isMoved:false,isThereSpaceToFall:false,didResetLockDownTimer:false});
 		})
 		.then(({isMoved,isThereSpaceToFall,didResetLockDownTimer}) => {
 			if (isMoved) {
@@ -124,6 +125,7 @@ export class Tetris<TetriminoClass extends string> {
 	patternPhase(): Promise<void> {
 		return new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'pattern';
+			resolve(false);
 		})
 		.then((didPatternMatch) => {
 			if(didPatternMatch) {
@@ -134,7 +136,7 @@ export class Tetris<TetriminoClass extends string> {
 		});
 	}
 	markBlockForDestruction(): Promise<void> {
-		return new Promise<void>((resolve, reject) => {})
+		return new Promise<void>((resolve, reject) => {resolve()})
 					.then(() => this.iteratePhase());
 	}
 	iteratePhase(): Promise<void> {
