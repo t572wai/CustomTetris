@@ -121,6 +121,8 @@ export class Tetris<TetriminoClass extends string> {
 		});
 	}
 	patternPhase(): Promise<void> {
+		console.log('patternPhase');
+		
 		return new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'pattern';
 			resolve(false);
@@ -134,28 +136,38 @@ export class Tetris<TetriminoClass extends string> {
 		});
 	}
 	markBlockForDestruction(): Promise<void> {
+		console.log('markBlockForDestruction');
+		
 		return new Promise<void>((resolve, reject) => {resolve()})
 					.then(() => this.iteratePhase());
 	}
 	iteratePhase(): Promise<void> {
+		console.log('iteratePhase');
+		
 		return new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'iterate';
 		})
 					.then(() => this.animatePhase());
 	}
 	animatePhase(): Promise<void> {
+		console.log('animatePhase');
+		
 		return new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'animate';
 		})
 					.then(() => this.eliminatePhase());
 	}
 	eliminatePhase(): Promise<void> {
+		console.log('eliminatePhase');
+		
 		return new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
 		})
 					.then(() => this.completionPhase());
 	}
 	completionPhase(): Promise<void> {
+		console.log('completionPhase');
+		
 		return new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'completion';
 		})
