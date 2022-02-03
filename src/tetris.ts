@@ -85,7 +85,7 @@ export class Tetris<TetriminoClass extends string> {
 			this.placeToStartPos();
 			console.log('genPhase');
 		})
-		.then(this.fallPhase);
+		.then(() => this.fallPhase());
 	}
 	fallPhase(): Promise<void> {
 		console.log('fallPhase');
