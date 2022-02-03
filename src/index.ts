@@ -992,7 +992,9 @@ function toMainMenu(): void {
 	clearScoreArea();
 	clearHoldArea();
 	clearNextArea();
-	clearField();
+	if (currentTetris) {
+		currentTetris.clearField();
+	}
 	currentTetris.end();
 	hideAll();
 	removeKeyActions('Escape')
@@ -1148,12 +1150,12 @@ function textOfKeyBindingsForPC(): string {
 //
 //
 
-function clearField(): void {
-	console.log(currentTetris);
+// function clearField(): void {
+// 	console.log(currentTetris);
 	
-	currentTetris.resetField();
-	currentTetris.displayAllMinos();
-}
+// 	currentTetris.resetField();
+// 	currentTetris.displayAllMinos();
+// }
 
 
 
