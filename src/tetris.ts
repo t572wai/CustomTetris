@@ -77,6 +77,8 @@ export class Tetris<TetriminoClass extends string> {
 		console.log('genPhase');
 		
 		return new Promise((resolve, reject) => {
+			console.log('genPhase');
+			
 			this._currentPhase = 'gen';
 			this.arrangeBag();
 			this.placeToStartPos();
