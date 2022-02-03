@@ -86,7 +86,7 @@ export class Tetris<TetriminoClass extends string> {
 			console.log('genPhase');
 			resolve(null);
 		})
-		.then(() => this.fallPhase());
+		.then(() => {this.fallPhase()});
 	}
 	fallPhase(): Promise<void> {
 		console.log('fallPhase');
