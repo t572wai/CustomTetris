@@ -90,9 +90,7 @@ export class Tetris<TetriminoClass extends string> {
 		
 		return new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'fall';
-			console.log('fallPhase');
 			this.fall();
-			console.log('fallPhase');
 			resolve(false);
 		})
 		.then((doHardDrop) => {(doHardDrop)?this.patternPhase():this.lockPhase()});
@@ -104,7 +102,7 @@ export class Tetris<TetriminoClass extends string> {
 			{isMoved:boolean,isThereSpaceToFall:boolean,didResetLockDownTimer:boolean}
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
-			resolve({isMoved:false,isThereSpaceToFall:false,didResetLockDownTimer:false});
+			resolve({isMoved:false,isThereSpaceToFall:true,didResetLockDownTimer:false});
 		})
 		.then(({isMoved,isThereSpaceToFall,didResetLockDownTimer}) => {
 			if (isMoved) {
