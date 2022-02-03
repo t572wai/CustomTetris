@@ -218,7 +218,10 @@ export class GameRule<TetriminoClass extends string> {
 	})
 
 	createTetris(): Tetris<TetriminoClass> {
-		return new Tetris<TetriminoClass>(this);
+		const tetris = new Tetris<TetriminoClass>(this);
+		console.log(tetris);
+		
+		return tetris;
 	}
 
 	get generateTerrain() {
