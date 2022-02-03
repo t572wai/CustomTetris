@@ -994,8 +994,8 @@ function toMainMenu(): void {
 	clearNextArea();
 	if (currentTetris) {
 		currentTetris.clearField();
+		currentTetris.end();
 	}
-	currentTetris.end();
 	hideAll();
 	removeKeyActions('Escape')
 	$('#mainMenuArea').css('display','block');
