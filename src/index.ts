@@ -7,7 +7,7 @@ import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
 import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
-import { changeFacing, getMirrorFieldAtRnd, getTetriminoShape, isTetrimino, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino } from "./global";
+import { changeFacing, getMirrorFieldAtRnd, getTetriminoNormalShape, isTetriminoNormal, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino, TetriminoNormal } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
@@ -555,7 +555,7 @@ const HideFallingMinos = new GameRuleNormal({
 	cssClass: 'hideFallingMinos',
 })
 
-const StackingForPerfect: GameRule<Tetrimino> = new GameRuleNormal({
+const StackingForPerfect: GameRule = new GameRuleNormal({
 	name: 'stackingForPerfect',
 	title: 'パフェ積み',
 	generateTerrain: () => {
@@ -797,8 +797,8 @@ const OSpin = new GameRuleNormal({
 	cssClass: 'ospin',
 	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
 		if (type=='o') {
-			console.log(changeFacing(getTetriminoShape(type)!,d));
-			return changeFacing(getTetriminoShape(type)!,d);
+			console.log(changeFacing(getTetriminoNormalShape(type)!,d));
+			return changeFacing(getTetriminoNormalShape(type)!,d);
 		} else {
 			return GameRule.Normal.getRotatedTetriminoShape(type, d);
 		}
@@ -849,9 +849,9 @@ function lineWithHole(y: number, holes: number[]): Pos[] {
 	return line;
 }
 
-const GameRules: GameRule<string>[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, OSpin, StackingForPerfect, WantToTSpin, LElevator] as GameRule<string>[];
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, OSpin, StackingForPerfect, WantToTSpin, LElevator] as GameRule[];
 //type GameRule = typeof GameRules[number];
-function EnumOfGameRule():Enum<GameRule<string>> {
+function EnumOfGameRule():Enum<GameRule> {
 	return {
 		defArray: GameRules,
 		isEnum: toGameRule,
@@ -864,7 +864,7 @@ function toString(arg: string): string {
 	return arg as string;
 }
 
-const gameRuleOption: GameOption<GameRule<string>> = new GameOption<GameRule<string>>(
+const gameRuleOption: GameOption<GameRule> = new GameOption<GameRule>(
 	'gameRule',
 	0,
 	EnumOfGameRule(),
@@ -890,7 +890,7 @@ $(document).on('click', '.infoButtons', function() {
 	gameRuleOption.customFunc($(this).data('op'))
 })
 
-function toGameRule<TetriminoClass extends string>(arg: any): arg is GameRule<TetriminoClass> {
+function toGameRule(arg: any): arg is GameRule {
 	return (GameRules.includes(arg));
 }
 
@@ -917,7 +917,7 @@ function getRegularlyTerrain() {
 //
 //
 
-let currentTetris: Tetris<string>;
+let currentTetris: Tetris;
 
 function startTetris(): void {
 	toGame();
@@ -1218,7 +1218,7 @@ function textOfNext(): string {
 	let text = "<p id='nextHead'>Next</p>";
 	for (let i = 0; i < gameRuleOption.currentOption.nextNum; i++) {
 		if(typeof currentTetris.followingMinos[i] !== 'undefined') {
-			text += textOfMinoAlone(currentTetris.followingMinos[i] as Tetrimino);
+			text += textOfMinoAlone(currentTetris.followingMinos[i] as TetriminoNormal);
 		}
 	}
 	return text;
@@ -1230,7 +1230,7 @@ function displayHold(): void {
 
 function textOfHold(): string {
 	const hold = currentTetris.holdMinoType;
-	if (isTetrimino(hold)) {
+	if (isTetriminoNormal(hold)) {
 		let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(hold);
 		return text;
 	} else {
@@ -1238,7 +1238,7 @@ function textOfHold(): string {
 	}
 }
 
-function textOfMinoAlone(type: Tetrimino): string {
+function textOfMinoAlone(type: TetriminoNormal): string {
 	// console.log(type);
 	let text = "<div class='displayers'>";
 	if (!type || type=='empty') {

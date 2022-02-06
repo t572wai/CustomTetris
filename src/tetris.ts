@@ -1,14 +1,15 @@
 import { GameRule } from "./gameRule";
 import { cloneArray, Enum, setCssVar, TouchScreenQuery } from "./general";
-import { Action, BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetrimino, Mino, MinoAttrsMap, Pos, Tetrimino, TileAttrs } from "./global";
+import { Action, BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetriminoNormal, Mino, MinoAttrsMap, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
+import { TetriminoClass } from "./tetrimino";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
 
 const PhaseTypeUnion = ['notStart', 'pause', 'gen', 'fall', 'lock', 'pattern', 'iterate', 'animate', 'eliminate', 'completion'] as const;
 type PhaseType = typeof PhaseTypeUnion[number];
 
-function isEmpty<TetrisminoClass>(mino: TetrisminoClass): boolean {
-	if (isTetrimino(mino)) {
+function isEmpty<Tetrismino>(mino: Tetrismino): boolean {
+	if (isTetriminoNormal(mino)) {
 		if (mino == 'empty') return true;
 	}
 	return false;
@@ -18,25 +19,29 @@ function isEmpty<TetrisminoClass>(mino: TetrisminoClass): boolean {
 // Tetris
 //
 
-export class Tetris<TetriminoClass extends string> {
-	private _bag: TetriminoClass[];
+export class Tetris {
+	private _tetriminoClass: TetriminoClass;
+
+	private _bag: Tetrimino[];
 	private _currentPhase: PhaseType = 'notStart';
 
 	/**
 	 *  TetriminoClassEnum[y][x] = Tetrimino
 	 */
-	private _fieldArray: TetriminoClass[][] = [];
+	private _fieldArray: Tetrimino[][] = [];
 	private _fieldAttrArray: TileAttrs[][] = [];
 
 	private _currentLevel: number = 1;
 	
-	private _currentMinos: Mino<TetriminoClass>[] = [];
+	private _currentMinos: Mino<Tetrimino>[] = [];
+	private _currentMinoType: Tetrimino;
+	private _currentMinoShape: Tetrimino;
 	private _currentPos: Pos = {x:-1,y:-1};
-	private _ghostMinos: Mino<TetriminoClass>[];
+	private _ghostMinos: Mino<Tetrimino>[];
 
-	private _followingMinos: TetriminoClass[];
+	private _followingMinos: Tetrimino[];
 	
-	private _gameRule: GameRule<TetriminoClass>;
+	private _gameRule: GameRule;
 	
 	// private _minoEnum: Enum<TetriminoClass>;
 
@@ -44,7 +49,7 @@ export class Tetris<TetriminoClass extends string> {
 	
 	private _score: Map<Action, number>;
 	
-	private _fallTimer: TimerAbleToEsc
+	private _timerToFall: TimerAbleToEsc
 	= new TimerAbleToEsc(()=>{
 		this.move(0,1);
 	}, this.getFallingSpeed(this._currentLevel));
@@ -53,9 +58,9 @@ export class Tetris<TetriminoClass extends string> {
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
 
-	private _holdMinoType: TetriminoClass;
+	private _holdMinoType: Tetrimino;
 	
-	constructor(gameRule: GameRule<TetriminoClass>) {
+	constructor(gameRule: GameRule) {
 		this._gameRule = gameRule;
 	}
 
@@ -191,7 +196,7 @@ export class Tetris<TetriminoClass extends string> {
 	//
 	
 	fall(): void {
-		this._fallTimer.setTimeout()
+		this._timerToFall.setTimeout()
 	}
 
 	canFall(): boolean {
@@ -224,7 +229,7 @@ export class Tetris<TetriminoClass extends string> {
 	get followingMinos() {
 		return this._followingMinos;
 	}
-	set followingMinos(minos: TetriminoClass[]) {
+	set followingMinos(minos: Tetrimino[]) {
 		this._followingMinos = minos;
 	}
 
@@ -236,7 +241,7 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	get fallTimer() {
-		return this._fallTimer;
+		return this._timerToFall;
 	}
 	get lockDownTimer() {
 		return this._lockDownTimer;
@@ -245,14 +250,14 @@ export class Tetris<TetriminoClass extends string> {
 	get holdMinoType() {
 		return this._holdMinoType;
 	}
-	set holdMinoType(type: TetriminoClass) {
+	set holdMinoType(type: Tetrimino) {
 		this._holdMinoType = type;
 	}
 
 	get fieldArray() {
 		return this._fieldArray;
 	}
-	set fieldArray(array: TetriminoClass[][]) {
+	set fieldArray(array: Tetrimino[][]) {
 		this._fieldArray = array;
 	}
 
@@ -263,7 +268,7 @@ export class Tetris<TetriminoClass extends string> {
 		this._totalFallenTetrimino = num;
 	}
 	
-	isOtherTiles(tile: Mino<TetriminoClass> | Pos): boolean {
+	isOtherTiles(tile: Mino<Tetrimino> | Pos): boolean {
 		if (this._fieldAttrArray[tile.y][tile.x] == 'empty') {
 			if ( !this.isTetriminoVisible() ) return true;
 			if ( !this._currentMinos.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
@@ -280,7 +285,7 @@ export class Tetris<TetriminoClass extends string> {
 		return this._currentPhase=='fall'||this._currentPhase=='lock';
 	}
 
-	getReplacedMino(minos: Mino<TetriminoClass>[], type: TetriminoClass) {
+	getReplacedMino(minos: Mino<Tetrimino>[], type: Tetrimino) {
 		return minos.map(mino => ({x:mino.x, y:mino.y, mino: type}));
 	}
 
@@ -310,9 +315,9 @@ export class Tetris<TetriminoClass extends string> {
 		})
 	}
 
-	displayMino(mino: Mino<TetriminoClass>, blockType: BlockType): void;
-	displayMino(mino: Mino<TetriminoClass>[], blockType: BlockType): void;
-	displayMino(mino: Mino<TetriminoClass>|Mino<TetriminoClass>[], blockType: BlockType) {
+	displayMino(mino: Mino<Tetrimino>, blockType: BlockType): void;
+	displayMino(mino: Mino<Tetrimino>[], blockType: BlockType): void;
+	displayMino(mino: Mino<Tetrimino>|Mino<Tetrimino>[], blockType: BlockType) {
 		if (Array.isArray(mino)) {
 			for (const amino of mino) {
 				this.displayMino(amino, blockType);
@@ -340,19 +345,25 @@ export class Tetris<TetriminoClass extends string> {
 	}
 
 	removeGhostMinos(): void {
-		const formerGhost = cloneArray<Mino<TetriminoClass>>(this._ghostMinos)
+		const formerGhost = cloneArray<Mino<Tetrimino>>(this._ghostMinos)
 		for (let tile of formerGhost) {
 			this.removeGhostMino(tile)
 		}
 	}
 
-	removeGhostMino(mino: Mino<TetriminoClass> | Pos): void {
+	removeGhostMino(mino: Mino<Tetrimino> | Pos): void {
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
 	}
 
 	//
 	// various
 	//
+
+	initTetrimino({type,shape=type}:{type:Tetrimino,shape?:Tetrimino}): void {
+		this._currentMinoType = type;
+		this._currentMinoShape = shape;
+		this._currentPos = {x:4,y:1};
+	}
 
 	reset() {
 		this.clearHoldQueue();
@@ -385,7 +396,7 @@ export class Tetris<TetriminoClass extends string> {
 		}
 	}
 
-	canMove(minos: Mino<TetriminoClass>[] | Pos[]): boolean {
+	canMove(minos: Mino<Tetrimino>[] | Pos[]): boolean {
 		for (let tile of minos) {
 			if (this.isOutOfField(tile.x,tile.y)) {
 				return false;
@@ -408,7 +419,7 @@ export class Tetris<TetriminoClass extends string> {
 			return false;
 		}
 	}
-	relocate(following: Mino<TetriminoClass>[]): void {
+	relocate(following: Mino<Tetrimino>[]): void {
 		this.hideCurrentMino();
 		this.updateDiffOfField(following, 'falling')
 	}
@@ -419,7 +430,7 @@ export class Tetris<TetriminoClass extends string> {
 		this.updateDiffOfField(anti, 'placed');
 	}
 
-	updateFieldArray(mino: Mino<TetriminoClass>) {
+	updateFieldArray(mino: Mino<Tetrimino>) {
 		this._fieldArray[mino.y][mino.x] = mino.mino;
 		const minoAttr = MinoAttrsMap.get(mino.mino as string);
 		if ( minoAttr == 'wall' || minoAttr == 'block') {
@@ -427,10 +438,10 @@ export class Tetris<TetriminoClass extends string> {
 		}
 	}
 
-	replaceMinoType(minos: Mino<TetriminoClass>[] | Pos[], type: TetriminoClass): Mino<TetriminoClass>[] {
+	replaceMinoType(minos: Mino<Tetrimino>[] | Pos[], type: Tetrimino): Mino<Tetrimino>[] {
 		return minos.map((mino)=>({x: mino.x, y: mino.y, mino: type}));
 	}
-	updateDiffOfField(diff: Mino<TetriminoClass>[], blockType: BlockType) {
+	updateDiffOfField(diff: Mino<Tetrimino>[], blockType: BlockType) {
 		for (const mino of diff) {
 			this.displayMino(mino, blockType);
 			if (blockType != 'ghost') {
@@ -439,10 +450,10 @@ export class Tetris<TetriminoClass extends string> {
 		}
 	}
 
-	intoTetriMino(value: string): TetriminoClass
-	intoTetriMino(value: string[]): TetriminoClass[]
+	intoTetriMino(value: string): Tetrimino
+	intoTetriMino(value: string[]): Tetrimino[]
 
-	intoTetriMino(value: string | string[]): TetriminoClass | TetriminoClass[] | undefined {
+	intoTetriMino(value: string | string[]): Tetrimino | Tetrimino[] | undefined {
 		if (typeof value === 'string') {
 			console.log(this._gameRule.TetriminoEnum);
 			
@@ -452,7 +463,7 @@ export class Tetris<TetriminoClass extends string> {
 				return;
 			}
 		} else {
-			let res: TetriminoClass[] = [];
+			let res: Tetrimino[] = [];
 			for (const str of value) {
 				if (this._gameRule.TetriminoEnum.isEnum(str)) {
 					res.push(str);
@@ -493,5 +504,3 @@ export class Tetris<TetriminoClass extends string> {
 
 
 }
-
-let currentTetris: Tetris<Tetrimino>;

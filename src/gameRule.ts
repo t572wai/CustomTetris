@@ -1,13 +1,13 @@
 import { Enum, shuffle } from "./general";
-import { changeFacing, getMovedMinos, getTetriminoShape, isTetrimino, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, Tetrimino, TetriminoEnum, getMovedShape } from "./global";
+import { changeFacing, getMovedMinos, getTetriminoNormalShape, isTetriminoNormal, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, TetriminoNormalEnum, getMovedShape, Tetrimino } from "./global";
 import { Tetris } from "./tetris";
 
-export class GameRule<TetriminoClass extends string> {
+export class GameRule {
 	private _name: string;
 	private _title: string;
-	private _TetriminoClassEnum: Enum<TetriminoClass>;
-	private _generateTerrain: ()=>TetriminoClass[][];
-	private _generateRegularlyTerrain: ()=>TetriminoClass[];
+	private _TetriminoClassEnum: Enum<Tetrimino>;
+	private _generateTerrain: ()=>Tetrimino[][];
+	private _generateRegularlyTerrain: ()=>Tetrimino[];
 	private _matrixHeight: number;
 	private _matrixWidth: number;
 	private _bufferHeight: number;
@@ -15,18 +15,18 @@ export class GameRule<TetriminoClass extends string> {
 	private _fieldHeight: number;
 	private _fieldWidth: number;
 	private _cssClass: string;
-	private _followingMinos: TetriminoClass[];
+	private _followingMinos: Tetrimino[];
 	private _nextNum: number;
-	private _shouldGenerateTetriminos: (array: TetriminoClass[])=>boolean;
-	private _generateNextTetriminos: (array: TetriminoClass[])=>TetriminoClass[];
+	private _shouldGenerateTetriminos: (array: Tetrimino[])=>boolean;
+	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
 	private _arrangeFirstSituation: (data?: any)=>void;
 	private _arrangeSituation: (data?:any)=>void;
 	private _isAllowedOperation: (numberOfMoved?: number)=>boolean;
 	private _data: any;
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
-	private _spinRule: Map<TetriminoClass, Pos[][][]>;
-	private _getRotatedTetriminoShape: (type:TetriminoClass, d:number)=>Pos[];
+	private _spinRule: Map<Tetrimino, Pos[][][]>;
+	private _getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[];
 	private _justBeforeLockDown: (data:any)=>boolean;
 
 	constructor(
@@ -55,23 +55,23 @@ export class GameRule<TetriminoClass extends string> {
 		{
 			name: string,
 			title: string,
-			TetriminoClassEnum: Enum<TetriminoClass>,
-			generateTerrain: ()=>TetriminoClass[][],
-			generateRegularlyTerrain: ()=>TetriminoClass[],
+			TetriminoClassEnum: Enum<Tetrimino>,
+			generateTerrain: ()=>Tetrimino[][],
+			generateRegularlyTerrain: ()=>Tetrimino[],
 			matrixHeight: number,
 			matrixWidth: number,
 			bufferHeight: number,
 			cssClass: string,
 			nextNum: number,
-			shouldGenerateTetriminos: (array: TetriminoClass[])=>boolean,
-			generateNextTetriminos: (array: TetriminoClass[])=>TetriminoClass[],
+			shouldGenerateTetriminos: (array: Tetrimino[])=>boolean,
+			generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation: (data?: any)=>void,
 			arrangeSituation: (data?: any)=>void,
 			isAllowedOperation: (numOfMoved?: number)=>boolean,
 			getterOfData: (data:any)=>any,
 			setterOfData: (data:any)=>any,
-			spinRule: Map<TetriminoClass, Pos[][][]>,
-			getRotatedTetriminoShape: (type:TetriminoClass, d:number)=>Pos[],
+			spinRule: Map<Tetrimino, Pos[][][]>,
+			getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[],
 			justBeforeLockDown: (data: any)=>boolean,
 		}
 		) {
@@ -111,12 +111,12 @@ export class GameRule<TetriminoClass extends string> {
 			this._justBeforeLockDown = justBeforeLockDown;
 	}
 
-	public static Normal: GameRule<Tetrimino> = new GameRule<Tetrimino>({
+	public static Normal: GameRule = new GameRule({
 		name:'normal',
 		title:'Normal',
-		TetriminoClassEnum: TetriminoEnum,
+		TetriminoClassEnum: TetriminoNormalEnum,
 		generateTerrain:()=>{
-			let terrainArray:Tetrimino[][] = [];
+			let terrainArray:TetriminoNormal[][] = [];
 			for (let i = 0; i < normalFieldHeight; i++) {
 				terrainArray.push(new Array(normalFieldWidth).fill('empty'))
 			}
@@ -135,7 +135,7 @@ export class GameRule<TetriminoClass extends string> {
 		},
 		generateNextTetriminos: (array: Tetrimino[]) => {
 			//ミノをランダムにソート
-			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
+			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as TetriminoNormal[]);
 			return array.concat(nextMinos);
 		},
 		arrangeFirstSituation: ()=>{},
@@ -204,7 +204,7 @@ export class GameRule<TetriminoClass extends string> {
 			t: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
 		}),
 		getRotatedTetriminoShape: (type: Tetrimino,d: number): Pos[] => {
-			const shape_pos: Pos[] = getTetriminoShape(type)!;
+			const shape_pos: Pos[] = getTetriminoNormalShape(type)!;
 			if (type=='o') {
 				return shape_pos;
 			} else if (type=='i') {
@@ -222,8 +222,8 @@ export class GameRule<TetriminoClass extends string> {
 		justBeforeLockDown: ()=>{return true},
 	})
 
-	createTetris(): Tetris<TetriminoClass> {
-		const tetris = new Tetris<TetriminoClass>(this);
+	createTetris(): Tetris {
+		const tetris = new Tetris(this);
 		console.log(tetris);
 		
 		return tetris;
@@ -306,16 +306,16 @@ export class GameRule<TetriminoClass extends string> {
 		return this._justBeforeLockDown;
 	}
 
-	static toString<T extends string>(rule: GameRule<T>): string{
+	static toString(rule: GameRule): string{
 		return rule._name;
 	}
 
-	static getTitle<T extends string>(rule: GameRule<T>): string{
+	static getTitle(rule: GameRule): string{
 		return rule._title;
 	}
 }
 
-export class GameRuleNormal extends GameRule<Tetrimino> {
+export class GameRuleNormal extends GameRule {
 	constructor({
 			name,
 			title,
@@ -395,8 +395,8 @@ export class ChangeSizeOfMatrix extends GameRuleNormal {
 		super({
 			name:name,
 			title:title,
-			generateTerrain:(): Tetrimino[][]=>{
-				let terrainArray:Tetrimino[][] = [];
+			generateTerrain:(): TetriminoNormal[][]=>{
+				let terrainArray:TetriminoNormal[][] = [];
 				for (let i = 0; i < matrixHeight + bufferHeight; i++) {
 					terrainArray.push(new Array(matrixWidth).fill('empty'))
 				}
@@ -415,7 +415,7 @@ export class ChangeSizeOfMatrix extends GameRuleNormal {
 
 export function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
 	let regulatedSpinRule = basicRule;
-	TetriminoEnum.defArray.forEach((type) => {
+	TetriminoNormalEnum.defArray.forEach((type) => {
 		if (type!='i' && type!='o' && type!='empty' && type!='wall') {
 			const basicOne = basicRule.get(type)![0][0];
 			regulatedSpinRule.set(type, [

@@ -1,18 +1,20 @@
 import { cloneArray, Enum, toUpperFirstLetter } from "./general";
 
-export const TetriminoUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
-export type Tetrimino = typeof TetriminoUnion[number];
+export const TetriminoNormalUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
+export type TetriminoNormal = typeof TetriminoNormalUnion[number];
 
-export function isTetrimino(value: any): value is Tetrimino{
+export type Tetrimino = string;
+
+export function isTetriminoNormal(value: any): value is TetriminoNormal{
 	if (typeof value === "string") {
-		return TetriminoUnion.includes(value as Tetrimino);
+		return TetriminoNormalUnion.includes(value as TetriminoNormal);
 	}
 	return false;
 }
 
-export const TetriminoEnum:Enum<Tetrimino> = {
-	defArray: TetriminoUnion,
-	isEnum: isTetrimino,
+export const TetriminoNormalEnum:Enum<Tetrimino> = {
+	defArray: TetriminoNormalUnion,
+	isEnum: isTetriminoNormal,
 	toString: (arg: Tetrimino) => {return arg as string},
 	getTitle: (arg: Tetrimino) => {return toUpperFirstLetter(arg as string)},
 }
@@ -24,7 +26,7 @@ const MinoAttrsUnion = ['empty', 'block', 'wall', 'undefined'] as const;
 export type MinoAttrs = typeof MinoAttrsUnion[number];
 
 export const MinoAttrsMap = new Map<string, MinoAttrs>();
-TetriminoEnum.defArray.forEach((mino) => {
+TetriminoNormalEnum.defArray.forEach((mino) => {
 	if (mino=="empty") {
 		MinoAttrsMap.set(mino, 'empty');
 	} else if (mino=="wall") {
@@ -72,8 +74,8 @@ export type Action = typeof Actions[number];
 export const Operations = ['left','right','hardDrop','softDrop','leftRotation','rightRotation','hold'] as const;
 export type Operate = typeof Operations[number];
 
-export function getMirrorField(field: readonly Tetrimino[][]) {
-	let mirrorArray = [] as Tetrimino[][];
+export function getMirrorField<TetriminoClass extends string>(field: readonly TetriminoClass[][]) {
+	let mirrorArray = [] as TetriminoClass[][];
 
 	for (const line of field) {
 		mirrorArray.push(line.reverse())
@@ -82,7 +84,7 @@ export function getMirrorField(field: readonly Tetrimino[][]) {
 	return mirrorArray;
 }
 
-export function getMirrorFieldAtRnd(field: Tetrimino[][]): Tetrimino[][] {
+export function getMirrorFieldAtRnd<TetriminoClass extends string>(field: TetriminoClass[][]): TetriminoClass[][] {
 	const rnd = Math.floor(Math.random() * 2);
 
 	if (rnd == 0) {
@@ -132,7 +134,7 @@ export function getMovedShape(poses: Pos[], dx: number, dy: number): Pos[] {
 	return poses.map((pos) => ({x:pos.x+dx,y:pos.y+dy}));
 }
 
-export function getTetriminoShape(type: Tetrimino): Pos[] | null {
+export function getTetriminoNormalShape(type: Tetrimino): Pos[] | null {
 	let minoArray:Pos[] = [];
 	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
 	let originPos:Pos = {x:0,y:0};     
