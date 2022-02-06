@@ -1,9 +1,10 @@
-import { Tetrimino, TetriminoAttrs } from "./global";
+import { Mino, Tetrimino, TetriminoAttrs } from "./global";
 import { InvertibleMap } from "./InversiveMap";
 
 export class TetriminoClass {
-	private _tetriminos: string[];
+	private _tetriminos: Tetrimino[];
 	private _attrMap: InvertibleMap<Tetrimino, TetriminoAttrs>;
+	private _shapeMap: Map<Tetrimino, Mino[]>;
 
 	constructor(tetriminos: string[]) {
 		this._tetriminos = tetriminos;

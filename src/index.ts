@@ -7,7 +7,7 @@ import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
 import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
-import { changeFacing, getMirrorFieldAtRnd, getTetriminoNormalShape, isTetriminoNormal, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino, TetriminoNormal } from "./global";
+import { changeFacing, getTetriminoNormalShape, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino, TetriminoNormal } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
@@ -561,7 +561,7 @@ const StackingForPerfect: GameRule = new GameRuleNormal({
 	generateTerrain: () => {
 		const normalTerrain = GameRule.Normal.generateTerrain();
 
-		return getMirrorFieldAtRnd(setWall(normalTerrain,
+		return Tetris.getMirrorFieldAtRnd(setWall(normalTerrain,
 					[
 						{x:0,y:21},{x:1,y:21},{x:2,y:21},{x:7,y:21},{x:8,y:21},{x:9,y:21},
 						{x:0,y:20},{x:1,y:20},{x:2,y:20},{x:3,y:20},{x:7,y:20},{x:8,y:20},{x:9,y:20},
@@ -1218,7 +1218,7 @@ function textOfNext(): string {
 	let text = "<p id='nextHead'>Next</p>";
 	for (let i = 0; i < gameRuleOption.currentOption.nextNum; i++) {
 		if(typeof currentTetris.followingMinos[i] !== 'undefined') {
-			text += textOfMinoAlone(currentTetris.followingMinos[i] as TetriminoNormal);
+			text += textOfMinoAlone(currentTetris.followingMinos[i] as Tetrimino);
 		}
 	}
 	return text;
@@ -1230,7 +1230,7 @@ function displayHold(): void {
 
 function textOfHold(): string {
 	const hold = currentTetris.holdMinoType;
-	if (isTetriminoNormal(hold)) {
+	if (TetriminoNormal.isTetrimino(hold)) {
 		let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(hold);
 		return text;
 	} else {
@@ -1238,7 +1238,7 @@ function textOfHold(): string {
 	}
 }
 
-function textOfMinoAlone(type: TetriminoNormal): string {
+function textOfMinoAlone(type: Tetrimino): string {
 	// console.log(type);
 	let text = "<div class='displayers'>";
 	if (!type || type=='empty') {

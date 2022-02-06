@@ -1,11 +1,10 @@
 import { Enum, shuffle } from "./general";
-import { changeFacing, getMovedMinos, getTetriminoNormalShape, isTetriminoNormal, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, TetriminoNormalEnum, getMovedShape, Tetrimino } from "./global";
+import { changeFacing, getMovedMinos, getTetriminoNormalShape, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino } from "./global";
 import { Tetris } from "./tetris";
 
 export class GameRule {
 	private _name: string;
 	private _title: string;
-	private _TetriminoClassEnum: Enum<Tetrimino>;
 	private _generateTerrain: ()=>Tetrimino[][];
 	private _generateRegularlyTerrain: ()=>Tetrimino[];
 	private _matrixHeight: number;
@@ -33,7 +32,6 @@ export class GameRule {
 		{
 			name,
 			title,
-			TetriminoClassEnum,
 			generateTerrain,
 			generateRegularlyTerrain,
 			matrixHeight = normalMatrixHeight,
@@ -55,7 +53,6 @@ export class GameRule {
 		{
 			name: string,
 			title: string,
-			TetriminoClassEnum: Enum<Tetrimino>,
 			generateTerrain: ()=>Tetrimino[][],
 			generateRegularlyTerrain: ()=>Tetrimino[],
 			matrixHeight: number,
@@ -77,8 +74,6 @@ export class GameRule {
 		) {
 			this._name = name;
 			this._title = title;
-
-			this._TetriminoClassEnum = TetriminoClassEnum;
 
 			this._generateTerrain = generateTerrain;
 			this._generateRegularlyTerrain = generateRegularlyTerrain;
@@ -114,9 +109,8 @@ export class GameRule {
 	public static Normal: GameRule = new GameRule({
 		name:'normal',
 		title:'Normal',
-		TetriminoClassEnum: TetriminoNormalEnum,
 		generateTerrain:()=>{
-			let terrainArray:TetriminoNormal[][] = [];
+			let terrainArray:Tetrimino[][] = [];
 			for (let i = 0; i < normalFieldHeight; i++) {
 				terrainArray.push(new Array(normalFieldWidth).fill('empty'))
 			}
@@ -135,7 +129,7 @@ export class GameRule {
 		},
 		generateNextTetriminos: (array: Tetrimino[]) => {
 			//ミノをランダムにソート
-			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as TetriminoNormal[]);
+			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
 			return array.concat(nextMinos);
 		},
 		arrangeFirstSituation: ()=>{},
@@ -229,9 +223,9 @@ export class GameRule {
 		return tetris;
 	}
 
-	get TetriminoEnum() {
-		return this._TetriminoClassEnum;
-	}
+	// get TetriminoEnum() {
+	// 	return this._TetriminoClassEnum;
+	// }
 
 	get generateTerrain() {
 		return this._generateTerrain;
@@ -319,7 +313,6 @@ export class GameRuleNormal extends GameRule {
 	constructor({
 			name,
 			title,
-			TetriminoClassEnum = GameRule.Normal.TetriminoEnum,
 			generateTerrain = GameRule.Normal.generateTerrain,
 			generateRegularlyTerrain = GameRule.Normal.generateRegularlyTerrain,
 			matrixHeight = normalMatrixHeight,
@@ -363,7 +356,6 @@ export class GameRuleNormal extends GameRule {
 		super({
 			name: name,
 			title: title,
-			TetriminoClassEnum: TetriminoClassEnum,
 			generateTerrain: generateTerrain,
 			generateRegularlyTerrain: generateRegularlyTerrain,
 			matrixHeight: matrixHeight,
@@ -395,8 +387,8 @@ export class ChangeSizeOfMatrix extends GameRuleNormal {
 		super({
 			name:name,
 			title:title,
-			generateTerrain:(): TetriminoNormal[][]=>{
-				let terrainArray:TetriminoNormal[][] = [];
+			generateTerrain:(): Tetrimino[][]=>{
+				let terrainArray:Tetrimino[][] = [];
 				for (let i = 0; i < matrixHeight + bufferHeight; i++) {
 					terrainArray.push(new Array(matrixWidth).fill('empty'))
 				}
@@ -415,7 +407,7 @@ export class ChangeSizeOfMatrix extends GameRuleNormal {
 
 export function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
 	let regulatedSpinRule = basicRule;
-	TetriminoNormalEnum.defArray.forEach((type) => {
+	TetriminoNormal.tetriminos.forEach((type) => {
 		if (type!='i' && type!='o' && type!='empty' && type!='wall') {
 			const basicOne = basicRule.get(type)![0][0];
 			regulatedSpinRule.set(type, [
