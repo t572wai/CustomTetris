@@ -7,7 +7,7 @@ import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
 import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
-import { changeFacing, getTetriminoNormalShape, Operate, Operations, Pos, ShapesOfTetrimino, Tetrimino, TetriminoNormal } from "./global";
+import { changeFacing, Operate, Operations, Pos, Tetrimino, TetriminoNormal } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
@@ -797,8 +797,8 @@ const OSpin = new GameRuleNormal({
 	cssClass: 'ospin',
 	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
 		if (type=='o') {
-			console.log(changeFacing(getTetriminoNormalShape(type)!,d));
-			return changeFacing(getTetriminoNormalShape(type)!,d);
+			console.log(changeFacing(TetriminoNormal.getTetriminoShape(type)!,d));
+			return changeFacing(TetriminoNormal.getTetriminoShape(type)!,d);
 		} else {
 			return GameRule.Normal.getRotatedTetriminoShape(type, d);
 		}
@@ -921,7 +921,7 @@ let currentTetris: Tetris;
 
 function startTetris(): void {
 	toGame();
-	currentTetris = gameRuleOption.currentOption.createTetris();
+	currentTetris = new Tetris(gameRuleOption.currentOption);
 	console.log(currentTetris);
 	
 	currentTetris.start();
@@ -1249,7 +1249,7 @@ function textOfMinoAlone(type: Tetrimino): string {
 		return text;
 	}
 
-	const shape = ShapesOfTetrimino.get(type);
+	const shape =  currentTetris.tetriminoClass.skeltonMap.get(type);
 	if (typeof shape !== 'undefined') {
 		const shape_defined = shape as number[][];
 		for (let line of shape_defined) {

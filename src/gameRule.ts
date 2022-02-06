@@ -1,5 +1,5 @@
 import { Enum, shuffle } from "./general";
-import { changeFacing, getMovedMinos, getTetriminoNormalShape, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino } from "./global";
+import { changeFacing, getMovedMinos, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino } from "./global";
 import { Tetris } from "./tetris";
 
 export class GameRule {
@@ -198,7 +198,7 @@ export class GameRule {
 			t: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
 		}),
 		getRotatedTetriminoShape: (type: Tetrimino,d: number): Pos[] => {
-			const shape_pos: Pos[] = getTetriminoNormalShape(type)!;
+			const shape_pos: Pos[] = TetriminoNormal.getTetriminoShape(type)!;
 			if (type=='o') {
 				return shape_pos;
 			} else if (type=='i') {
@@ -215,13 +215,6 @@ export class GameRule {
 		},
 		justBeforeLockDown: ()=>{return true},
 	})
-
-	createTetris(): Tetris {
-		const tetris = new Tetris(this);
-		console.log(tetris);
-		
-		return tetris;
-	}
 
 	// get TetriminoEnum() {
 	// 	return this._TetriminoClassEnum;

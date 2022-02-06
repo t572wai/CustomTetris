@@ -1,9 +1,27 @@
 import { cloneArray, Enum, toUpperFirstLetter } from "./general";
+import { InvertibleMap } from "./InversiveMap";
 import { TetriminoClass } from "./tetrimino";
 
-// export const TetriminoNormalUnion = ['i','o','s','z','j','l','t','empty','wall'] as const;
-// export type TetriminoNormal = typeof TetriminoNormalUnion[number];
-export const TetriminoNormal = new TetriminoClass(['i','o','s','z','j','l','t','empty','wall']);
+const TetriminoNormals = ['i','o','s','z','j','l','t','empty','wall'] as const;
+const TetriminoNormalAttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
+TetriminoNormals.forEach((mino) => {
+	if (mino=="empty") {
+		TetriminoNormalAttrMap.set(mino, 'empty');
+	} else if (mino=="wall") {
+		TetriminoNormalAttrMap.set(mino, 'wall');
+	} else {
+		TetriminoNormalAttrMap.set(mino, 'block');
+	}
+})
+const SkeltonOfTetriminoNormal = new Map<Tetrimino,(-1|0|1)[][]>();
+SkeltonOfTetriminoNormal.set("i", [[1,0,1,1]]);
+SkeltonOfTetriminoNormal.set("o", [[1,1],[0,1]])
+SkeltonOfTetriminoNormal.set("s", [[-1,1,1],[1,0,-1]])
+SkeltonOfTetriminoNormal.set("z", [[1,1,-1],[-1,0,1]])
+SkeltonOfTetriminoNormal.set("j", [[1,-1,-1],[1,0,1]])
+SkeltonOfTetriminoNormal.set("l", [[-1,-1,1],[1,0,1]])
+SkeltonOfTetriminoNormal.set("t", [[-1,1,-1],[1,0,1]])
+export const TetriminoNormal = new TetriminoClass(['i','o','s','z','j','l','t','empty','wall'],TetriminoNormalAttrMap,SkeltonOfTetriminoNormal);
 
 
 export type Tetrimino = string;
@@ -77,34 +95,14 @@ export type Action = typeof Actions[number];
 export const Operations = ['left','right','hardDrop','softDrop','leftRotation','rightRotation','hold'] as const;
 export type Operate = typeof Operations[number];
 
-// export function getMirrorField(field: readonly Tetrimino[][]) {
-// 	let mirrorArray = [] as Tetrimino[][];
-
-// 	for (const line of field) {
-// 		mirrorArray.push(line.reverse())
-// 	}
-
-// 	return mirrorArray;
-// }
-
-// export function getMirrorFieldAtRnd(field: Tetrimino[][]): Tetrimino[][] {
-// 	const rnd = Math.floor(Math.random() * 2);
-
-// 	if (rnd == 0) {
-// 		return field;
-// 	} else {
-// 		return getMirrorField(field);
-// 	}
-// }
-
-export const ShapesOfTetrimino = new Map<Tetrimino,number[][]>();
-ShapesOfTetrimino.set("i", [[1,0,1,1]]);
-ShapesOfTetrimino.set("o", [[1,1],[0,1]])
-ShapesOfTetrimino.set("s", [[-1,1,1],[1,0,-1]])
-ShapesOfTetrimino.set("z", [[1,1,-1],[-1,0,1]])
-ShapesOfTetrimino.set("j", [[1,-1,-1],[1,0,1]])
-ShapesOfTetrimino.set("l", [[-1,-1,1],[1,0,1]])
-ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
+// export const ShapesOfTetrimino = new Map<Tetrimino,number[][]>();
+// ShapesOfTetrimino.set("i", [[1,0,1,1]]);
+// ShapesOfTetrimino.set("o", [[1,1],[0,1]])
+// ShapesOfTetrimino.set("s", [[-1,1,1],[1,0,-1]])
+// ShapesOfTetrimino.set("z", [[1,1,-1],[-1,0,1]])
+// ShapesOfTetrimino.set("j", [[1,-1,-1],[1,0,1]])
+// ShapesOfTetrimino.set("l", [[-1,-1,1],[1,0,1]])
+// ShapesOfTetrimino.set("t", [[-1,1,-1],[1,0,1]])
 
 /**
  * [changeDirection description]
@@ -137,23 +135,3 @@ export function getMovedShape(poses: Pos[], dx: number, dy: number): Pos[] {
 	return poses.map((pos) => ({x:pos.x+dx,y:pos.y+dy}));
 }
 
-export function getTetriminoNormalShape(type: Tetrimino): Pos[] | null {
-	let minoArray:Pos[] = [];
-	const shape: number[][] | undefined = ShapesOfTetrimino.get(type);
-	let originPos:Pos = {x:0,y:0};     
-	if (typeof shape != 'undefined') {
-		for (var i = 0; i < shape.length; i++) {
-			for (var j = 0; j < shape[i].length; j++) {
-				if (shape[i][j]!=-1){
-					minoArray.push({x:j,y:i});
-				}
-				if (shape[i][j]==0) {
-					originPos = {x:j,y:i}
-				}
-			}
-		}
-		return getMovedShape(minoArray,-originPos.x,-originPos.y);
-	} else {
-		return null;
-	}
-}
