@@ -33,7 +33,7 @@ export class Tetris {
 
 	private _currentLevel: number = 1;
 	
-	private _currentMinos: Mino[] = [];
+	private _currentTiles: Pos[] = [];
 	private _currentMinoType: Tetrimino;
 	private _currentMinoShape: Tetrimino;
 	private _currentPos: Pos = {x:-1,y:-1};
@@ -188,7 +188,6 @@ export class Tetris {
 	}
 
 	placeToStartPos(): void {
-
 	}
 	
 	//
@@ -200,7 +199,7 @@ export class Tetris {
 	}
 
 	canFall(): boolean {
-		return this.canMove(getMovedMinos(this._currentMinos, 0, 1));
+		return this.canMove(getMovedMinos(this.currentMinos(), 0, 1));
 	}
 
 	//
@@ -263,11 +262,15 @@ export class Tetris {
 	set totalFallenTetrimino(num: number) {
 		this._totalFallenTetrimino = num;
 	}
+
+	currentMinos(): Mino[] {
+		return Tetris.replaceMinoType(this._currentTiles,this._currentMinoType);
+	}
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
 		if (this._fieldAttrArray[tile.y][tile.x] == 'empty') {
 			if ( !this.isTetriminoVisible() ) return true;
-			if ( !this._currentMinos.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
+			if ( !this._currentTiles.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 				return true;
 			}
 		}
@@ -311,6 +314,10 @@ export class Tetris {
 		} else {
 			return Tetris.getMirrorField(field);
 		}
+	}
+
+	static replaceMinoType(minos: Mino[] | Pos[], type: Tetrimino): Mino[] {
+		return minos.map((mino)=>({x: mino.x, y: mino.y, mino: type}));
 	}
 
 	//
@@ -381,7 +388,8 @@ export class Tetris {
 	initTetrimino({type,shape=type}:{type:Tetrimino,shape?:Tetrimino}): void {
 		this._currentMinoType = type;
 		this._currentMinoShape = shape;
-		this._currentPos = {x:4,y:1};
+		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
+		this._currentTiles = this._tetriminoClass.getTetriminoShape(shape)!;
 	}
 
 	reset() {
@@ -429,7 +437,7 @@ export class Tetris {
 	}
 
 	move(dx: number, dy: number): boolean {
-		const following = getMovedMinos(this._currentMinos,dx,dy);
+		const following = getMovedMinos(this.currentMinos(),dx,dy);
 		if (this.canMove(following)) {
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y};
 			this.relocate(following);
@@ -445,7 +453,7 @@ export class Tetris {
 
 	hideCurrentMino() {
 		const emptyMino = this._tetriminoClass.attrMap.getKeysFromValue('empty')[0];
-		const anti = this.replaceMinoType(this._currentMinos, emptyMino);
+		const anti = Tetris.replaceMinoType(this._currentTiles, emptyMino);
 		this.updateDiffOfField(anti, 'placed');
 	}
 
@@ -457,9 +465,6 @@ export class Tetris {
 		}
 	}
 
-	replaceMinoType(minos: Mino[] | Pos[], type: Tetrimino): Mino[] {
-		return minos.map((mino)=>({x: mino.x, y: mino.y, mino: type}));
-	}
 	updateDiffOfField(diff: Mino[], blockType: BlockType) {
 		for (const mino of diff) {
 			this.displayMino(mino, blockType);

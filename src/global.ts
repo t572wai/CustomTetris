@@ -2,7 +2,7 @@ import { cloneArray, Enum, toUpperFirstLetter } from "./general";
 import { InvertibleMap } from "./InversiveMap";
 import { TetriminoClass } from "./tetrimino";
 
-const TetriminoNormals = ['i','o','s','z','j','l','t','empty','wall'] as const;
+const TetriminoNormals = ['i','o','s','z','j','l','t','empty','wall'];
 const TetriminoNormalAttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
 TetriminoNormals.forEach((mino) => {
 	if (mino=="empty") {
@@ -13,32 +13,18 @@ TetriminoNormals.forEach((mino) => {
 		TetriminoNormalAttrMap.set(mino, 'block');
 	}
 })
-const SkeltonOfTetriminoNormal = new Map<Tetrimino,(-1|0|1)[][]>();
-SkeltonOfTetriminoNormal.set("i", [[1,0,1,1]]);
-SkeltonOfTetriminoNormal.set("o", [[1,1],[0,1]])
-SkeltonOfTetriminoNormal.set("s", [[-1,1,1],[1,0,-1]])
-SkeltonOfTetriminoNormal.set("z", [[1,1,-1],[-1,0,1]])
-SkeltonOfTetriminoNormal.set("j", [[1,-1,-1],[1,0,1]])
-SkeltonOfTetriminoNormal.set("l", [[-1,-1,1],[1,0,1]])
-SkeltonOfTetriminoNormal.set("t", [[-1,1,-1],[1,0,1]])
-export const TetriminoNormal = new TetriminoClass(['i','o','s','z','j','l','t','empty','wall'],TetriminoNormalAttrMap,SkeltonOfTetriminoNormal);
+const SkeletonsOfTetriminoNormal = new Map<Tetrimino,(-1|0|1)[][]>();
+SkeletonsOfTetriminoNormal.set("i", [[1,0,1,1]]);
+SkeletonsOfTetriminoNormal.set("o", [[1,1],[0,1]])
+SkeletonsOfTetriminoNormal.set("s", [[-1,1,1],[1,0,-1]])
+SkeletonsOfTetriminoNormal.set("z", [[1,1,-1],[-1,0,1]])
+SkeletonsOfTetriminoNormal.set("j", [[1,-1,-1],[1,0,1]])
+SkeletonsOfTetriminoNormal.set("l", [[-1,-1,1],[1,0,1]])
+SkeletonsOfTetriminoNormal.set("t", [[-1,1,-1],[1,0,1]])
+export const TetriminoNormal = new TetriminoClass(TetriminoNormals,TetriminoNormalAttrMap,SkeletonsOfTetriminoNormal);
 
 
 export type Tetrimino = string;
-
-// export function isTetriminoNormal(value: any): value is TetriminoNormal{
-// 	if (typeof value === "string") {
-// 		return TetriminoNormalUnion.includes(value as TetriminoNormal);
-// 	}
-// 	return false;
-// }
-
-// export const TetriminoNormalEnum:Enum<Tetrimino> = {
-// 	defArray: TetriminoNormalUnion,
-// 	isEnum: isTetriminoNormal,
-// 	toString: (arg: Tetrimino) => {return arg as string},
-// 	getTitle: (arg: Tetrimino) => {return toUpperFirstLetter(arg as string)},
-// }
 
 const TileAttrsUnion = ['empty','filled', 'undefined'] as const;
 export type TileAttrs = typeof TileAttrsUnion[number];
