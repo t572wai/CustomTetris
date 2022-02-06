@@ -22,28 +22,28 @@ export const TetriminoNormalEnum:Enum<Tetrimino> = {
 const TileAttrsUnion = ['empty','filled', 'undefined'] as const;
 export type TileAttrs = typeof TileAttrsUnion[number];
 
-const MinoAttrsUnion = ['empty', 'block', 'wall', 'undefined'] as const;
-export type MinoAttrs = typeof MinoAttrsUnion[number];
+const TetriminoAttrsUnion = ['empty', 'block', 'wall', 'undefined'] as const;
+export type TetriminoAttrs = typeof TetriminoAttrsUnion[number];
 
-export const MinoAttrsMap = new Map<string, MinoAttrs>();
-TetriminoNormalEnum.defArray.forEach((mino) => {
-	if (mino=="empty") {
-		MinoAttrsMap.set(mino, 'empty');
-	} else if (mino=="wall") {
-		MinoAttrsMap.set(mino, 'wall');
-	} else {
-		MinoAttrsMap.set(mino, 'block');
-	}
-})
-export function getMinosByAttr(attr: MinoAttrs): string[] {
-	let minos: string[] = [];
-	for (const entry of MinoAttrsMap.entries()) {
-		if (entry[1] == attr) {
-			minos.push(entry[0]);
-		}
-	}
-	return minos;
-}
+// export const MinoAttrsMap = new Map<string, MinoAttrs>();
+// TetriminoNormalEnum.defArray.forEach((mino) => {
+// 	if (mino=="empty") {
+// 		MinoAttrsMap.set(mino, 'empty');
+// 	} else if (mino=="wall") {
+// 		MinoAttrsMap.set(mino, 'wall');
+// 	} else {
+// 		MinoAttrsMap.set(mino, 'block');
+// 	}
+// })
+// export function getMinosByAttr(attr: MinoAttrs): string[] {
+// 	let minos: string[] = [];
+// 	for (const entry of MinoAttrsMap.entries()) {
+// 		if (entry[1] == attr) {
+// 			minos.push(entry[0]);
+// 		}
+// 	}
+// 	return minos;
+// }
 
 
 export type Pos = {

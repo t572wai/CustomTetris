@@ -1,6 +1,6 @@
 import { GameRule } from "./gameRule";
 import { cloneArray, Enum, setCssVar, TouchScreenQuery } from "./general";
-import { Action, BlockType, getMinosByAttr, getMovedMinos, getMovedShape, isTetriminoNormal, Mino, MinoAttrsMap, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
+import { Action, BlockType, getMovedMinos, getMovedShape, isTetriminoNormal, Mino, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
 import { TetriminoClass } from "./tetrimino";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
@@ -214,12 +214,8 @@ export class Tetris {
 	// attr
 	//
 	
-	
-	get matrixHeight() {
-		return this._gameRule.matrixHeight;
-	}
-	get matrixWidth() {
-		return this._gameRule.matrixWidth;
+	get tetriminoClass() {
+		return this._tetriminoClass;
 	}
 
 	set currentPos(pos: Pos) {
@@ -425,14 +421,14 @@ export class Tetris {
 	}
 
 	hideCurrentMino() {
-		const emptyMino = this.intoTetriMino(getMinosByAttr('empty'))[0]
+		const emptyMino = this.intoTetriMino(this._tetriminoClass.attrMap.getKeysFromValue('empty'))[0]
 		const anti = this.replaceMinoType(this._currentMinos, emptyMino);
 		this.updateDiffOfField(anti, 'placed');
 	}
 
 	updateFieldArray(mino: Mino<Tetrimino>) {
 		this._fieldArray[mino.y][mino.x] = mino.mino;
-		const minoAttr = MinoAttrsMap.get(mino.mino as string);
+		const minoAttr = this._tetriminoClass.attrMap.get(mino.mino as string);
 		if ( minoAttr == 'wall' || minoAttr == 'block') {
 			this._fieldAttrArray[mino.y][mino.x] = 'filled';
 		}
