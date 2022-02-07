@@ -22,7 +22,7 @@ type PhaseType = typeof PhaseTypeUnion[number];
 export class Tetris {
 	private _tetriminoClass: TetriminoClass;
 
-	private _bag: Tetrimino[];
+	private _bag: Tetrimino[] = [];
 	private _currentPhase: PhaseType = 'notStart';
 
 	/**
