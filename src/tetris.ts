@@ -1,5 +1,5 @@
 import { GameRule } from "./gameRule";
-import { cloneArray, Enum, setCssVar, TouchScreenQuery } from "./general";
+import { cloneArray, Enum, setCssVar, shuffle, TouchScreenQuery } from "./general";
 import { Action, BlockType, getMovedMinos, getMovedShape, Mino, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
 import { TetriminoClass } from "./tetrimino";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
@@ -183,11 +183,21 @@ export class Tetris {
 	// genPhase
 	// 
 
-	arrangeBag(): void {
-
-	}
-
+	
 	placeToStartPos(): void {
+		this.arrangeBag();
+		this.initTetrimino({'type':this._bag[0]});
+		this.displayMino(this.currentMinos(),'falling');
+	}
+	
+	shouldArrangeBag(): boolean {
+		return this._bag.length < this._gameRule.nextNum;
+	}
+	arrangeBag(): void {
+		if (this.shouldArrangeBag()) {
+			const nextMinos = shuffle(this._tetriminoClass.tetriminos);
+			this._bag.concat(nextMinos);
+		}
 	}
 	
 	//
