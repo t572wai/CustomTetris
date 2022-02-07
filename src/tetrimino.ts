@@ -15,6 +15,7 @@ export class TetriminoClass {
 		this._attrMap = attrMap;
 		let hasOrigin = false;
 		for (const value of skeltonMap.values()) {
+			hasOrigin = false;
 			for (const skelton of value) {
 				for (const num of skelton) {
 					if (num==0) {
@@ -26,13 +27,11 @@ export class TetriminoClass {
 					}
 				}
 			}
+			if (!hasOrigin) {
+				throw new Error("A tetrimino doesn't have any origin.");
+			}
 		}
-		if (hasOrigin) {
-			this._skeltonMap = skeltonMap;
-		} else {
-			throw new Error("A tetrimino doesn't have any origin.");
-			
-		}
+		this._skeltonMap = skeltonMap;
 	}
 
 	isTetrimino(str: string): str is Tetrimino {
