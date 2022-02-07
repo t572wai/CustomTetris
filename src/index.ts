@@ -1249,7 +1249,7 @@ function textOfMinoAlone(type: Tetrimino): string {
 		return text;
 	}
 
-	const shape =  currentTetris.tetriminoClass.skeltonMap.get(type);
+	const shape =  gameRuleOption.currentOption.tetriminoClass.skeltonMap.get(type);
 	if (typeof shape !== 'undefined') {
 		const shape_defined = shape as number[][];
 		for (let line of shape_defined) {

@@ -20,8 +20,6 @@ type PhaseType = typeof PhaseTypeUnion[number];
 //
 
 export class Tetris {
-	private _tetriminoClass: TetriminoClass;
-
 	private _bag: Tetrimino[] = [];
 	private _currentPhase: PhaseType = 'notStart';
 
@@ -195,7 +193,7 @@ export class Tetris {
 	}
 	arrangeBag(): void {
 		if (this.shouldArrangeBag()) {
-			const nextMinos = shuffle(this._tetriminoClass.tetriminos);
+			const nextMinos = shuffle(this._gameRule.tetriminoClass.tetriminos);
 			this._bag.concat(nextMinos);
 		}
 	}
@@ -222,11 +220,6 @@ export class Tetris {
 	//
 	// attr
 	//
-	
-	get tetriminoClass() {
-		return this._tetriminoClass;
-	}
-
 	set currentPos(pos: Pos) {
 		this._currentPos = pos;
 	}
@@ -399,7 +392,7 @@ export class Tetris {
 		this._currentMinoType = type;
 		this._currentMinoShape = shape;
 		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
-		this._currentTiles = this._tetriminoClass.getTetriminoShape(shape)!;
+		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
 	}
 
 	reset() {
@@ -462,14 +455,14 @@ export class Tetris {
 	}
 
 	hideCurrentMino() {
-		const emptyMino = this._tetriminoClass.attrMap.getKeysFromValue('empty')[0];
+		const emptyMino = this._gameRule.tetriminoClass.attrMap.getKeysFromValue('empty')[0];
 		const anti = Tetris.replaceMinoType(this._currentTiles, emptyMino);
 		this.updateDiffOfField(anti, 'placed');
 	}
 
 	updateFieldArray(mino: Mino) {
 		this._fieldArray[mino.y][mino.x] = mino.mino;
-		const minoAttr = this._tetriminoClass.attrMap.get(mino.mino as string);
+		const minoAttr = this._gameRule.tetriminoClass.attrMap.get(mino.mino as string);
 		if ( minoAttr == 'wall' || minoAttr == 'block') {
 			this._fieldAttrArray[mino.y][mino.x] = 'filled';
 		}
