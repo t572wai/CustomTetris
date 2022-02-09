@@ -74,6 +74,8 @@ export class Tetris {
 	arrangeToTetris(): void {
 		this.displayMatrix();
 		this.reset();
+		console.log(this._fieldArray);
+		
 	}
 
 	genPhase(): Promise<void> {
@@ -518,9 +520,6 @@ export class Tetris {
 		this._fieldArray = this._gameRule.generateTerrain();
 	}
 	clearField(): void {
-		console.log(this);
-		console.log(this);
-		
 		this.resetField();
 		this.displayAllMinos();
 	}
