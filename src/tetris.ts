@@ -93,10 +93,10 @@ export class Tetris {
 	fallPhase(): Promise<void> {
 		console.log('fallPhase');
 		
-		return new Promise<boolean>((resolve, reject) => {
+		return new Promise<boolean>(async (resolve, reject) => {
 			this._currentPhase = 'fall';
-			resolve(this.fallingPromise());
-			// resolve();
+			await this.fallingPromise();
+			resolve(false);
 		})
 		.then((doHardDrop) => {(doHardDrop)?this.patternPhase():this.lockPhase()});
 	}
@@ -204,18 +204,15 @@ export class Tetris {
 	//
 	// fallPhase
 	//
-	fallingPromise(): Promise<boolean> {
+	fallingPromise(): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			console.log("falling");
-			
 			resolve(this.fall());
 		}).then(()=>{
 			console.log("can fall",this.canFall());
 			
 			if (this.canFall()) {
-				return this.fallingPromise();
-			} else {
-				return false;
+				this.fallingPromise();
 			}
 		})
 	}
