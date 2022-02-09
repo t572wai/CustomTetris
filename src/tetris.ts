@@ -388,13 +388,11 @@ export class Tetris {
 	// various
 	//
 
-	initTetrimino({type,shape=type}:{type:Tetrimino,shape?:Tetrimino}): void {
+	initTetrimino({type,shape}:{type:Tetrimino,shape?:Tetrimino}): void {
 		this._currentMinoType = type;
-		console.log(shape);
-		this._currentMinoShape = shape;
+		this._currentMinoShape = (shape)?shape:type;
 		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
-		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
-		console.log(this._gameRule.tetriminoClass);
+		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape((shape)?shape:type)!;
 	}
 
 	reset() {
