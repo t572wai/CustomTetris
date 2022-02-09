@@ -390,15 +390,11 @@ $(document).on('touched', function (e, x, y) {
 
 
 function onLeft() {
-	// moveToLeft(function (b) {
-	// 	// if(b)restartFall()
-	// })
+	currentTetris.left();
 }
 
 function onRight() {
-	// moveToRight(function (b) {
-	// 	// if(b)restartFall()
-	// })
+	currentTetris.right();
 }
 
 function onSoftDrop(b: boolean) {

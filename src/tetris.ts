@@ -500,29 +500,6 @@ export class Tetris {
 		}
 	}
 
-	// intoTetriMino(value: string): Tetrimino
-	// intoTetriMino(value: string[]): Tetrimino[]
-
-	// intoTetriMino(value: string | string[]): Tetrimino | Tetrimino[] | undefined {
-	// 	if (typeof value === 'string') {
-	// 		console.log(this._gameRule.TetriminoEnum);
-			
-	// 		if (this._gameRule.TetriminoEnum.isEnum(value)) {
-	// 			return value
-	// 		} else {
-	// 			return;
-	// 		}
-	// 	} else {
-	// 		let res: Tetrimino[] = [];
-	// 		for (const str of value) {
-	// 			if (this._gameRule.TetriminoEnum.isEnum(str)) {
-	// 				res.push(str);
-	// 			}
-	// 		}
-	// 		return res;
-	// 	}
-	// }
-
 	setSizeOfMatrix() {
 		//$(':root').style.setProperty()
 		setCssVar('--heightOfMatrix', this._gameRule.matrixHeight.toString());
@@ -549,5 +526,25 @@ export class Tetris {
 		this._followingMinos = [];
 	}
 
+	//
+	// operations
+	//
+	left(): void {
+		if (this.canOperate()) {
+			const didMove = this.move(0,-1);
+			if(didMove)this.onOperating();
+		}
+	}
+	right():void {
+		if (this.canOperate()) {
+			const didMove = this.move(0,1);
+			if(didMove)this.onOperating();
+		}
+	}
 
+	canOperate(): boolean {
+		return this._currentPhase=="fall" || this._currentPhase=="lock";
+	}
+	onOperating(): void {
+	}
 }
