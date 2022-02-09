@@ -31,7 +31,7 @@ export class Tetris {
 
 	private _currentLevel: number = 1;
 	
-	private _currentTiles: Pos[] = [];
+	// private _currentSkeleton: (-1|0|1)[] = [];
 	private _currentMinoType: Tetrimino;
 	private _currentMinoShape: Tetrimino;
 	private _currentPos: Pos = {x:-1,y:-1};
@@ -268,13 +268,14 @@ export class Tetris {
 	}
 
 	currentMinos(): Mino[] {
-		return Tetris.replaceMinoType(this._currentTiles,this._currentMinoType);
+		const minobase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
+		return getMovedMinos(minobase, this._currentPos.x, this._currentPos.y);
 	}
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
 		if (this._fieldAttrArray[tile.y][tile.x] == 'empty') {
 			if ( !this.isTetriminoVisible() ) return true;
-			if ( !this._currentTiles.find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
+			if ( !this.currentMinos().find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 				return true;
 			}
 		}
@@ -393,9 +394,8 @@ export class Tetris {
 		this._currentMinoType = type;
 		this._currentMinoShape = shape;
 		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
-		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
-		console.log(type,shape,this._currentTiles,this._gameRule.tetriminoClass);
-		
+		// this._currentSkeleton = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
+		// console.log(type,shape,this._currentTiles,this._gameRule.tetriminoClass);
 	}
 
 	reset() {
@@ -459,7 +459,7 @@ export class Tetris {
 
 	hideCurrentMino() {
 		const emptyMino = this._gameRule.tetriminoClass.attrMap.getKeysFromValue('empty')[0];
-		const anti = Tetris.replaceMinoType(this._currentTiles, emptyMino);
+		const anti = Tetris.replaceMinoType(this.currentMinos(), emptyMino);
 		this.updateDiffOfField(anti, 'placed');
 	}
 
