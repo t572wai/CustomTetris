@@ -482,6 +482,8 @@ export class Tetris {
 	hideCurrentMino() {
 		const emptyMino = this._gameRule.tetriminoClass.attrMap.getKeysFromValue('empty')[0];
 		const anti = Tetris.replaceMinoType(this.currentMinos(), emptyMino);
+		console.log(anti);
+		
 		this.updateDiffOfField(anti, 'placed');
 	}
 
