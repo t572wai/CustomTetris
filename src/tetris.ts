@@ -27,7 +27,7 @@ export class Tetris {
 	 *  TetriminoClassEnum[y][x] = Tetrimino
 	 */
 	private _fieldArray: Tetrimino[][] = [];
-	private _fieldAttrArray: TileAttrs[][] = [];
+	// private _fieldAttrArray: TileAttrs[][] = [];
 
 	private _currentLevel: number = 1;
 	
@@ -275,7 +275,7 @@ export class Tetris {
 	}
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
-		if (this._fieldAttrArray[tile.y][tile.x] == 'empty') {
+		if (this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) == 'empty') {
 			if ( !this.isTetriminoVisible() ) return true;
 			if ( !this.currentMinos().find((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 				return true;
@@ -468,9 +468,9 @@ export class Tetris {
 	updateFieldArray(mino: Mino) {
 		this._fieldArray[mino.y][mino.x] = mino.mino;
 		const minoAttr = this._gameRule.tetriminoClass.attrMap.get(mino.mino as string);
-		if ( minoAttr == 'wall' || minoAttr == 'block') {
-			this._fieldAttrArray[mino.y][mino.x] = 'filled';
-		}
+		// if ( minoAttr == 'wall' || minoAttr == 'block') {
+		// 	this._fieldAttrArray[mino.y][mino.x] = 'filled';
+		// }
 	}
 
 	updateDiffOfField(diff: Mino[], blockType: BlockType) {
