@@ -211,8 +211,14 @@ export class Tetris {
 		}
 	}
 	
-	fall(): void {
-		this._timerToFall.setTimeout()
+	fall(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			this._timerToFall = new TimerAbleToEsc(()=>{
+									this.move(0,1);
+									resolve();
+								}, this.getFallingSpeed(this._currentLevel));
+			this._timerToFall.setTimeout();
+		})
 	}
 
 	canFall(): boolean {
