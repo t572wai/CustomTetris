@@ -531,13 +531,13 @@ export class Tetris {
 	//
 	left(): void {
 		if (this.canOperate()) {
-			const didMove = this.move(0,-1);
+			const didMove = this.move(-1,0);
 			if(didMove)this.onOperating();
 		}
 	}
 	right():void {
 		if (this.canOperate()) {
-			const didMove = this.move(0,1);
+			const didMove = this.move(1,0);
 			if(didMove)this.onOperating();
 		}
 	}
