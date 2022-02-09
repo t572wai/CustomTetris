@@ -393,6 +393,7 @@ export class Tetris {
 		this._currentMinoShape = shape;
 		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
 		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
+		console.log(this._gameRule.tetriminoClass.getTetriminoShape(shape));
 	}
 
 	reset() {
