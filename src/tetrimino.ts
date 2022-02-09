@@ -73,11 +73,19 @@ export class TetriminoClass {
 
 	getTetriminoHeight(type: Tetrimino):number {
 		const shape = this._skeltonMap.get(type);
-		return shape!.length;
+		return (shape)?shape.length:0;
 	}
 	getTetriminoWidth(type: Tetrimino): number {
 		const shape = this._skeltonMap.get(type);
-		return shape![0].length;
+		if (shape) {
+			if (shape[0]) {
+				return shape[0].length;
+			} else {
+				return 0;
+			}
+		} else {
+			return 0;
+		}
 	}
 
 	getMaxTetriminoHeight():number {
