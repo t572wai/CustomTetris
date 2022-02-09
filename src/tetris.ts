@@ -301,6 +301,8 @@ export class Tetris {
 	}
 
 	isTetriminoVisible(): boolean {
+		console.log(this._currentPhase=='fall'||this._currentPhase=='lock');
+		
 		return this._currentPhase=='fall'||this._currentPhase=='lock';
 	}
 
