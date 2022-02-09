@@ -210,7 +210,7 @@ export class Tetris {
 			
 			resolve(this.fall());
 		}).then(()=>{
-			console.log(this.canFall());
+			console.log("can fall",this.canFall());
 			
 			if (this.canFall()) {
 				this.fallingPromise();
@@ -301,7 +301,7 @@ export class Tetris {
 	}
 
 	isTetriminoVisible(): boolean {
-		console.log(this._currentPhase=='fall'||this._currentPhase=='lock');
+		console.log("is visible",this._currentPhase=='fall'||this._currentPhase=='lock');
 		
 		return this._currentPhase=='fall'||this._currentPhase=='lock';
 	}
