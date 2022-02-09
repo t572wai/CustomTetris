@@ -204,11 +204,12 @@ export class Tetris {
 		await new Promise<void>((resolve, reject) => {
 			console.log("falling");
 			resolve(this.fall());
-		});
-		console.log("can fall", this.canFall());
-		if (this.canFall()) {
-			this.fallingPromise();
-		}
+		}).then(() => {
+			console.log("can fall", this.canFall());
+			if (this.canFall()) {
+				this.fallingPromise();
+			}
+		})
 	}
 	
 	fall(): Promise<void> {
