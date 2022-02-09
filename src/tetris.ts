@@ -411,7 +411,7 @@ export class Tetris {
 	initTetrimino({type,shape=type}:{type:Tetrimino,shape?:Tetrimino}): void {
 		this._currentMinoType = type;
 		this._currentMinoShape = shape;
-		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
+		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:this._gameRule.bufferHeight-1};
 		// this._currentSkeleton = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
 		// console.log(type,shape,this._currentTiles,this._gameRule.tetriminoClass);
 	}
@@ -466,7 +466,7 @@ export class Tetris {
 	move(dx: number, dy: number): boolean {
 		const following = getMovedMinos(this.currentMinos(),dx,dy);
 		if (this.canMove(following)) {
-			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y};
+			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
 			this.relocate(following);
 			return true;
 		} else {
