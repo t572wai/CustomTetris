@@ -297,7 +297,7 @@ export class Tetris {
 		return false;
 	}
 	isOutOfField(x: number, y: number): boolean {
-		return (x>=0 && x<=this._gameRule.fieldWidth && y>=0 && y<=this._gameRule.fieldHeight);
+		return (x<0 || x>=this._gameRule.fieldWidth || y<0 || y>=this._gameRule.fieldHeight);
 	}
 
 	isTetriminoVisible(): boolean {
