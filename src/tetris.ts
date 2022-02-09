@@ -78,105 +78,101 @@ export class Tetris {
 		
 	}
 
-	genPhase(): Promise<void> {
+	async genPhase(): Promise<void> {
 		console.log('genPhase');
 		
-		return new Promise<void>((resolve, reject) => {
-			
+		await new Promise<void>((resolve, reject) => {
+
 			this._currentPhase = 'gen';
 			this.arrangeBag();
 			this.placeToStartPos();
 			resolve();
-		})
-		.then(() => {this.fallPhase()});
+		});
+		this.fallPhase();
 	}
-	fallPhase(): Promise<void> {
+	async fallPhase(): Promise<void> {
 		console.log('fallPhase');
 		
-		return new Promise<boolean>(async (resolve, reject) => {
+		const doHardDrop = await new Promise<boolean>(async (resolve, reject) => {
 			this._currentPhase = 'fall';
 			await this.fallingPromise();
 			resolve(false);
-		})
-		.then((doHardDrop) => {(doHardDrop)?this.patternPhase():this.lockPhase()});
+		});
+		(doHardDrop) ? this.patternPhase() : this.lockPhase();
 	}
-	lockPhase(): Promise<void> {
+	async lockPhase(): Promise<void> {
 		console.log('lockPhase');
 		
-		return new Promise<
-			{isMoved:boolean,isThereSpaceToFall:boolean,didResetLockDownTimer:boolean}
+		const { isMoved, isThereSpaceToFall, didResetLockDownTimer } = await new Promise<
+			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
-			resolve({isMoved:false,isThereSpaceToFall:true,didResetLockDownTimer:false});
-		})
-		.then(({isMoved,isThereSpaceToFall,didResetLockDownTimer}) => {
-			if (isMoved) {
-				if (isThereSpaceToFall) {
-					this.fallPhase();
-				} else {
-					if (didResetLockDownTimer) {
-						this.lockPhase();
-					} else {
-						this.patternPhase();
-					}
-				}
-			} else {
-				this.patternPhase();
-			}
+			resolve({ isMoved: false, isThereSpaceToFall: true, didResetLockDownTimer: false });
 		});
+		if (isMoved) {
+			if (isThereSpaceToFall) {
+				this.fallPhase();
+			} else {
+				if (didResetLockDownTimer) {
+					this.lockPhase();
+				} else {
+					this.patternPhase();
+				}
+			}
+		} else {
+			this.patternPhase();
+		}
 	}
-	patternPhase(): Promise<void> {
+	async patternPhase(): Promise<void> {
 		console.log('patternPhase');
 		
-		return new Promise<boolean>((resolve, reject) => {
+		const didPatternMatch = await new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'pattern';
 			resolve(false);
-		})
-		.then((didPatternMatch) => {
-			if(didPatternMatch) {
-				this.markBlockForDestruction()
-			} else {
-				this.iteratePhase()
-			}
 		});
+		if (didPatternMatch) {
+			this.markBlockForDestruction();
+		} else {
+			this.iteratePhase();
+		}
 	}
-	markBlockForDestruction(): Promise<void> {
+	async markBlockForDestruction(): Promise<void> {
 		console.log('markBlockForDestruction');
 		
-		return new Promise<void>((resolve, reject) => {resolve()})
-					.then(() => this.iteratePhase());
+		await new Promise<void>((resolve, reject) => { resolve(); });
+		return await this.iteratePhase();
 	}
-	iteratePhase(): Promise<void> {
+	async iteratePhase(): Promise<void> {
 		console.log('iteratePhase');
 		
-		return new Promise<void>((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'iterate';
-		})
-					.then(() => this.animatePhase());
+		});
+		return await this.animatePhase();
 	}
-	animatePhase(): Promise<void> {
+	async animatePhase(): Promise<void> {
 		console.log('animatePhase');
 		
-		return new Promise<void>((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'animate';
-		})
-					.then(() => this.eliminatePhase());
+		});
+		return await this.eliminatePhase();
 	}
-	eliminatePhase(): Promise<void> {
+	async eliminatePhase(): Promise<void> {
 		console.log('eliminatePhase');
 		
-		return new Promise<void>((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
-		})
-					.then(() => this.completionPhase());
+		});
+		return await this.completionPhase();
 	}
-	completionPhase(): Promise<void> {
+	async completionPhase(): Promise<void> {
 		console.log('completionPhase');
 		
-		return new Promise<void>((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'completion';
-		})
-					.then(() => this.genPhase());
+		});
+		return await this.genPhase();
 	}
 
 	// 
@@ -204,17 +200,15 @@ export class Tetris {
 	//
 	// fallPhase
 	//
-	fallingPromise(): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
+	async fallingPromise(): Promise<void> {
+		await new Promise<void>((resolve, reject) => {
 			console.log("falling");
 			resolve(this.fall());
-		}).then(()=>{
-			console.log("can fall",this.canFall());
-			
-			if (this.canFall()) {
-				this.fallingPromise();
-			}
-		})
+		});
+		console.log("can fall", this.canFall());
+		if (this.canFall()) {
+			this.fallingPromise();
+		}
 	}
 	
 	fall(): void {
@@ -282,8 +276,8 @@ export class Tetris {
 	}
 
 	currentMinos(): Mino[] {
-		const minobase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
-		return getMovedMinos(minobase, this._currentPos.x, this._currentPos.y);
+		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
+		return getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y);
 	}
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
