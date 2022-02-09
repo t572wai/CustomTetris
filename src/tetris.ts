@@ -95,8 +95,8 @@ export class Tetris {
 		
 		return new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'fall';
-			this.fallingPromise();
-			resolve(false);
+			resolve(this.fallingPromise());
+			// resolve();
 		})
 		.then((doHardDrop) => {(doHardDrop)?this.patternPhase():this.lockPhase()});
 	}
@@ -204,7 +204,7 @@ export class Tetris {
 	//
 	// fallPhase
 	//
-	fallingPromise(): Promise<void> {
+	fallingPromise(): Promise<boolean> {
 		return new Promise<void>((resolve, reject) => {
 			console.log("falling");
 			
@@ -213,7 +213,9 @@ export class Tetris {
 			console.log("can fall",this.canFall());
 			
 			if (this.canFall()) {
-				this.fallingPromise();
+				return this.fallingPromise();
+			} else {
+				return false;
 			}
 		})
 	}
