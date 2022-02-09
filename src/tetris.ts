@@ -193,8 +193,9 @@ export class Tetris {
 	}
 	arrangeBag(): void {
 		if (this.shouldArrangeBag()) {
+			console.log('arrange bag');
 			const nextMinos = shuffle(this._gameRule.tetriminoClass.tetriminos);
-			this._bag.concat(nextMinos);
+			this._bag = this._bag.concat(nextMinos);
 		}
 	}
 	
@@ -388,11 +389,11 @@ export class Tetris {
 	// various
 	//
 
-	initTetrimino({type,shape}:{type:Tetrimino,shape?:Tetrimino}): void {
+	initTetrimino({type,shape=type}:{type:Tetrimino,shape?:Tetrimino}): void {
 		this._currentMinoType = type;
-		this._currentMinoShape = (shape)?shape:type;
+		this._currentMinoShape = shape;
 		this._currentPos = {x:Math.floor(this._gameRule.matrixWidth/2),y:1};
-		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape((shape)?shape:type)!;
+		this._currentTiles = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
 		console.log(type,shape,this._currentTiles,this._gameRule.tetriminoClass);
 		
 	}
