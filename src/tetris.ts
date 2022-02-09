@@ -210,6 +210,8 @@ export class Tetris {
 			
 			resolve(this.fall());
 		}).then(()=>{
+			console.log(this.canFall());
+			
 			if (this.canFall()) {
 				this.fallingPromise();
 			}
