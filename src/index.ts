@@ -568,15 +568,15 @@ const StackingForPerfect: GameRule = new GameRuleNormal({
 	},
 	arrangeFirstSituation: () => {
 		currentTetris.holdMinoType = 'i'
-		displayHold()
+		currentTetris.displayHold()
 	},
 	arrangeSituation: () => {
 		if (currentTetris.totalFallenTetrimino%4==0) {
 			currentTetris.holdMinoType = 'i';
 			currentTetris.fieldArray = StackingForPerfect.generateTerrain();
 			currentTetris.displayAllMinos()
-			displayHold()
-			currentTetris.followingMinos = [];
+			currentTetris.displayHold()
+			currentTetris.bag = [];
 		}
 	}
 })
@@ -665,11 +665,11 @@ const WantToTSpin = new GameRuleNormal({
 
 	},
 	arrangeFirstSituation: () => {
-		currentTetris.followingMinos = ['t','t','t','t','t','t','t'];
+		currentTetris.bag = ['t','t','t','t','t','t','t'];
 		WantToTSpin.data = Math.floor(Math.random() * 3);
 	},
 	arrangeSituation: () => {
-		currentTetris.followingMinos = ['t','t','t','t','t','t','t'];
+		currentTetris.bag = ['t','t','t','t','t','t','t'];
 		let loopNum;
 		console.log(WantToTSpin.data);
 		switch (WantToTSpin.data) {
@@ -725,11 +725,11 @@ const LElevator = new GameRuleNormal({
 		])
 	},
 	arrangeFirstSituation: () => {
-		currentTetris.followingMinos = ['l','l','l','l','l','l','l'];
+		currentTetris.bag = ['l','l','l','l','l','l','l'];
 		currentTetris.holdMinoType = 'l';
 	},
 	arrangeSituation: () => {
-		currentTetris.followingMinos = ['l','l','l','l','l','l','l'];
+		currentTetris.bag = ['l','l','l','l','l','l','l'];
 	},
 	isAllowedOperation: () => {
 		return true;
@@ -1206,72 +1206,72 @@ function textOfButtonsToOperate(): string {
 	return text;
 }
 
-function displayNext(): void {
-	$('#nextArea').html(textOfNext())
-}
+// function displayNext(): void {
+// 	$('#nextArea').html(textOfNext())
+// }
 
-function textOfNext(): string {
-	let text = "<p id='nextHead'>Next</p>";
-	for (let i = 0; i < gameRuleOption.currentOption.nextNum; i++) {
-		if(typeof currentTetris.followingMinos[i] !== 'undefined') {
-			text += textOfMinoAlone(currentTetris.followingMinos[i] as Tetrimino);
-		}
-	}
-	return text;
-}
+// function textOfNext(): string {
+// 	let text = "<p id='nextHead'>Next</p>";
+// 	for (let i = 0; i < gameRuleOption.currentOption.nextNum; i++) {
+// 		if(typeof currentTetris.bag[i] !== 'undefined') {
+// 			text += textOfMinoAlone(currentTetris.bag[i] as Tetrimino);
+// 		}
+// 	}
+// 	return text;
+// }
 
-function displayHold(): void {
-	$('#holdArea').html(textOfHold())
-}
+// function displayHold(): void {
+// 	$('#holdArea').html(textOfHold())
+// }
 
-function textOfHold(): string {
-	const hold = currentTetris.holdMinoType;
-	if (TetriminoNormal.isTetrimino(hold)) {
-		let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(hold);
-		return text;
-	} else {
-		return "";
-	}
-}
+// function textOfHold(): string {
+// 	const hold = currentTetris.holdMinoType;
+// 	if (TetriminoNormal.isTetrimino(hold)) {
+// 		let text = "<p id='holdHead'>hold</p>"+textOfMinoAlone(hold);
+// 		return text;
+// 	} else {
+// 		return "";
+// 	}
+// }
 
-function textOfMinoAlone(type: Tetrimino): string {
-	// console.log(type);
-	let text = "<div class='displayers'>";
-	if (!type || type=='empty') {
-		for (var i = 0; i < 8; i++) {
-			text += '<div class="minos emptyMinos"></div>'
-		}
-		text + '</div>'
-		return text;
-	}
+// function textOfMinoAlone(type: Tetrimino): string {
+// 	// console.log(type);
+// 	let text = "<div class='displayers'>";
+// 	if (!type || type=='empty') {
+// 		for (var i = 0; i < 8; i++) {
+// 			text += '<div class="minos emptyMinos"></div>'
+// 		}
+// 		text + '</div>'
+// 		return text;
+// 	}
 
-	const shape =  gameRuleOption.currentOption.tetriminoClass.skeltonMap.get(type);
-	if (typeof shape !== 'undefined') {
-		const shape_defined = shape as number[][];
-		for (let line of shape_defined) {
-			if (type != 'i') {
-				if (type == 'o') {
-					text += '<div class="minos emptyMinos"></div>'
-					text += '<div class="minos emptyMinos"></div>'
-				} else {
-					text += '<div class="minos emptyMinos"></div>'
-				}
-			}
-			for (let tile of line) {
-				if (tile==-1) {
-					text += '<div class="minos emptyMinos"></div>'
-				} else {
-					text += '<div class="minos '+type+'Minos"></div>'
-				}
-			}
-		}
-	}
-	if (type=='i') {
-		text += '<div class="minos emptyMinos"></div><div class="minos emptyMinos"></div><div class="minos emptyMinos"></div><div class="minos emptyMinos"></div>'
-	}
-	text += '</div>'
-	return text;
-}
+// 	const shape =  gameRuleOption.currentOption.tetriminoClass.skeltonMap.get(type);
+// 	if (typeof shape !== 'undefined') {
+// 		const shape_defined = shape as number[][];
+// 		for (let line of shape_defined) {
+// 			if (type != 'i') {
+// 				if (type == 'o') {
+// 					text += '<div class="minos emptyMinos"></div>'
+// 					text += '<div class="minos emptyMinos"></div>'
+// 				} else {
+// 					text += '<div class="minos emptyMinos"></div>'
+// 				}
+// 			}
+// 			for (let tile of line) {
+// 				if (tile==-1) {
+// 					text += '<div class="minos emptyMinos"></div>'
+// 				} else {
+// 					text += '<div class="minos '+type+'Minos"></div>'
+// 				}
+// 			}
+// 		}
+// 	}
+// 	if (type=='i') {
+// 		text += '<div class="minos emptyMinos"></div><div class="minos emptyMinos"></div><div class="minos emptyMinos"></div><div class="minos emptyMinos"></div>'
+// 	}
+// 	text += '</div>'
+// 	return text;
+// }
 
 function displayScoreArea(): void {
 	$('#scoreArea').html(textOfScoreArea())

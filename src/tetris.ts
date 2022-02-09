@@ -244,6 +244,12 @@ export class Tetris {
 	set currentPos(pos: Pos) {
 		this._currentPos = pos;
 	}
+	get bag() {
+		return this._bag;
+	}
+	set bag(tetriminos: Tetrimino[]) {
+		this._bag = tetriminos;
+	}
 
 	// get followingMinos() {
 	// 	return this._followingMinos;
