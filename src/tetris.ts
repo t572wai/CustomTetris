@@ -37,7 +37,7 @@ export class Tetris {
 	private _currentPos: Pos = {x:-1,y:-1};
 	private _ghostMinos: Mino[];
 
-	private _followingMinos: Tetrimino[];
+	// private _followingMinos: Tetrimino[];
 	
 	private _gameRule: GameRule;
 	
@@ -245,12 +245,12 @@ export class Tetris {
 		this._currentPos = pos;
 	}
 
-	get followingMinos() {
-		return this._followingMinos;
-	}
-	set followingMinos(minos: Tetrimino[]) {
-		this._followingMinos = minos;
-	}
+	// get followingMinos() {
+	// 	return this._followingMinos;
+	// }
+	// set followingMinos(minos: Tetrimino[]) {
+	// 	this._followingMinos = minos;
+	// }
 
 	get isPausing(): boolean {
 		return this._isPausing;
@@ -414,9 +414,9 @@ export class Tetris {
 	textOfNext(): string {
 		let text = "<p id='nextHead'>Next</p>";
 		for (let i = 0; i < this._gameRule.nextNum; i++) {
-			console.log(this._followingMinos[i]);
-			if(typeof this._followingMinos[i] !== 'undefined') {
-				text += this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._followingMinos[i] as Tetrimino);
+			console.log(this._bag[i]);
+			if(typeof this._bag[i] !== 'undefined') {
+				text += this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._bag[i] as Tetrimino);
 			}
 		}
 		return text;
@@ -548,7 +548,7 @@ export class Tetris {
 		// this._holdMinoType = this.intoTetriMino( getMinosByAttr("empty")[0]);
 	}
 	clearNextQueue() {
-		this._followingMinos = [];
+		this._bag = [];
 	}
 
 	//
