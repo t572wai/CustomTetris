@@ -147,6 +147,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'iterate';
+			resolve();
 		});
 		return await this.animatePhase();
 	}
@@ -155,6 +156,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'animate';
+			resolve();
 		});
 		return await this.eliminatePhase();
 	}
@@ -163,6 +165,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
+			resolve();
 		});
 		return await this.completionPhase();
 	}
@@ -171,6 +174,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'completion';
+			resolve();
 		});
 		return await this.genPhase();
 	}
