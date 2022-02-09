@@ -467,8 +467,8 @@ export class Tetris {
 	move(dx: number, dy: number): boolean {
 		const following = getMovedMinos(this.currentMinos(),dx,dy);
 		if (this.canMove(following)) {
-			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
 			this.relocate(following);
+			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
 			return true;
 		} else {
 			return false;
@@ -482,7 +482,6 @@ export class Tetris {
 	hideCurrentMino() {
 		const emptyMino = this._gameRule.tetriminoClass.attrMap.getKeysFromValue('empty')[0];
 		const anti = Tetris.replaceMinoType(this.currentMinos(), emptyMino);
-		console.log(anti);
 		
 		this.updateDiffOfField(anti, 'placed');
 	}
