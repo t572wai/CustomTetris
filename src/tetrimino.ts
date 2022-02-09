@@ -70,4 +70,61 @@ export class TetriminoClass {
 			return null;
 		}
 	}
+
+	getTetriminoHeight(type: Tetrimino):number {
+		const shape = this._skeltonMap.get(type);
+		return shape!.length;
+	}
+	getTetriminoWidth(type: Tetrimino): number {
+		const shape = this._skeltonMap.get(type);
+		return shape![0].length;
+	}
+
+	getMaxTetriminoHeight():number {
+		let maxHeight = 0;
+		for (const tetrimino of this._tetriminos) {
+			const height = this.getTetriminoHeight(tetrimino);
+			if (maxHeight < height)maxHeight = height;
+		}
+		return maxHeight;
+	}
+	getMaxTetriminoWidth():number {
+		let maxWidth = 0;
+		for (const tetrimino of this._tetriminos) {
+			const width = this.getTetriminoWidth(tetrimino);
+			if (maxWidth < width)maxWidth = width;
+		}
+		return maxWidth;
+	}
+
+	getStandaloneTetriminoText(type: Tetrimino):string {
+		let text = "<div class='displayers'>";
+		for (const rows of this.getStandaloneTetriminoArray(type)) {
+			for (const num of rows) {
+				if (num==-1) {
+					text += '<div class="minos emptyMinos"></div>';
+				} else {
+					text += '<div class="minos '+type+'Minos"></div>';
+				}
+			}
+		}
+		text += "</div>";
+		return text;
+	}
+	getStandaloneTetriminoArray(type: Tetrimino):(-1|0|1)[][] {
+		let res = [] as (-1|0|1)[][];
+		const maxHeight = this.getMaxTetriminoHeight();
+		const maxWidth = this.getMaxTetriminoWidth();
+		for (const rows of this._skeltonMap.get(type)!) {
+			if (rows.length < maxWidth) {
+				res.push(rows.concat(new Array(maxWidth-rows.length).fill(-1)));
+			} else {
+				res.push(rows);
+			}
+		}
+		if (res.length < maxHeight) {
+			res = res.concat(new Array(maxHeight-res.length).fill(new Array(maxWidth).fill(-1)));
+		}
+		return res;
+	}
 }

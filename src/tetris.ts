@@ -188,6 +188,8 @@ export class Tetris {
 		this.arrangeBag();
 		this.initTetrimino({'type':this._bag[0]});
 		this._bag.shift();
+		this.displayNext();
+		this.displayHold();
 		this.displayMino(this.currentMinos(),'falling');
 	}
 	
@@ -404,6 +406,29 @@ export class Tetris {
 
 	removeGhostMino(mino: Mino | Pos): void {
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
+	}
+
+	displayNext(): void {
+		$('#nextArea').html(this.textOfNext())
+	}
+	textOfNext(): string {
+		let text = "<p id='nextHead'>Next</p>";
+		for (let i = 0; i < this._gameRule.nextNum; i++) {
+			console.log(this._followingMinos[i]);
+			if(typeof this._followingMinos[i] !== 'undefined') {
+				text += this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._followingMinos[i] as Tetrimino);
+			}
+		}
+		return text;
+	}
+
+	displayHold(): void {
+		$('#holdArea').html(this.textOfHold())
+	}
+
+	textOfHold(): string {
+		let text = "<p id='holdHead'>hold</p>"+this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._holdMinoType);
+		return text;
 	}
 
 	//
