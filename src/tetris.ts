@@ -36,6 +36,7 @@ export class Tetris {
 	private _currentMinoShape: Tetrimino;
 	private _currentPos: Pos = {x:-1,y:-1};
 	private _ghostMinos: Mino[];
+	private _ghostPos: Pos;
 
 	// private _followingMinos: Tetrimino[];
 	
@@ -46,6 +47,7 @@ export class Tetris {
 	private _totalFallenTetrimino: number = 0;
 	
 	private _score: Map<Action, number>;
+
 	
 	private _timerToFall: TimerAbleToEsc
 	= new TimerAbleToEsc(()=>{
@@ -55,6 +57,8 @@ export class Tetris {
 	
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
+
+	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void;
 
 	private _holdMinoType: Tetrimino;
 	
@@ -207,13 +211,18 @@ export class Tetris {
 	//
 	// fallPhase
 	//
-	async fallingPromise(): Promise<void> {
-		await new Promise<void>((resolve, reject) => {
-			resolve(this.fall());
+	async fallingPromise(): Promise<boolean> {
+		return await new Promise<void>(async (resolve, reject) => {
+			await this.fall();
+			resolve();
 		}).then(async () => {
-			if (this.canFall()) {
-				await this.fallingPromise();
-			}
+			return new Promise<boolean>(async (resolve, reject) => {
+				this._hardDropFunc = resolve;
+				if (this.canFall()) {
+					resolve(await this.fallingPromise());
+				}
+				resolve(false);
+			})
 		})
 	}
 	
@@ -497,6 +506,8 @@ export class Tetris {
 		if (this.canMove(following)) {
 			this.relocate(following);
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
+			this.updateGhost();
+			this.displayGhostMinos();
 			return true;
 		} else {
 			return false;
@@ -529,6 +540,26 @@ export class Tetris {
 				this.updateFieldArray(mino);
 			}
 		}
+	}
+
+	updateGhost(): number {
+		let hightOfAbleToDrop = 0;
+		while (true) {
+			if (!this.canMove(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1))) {
+				break;
+			} else {
+				hightOfAbleToDrop++;
+			}
+		}
+		if (hightOfAbleToDrop == 0) {
+			this._ghostMinos = []
+			this._ghostPos = {x:-1, y:-1}
+		} else {
+			this._ghostMinos = getMovedMinos(this.currentMinos(),0, hightOfAbleToDrop);
+			this._ghostPos = {x:this._currentPos.x,y:this._currentPos.y+hightOfAbleToDrop}
+		}
+		// console.log(hightOfAbleToDrop, ghostPos);
+		return hightOfAbleToDrop;
 	}
 
 	setSizeOfMatrix() {
@@ -570,6 +601,12 @@ export class Tetris {
 		if (this.canOperate()) {
 			const didMove = this.move(1,0);
 			if(didMove)this.onOperating();
+		}
+	}
+
+	hardDrop(): void {
+		if (this.canOperate()) {
+			this._hardDropFunc(true);
 		}
 	}
 
