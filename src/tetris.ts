@@ -35,8 +35,8 @@ export class Tetris {
 	private _currentMinoType: Tetrimino;
 	private _currentMinoShape: Tetrimino;
 	private _currentPos: Pos = {x:-1,y:-1};
-	private _ghostMinos: Mino[];
-	private _ghostPos: Pos;
+	private _ghostMinos: Mino[] = [];
+	private _ghostPos: Pos = {x:-1,y:-1};
 
 	// private _followingMinos: Tetrimino[];
 	
@@ -46,7 +46,7 @@ export class Tetris {
 
 	private _totalFallenTetrimino: number = 0;
 	
-	private _score: Map<Action, number>;
+	private _score: Map<Action, number> = new Map();
 
 	
 	private _timerToFall: TimerAbleToEsc
