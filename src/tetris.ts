@@ -615,8 +615,16 @@ export class Tetris {
 
 	hardDrop(): void {
 		if (this.canOperate()) {
+			this._timerToFall.clearTimeout();
 			this.move(this._ghostPos.x-this._currentPos.x, this._ghostPos.y-this._currentPos.y);
 			this._hardDropFunc(true);
+		}
+	}
+	softDrop(b:boolean):void {
+		if (b) {
+			this._isSoftDrop = true;
+		} else {
+			this._isSoftDrop = false;
 		}
 	}
 

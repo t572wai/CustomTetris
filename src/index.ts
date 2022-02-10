@@ -398,7 +398,7 @@ function onRight() {
 }
 
 function onSoftDrop(b: boolean) {
-	// softDrop(b)
+	currentTetris.softDrop(b)
 }
 
 function onHardDrop() {
