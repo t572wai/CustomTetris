@@ -123,11 +123,14 @@ export class TetriminoClass {
 		let res = [] as (-1|0|1)[][];
 		const maxHeight = this.getMaxTetriminoHeight();
 		const maxWidth = this.getMaxTetriminoWidth();
-		for (const rows of this._skeltonMap.get(type)!) {
-			if (rows.length < maxWidth) {
-				res.push(rows.concat(new Array(maxWidth-rows.length).fill(-1)));
-			} else {
-				res.push(rows);
+		const skeleton = this._skeltonMap.get(type);
+		if (skeleton) {
+			for (const rows of this._skeltonMap.get(type)!) {
+				if (rows.length < maxWidth) {
+					res.push(rows.concat(new Array(maxWidth-rows.length).fill(-1)));
+				} else {
+					res.push(rows);
+				}
 			}
 		}
 		if (res.length < maxHeight) {
