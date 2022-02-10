@@ -213,19 +213,23 @@ export class Tetris {
 	// fallPhase
 	//
 	async fallingPromise(): Promise<boolean> {
-		return await new Promise<void>(async (resolve, reject) => {
+		return await new Promise<boolean>(async (resolve, reject) => {
 			console.log("falling");
 			
+			this._hardDropFunc = resolve;
 			await this.fall();
-			resolve();
-		}).then(async () => {
-			return new Promise<boolean>(async (resolve, reject) => {
-				this._hardDropFunc = resolve;
-				if (this.canFall()) {
-					resolve(await this.fallingPromise());
-				}
-				resolve(false);
-			})
+			resolve(false);
+		}).then(async (bool) => {
+			if (bool) {
+				return true;
+			} else {
+				return new Promise<boolean>(async (resolve, reject) => {
+					if (this.canFall()) {
+						resolve(await this.fallingPromise());
+					}
+					resolve(false);
+				})
+			}
 		})
 	}
 	
