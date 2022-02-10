@@ -214,6 +214,8 @@ export class Tetris {
 	//
 	async fallingPromise(): Promise<boolean> {
 		return await new Promise<void>(async (resolve, reject) => {
+			console.log("falling");
+			
 			await this.fall();
 			resolve();
 		}).then(async () => {
