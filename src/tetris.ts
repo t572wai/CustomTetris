@@ -132,6 +132,7 @@ export class Tetris {
 		
 		const didPatternMatch = await new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'pattern';
+			this.removeGhostMinos();
 			resolve(false);
 		});
 		if (didPatternMatch) {
@@ -506,8 +507,7 @@ export class Tetris {
 		if (this.canMove(following)) {
 			this.relocate(following);
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
-			this.updateGhost();
-			this.displayGhostMinos();
+			this.relocateGhost();
 			return true;
 		} else {
 			return false;
@@ -560,6 +560,11 @@ export class Tetris {
 		}
 		// console.log(hightOfAbleToDrop, ghostPos);
 		return hightOfAbleToDrop;
+	}
+	relocateGhost(): void {
+		this.removeGhostMinos();
+		this.updateGhost();
+		this.displayGhostMinos();
 	}
 
 	setSizeOfMatrix() {
