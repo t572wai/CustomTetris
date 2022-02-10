@@ -611,6 +611,7 @@ export class Tetris {
 
 	hardDrop(): void {
 		if (this.canOperate()) {
+			this.move(this._ghostPos.x-this._currentPos.x, this._ghostPos.y-this._currentPos.y);
 			this._hardDropFunc(true);
 		}
 	}

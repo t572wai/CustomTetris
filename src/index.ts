@@ -402,7 +402,7 @@ function onSoftDrop(b: boolean) {
 }
 
 function onHardDrop() {
-	// hardDrop()
+	currentTetris.hardDrop();
 }
 
 function onRightRotation() {
