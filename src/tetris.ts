@@ -104,7 +104,9 @@ export class Tetris {
 		const doHardDrop = await new Promise<boolean>(async (resolve, reject) => {
 			this._currentPhase = 'fall';
 			this._timerToFall.clearTimeout();
-			await this.fallingPromise();
+			if (this.canFall()) {
+				await this.fallingPromise();
+			}
 			resolve(false);
 		});
 		(doHardDrop) ? this.patternPhase() : this.lockPhase();
