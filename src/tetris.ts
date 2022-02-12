@@ -60,7 +60,7 @@ export class Tetris {
 
 	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void = ()=>{};
 
-	private _numOfOperations: number = 0;
+	private _numOfOperationsInLockDownPhase: number = 0;
 	private _onOperationFunc: (value: { isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; } | PromiseLike<{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }>) => void = ()=>{};
 
 	private _holdMinoType: Tetrimino;
@@ -116,6 +116,7 @@ export class Tetris {
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
+			this._numOfOperationsInLockDownPhase = 0;
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
 			this._lockDownTimer.endCb = () => {
@@ -650,11 +651,11 @@ export class Tetris {
 		return this._currentPhase=="fall" || this._currentPhase=="lock";
 	}
 	onOperating(): void {
-		this._numOfOperations++;
+		this._numOfOperationsInLockDownPhase++;
 		this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 	}
 
 	shouldResetLockDownTimer(): boolean {
-		return this._numOfOperations > 15;
+		return this._numOfOperationsInLockDownPhase > 15;
 	}
 }
