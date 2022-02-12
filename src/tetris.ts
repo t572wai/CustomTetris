@@ -60,6 +60,9 @@ export class Tetris {
 
 	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void;
 
+	private _numOfOperations: number = 0;
+	private _onOperationFunc: (value: { isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; } | PromiseLike<{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }>) => void;
+
 	private _holdMinoType: Tetrimino;
 	
 	constructor(gameRule: GameRule) {
@@ -107,17 +110,29 @@ export class Tetris {
 	async lockPhase(): Promise<void> {
 		console.log('lockPhase');
 		
-		const { isMoved, isThereSpaceToFall, didResetLockDownTimer } = await new Promise<
+		const { isMoved, isThereSpaceToFall, didResetLockDownTimer } = 
+		await new Promise<
+		// void
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
-			resolve({ isMoved: false, isThereSpaceToFall: true, didResetLockDownTimer: false });
-		});
+			this._lockDownTimer.clearTimeout();
+			this._lockDownTimer.endCb = () => {
+				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
+			}
+			this._onOperationFunc = resolve;
+		// 	resolve(
+		// 		// { isMoved: false, isThereSpaceToFall: true, didResetLockDownTimer: false });}
+		// );
+			})
+		
 		if (isMoved) {
 			if (isThereSpaceToFall) {
+				this._lockDownTimer.clearTimeout();
 				this.fallPhase();
 			} else {
 				if (didResetLockDownTimer) {
+					this._lockDownTimer.clearTimeout();
 					this.lockPhase();
 				} else {
 					this.patternPhase();
@@ -632,5 +647,11 @@ export class Tetris {
 		return this._currentPhase=="fall" || this._currentPhase=="lock";
 	}
 	onOperating(): void {
+		this._numOfOperations++;
+		this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
+	}
+
+	shouldResetLockDownTimer(): boolean {
+		return this._numOfOperations > 15;
 	}
 }
