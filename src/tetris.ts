@@ -93,6 +93,7 @@ export class Tetris {
 			this._currentPhase = 'gen';
 			this.arrangeBag();
 			this.placeToStartPos();
+			this._numOfOperationsInLockDownPhase = 0;
 			resolve();
 		});
 		this.fallPhase();
@@ -102,6 +103,7 @@ export class Tetris {
 		
 		const doHardDrop = await new Promise<boolean>(async (resolve, reject) => {
 			this._currentPhase = 'fall';
+			this._timerToFall.clearTimeout();
 			await this.fallingPromise();
 			resolve(false);
 		});
@@ -112,11 +114,9 @@ export class Tetris {
 		
 		const { isMoved, isThereSpaceToFall, didResetLockDownTimer } = 
 		await new Promise<
-		// void
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
-			this._numOfOperationsInLockDownPhase = 0;
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
 			this._lockDownTimer.endCb = () => {
@@ -124,10 +124,7 @@ export class Tetris {
 			}
 			this._onOperationFunc = resolve;
 			this._lockDownTimer.setTimeout();
-		// 	resolve(
-		// 		// { isMoved: false, isThereSpaceToFall: true, didResetLockDownTimer: false });}
-		// );
-			})
+		})
 		
 		if (isMoved) {
 			if (isThereSpaceToFall) {
@@ -651,7 +648,7 @@ export class Tetris {
 		return this._currentPhase=="fall" || this._currentPhase=="lock";
 	}
 	onOperating(): void {
-		this._numOfOperationsInLockDownPhase++;
+		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
 		this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 	}
 
