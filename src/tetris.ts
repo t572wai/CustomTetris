@@ -58,10 +58,10 @@ export class Tetris {
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
 
-	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void;
+	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void = ()=>{};
 
 	private _numOfOperations: number = 0;
-	private _onOperationFunc: (value: { isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; } | PromiseLike<{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }>) => void;
+	private _onOperationFunc: (value: { isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; } | PromiseLike<{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }>) => void = ()=>{};
 
 	private _holdMinoType: Tetrimino;
 	
@@ -121,6 +121,7 @@ export class Tetris {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
 			this._onOperationFunc = resolve;
+			this._lockDownTimer.setTimeout();
 		// 	resolve(
 		// 		// { isMoved: false, isThereSpaceToFall: true, didResetLockDownTimer: false });}
 		// );
