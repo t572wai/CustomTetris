@@ -148,6 +148,7 @@ export class Tetris {
 		
 		const didPatternMatch = await new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'pattern';
+			this._onOperationFunc = ()=>{};
 			this.removeGhostMinos();
 			resolve(false);
 		});
@@ -617,12 +618,15 @@ export class Tetris {
 	// operations
 	//
 	left(): void {
+		console.log(this.canOperate());
+		
 		if (this.canOperate()) {
 			const didMove = this.move(-1,0);
 			if(didMove)this.onOperating();
 		}
 	}
 	right():void {
+		console.log(this.canOperate());
 		if (this.canOperate()) {
 			const didMove = this.move(1,0);
 			if(didMove)this.onOperating();
