@@ -116,6 +116,7 @@ export class Tetris {
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
+			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
 			this._lockDownTimer.endCb = () => {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
@@ -618,15 +619,12 @@ export class Tetris {
 	// operations
 	//
 	left(): void {
-		console.log(this.canOperate());
-		
 		if (this.canOperate()) {
 			const didMove = this.move(-1,0);
 			if(didMove)this.onOperating();
 		}
 	}
 	right():void {
-		console.log(this.canOperate());
 		if (this.canOperate()) {
 			const didMove = this.move(1,0);
 			if(didMove)this.onOperating();
