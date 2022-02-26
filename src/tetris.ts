@@ -665,6 +665,8 @@ export class Tetris {
 		console.log("operated");
 		
 		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
+		console.log(this._onOperationFunc);
+		
 		this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 	}
 
