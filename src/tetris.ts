@@ -130,15 +130,21 @@ export class Tetris {
 		
 		if (isMoved) {
 			if (isThereSpaceToFall) {
+				console.log("there is space to fall");
+				
 				this._timerToFall.clearTimeout();
 				this._lockDownTimer.clearTimeout();
 				this.fallPhase();
 			} else {
+				console.log("there isn't space to fall");
 				if (didResetLockDownTimer) {
+					console.log("reset lockDownTimer");
+					
 					this._timerToFall.clearTimeout();
 					this._lockDownTimer.clearTimeout();
 					this.lockPhase();
 				} else {
+					console.log("didn't reset lockDownTimer");
 					this._timerToFall.clearTimeout();
 					this._lockDownTimer.clearTimeout();
 					this.patternPhase();
