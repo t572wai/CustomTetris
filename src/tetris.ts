@@ -128,6 +128,8 @@ export class Tetris {
 			this._lockDownTimer.setTimeout();
 		})
 		
+		console.log({isMoved, isThereSpaceToFall, didResetLockDownTimer});
+		
 		if (isMoved) {
 			if (isThereSpaceToFall) {
 				console.log("there is space to fall");
