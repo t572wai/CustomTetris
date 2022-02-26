@@ -114,47 +114,48 @@ export class Tetris {
 	async lockPhase(): Promise<void> {
 		console.log('lockPhase');
 		
-		const { isMoved, isThereSpaceToFall, didResetLockDownTimer } = 
+		// const { isMoved, isThereSpaceToFall, didResetLockDownTimer } = 
 		await new Promise<
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
+			this._onOperationFunc = resolve;
 			this._lockDownTimer.endCb = () => {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
-			this._onOperationFunc = resolve;
 			this._lockDownTimer.setTimeout();
-		})
-		
-		console.log({isMoved, isThereSpaceToFall, didResetLockDownTimer});
-		
-		if (isMoved) {
-			if (isThereSpaceToFall) {
-				console.log("there is space to fall");
-				
-				this._timerToFall.clearTimeout();
-				this._lockDownTimer.clearTimeout();
-				this.fallPhase();
-			} else {
-				console.log("there isn't space to fall");
-				if (didResetLockDownTimer) {
-					console.log("reset lockDownTimer");
+		}).then(({isMoved, isThereSpaceToFall, didResetLockDownTimer}) => {
+			console.log({isMoved, isThereSpaceToFall, didResetLockDownTimer});
+			
+			if (isMoved) {
+				if (isThereSpaceToFall) {
+					console.log("there is space to fall");
 					
 					this._timerToFall.clearTimeout();
 					this._lockDownTimer.clearTimeout();
-					this.lockPhase();
+					this.fallPhase();
 				} else {
-					console.log("didn't reset lockDownTimer");
-					this._timerToFall.clearTimeout();
-					this._lockDownTimer.clearTimeout();
-					this.patternPhase();
+					console.log("there isn't space to fall");
+					if (didResetLockDownTimer) {
+						console.log("reset lockDownTimer");
+						
+						this._timerToFall.clearTimeout();
+						this._lockDownTimer.clearTimeout();
+						this.lockPhase();
+					} else {
+						console.log("didn't reset lockDownTimer");
+						this._timerToFall.clearTimeout();
+						this._lockDownTimer.clearTimeout();
+						this.patternPhase();
+					}
 				}
+			} else {
+				this.patternPhase();
 			}
-		} else {
-			this.patternPhase();
-		}
+		})
+		
 	}
 	async patternPhase(): Promise<void> {
 		console.log('patternPhase');
@@ -665,7 +666,6 @@ export class Tetris {
 		console.log("operated");
 		
 		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
-		console.log(this._onOperationFunc);
 		
 		this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 	}
