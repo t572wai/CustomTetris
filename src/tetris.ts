@@ -663,7 +663,7 @@ export class Tetris {
 		return this._currentPhase=="fall" || this._currentPhase=="lock";
 	}
 	onOperating(): void {
-		console.log("operated");
+		console.log("operated",this._onOperationFunc);
 		
 		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
 		
