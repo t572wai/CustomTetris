@@ -660,6 +660,8 @@ export class Tetris {
 		return this._currentPhase=="fall" || this._currentPhase=="lock";
 	}
 	onOperating(): void {
+		console.log("operated");
+		
 		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
 		this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 	}
