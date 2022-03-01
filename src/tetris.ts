@@ -61,6 +61,7 @@ export class Tetris {
 	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void = ()=>{};
 
 	private _numOfOperationsInLockDownPhase: number = 0;
+	private _lowerPos: number = -1;
 	private _onOperationFunc: (value: any) => void = ()=>{};
 
 	private _holdMinoType: Tetrimino;
@@ -93,6 +94,7 @@ export class Tetris {
 			this.arrangeBag();
 			this.placeToStartPos();
 			this._numOfOperationsInLockDownPhase = 0;
+			this._lowerPos = 0;
 			resolve();
 		});
 		this.fallPhase();
@@ -534,6 +536,10 @@ export class Tetris {
 		if (this.canMove(following)) {
 			this.relocate(following);
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
+			if (this._lowerPos < this._currentPos.y) {
+				this._numOfOperationsInLockDownPhase = 0;
+				this._lowerPos = this.currentPos.y;
+			}
 			this.relocateGhost();
 			return true;
 		} else {
@@ -663,6 +669,6 @@ export class Tetris {
 	}
 
 	shouldResetLockDownTimer(): boolean {
-		return this._numOfOperationsInLockDownPhase > 15;
+		return this._numOfOperationsInLockDownPhase < 15;
 	}
 }
