@@ -538,7 +538,7 @@ export class Tetris {
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
 			if (this._lowerPos < this._currentPos.y) {
 				this._numOfOperationsInLockDownPhase = 0;
-				this._lowerPos = this.currentPos.y;
+				this._lowerPos = this._currentPos.y;
 			}
 			this.relocateGhost();
 			return true;
