@@ -82,7 +82,6 @@ export class Tetris {
 		this.displayMatrix();
 		this.reset();
 		console.log(this._fieldArray);
-		
 	}
 
 	async genPhase(): Promise<void> {
@@ -131,21 +130,15 @@ export class Tetris {
 			
 			if (isMoved) {
 				if (isThereSpaceToFall) {
-					console.log("there is space to fall");
-					
 					this._timerToFall.clearTimeout();
 					this._lockDownTimer.clearTimeout();
 					this.fallPhase();
 				} else {
-					console.log("there isn't space to fall");
 					if (didResetLockDownTimer) {
-						console.log("reset lockDownTimer");
-						
 						this._timerToFall.clearTimeout();
 						this._lockDownTimer.clearTimeout();
 						this.lockPhase();
 					} else {
-						console.log("didn't reset lockDownTimer");
 						this._timerToFall.clearTimeout();
 						this._lockDownTimer.clearTimeout();
 						this.patternPhase();
@@ -491,8 +484,6 @@ export class Tetris {
 		this._currentMinoType = type;
 		this._currentMinoShape = shape;
 		this._currentPos = {x:Math.floor((this._gameRule.matrixWidth-1)/2),y:this._gameRule.bufferHeight-1};
-		// this._currentSkeleton = this._gameRule.tetriminoClass.getTetriminoShape(shape)!;
-		// console.log(type,shape,this._currentTiles,this._gameRule.tetriminoClass);
 	}
 
 	reset() {
@@ -594,7 +585,6 @@ export class Tetris {
 			this._ghostMinos = getMovedMinos(this.currentMinos(),0, hightOfAbleToDrop);
 			this._ghostPos = {x:this._currentPos.x,y:this._currentPos.y+hightOfAbleToDrop}
 		}
-		// console.log(hightOfAbleToDrop, ghostPos);
 		return hightOfAbleToDrop;
 	}
 	relocateGhost(): void {
@@ -609,7 +599,6 @@ export class Tetris {
 		setCssVar('--widthOfMatrix', this._gameRule.matrixWidth.toString());
 		if (TouchScreenQuery.matches){
 			const sizeOfMino = 15 * 10 / this._gameRule.matrixWidth;
-			//console.log(gameRuleOption.currentOption.matrixWidth,`sizeOfMino is ${sizeOfMino}`);
 			setCssVar('--sizeOfMino', sizeOfMino + 'px');
 	}
 }
@@ -664,8 +653,6 @@ export class Tetris {
 		return this._currentPhase=="fall" || this._currentPhase=="lock";
 	}
 	onOperating(): void {
-		console.log("operated",this._onOperationFunc.toString());
-		
 		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
 		
 		if (this._currentPhase=="fall") {
