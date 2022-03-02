@@ -674,6 +674,6 @@ export class Tetris {
 	}
 
 	shouldResetLockDownTimer(): boolean {
-		return this._numOfOperationsInLockDownPhase < 15;
+		return this._numOfOperationsInLockDownPhase < 14;
 	}
 }
