@@ -465,8 +465,9 @@ $(function () {
 			currentTetris.isPausing = true;
 			currentTetris.lockDownTimer.pauseTimeout();
 			currentTetris.fallTimer.pauseTimeout();
-			addKeyActions({code:'Escape', keydownAc:function() {
+			addKeyActions({code:'Escape', keydownAc:() => {
 				removeKeyActions('Escape');
+				addPauseKeyActions('Escape');
 				$('#pauseDialog').dialog('close');
 				if (currentTetris.canFall()) {
 					currentTetris.fallTimer.restartTimeout();
@@ -921,7 +922,7 @@ function startTetris(): void {
 	console.log(currentTetris);
 	
 	addPauseKeyActions('Escape');
-	
+
 	currentTetris.start();
 }
 
