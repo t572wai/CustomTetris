@@ -414,7 +414,7 @@ function onLeftRotation() {
 }
 
 function onHold() {
-	// hold()
+	currentTetris.hold();
 }
 
 //

@@ -55,6 +55,8 @@ export class Tetris {
 	}, this.getFallingSpeed(this._currentLevel));
 	private _lockDownTimer: TimerAbleToEsc = new TimerAbleToEsc(()=>{}, 500);
 	
+	private _reject: (reason: any) => void;
+
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
 
@@ -66,6 +68,7 @@ export class Tetris {
 	private _onOperationFunc: (value: any) => void = ()=>{};
 
 	private _holdMinoType: Tetrimino;
+	private _canHold: boolean = true;
 	
 	constructor(gameRule: GameRule) {
 		this._gameRule = gameRule;
@@ -73,8 +76,8 @@ export class Tetris {
 
 	start(): void {
 		this.arrangeToTetris();
-		this.genPhase();
-		
+		this.genPhase(true);
+
 	}
 	end(): void {
 		this.clearHoldQueue();
@@ -87,14 +90,16 @@ export class Tetris {
 		console.log(this._fieldArray);
 	}
 
-	async genPhase(): Promise<void> {
+	async genPhase(canHold: boolean): Promise<void> {
 		console.log('genPhase');
 		
 		await new Promise<void>((resolve, reject) => {
 
 			this._currentPhase = 'gen';
+			this._reject = reject;
 			this.arrangeBag();
 			this.placeToStartPos();
+			this._canHold = canHold;
 			this._numOfOperationsInLockDownPhase = 0;
 			this._lowerPos = 0;
 			resolve();
@@ -106,6 +111,7 @@ export class Tetris {
 		
 		const doHardDrop = await new Promise<boolean>(async (resolve, reject) => {
 			this._currentPhase = 'fall';
+			this._reject = reject;
 			this._timerToFall.clearTimeout();
 			if (this.canFall()) {
 				await this.fallingPromise();
@@ -122,6 +128,7 @@ export class Tetris {
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
+			this._reject = reject;
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
 			if (!this.shouldResetLockDownTimer()) {
@@ -162,6 +169,7 @@ export class Tetris {
 		
 		const didPatternMatch = await new Promise<boolean>((resolve, reject) => {
 			this._currentPhase = 'pattern';
+			this._reject = reject;
 			this._onOperationFunc = ()=>{};
 			this.removeGhostMinos();
 			resolve(false);
@@ -175,7 +183,10 @@ export class Tetris {
 	async markBlockForDestruction(): Promise<void> {
 		console.log('markBlockForDestruction');
 		
-		await new Promise<void>((resolve, reject) => { resolve(); });
+		await new Promise<void>((resolve, reject) => {
+			this._reject = reject;
+			resolve();
+		});
 		return await this.iteratePhase();
 	}
 	async iteratePhase(): Promise<void> {
@@ -183,6 +194,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'iterate';
+			this._reject = reject;
 			resolve();
 		});
 		return await this.animatePhase();
@@ -192,6 +204,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'animate';
+			this._reject = reject;
 			resolve();
 		});
 		return await this.eliminatePhase();
@@ -201,6 +214,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
+			this._reject = reject;
 			resolve();
 		});
 		return await this.completionPhase();
@@ -210,9 +224,10 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'completion';
+			this._reject = reject;
 			resolve();
 		});
-		return await this.genPhase();
+		return await this.genPhase(true);
 	}
 
 	// 
@@ -663,6 +678,17 @@ export class Tetris {
 			}
 		} else {
 			this._isSoftDrop = false;
+		}
+	}
+
+	hold(): void {
+		if (this.canOperate() && this._canHold) {
+			this._canHold = false;
+			this._holdMinoType = this._currentMinoType;
+			this.hideCurrentMino();
+
+			this._reject("hold");
+			this.genPhase(false);
 		}
 	}
 
