@@ -920,6 +920,8 @@ function startTetris(): void {
 	currentTetris = new Tetris(gameRuleOption.currentOption);
 	console.log(currentTetris);
 	
+	addPauseKeyActions('Escape');
+	
 	currentTetris.start();
 }
 

@@ -74,6 +74,7 @@ export class Tetris {
 	start(): void {
 		this.arrangeToTetris();
 		this.genPhase();
+		
 	}
 	end(): void {
 		this.clearHoldQueue();
