@@ -58,7 +58,8 @@ export class Tetris {
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
 
-	private _hardDropFunc: (res:boolean | PromiseLike<boolean>)=>void = ()=>{};
+	private _hardDropFunc: ()=>void = ()=>{};
+	private _onPressedSoftDropFunc: ()=>void = ()=>{};
 
 	private _numOfOperationsInLockDownPhase: number = 0;
 	private _lowerPos: number = -1;
@@ -245,7 +246,8 @@ export class Tetris {
 		return await new Promise<boolean>(async (resolve, reject) => {
 			console.log("falling");
 			
-			this._hardDropFunc = resolve;
+			this._hardDropFunc = ()=>{resolve(true)};
+			this._onPressedSoftDropFunc = ()=>{resolve(false)};
 			this._onOperationFunc = resolve;
 			await this.fall();
 			resolve(false);
@@ -647,12 +649,17 @@ export class Tetris {
 		if (this.canOperate()) {
 			this._timerToFall.clearTimeout();
 			this.move(this._ghostPos.x-this._currentPos.x, this._ghostPos.y-this._currentPos.y);
-			this._hardDropFunc(true);
+			this._hardDropFunc();
 		}
 	}
 	softDrop(b:boolean):void {
 		if (b) {
-			this._isSoftDrop = true;
+			if(this._isSoftDrop) {
+				this._isSoftDrop = true;
+			} else {
+				this._isSoftDrop = true;
+				this._onPressedSoftDropFunc()
+			}
 		} else {
 			this._isSoftDrop = false;
 		}
