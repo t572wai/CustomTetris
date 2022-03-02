@@ -122,7 +122,7 @@ export class Tetris {
 			this._currentPhase = 'lock';
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
-			if (this.shouldResetLockDownTimer()) {
+			if (!this.shouldResetLockDownTimer()) {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
 			this._onOperationFunc = resolve;
