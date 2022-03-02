@@ -466,6 +466,8 @@ $(function () {
 			currentTetris.lockDownTimer.pauseTimeout();
 			currentTetris.fallTimer.pauseTimeout();
 			addKeyActions({code:'Escape', keydownAc:() => {
+				console.log("add key action of escape");
+				
 				removeKeyActions('Escape');
 				addPauseKeyActions('Escape');
 				$('#pauseDialog').dialog('close');
