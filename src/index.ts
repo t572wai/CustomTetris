@@ -469,8 +469,8 @@ $(function () {
 				console.log("add key action of escape");
 				
 				removeKeyActions('Escape');
-				addPauseKeyActions('Escape');
 				$('#pauseDialog').dialog('close');
+				addPauseKeyActions('Escape');
 				if (currentTetris.canFall()) {
 					currentTetris.fallTimer.restartTimeout();
 				} else {
