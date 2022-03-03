@@ -55,7 +55,7 @@ export class Tetris {
 	}, this.getFallingSpeed(this._currentLevel));
 	private _lockDownTimer: TimerAbleToEsc = new TimerAbleToEsc(()=>{}, 500);
 	
-	private _reject: (reason: any) => void;
+	private _reject: (reason?: any) => void;
 
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
@@ -72,6 +72,7 @@ export class Tetris {
 	
 	constructor(gameRule: GameRule) {
 		this._gameRule = gameRule;
+		this._holdMinoType = this._gameRule.tetriminoClass.attrMap.getKeysFromValue("empty")[0];
 	}
 
 	start(): void {
@@ -639,7 +640,7 @@ export class Tetris {
 	}
 
 	clearHoldQueue() {
-		// this._holdMinoType = this.intoTetriMino( getMinosByAttr("empty")[0]);
+		this._holdMinoType = this._gameRule.tetriminoClass.attrMap.getKeysFromValue("empty")[0];
 	}
 	clearNextQueue() {
 		this._bag = [];
@@ -684,6 +685,9 @@ export class Tetris {
 	hold(): void {
 		if (this.canOperate() && this._canHold) {
 			this._canHold = false;
+			if (this._gameRule.tetriminoClass.attrMap.get(this._holdMinoType)=='block') {
+				this._bag.unshift(this._holdMinoType);
+			}
 			this._holdMinoType = this._currentMinoType;
 			this.hideCurrentMino();
 
