@@ -614,6 +614,10 @@ export class Tetris {
 			this._ghostMinos = getMovedMinos(this.currentMinos(),0, hightOfAbleToDrop);
 			this._ghostPos = {x:this._currentPos.x,y:this._currentPos.y+hightOfAbleToDrop}
 		}
+		console.log("hightOfAbleToDrop", hightOfAbleToDrop);
+		console.log(this._ghostMinos);
+		
+		
 		return hightOfAbleToDrop;
 	}
 	relocateGhost(): void {
