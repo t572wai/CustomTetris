@@ -601,10 +601,10 @@ export class Tetris {
 	updateGhost(): number {
 		let hightOfAbleToDrop = 0;
 		while (true) {
-			if (!this.canMove(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1))) {
-				break;
-			} else {
+			if (this.canMove(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1))) {
 				hightOfAbleToDrop++;
+			} else {
+				break;
 			}
 		}
 		if (hightOfAbleToDrop == 0) {
@@ -616,7 +616,7 @@ export class Tetris {
 		}
 		console.log("hightOfAbleToDrop", hightOfAbleToDrop);
 		console.log(this._ghostMinos);
-		
+		console.log(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1));
 		
 		return hightOfAbleToDrop;
 	}
