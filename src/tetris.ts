@@ -100,6 +100,7 @@ export class Tetris {
 			this._reject = reject;
 			this.arrangeBag();
 			this.placeToStartPos();
+			this.relocateGhost();
 			this._canHold = canHold;
 			this._numOfOperationsInLockDownPhase = 0;
 			this._lowerPos = 0;
@@ -675,7 +676,7 @@ export class Tetris {
 				this._isSoftDrop = true;
 			} else {
 				this._isSoftDrop = true;
-				this._onPressedSoftDropFunc()
+				this._onPressedSoftDropFunc();
 			}
 		} else {
 			this._isSoftDrop = false;
