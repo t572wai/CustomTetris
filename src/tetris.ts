@@ -8,6 +8,9 @@ import { when } from "./when";
 const PhaseTypeUnion = ['notStart', 'pause', 'gen', 'fall', 'lock', 'pattern', 'iterate', 'animate', 'eliminate', 'completion'] as const;
 type PhaseType = typeof PhaseTypeUnion[number];
 
+const PatternsUnion = ['line'] as const;
+type Patterns = typeof PatternsUnion[number];
+
 // function isEmpty(mino: Tetrimino): boolean {
 // 	if (isTetriminoNormal(mino)) {
 // 		if (mino == 'empty') return true;
@@ -45,9 +48,11 @@ export class Tetris {
 	// private _minoEnum: Enum<TetriminoClass>;
 
 	private _totalFallenTetrimino: number = 0;
+	private _totalClearedLine: number = 0;
 	
 	private _score: Map<Action, number> = new Map();
 
+	private _patterns: Map<Patterns, Pos[]> = new Map();
 	
 	private _timerToFall: TimerAbleToEsc
 	= new TimerAbleToEsc(()=>{
@@ -55,7 +60,7 @@ export class Tetris {
 	}, this.getFallingSpeed(this._currentLevel));
 	private _lockDownTimer: TimerAbleToEsc = new TimerAbleToEsc(()=>{}, 500);
 	
-	private _reject: (reason?: any) => void;
+	private _rejectPhase: (reason?: any) => void;
 
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
@@ -97,7 +102,7 @@ export class Tetris {
 		await new Promise<void>((resolve, reject) => {
 
 			this._currentPhase = 'gen';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			this.arrangeBag();
 			this.placeToStartPos();
 			this.relocateGhost();
@@ -113,7 +118,7 @@ export class Tetris {
 		
 		const doHardDrop = await new Promise<boolean>(async (resolve, reject) => {
 			this._currentPhase = 'fall';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			this._timerToFall.clearTimeout();
 			if (this.canFall()) {
 				await this.fallingPromise();
@@ -130,7 +135,7 @@ export class Tetris {
 			{ isMoved: boolean; isThereSpaceToFall: boolean; didResetLockDownTimer: boolean; }
 		>((resolve, reject) => {
 			this._currentPhase = 'lock';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
 			if (!this.shouldResetLockDownTimer()) {
@@ -169,24 +174,25 @@ export class Tetris {
 	async patternPhase(): Promise<void> {
 		console.log('patternPhase');
 		
-		const didPatternMatch = await new Promise<boolean>((resolve, reject) => {
+		const patternMatchArray = await new Promise<Pos[]>((resolve, reject) => {
 			this._currentPhase = 'pattern';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			this._onOperationFunc = ()=>{};
 			this.removeGhostMinos();
-			resolve(false);
+			resolve(this.getLinePatterns());
 		});
-		if (didPatternMatch) {
-			this.markBlockForDestruction();
+		if (patternMatchArray.length == 0) {
+			this.markBlockForDestruction(patternMatchArray);
 		} else {
 			this.iteratePhase();
 		}
 	}
-	async markBlockForDestruction(): Promise<void> {
+	async markBlockForDestruction(patterns: Pos[]): Promise<void> {
 		console.log('markBlockForDestruction');
 		
 		await new Promise<void>((resolve, reject) => {
-			this._reject = reject;
+			this._rejectPhase = reject;
+			this._patterns.set('line', patterns);
 			resolve();
 		});
 		return await this.iteratePhase();
@@ -196,7 +202,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'iterate';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			resolve();
 		});
 		return await this.animatePhase();
@@ -206,7 +212,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'animate';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			resolve();
 		});
 		return await this.eliminatePhase();
@@ -216,7 +222,10 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
-			this._reject = reject;
+			this._rejectPhase = reject;
+			for (const pos of this._patterns.get("line")!) {
+				this.clearLine(pos.y);
+			}
 			resolve();
 		});
 		return await this.completionPhase();
@@ -226,7 +235,7 @@ export class Tetris {
 		
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'completion';
-			this._reject = reject;
+			this._rejectPhase = reject;
 			resolve();
 		});
 		return await this.genPhase(true);
@@ -295,6 +304,35 @@ export class Tetris {
 
 	canFall(): boolean {
 		return this.canMove(getMovedMinos(this.currentMinos(), 0, 1));
+	}
+
+	//
+	// patternPhase
+	//
+	getLinePatterns(): Pos[] {
+		let patterns = [] as Pos[];
+		// for (const y in this._fieldArray) {
+		// 	if (!this._fieldArray[y].some((mino)=>this._gameRule.tetriminoClass.attrMap.get(mino)=='empty')) {
+		// 		patterns.push([{x:-1,y:y}]);
+		// 	}
+		// }
+		this._fieldArray.forEach((line, y) => {
+			if (!line.some((mino)=>this._gameRule.tetriminoClass.attrMap.get(mino)=='empty')) {
+				patterns.push({x:-1,y:y});
+			}
+		})
+		return patterns;
+	}
+
+	//
+	// eliminatePhase
+	//
+	clearLine(y: number) {
+		for (var j = y-1; j >= 0; j--) {
+			this._fieldArray[j+1] = cloneArray(this._fieldArray[j]);
+		}
+		this._fieldArray[0] = this._gameRule.generateRegularlyTerrain();
+		this._totalClearedLine++;
 	}
 
 	//
@@ -696,7 +734,7 @@ export class Tetris {
 			this._holdMinoType = this._currentMinoType;
 			this.hideCurrentMino();
 
-			this._reject("hold");
+			this._rejectPhase("hold");
 			this.genPhase(false);
 		}
 	}
