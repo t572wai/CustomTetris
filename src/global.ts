@@ -124,21 +124,21 @@ export function getRotatedMinos(minos: Mino[], shaft: Pos, direction: 0|1|2|3): 
 	if (direction==0) {
 		return minos;
 	} else if (direction==1) {
-		return minos.map((mino) => ({x:shaft.x-shaft.y+mino.y,y:shaft.y+shaft.x-mino.x, mino: mino.mino}));
+		return minos.map((mino) => ({x:shaft.x+shaft.y-mino.y,y:shaft.y-shaft.x+mino.x, mino: mino.mino}));
 	} else if (direction==2) {
 		return minos.map((mino) => ({x:2*shaft.x-mino.x, y:2*shaft.y-mino.y, mino:mino.mino}));
 	} else {
-		return minos.map((mino) => ({x:shaft.x+shaft.y-mino.y,y:shaft.y-shaft.x+mino.x, mino: mino.mino}));
+		return minos.map((mino) => ({x:shaft.x-shaft.y+mino.y,y:shaft.y+shaft.x-mino.x, mino: mino.mino}));
 	}
 }
 export function getRotatedShape(poses: Pos[], shaft: Pos, direction: 0|1|2|3): Pos[] {
 	if (direction==0) {
 		return poses;
 	} else if (direction==1) {
-		return poses.map((pos) => ({x:shaft.x-shaft.y+pos.y,y:shaft.y+shaft.x-pos.x}));
+		return poses.map((pos) => ({x:shaft.x+shaft.y-pos.y,y:shaft.y-shaft.x+pos.x}));
 	} else if (direction==2) {
 		return poses.map((pos) => ({x:2*shaft.x-pos.x, y:2*shaft.y-pos.y}));
 	} else {
-		return poses.map((pos) => ({x:shaft.x+shaft.y-pos.x,y:shaft.y-shaft.x+pos.x}));
+		return poses.map((pos) => ({x:shaft.x-shaft.y+pos.y,y:shaft.y+shaft.x-pos.x}));
 	}
 }
