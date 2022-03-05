@@ -747,13 +747,19 @@ export class Tetris {
 	leftRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(3);
-			if (didMove) this.onOperating();
+			if (didMove) {
+				this._currentFacing = (this._currentFacing+3)%4 as 0|1|2|3;
+				this.onOperating()
+			}
 		}
 	}
 	rightRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(1);
-			if (didMove) this.onOperating();
+			if (didMove) {
+				this._currentFacing = (this._currentFacing+1)%4 as 0|1|2|3;
+				this.onOperating()
+			}
 		}
 	}
 
