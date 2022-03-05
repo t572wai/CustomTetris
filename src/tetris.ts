@@ -319,6 +319,8 @@ export class Tetris {
 		// 	}
 		// }
 		this._fieldArray.forEach((line, y) => {
+			console.log(line,y);
+			
 			if (!line.some((mino)=>this._gameRule.tetriminoClass.attrMap.get(mino)=='empty')) {
 				patterns.push({x:-1,y:y});
 			}
