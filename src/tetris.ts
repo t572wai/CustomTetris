@@ -106,6 +106,7 @@ export class Tetris {
 			this.arrangeBag();
 			this.placeToStartPos();
 			this.relocateGhost();
+			this.resetPatterns();
 			this._canHold = canHold;
 			this._numOfOperationsInLockDownPhase = 0;
 			this._lowerPos = 0;
@@ -266,6 +267,11 @@ export class Tetris {
 			const nextMinos = shuffle(this._gameRule.tetriminoClass.attrMap.getKeysFromValue("block"));
 			this._bag = this._bag.concat(nextMinos);
 		}
+	}
+
+	resetPatterns(): void {
+		this._patterns = new Map<Patterns, Pos[]>();
+		this._patterns.set('line', []);
 	}
 	
 	//
