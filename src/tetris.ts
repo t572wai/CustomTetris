@@ -313,7 +313,7 @@ export class Tetris {
 	}
 
 	canFall(): boolean {
-		console.log("canFall",this.canMove(getMovedMinos(this.currentMinos(), 0, 1)));
+		console.log("canFall",this.currentMinos(),this.canMove(getMovedMinos(this.currentMinos(), 0, 1)));
 		
 		return this.canMove(getMovedMinos(this.currentMinos(), 0, 1));
 	}
