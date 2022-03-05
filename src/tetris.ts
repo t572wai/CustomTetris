@@ -223,6 +223,8 @@ export class Tetris {
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
 			this._rejectPhase = reject;
+			console.log(this._patterns.get('line'));
+			
 			for (const pos of this._patterns.get("line")!) {
 				this.clearLine(pos.y);
 			}
