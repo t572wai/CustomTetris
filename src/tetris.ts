@@ -1,6 +1,6 @@
 import { GameRule } from "./gameRule";
 import { cloneArray, Enum, setCssVar, shuffle, TouchScreenQuery } from "./general";
-import { Action, BlockType, getMovedMinos, getMovedShape, Mino, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
+import { Action, BlockType, getMovedMinos, getMovedShape, getRotatedMinos, Mino, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
 import { TetriminoClass } from "./tetrimino";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
@@ -40,6 +40,7 @@ export class Tetris {
 	private _currentPos: Pos = {x:-1,y:-1};
 	private _ghostMinos: Mino[] = [];
 	private _ghostPos: Pos = {x:-1,y:-1};
+	private _currentFacing: 0|1|2|3 = 0;
 
 	// private _followingMinos: Tetrimino[];
 	
@@ -405,6 +406,27 @@ export class Tetris {
 		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
 		return getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y);
 	}
+
+	getShaft(): Pos {
+		const dif = this.getDifOfShaft();
+		return {x:this._currentPos.x+dif.x, y:this._currentPos.y+dif.y};
+	}
+	getDifOfShaft(): Pos {
+		if (this._gameRule.tetriminoClass.getTetriminoWidth(this._currentMinoShape)%2==0) {
+			switch (this._currentFacing) {
+				case 0:
+					return {x:0,y:0};
+				case 1:
+					return {x:-1,y:0};
+				case 2:
+					return {x:-1,y:1};
+				case 3:
+					return {x:0,y:1};
+			}
+		} else {
+			return {x:0,y:0};
+		}
+	}
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
 		if (this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
@@ -611,6 +633,17 @@ export class Tetris {
 			return false;
 		}
 	}
+	rotate(direction: "left"|"right"): boolean {
+		const following = getRotatedMinos(this.currentMinos(), this.getShaft(), direction);
+		if (this.canMove(following)) {
+			this.relocate(following);
+			this.relocateGhost();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	relocate(following: Mino[]): void {
 		this.hideCurrentMino();
 		this.updateDiffOfField(following, 'falling')
@@ -675,8 +708,8 @@ export class Tetris {
 		if (TouchScreenQuery.matches){
 			const sizeOfMino = 15 * 10 / this._gameRule.matrixWidth;
 			setCssVar('--sizeOfMino', sizeOfMino + 'px');
+		}
 	}
-}
 
 	resetField(): void {
 		this._fieldArray = this._gameRule.generateTerrain();
@@ -707,6 +740,13 @@ export class Tetris {
 			const didMove = this.move(1,0);
 			if(didMove)this.onOperating();
 		}
+	}
+
+	leftRotation(): void {
+
+	}
+	rightRotation(): void {
+
 	}
 
 	hardDrop(): void {

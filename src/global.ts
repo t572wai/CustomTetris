@@ -115,9 +115,22 @@ export function changeFacing(tiles: Pos[], sgn: number): Pos[] {
 }
 
 export function getMovedMinos(minos: Mino[], dx: number, dy: number): Mino[] {
-	return minos.map((mino) => ({x:mino.x+dx,y:mino.y+dy,mino:mino.mino}))
+	return minos.map((mino) => ({x:mino.x+dx,y:mino.y+dy,mino:mino.mino}));
 }
 export function getMovedShape(poses: Pos[], dx: number, dy: number): Pos[] {
 	return poses.map((pos) => ({x:pos.x+dx,y:pos.y+dy}));
 }
-
+export function getRotatedMinos(minos: Mino[], shaft: Pos, direction: "left"|"right"): Mino[] {
+	if (direction=="left") {
+		return minos.map((mino) => ({x:shaft.x+shaft.y-mino.x,y:shaft.y-shaft.x+mino.x, mino: mino.mino}));
+	} else {
+		return minos.map((mino) => ({x:shaft.x-shaft.y+mino.y,y:shaft.y+shaft.x-mino.x, mino: mino.mino}));
+	}
+}
+export function getRotatedShape(poses: Pos[], shaft: Pos, direction: "left"|"right"): Pos[] {
+	if (direction=="left") {
+		return poses.map((pos) => ({x:shaft.x+shaft.y-pos.x,y:shaft.y-shaft.x+pos.x}));
+	} else {
+		return poses.map((pos) => ({x:shaft.x-shaft.y+pos.y,y:shaft.y+shaft.x-pos.x}));
+	}
+}

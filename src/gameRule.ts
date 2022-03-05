@@ -16,7 +16,6 @@ export class GameRule {
 	private _fieldHeight: number;
 	private _fieldWidth: number;
 	private _cssClass: string;
-	private _followingMinos: Tetrimino[];
 	private _nextNum: number;
 	private _shouldGenerateTetriminos: (array: Tetrimino[])=>boolean;
 	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
@@ -93,7 +92,6 @@ export class GameRule {
 
 			this._cssClass = cssClass;
 
-			this._followingMinos = [];
 			this._nextNum = nextNum;
 			this._shouldGenerateTetriminos = shouldGenerateTetriminos;
 			this._generateNextTetriminos = generateNextTetriminos;

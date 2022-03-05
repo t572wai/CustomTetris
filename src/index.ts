@@ -406,11 +406,11 @@ function onHardDrop() {
 }
 
 function onRightRotation() {
-	// rightRotation()
+	currentTetris.rightRotation();
 }
 
 function onLeftRotation() {
-	// leftRotation()
+	currentTetris.leftRotation();
 }
 
 function onHold() {
