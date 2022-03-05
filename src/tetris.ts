@@ -406,7 +406,7 @@ export class Tetris {
 
 	currentMinos(): Mino[] {
 		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
-		return getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y);
+		return getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this.getShaft(), this._currentFacing);
 	}
 
 	getShaft(): Pos {
@@ -635,7 +635,7 @@ export class Tetris {
 			return false;
 		}
 	}
-	rotate(direction: "left"|"right"): boolean {
+	rotate(direction: 1|3): boolean {
 		const following = getRotatedMinos(this.currentMinos(), this.getShaft(), direction);
 		if (this.canMove(following)) {
 			this.relocate(following);
@@ -746,13 +746,13 @@ export class Tetris {
 
 	leftRotation(): void {
 		if (this.canOperate()) {
-			const didMove = this.rotate("left");
+			const didMove = this.rotate(3);
 			if (didMove) this.onOperating();
 		}
 	}
 	rightRotation(): void {
 		if (this.canOperate()) {
-			const didMove = this.rotate("right");
+			const didMove = this.rotate(1);
 			if (didMove) this.onOperating();
 		}
 	}
