@@ -229,6 +229,7 @@ export class Tetris {
 			for (const pos of this._patterns.get("line")!) {
 				this.clearLine(pos.y);
 			}
+			this.displayAllMinos();
 			resolve();
 		});
 		return await this.completionPhase();
