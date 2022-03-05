@@ -122,9 +122,10 @@ export class Tetris {
 			this._rejectPhase = reject;
 			this._timerToFall.clearTimeout();
 			if (this.canFall()) {
-				await this.fallingPromise();
+				resolve(await this.fallingPromise());
+			} else {
+				resolve(false);
 			}
-			resolve(false);
 		});
 		(doHardDrop) ? this.patternPhase() : this.lockPhase();
 	}
