@@ -128,7 +128,7 @@ export function getRotatedMinos(minos: Mino[], shaft: Pos, direction: 0|1|2|3): 
 	} else if (direction==2) {
 		return minos.map((mino) => ({x:2*shaft.x-mino.x, y:2*shaft.y-mino.y, mino:mino.mino}));
 	} else {
-		return minos.map((mino) => ({x:shaft.x+shaft.y-mino.x,y:shaft.y-shaft.x+mino.x, mino: mino.mino}));
+		return minos.map((mino) => ({x:shaft.x+shaft.y-mino.y,y:shaft.y-shaft.x+mino.x, mino: mino.mino}));
 	}
 }
 export function getRotatedShape(poses: Pos[], shaft: Pos, direction: 0|1|2|3): Pos[] {
