@@ -181,7 +181,7 @@ export class Tetris {
 			this.removeGhostMinos();
 			resolve(this.getLinePatterns());
 		});
-		if (patternMatchArray.length == 0) {
+		if (patternMatchArray.length != 0) {
 			this.markBlockForDestruction(patternMatchArray);
 		} else {
 			this.iteratePhase();
@@ -325,6 +325,8 @@ export class Tetris {
 				patterns.push({x:-1,y:y});
 			}
 		})
+		console.log(patterns);
+		
 		return patterns;
 	}
 
