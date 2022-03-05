@@ -254,6 +254,7 @@ export class Tetris {
 		this.arrangeBag();
 		this.initTetrimino({'type':this._bag[0]});
 		this._bag.shift();
+		this._currentFacing = 0;
 		this.displayNext();
 		this.displayHold();
 		this.displayMino(this.currentMinos(),'falling');
@@ -312,7 +313,7 @@ export class Tetris {
 	}
 
 	canFall(): boolean {
-		console.log(this.canMove(getMovedMinos(this.currentMinos(), 0, 1)));
+		console.log("canFall",this.canMove(getMovedMinos(this.currentMinos(), 0, 1)));
 		
 		return this.canMove(getMovedMinos(this.currentMinos(), 0, 1));
 	}
