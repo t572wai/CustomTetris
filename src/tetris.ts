@@ -225,8 +225,6 @@ export class Tetris {
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'eliminate';
 			this._rejectPhase = reject;
-			console.log(this._patterns.get('line'));
-			
 			for (const pos of this._patterns.get("line")!) {
 				this.clearLine(pos.y);
 			}
@@ -321,19 +319,11 @@ export class Tetris {
 	//
 	getLinePatterns(): Pos[] {
 		let patterns = [] as Pos[];
-		// for (const y in this._fieldArray) {
-		// 	if (!this._fieldArray[y].some((mino)=>this._gameRule.tetriminoClass.attrMap.get(mino)=='empty')) {
-		// 		patterns.push([{x:-1,y:y}]);
-		// 	}
-		// }
 		this._fieldArray.forEach((line, y) => {
-			console.log(line,y);
-			
 			if (!line.some((mino)=>this._gameRule.tetriminoClass.attrMap.get(mino)=='empty')) {
 				patterns.push({x:-1,y:y});
 			}
 		})
-		console.log(patterns);
 		
 		return patterns;
 	}
