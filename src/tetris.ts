@@ -732,21 +732,27 @@ export class Tetris {
 	left(): void {
 		if (this.canOperate()) {
 			const didMove = this.move(-1,0);
-			if(didMove)this.onOperating();
+			if (didMove) this.onOperating();
 		}
 	}
 	right():void {
 		if (this.canOperate()) {
 			const didMove = this.move(1,0);
-			if(didMove)this.onOperating();
+			if (didMove) this.onOperating();
 		}
 	}
 
 	leftRotation(): void {
-
+		if (this.canOperate()) {
+			const didMove = this.rotate("left");
+			if (didMove) this.onOperating();
+		}
 	}
 	rightRotation(): void {
-
+		if (this.canOperate()) {
+			const didMove = this.rotate("right");
+			if (didMove) this.onOperating();
+		}
 	}
 
 	hardDrop(): void {
