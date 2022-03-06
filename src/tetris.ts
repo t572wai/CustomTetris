@@ -640,6 +640,7 @@ export class Tetris {
 		const following = getRotatedMinos(this.currentMinos(), this.getShaft(), direction);
 		if (this.canMove(following)) {
 			this.relocate(following);
+			this._currentFacing = (this._currentFacing+direction)%4 as 0|1|2|3;
 			this.relocateGhost();
 			return true;
 		} else {
@@ -749,7 +750,6 @@ export class Tetris {
 		if (this.canOperate()) {
 			const didMove = this.rotate(3);
 			if (didMove) {
-				this._currentFacing = (this._currentFacing+3)%4 as 0|1|2|3;
 				this.onOperating()
 			}
 		}
@@ -758,7 +758,6 @@ export class Tetris {
 		if (this.canOperate()) {
 			const didMove = this.rotate(1);
 			if (didMove) {
-				this._currentFacing = (this._currentFacing+1)%4 as 0|1|2|3;
 				this.onOperating()
 			}
 		}
