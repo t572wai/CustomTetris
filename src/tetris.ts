@@ -615,6 +615,8 @@ export class Tetris {
 				return false;
 			}
 			if (this.isOtherTiles(tile)) {
+				console.log(tile);
+				
 				return false;
 			}
 		}
