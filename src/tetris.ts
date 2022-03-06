@@ -411,12 +411,12 @@ export class Tetris {
 	}
 
 	getShaft(): Pos {
-		const dif = this.getDifOfShaft();
+		const dif = this.getDifOfShaft(this._currentFacing);
 		return {x:this._currentPos.x+dif.x, y:this._currentPos.y+dif.y};
 	}
-	getDifOfShaft(): Pos {
+	getDifOfShaft(facing: 0|1|2|3): Pos {
 		if (this._gameRule.tetriminoClass.getTetriminoWidth(this._currentMinoShape)%2==0) {
-			switch (this._currentFacing) {
+			switch (facing) {
 				case 0:
 					return {x:0,y:0};
 				case 1:
@@ -637,7 +637,8 @@ export class Tetris {
 		}
 	}
 	rotate(direction: 1|3): boolean {
-		const following = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), this.getDifOfShaft().x, this.getDifOfShaft().y);
+		const dif = this.getDifOfShaft((this._currentFacing+direction)%4 as 0|1|2|3);
+		const following = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
 		console.log("current",this.currentMinos(),"following",following);
 		if (this.canMove(following)) {
 			this.relocate(following);
