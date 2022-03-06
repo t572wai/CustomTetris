@@ -800,7 +800,7 @@ export class Tetris {
 	}
 
 	canOperate(): boolean {
-		return this._currentPhase=="fall" || this._currentPhase=="lock";
+		return (this._currentPhase=="fall" || this._currentPhase=="lock") && !this._isPausing;
 	}
 	onOperating(): void {
 		if(this._currentPhase=="lock")this._numOfOperationsInLockDownPhase++;
