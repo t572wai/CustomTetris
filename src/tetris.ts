@@ -773,7 +773,7 @@ export class Tetris {
 		}
 	}
 	softDrop(b:boolean):void {
-		if (b) {
+		if (b && this.canOperate()) {
 			if(this._isSoftDrop) {
 				this._isSoftDrop = true;
 			} else {
