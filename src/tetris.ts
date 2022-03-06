@@ -637,7 +637,9 @@ export class Tetris {
 		}
 	}
 	rotate(direction: 1|3): boolean {
+		
 		const following = getRotatedMinos(this.currentMinos(), this.getShaft(), direction);
+		console.log("current",this.currentMinos(),"following",following);
 		if (this.canMove(following)) {
 			this.relocate(following);
 			this._currentFacing = (this._currentFacing+direction)%4 as 0|1|2|3;
