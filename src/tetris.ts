@@ -407,7 +407,8 @@ export class Tetris {
 
 	currentMinos(): Mino[] {
 		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
-		return getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this.getShaft(), this._currentFacing);
+		const dif = this.getDifOfShaft(this._currentFacing);
+		return getMovedMinos(getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this.getShaft(), this._currentFacing), dif.x, dif.y);
 	}
 
 	getShaft(): Pos {
@@ -645,6 +646,7 @@ export class Tetris {
 		if (this.canMove(following)) {
 			this.relocate(following);
 			this._currentFacing = (this._currentFacing+direction)%4 as 0|1|2|3;
+			// this._currentPos = {x: this._currentPos.x+dif.x, y: this._currentPos.y+dif.y}
 			this.relocateGhost();
 			return true;
 		} else {
