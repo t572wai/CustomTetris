@@ -644,9 +644,9 @@ export class Tetris {
 		const rotatedMinos = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
 		// const numOfPoint: number = (() => {
 			let n = -1;
-			let following = cloneArray(rotatedMinos);
 			while(true) {
 				let [dx,dy] = [0,0];
+				let following = cloneArray(rotatedMinos);
 				if (n>-1 && this._gameRule.rotationRule.get(this._currentMinoShape)![n].length==0) {
 					return -1;
 				} else if (n>-1) {
