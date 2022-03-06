@@ -635,21 +635,49 @@ export class Tetris {
 			return false;
 		}
 	}
-	rotate(direction: 1|3): boolean {
+	rotate(direction: 1|3): number {
 		const formerFacing = this._currentFacing;
 		const followingFacing = (this._currentFacing+direction)%4 as 0|1|2|3;
 		const formerDif = this.getDifOfShaft(formerFacing);
 		const followingDif = this.getDifOfShaft(followingFacing);
 		const dif = {x:followingDif.x-formerDif.x, y:followingDif.y-formerDif.y};
-		const following = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
-		if (this.canMove(following)) {
-			this.relocate(following);
-			this._currentFacing = followingFacing;
-			this.relocateGhost();
-			return true;
-		} else {
-			return false;
-		}
+		const rotatedMinos = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
+		// const numOfPoint: number = (() => {
+			let n = -1;
+			let following = cloneArray(rotatedMinos);
+			while(true) {
+				let [dx,dy] = [0,0];
+				if (n>-1 && this._gameRule.rotationRule.get(this._currentMinoShape)![n].length==0) {
+					return -1;
+				} else if (n>-1) {
+					const ind: 0|1 = (()=>{
+						if (direction==1) {
+							return 0;
+						} else {
+							return 1;
+						}
+					})();
+					({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n]);
+					following = getMovedMinos(following, dx, dy);
+				}
+				if (this.canMove(following)) {
+					this.relocate(following);
+					this._currentFacing = followingFacing;
+					this._currentPos = {x:this._currentPos.x+dx, y:this._currentPos.y+dy};
+					this.relocateGhost();
+					return n;
+				}
+				n++;
+			}
+		// })()
+		// if (this.canMove(rotatedMinos)) {
+		// 	this.relocate(rotatedMinos);
+		// 	this._currentFacing = followingFacing;
+		// 	this.relocateGhost();
+		// 	return true;
+		// } else {
+		// 	return false;
+		// }
 	}
 
 	relocate(following: Mino[]): void {
@@ -751,7 +779,7 @@ export class Tetris {
 	leftRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(3);
-			if (didMove) {
+			if (didMove > -1) {
 				this.onOperating()
 			}
 		}
@@ -759,7 +787,7 @@ export class Tetris {
 	rightRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(1);
-			if (didMove) {
+			if (didMove > -1) {
 				this.onOperating()
 			}
 		}

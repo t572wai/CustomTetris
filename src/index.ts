@@ -743,7 +743,7 @@ const LElevator = new GameRuleNormal({
 const OSpin = new GameRuleNormal({
 	name: 'OSpin',
 	title: 'Oスピン',
-	rotationRule: spinRuleRegulator(GameRule.Normal.spinRule.set('o', [
+	rotationRule: spinRuleRegulator(GameRule.Normal.rotationRule.set('o', [
 					[
 						[
 							{x:1,y:0},

@@ -290,7 +290,7 @@ export class GameRule {
 	get setterOfData() {
 		return this._setterOfData;
 	}
-	get spinRule() {
+	get rotationRule() {
 		return this._rotationRule;
 	}
 	get getRotatedTetriminoShape() {
@@ -328,7 +328,7 @@ export class GameRuleNormal extends GameRule {
 			isAllowedOperation = GameRule.Normal.isAllowedOperation,
 			getterOfData = GameRule.Normal.getterOfData,
 			setterOfData = GameRule.Normal.setterOfData,
-			rotationRule: spinRule = GameRule.Normal.spinRule,
+			rotationRule: spinRule = GameRule.Normal.rotationRule,
 			getRotatedTetriminoShape = GameRule.Normal.getRotatedTetriminoShape,
 			justBeforeLockDown = GameRule.Normal.justBeforeLockDown,
 		}:
