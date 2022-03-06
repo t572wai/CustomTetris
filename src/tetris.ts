@@ -644,7 +644,7 @@ export class Tetris {
 	rotate(direction: 1|3): boolean {
 		const formerFacing = this._currentFacing;
 		const followingFacing = (this._currentFacing+direction)%4 as 0|1|2|3;
-		const formerDif = this.getDifOfShaft(followingFacing);
+		const formerDif = this.getDifOfShaft(formerFacing);
 		const followingDif = this.getDifOfShaft(followingFacing);
 		const dif = {x:followingDif.x-formerDif.x, y:followingDif.y-formerDif.y};
 		const following = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
