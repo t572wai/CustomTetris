@@ -660,6 +660,8 @@ export class Tetris {
 					({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n]);
 					following = getMovedMinos(following, dx, dy);
 				}
+				console.log(dx,dy,following,n);
+				
 				if (this.canMove(following)) {
 					this.relocate(following);
 					this._currentFacing = followingFacing;
