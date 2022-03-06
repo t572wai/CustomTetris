@@ -701,7 +701,7 @@ export class Tetris {
 		}
 		console.log("hightOfAbleToDrop", hightOfAbleToDrop);
 		console.log(this._ghostMinos);
-		console.log(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1));
+		console.log(this.currentMinos(),getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1));
 		
 		return hightOfAbleToDrop;
 	}
