@@ -150,8 +150,6 @@ export class Tetris {
 			}
 			this._lockDownTimer.setTimeout();
 		}).then(({isMoved, isThereSpaceToFall, didResetLockDownTimer}) => {
-			console.log({isMoved, isThereSpaceToFall, didResetLockDownTimer});
-			
 			if (isMoved) {
 				if (isThereSpaceToFall) {
 					this._timerToFall.clearTimeout();
@@ -408,8 +406,6 @@ export class Tetris {
 	currentMinos(): Mino[] {
 		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
 		const dif = this.getDifOfShaft(this._currentFacing);
-		console.log(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y),getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing),getMovedMinos(getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing), dif.x, dif.y));
-		
 		return getMovedMinos(getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing), dif.x, dif.y);
 	}
 
@@ -618,8 +614,6 @@ export class Tetris {
 				return false;
 			}
 			if (this.isOtherTiles(tile)) {
-				console.log(tile);
-				
 				return false;
 			}
 		}
@@ -648,7 +642,6 @@ export class Tetris {
 		const followingDif = this.getDifOfShaft(followingFacing);
 		const dif = {x:followingDif.x-formerDif.x, y:followingDif.y-formerDif.y};
 		const following = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
-		console.log("shaft",this.getShaft(),"current",this.currentMinos(),"following",following);
 		if (this.canMove(following)) {
 			this.relocate(following);
 			this._currentFacing = followingFacing;
@@ -691,8 +684,6 @@ export class Tetris {
 	updateGhost(): number {
 		let hightOfAbleToDrop = 0;
 		while (true) {
-			console.log(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1));
-			
 			if (this.canMove(getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1))) {
 				hightOfAbleToDrop++;
 			} else {
@@ -707,8 +698,6 @@ export class Tetris {
 			this._ghostPos = {x:this._currentPos.x,y:this._currentPos.y+hightOfAbleToDrop}
 		}
 		console.log("hightOfAbleToDrop", hightOfAbleToDrop);
-		console.log(this._ghostMinos);
-		console.log(this.currentMinos(),getMovedMinos(this.currentMinos(),0,hightOfAbleToDrop+1));
 		
 		return hightOfAbleToDrop;
 	}
@@ -819,8 +808,6 @@ export class Tetris {
 		if (this._currentPhase=="fall") {
 			if(!this.canFall()) this._onOperationFunc(false);
 		} else if (this._currentPhase=="lock") {
-			console.log(this._numOfOperationsInLockDownPhase,this.shouldResetLockDownTimer());
-			
 			this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 		}
 	}

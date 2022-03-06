@@ -25,7 +25,7 @@ export class GameRule {
 	private _data: any;
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
-	private _spinRule: Map<Tetrimino, Pos[][][]>;
+	private _rotationRule: Map<Tetrimino, Pos[][][]>;
 	private _getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[];
 	private _justBeforeLockDown: (data:any)=>boolean;
 
@@ -48,7 +48,7 @@ export class GameRule {
 			isAllowedOperation,
 			getterOfData,
 			setterOfData,
-			spinRule,
+			rotationRule,
 			getRotatedTetriminoShape,
 			justBeforeLockDown,
 		}:
@@ -70,7 +70,7 @@ export class GameRule {
 			isAllowedOperation: (numOfMoved?: number)=>boolean,
 			getterOfData: (data:any)=>any,
 			setterOfData: (data:any)=>any,
-			spinRule: Map<Tetrimino, Pos[][][]>,
+			rotationRule: Map<Tetrimino, Pos[][][]>,
 			getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[],
 			justBeforeLockDown: (data: any)=>boolean,
 		}
@@ -104,7 +104,7 @@ export class GameRule {
 			this._getterOfData = getterOfData;
 			this._setterOfData = setterOfData;
 
-			this._spinRule = spinRule;
+			this._rotationRule = rotationRule;
 			this._getRotatedTetriminoShape = getRotatedTetriminoShape;
 
 			this._justBeforeLockDown = justBeforeLockDown;
@@ -142,7 +142,7 @@ export class GameRule {
 		isAllowedOperation: (numOfMoved?: number)=>{return numOfMoved!<15},
 		getterOfData: (data: any)=>{return null},
 		setterOfData: (data: any)=>{return null},
-		spinRule: setRegulatedSpinRule(
+		rotationRule: setRegulatedSpinRule(
 		{
 			i: [
 					[
@@ -291,7 +291,7 @@ export class GameRule {
 		return this._setterOfData;
 	}
 	get spinRule() {
-		return this._spinRule;
+		return this._rotationRule;
 	}
 	get getRotatedTetriminoShape() {
 		return this._getRotatedTetriminoShape;
@@ -328,7 +328,7 @@ export class GameRuleNormal extends GameRule {
 			isAllowedOperation = GameRule.Normal.isAllowedOperation,
 			getterOfData = GameRule.Normal.getterOfData,
 			setterOfData = GameRule.Normal.setterOfData,
-			spinRule = GameRule.Normal.spinRule,
+			rotationRule: spinRule = GameRule.Normal.spinRule,
 			getRotatedTetriminoShape = GameRule.Normal.getRotatedTetriminoShape,
 			justBeforeLockDown = GameRule.Normal.justBeforeLockDown,
 		}:
@@ -349,7 +349,7 @@ export class GameRuleNormal extends GameRule {
 			isAllowedOperation?: (numOfMoved?: number)=>boolean,
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
-			spinRule?: Map<Tetrimino, Pos[][][]>,
+			rotationRule?: Map<Tetrimino, Pos[][][]>,
 			getRotatedTetriminoShape?: (type:Tetrimino, d:number)=>Pos[],
 			justBeforeLockDown?: (data: any)=>boolean,
 		}) {
@@ -371,7 +371,7 @@ export class GameRuleNormal extends GameRule {
 			isAllowedOperation: isAllowedOperation,
 			getterOfData: getterOfData,
 			setterOfData: setterOfData,
-			spinRule: spinRule,
+			rotationRule: spinRule,
 			getRotatedTetriminoShape: getRotatedTetriminoShape,
 			justBeforeLockDown: justBeforeLockDown,
 		})
