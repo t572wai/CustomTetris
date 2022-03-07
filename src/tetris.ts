@@ -656,13 +656,13 @@ export class Tetris {
 		const dif = {x:followingDif.x-formerDif.x, y:followingDif.y-formerDif.y};
 		const rotatedMinos = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
 		// const numOfPoint: number = (() => {
-			let n = -1;
+			let n = 0;
 			while(true) {
 				let [dx,dy] = [0,0];
 				let following = cloneArray(rotatedMinos);
-				if (n>-1 && this._gameRule.rotationRule.get(this._currentMinoShape)![n].length==0) {
+				if (n>-1 && this._gameRule.rotationRule.get(this._currentMinoShape)![n-1].length==0) {
 					return -1;
-				} else if (n>-1) {
+				} else if (n>0) {
 					const ind: 0|1 = (()=>{
 						if (direction==1) {
 							return 0;
@@ -670,7 +670,7 @@ export class Tetris {
 							return 1;
 						}
 					})();
-					({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n]);
+					({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n-1]);
 					following = getMovedMinos(following, dx, dy);
 				}
 				console.log(dx,dy,following,n);
