@@ -83,8 +83,8 @@ export class Tetris {
 
 	start(): void {
 		this.arrangeToTetris();
-		this.genPhase(true);
 		this._gameRule.arrangeFirstSituation();
+		this.genPhase(true);
 	}
 	end(): void {
 		this.clearHoldQueue();
