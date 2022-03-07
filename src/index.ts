@@ -593,6 +593,7 @@ const WantToTSpin = new GameRuleNormal({
 
 		console.log(WantToTSpin.data);
 		switch (WantToTSpin.data) {
+			default:
 			case 0:
 				return setWall(normalTerrain, [
 					...lineWithHole(7,[2,3]),
@@ -663,8 +664,6 @@ const WantToTSpin = new GameRuleNormal({
 					...lineWithHole(20, [6,7]),
 					...lineWithHole(21, [7]),
 				]);
-			default:
-				return normalTerrain;
 		}
 
 	},
