@@ -851,6 +851,8 @@ export class Tetris {
 		if (this._currentPhase=="fall") {
 			if(!this.canFall()) this._onOperationFunc(false);
 		} else if (this._currentPhase=="lock") {
+			console.log(this.canFall(), this.shouldResetLockDownTimer());
+			
 			this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 		}
 	}
