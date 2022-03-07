@@ -355,6 +355,15 @@ export class Tetris {
 	//
 	// attr
 	//
+	get currentMinoShape() {
+		return this._currentMinoShape;
+	}
+	set currentMinoShape(shape: string) {
+		if (this._gameRule.tetriminoClass.isTetrimino(shape)) {
+			this._currentMinoShape = shape;
+		}
+	}
+
 	set currentPos(pos: Pos) {
 		this._currentPos = pos;
 	}
@@ -364,13 +373,6 @@ export class Tetris {
 	set bag(tetriminos: Tetrimino[]) {
 		this._bag = tetriminos;
 	}
-
-	// get followingMinos() {
-	// 	return this._followingMinos;
-	// }
-	// set followingMinos(minos: Tetrimino[]) {
-	// 	this._followingMinos = minos;
-	// }
 
 	get isPausing(): boolean {
 		return this._isPausing;
@@ -384,6 +386,10 @@ export class Tetris {
 	}
 	get lockDownTimer() {
 		return this._lockDownTimer;
+	}
+
+	get rejectPhase() {
+		return this._rejectPhase;
 	}
 
 	get holdMinoType() {
@@ -407,45 +413,24 @@ export class Tetris {
 		this._totalFallenTetrimino = num;
 	}
 
+	get numOfOperationsInLockDownPhase() {
+		return this._numOfOperationsInLockDownPhase;
+	}
+	set numOfOperationsInLockDownPhase(num: number) {
+		this._numOfOperationsInLockDownPhase = num;
+	}
+
 	currentMinos(): Mino[] {
 		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
-		const dif = this.getDifOfShaft(this._currentFacing);
+		const dif = this._gameRule.getDifOfShaft(this._currentMinoShape, this._currentFacing);
 		return getMovedMinos(getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing), dif.x, dif.y);
 	}
 
 	getShaft(): Pos {
-		const dif = this.getDifOfShaft(this._currentFacing);
+		const dif = this._gameRule.getDifOfShaft(this._currentMinoShape, this._currentFacing);
 		return {x:this._currentPos.x+dif.x, y:this._currentPos.y+dif.y};
 	}
-	getDifOfShaft(facing: 0|1|2|3): Pos {
-		if (this._gameRule.tetriminoClass.getTetriminoWidth(this._currentMinoShape)%2==0) {
-			if (this._gameRule.tetriminoClass.getTetriminoHeight(this._currentMinoShape)%2==0) {
-				switch (facing) {
-					case 0:
-						return {x:0,y:0};
-					case 1:
-						return {x:0,y:-1};
-					case 2:
-						return {x:1,y:-1};
-					case 3:
-						return {x:1,y:0};
-				}
-			} else {
-				switch (facing) {
-					case 0:
-						return {x:0,y:0};
-					case 1:
-						return {x:1,y:0};
-					case 2:
-						return {x:1,y:1};
-					case 3:
-						return {x:0,y:1};
-				}
-			}
-		} else {
-			return {x:0,y:0};
-		}
-	}
+	
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
 		if (this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
@@ -645,12 +630,12 @@ export class Tetris {
 	move(dx: number, dy: number): boolean {
 		const following = getMovedMinos(this.currentMinos(),dx,dy);
 		if (this.canMove(following)) {
-			this.relocate(following);
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
 			if (this._lowerPos < this._currentPos.y) {
 				this._numOfOperationsInLockDownPhase = 0;
 				this._lowerPos = this._currentPos.y;
 			}
+			this.relocate(following);
 			this.relocateGhost();
 			return true;
 		} else {
@@ -660,8 +645,8 @@ export class Tetris {
 	rotate(direction: 1|3): number {
 		const formerFacing = this._currentFacing;
 		const followingFacing = (this._currentFacing+direction)%4 as 0|1|2|3;
-		const formerDif = this.getDifOfShaft(formerFacing);
-		const followingDif = this.getDifOfShaft(followingFacing);
+		const formerDif = this._gameRule.getDifOfShaft(this._currentMinoShape, formerFacing);
+		const followingDif = this._gameRule.getDifOfShaft(this._currentMinoShape, followingFacing);
 		const dif = {x:followingDif.x-formerDif.x, y:followingDif.y-formerDif.y};
 		const rotatedMinos = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
 		let n = 0;
@@ -684,9 +669,9 @@ export class Tetris {
 			console.log(dx,dy,following,n);
 			
 			if (this.canMove(following)) {
-				this.relocate(following);
 				this._currentFacing = followingFacing;
 				this._currentPos = {x:this._currentPos.x+dx, y:this._currentPos.y+dy};
+				this.relocate(following);
 				this.relocateGhost();
 				return n;
 			}

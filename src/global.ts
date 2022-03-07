@@ -2,8 +2,8 @@ import { cloneArray, Enum, toUpperFirstLetter } from "./general";
 import { InvertibleMap } from "./InversiveMap";
 import { TetriminoClass } from "./tetrimino";
 
-const TetriminoNormals = ['i','o','s','z','j','l','t','empty','wall'];
-const TetriminoNormalAttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
+export const TetriminoNormals = ['i','o','s','z','j','l','t','empty','wall'];
+export const TetriminoNormalAttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
 TetriminoNormals.forEach((mino) => {
 	if (mino=="empty") {
 		TetriminoNormalAttrMap.set(mino, 'empty');
@@ -13,7 +13,7 @@ TetriminoNormals.forEach((mino) => {
 		TetriminoNormalAttrMap.set(mino, 'block');
 	}
 })
-const SkeletonsOfTetriminoNormal = new Map<Tetrimino,(-1|0|1)[][]>();
+export const SkeletonsOfTetriminoNormal = new Map<Tetrimino,(-1|0|1)[][]>();
 SkeletonsOfTetriminoNormal.set("i", [[1,0,1,1]]);
 SkeletonsOfTetriminoNormal.set("o", [[1,1],[0,1]])
 SkeletonsOfTetriminoNormal.set("s", [[-1,1,1],[1,0,-1]])

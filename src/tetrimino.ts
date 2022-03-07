@@ -13,6 +13,9 @@ export class TetriminoClass {
 		) {
 		this._tetriminos = tetriminos;
 		this._attrMap = attrMap;
+		if (!this._attrMap.getKeysFromValue("empty")[0]) {
+			throw new Error("This class has no empty mino.");
+		}
 		let hasOrigin = false;
 		for (const value of skeltonMap.values()) {
 			hasOrigin = false;

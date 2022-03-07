@@ -1,5 +1,5 @@
 import { Enum, shuffle } from "./general";
-import { changeFacing, getMovedMinos, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino } from "./global";
+import { changeFacing, getMovedMinos, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino, Mino } from "./global";
 import { TetriminoClass } from "./tetrimino";
 import { Tetris } from "./tetris";
 
@@ -26,7 +26,7 @@ export class GameRule {
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
 	private _rotationRule: Map<Tetrimino, Pos[][][]>;
-	private _getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[];
+	private _getDifOfShaft: (shape: string, facing: 0|1|2|3)=>Pos;
 	private _justBeforeLockDown: (data:any)=>boolean;
 
 	constructor(
@@ -34,45 +34,83 @@ export class GameRule {
 			name,
 			title,
 			tetriminoClass,
-			generateTerrain,
-			generateRegularlyTerrain,
+			generateTerrain = ()=>{
+				let terrainArray:Tetrimino[][] = [];
+				for (let i = 0; i < normalFieldHeight; i++) {
+					terrainArray.push(new Array(normalFieldWidth).fill(tetriminoClass.attrMap.getKeysFromValue('empty')![0]));
+				}
+				return terrainArray;
+			},
+			generateRegularlyTerrain = ()=>{
+				return Array(normalFieldWidth).fill(tetriminoClass.attrMap.getKeysFromValue("empty")[0]);
+			},
 			matrixHeight = normalMatrixHeight,
 			matrixWidth = normalMatrixWidth,
 			bufferHeight = normalBufferHeight,
-			cssClass,
-			nextNum,
-			shouldGenerateTetriminos,
+			cssClass = "",
+			nextNum = tetriminoClass.tetriminos.length-1,
+			shouldGenerateTetriminos = (followingMinos: Tetrimino[]) => {
+				return followingMinos.length < nextNum + 1
+			},
 			generateNextTetriminos,
-			arrangeFirstSituation,
-			arrangeSituation,
-			isAllowedOperation,
-			getterOfData,
-			setterOfData,
+			arrangeFirstSituation = ()=>{},
+			arrangeSituation = () => {},
+			isAllowedOperation = (numOfMoved?: number)=>{return numOfMoved!<15},
+			getterOfData = (data: any)=>{return null},
+			setterOfData = (data: any)=>{return null},
 			rotationRule,
-			getRotatedTetriminoShape,
-			justBeforeLockDown,
+			getDifOfShaft = (shape: string, facing: 0|1|2|3): Pos => {
+				if (tetriminoClass.getTetriminoWidth(shape)%2==0) {
+					if (tetriminoClass.getTetriminoHeight(shape)%2==0) {
+						switch (facing) {
+							case 0:
+								return {x:0,y:0};
+							case 1:
+								return {x:0,y:-1};
+							case 2:
+								return {x:1,y:-1};
+							case 3:
+								return {x:1,y:0};
+						}
+					} else {
+						switch (facing) {
+							case 0:
+								return {x:0,y:0};
+							case 1:
+								return {x:1,y:0};
+							case 2:
+								return {x:1,y:1};
+							case 3:
+								return {x:0,y:1};
+						}
+					}
+				} else {
+					return {x:0,y:0};
+				}
+			},
+			justBeforeLockDown = ()=>{return true;},
 		}:
 		{
 			name: string,
 			title: string,
 			tetriminoClass:  TetriminoClass,
-			generateTerrain: ()=>Tetrimino[][],
-			generateRegularlyTerrain: ()=>Tetrimino[],
-			matrixHeight: number,
-			matrixWidth: number,
-			bufferHeight: number,
-			cssClass: string,
-			nextNum: number,
-			shouldGenerateTetriminos: (array: Tetrimino[])=>boolean,
+			generateTerrain?: ()=>Tetrimino[][],
+			generateRegularlyTerrain?: ()=>Tetrimino[],
+			matrixHeight?: number,
+			matrixWidth?: number,
+			bufferHeight?: number,
+			cssClass?: string,
+			nextNum?: number,
+			shouldGenerateTetriminos?: (array: Tetrimino[])=>boolean,
 			generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[],
-			arrangeFirstSituation: (data?: any)=>void,
-			arrangeSituation: (data?: any)=>void,
-			isAllowedOperation: (numOfMoved?: number)=>boolean,
-			getterOfData: (data:any)=>any,
-			setterOfData: (data:any)=>any,
+			arrangeFirstSituation?: (data?: any)=>void,
+			arrangeSituation?: (data?: any)=>void,
+			isAllowedOperation?: (numOfMoved?: number)=>boolean,
+			getterOfData?: (data:any)=>any,
+			setterOfData?: (data:any)=>any,
 			rotationRule: Map<Tetrimino, Pos[][][]>,
-			getRotatedTetriminoShape: (type:Tetrimino, d:number)=>Pos[],
-			justBeforeLockDown: (data: any)=>boolean,
+			getDifOfShaft?: (shape: string, facing: 0|1|2|3) => Pos,
+			justBeforeLockDown?: (data: any)=>boolean,
 		}
 		) {
 			this._name = name;
@@ -105,7 +143,7 @@ export class GameRule {
 			this._setterOfData = setterOfData;
 
 			this._rotationRule = rotationRule;
-			this._getRotatedTetriminoShape = getRotatedTetriminoShape;
+			this._getDifOfShaft = getDifOfShaft;
 
 			this._justBeforeLockDown = justBeforeLockDown;
 	}
@@ -202,28 +240,8 @@ export class GameRule {
 			z: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
 			t: [[[{x:-1,y:0},{x:-1,y:-1},{x:0,y:2},{x:-1,y:2}]]],
 		}),
-		getRotatedTetriminoShape: (type: Tetrimino,d: number): Pos[] => {
-			const shape_pos: Pos[] = TetriminoNormal.getTetriminoShape(type)!;
-			if (type=='o') {
-				return shape_pos;
-			} else if (type=='i') {
-				const differ = [
-					[0,0],
-					[1,0],
-					[1,1],
-					[0,1]
-				]
-				return getMovedShape(changeFacing(shape_pos,d), differ[d][0], differ[d][1]);
-			} else {
-				return changeFacing(shape_pos,d);
-			}
-		},
 		justBeforeLockDown: ()=>{return true},
 	})
-
-	// get TetriminoEnum() {
-	// 	return this._TetriminoClassEnum;
-	// }
 
 	get tetriminoClass() {
 		return this._tetriminoClass;
@@ -293,8 +311,8 @@ export class GameRule {
 	get rotationRule() {
 		return this._rotationRule;
 	}
-	get getRotatedTetriminoShape() {
-		return this._getRotatedTetriminoShape;
+	get getDifOfShaft() {
+		return this._getDifOfShaft;
 	}
 
 	get justBeforeLockDown() {
@@ -328,8 +346,8 @@ export class GameRuleNormal extends GameRule {
 			isAllowedOperation = GameRule.Normal.isAllowedOperation,
 			getterOfData = GameRule.Normal.getterOfData,
 			setterOfData = GameRule.Normal.setterOfData,
-			rotationRule: spinRule = GameRule.Normal.rotationRule,
-			getRotatedTetriminoShape = GameRule.Normal.getRotatedTetriminoShape,
+			rotationRule = GameRule.Normal.rotationRule,
+			getDifOfShaft = GameRule.Normal.getDifOfShaft,
 			justBeforeLockDown = GameRule.Normal.justBeforeLockDown,
 		}:
 		{
@@ -350,7 +368,7 @@ export class GameRuleNormal extends GameRule {
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
 			rotationRule?: Map<Tetrimino, Pos[][][]>,
-			getRotatedTetriminoShape?: (type:Tetrimino, d:number)=>Pos[],
+			getDifOfShaft?: (shape: string, facing: 0|1|2|3)=>Pos,
 			justBeforeLockDown?: (data: any)=>boolean,
 		}) {
 		super({
@@ -371,8 +389,8 @@ export class GameRuleNormal extends GameRule {
 			isAllowedOperation: isAllowedOperation,
 			getterOfData: getterOfData,
 			setterOfData: setterOfData,
-			rotationRule: spinRule,
-			getRotatedTetriminoShape: getRotatedTetriminoShape,
+			rotationRule: rotationRule,
+			getDifOfShaft: getDifOfShaft,
 			justBeforeLockDown: justBeforeLockDown,
 		})
 	}

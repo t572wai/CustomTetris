@@ -7,10 +7,11 @@ import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
 import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
-import { changeFacing, Operate, Operations, Pos, Tetrimino, TetriminoNormal } from "./global";
+import { changeFacing, getMovedMinos, getMovedShape, getRotatedMinos, getRotatedShape, Operate, Operations, Pos, SkeletonsOfTetriminoNormal, Tetrimino, TetriminoNormal, TetriminoNormalAttrMap, TetriminoNormals } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
+import { TetriminoClass } from "./tetrimino";
 
 
 //
@@ -793,38 +794,59 @@ const OSpin = new GameRuleNormal({
 						]
 					]
 				])),
+	getDifOfShaft: (shape: string, facing: 0|1|2|3) => {
+				if (TetriminoNormal.getTetriminoWidth(shape)%2==0) {
+					if (TetriminoNormal.getTetriminoHeight(shape)%2==0) {
+						return {x:0, y:0};
+					} else {
+						switch (facing) {
+							case 0:
+								return {x:0,y:0};
+							case 1:
+								return {x:1,y:0};
+							case 2:
+								return {x:1,y:1};
+							case 3:
+								return {x:0,y:1};
+						}
+					}
+				} else {
+					return {x:0,y:0};
+				}
+			},
 	cssClass: 'ospin',
-	getRotatedTetriminoShape: (type:Tetrimino, d:number):Pos[] => {
-		if (type=='o') {
-			console.log(changeFacing(TetriminoNormal.getTetriminoShape(type)!,d));
-			return changeFacing(TetriminoNormal.getTetriminoShape(type)!,d);
-		} else {
-			return GameRule.Normal.getRotatedTetriminoShape(type, d);
-		}
-	},
 	justBeforeLockDown: (data: any): boolean => {
-		// let bm1 = currentTetris.canMove(getMovedAndRotatedTetrimino(-2,2,1,'i'));
-		// let b0 = currentTetris.canMove(getMovedAndRotatedTetrimino(-1,2,1,'i'));
-		// let b1 = currentTetris.canMove(getMovedAndRotatedTetrimino(0,2,1,'i'));
-		// if (currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(numberOfMoveWithLowerFace)) {
-		// 	gameRuleOption.currentOption.data = false;
-		// 	return true;
-		// } else {
-		// 	if(b0) {
-		// 		moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
-		// 	} else if (bm1) {
-		// 		moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
-		// 	} else {
-		// 		moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
-		// 	}
-		// 	currentMinoShape = 'i';
-		// 	currentTetris.lockDownTimer.clearTimeout();
-		// 	numberOfMoveWithLowerFace = 0;
-		// 	gameRuleOption.currentOption.data = true;
-		// 	loopOfFall();
-		// 	return false;
-		// }
-		return false;
+		const rotated = getRotatedShape(TetriminoNormal.getTetriminoShape("i")!, {x:1,y:0}, 1);
+		let bm1 = currentTetris.canMove(getMovedShape(rotated,-2,2));
+		let b0 = currentTetris.canMove(getMovedShape(rotated,-1,2));
+		let b1 = currentTetris.canMove(getMovedShape(rotated,0,2));
+		if (currentTetris.currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(currentTetris.numOfOperationsInLockDownPhase)) {
+			gameRuleOption.currentOption.data = false;
+			return true;
+		} else {
+			currentTetris.currentMinoShape = 'i';
+			if(b0) {
+				currentTetris.rotate(1);
+				currentTetris.move(-1,2);
+				// moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
+			} else if (bm1) {
+				currentTetris.rotate(1);
+				currentTetris.move(-2,2);
+				// moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
+			} else {
+				currentTetris.rotate(1);
+				currentTetris.move(0,2);
+				// moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
+			}
+			currentTetris.lockDownTimer.clearTimeout();
+			currentTetris.numOfOperationsInLockDownPhase = 0;
+			gameRuleOption.currentOption.data = true;
+			currentTetris.rejectPhase();
+			currentTetris.fallPhase();
+			// loopOfFall();
+			return false;
+		}
+		// return false;
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{return data;},
