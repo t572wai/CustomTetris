@@ -561,6 +561,11 @@ export class Tetris {
 		$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').html("");
 	}
 
+	setShaftClass(pos: Pos|Mino): void {
+		$('.shaft').removeClass('shaft');
+		$(`.minos[data-x="${pos.x}"][data-y="${pos.y}"]`).addClass('shaft');
+	}
+
 	displayNext(): void {
 		$('#nextArea').html(this.textOfNext())
 	}
@@ -659,49 +664,40 @@ export class Tetris {
 		const followingDif = this.getDifOfShaft(followingFacing);
 		const dif = {x:followingDif.x-formerDif.x, y:followingDif.y-formerDif.y};
 		const rotatedMinos = getMovedMinos(getRotatedMinos(this.currentMinos(), this.getShaft(), direction), dif.x, dif.y);
-		// const numOfPoint: number = (() => {
-			let n = 0;
-			while(true) {
-				let [dx,dy] = [0,0];
-				let following = cloneArray(rotatedMinos);
-				if (n>0 && this._gameRule.rotationRule.get(this._currentMinoShape)![n-1].length==0) {
-					return -1;
-				} else if (n>0) {
-					const ind: 0|1 = (()=>{
-						if (direction==1) {
-							return 0;
-						} else {
-							return 1;
-						}
-					})();
-					({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n-1]);
-					following = getMovedMinos(following, dx, dy);
-				}
-				console.log(dx,dy,following,n);
-				
-				if (this.canMove(following)) {
-					this.relocate(following);
-					this._currentFacing = followingFacing;
-					this._currentPos = {x:this._currentPos.x+dx, y:this._currentPos.y+dy};
-					this.relocateGhost();
-					return n;
-				}
-				n++;
+		let n = 0;
+		while(true) {
+			let [dx,dy] = [0,0];
+			let following = cloneArray(rotatedMinos);
+			if (n>0 && this._gameRule.rotationRule.get(this._currentMinoShape)![n-1].length==0) {
+				return -1;
+			} else if (n>0) {
+				const ind: 0|1 = (()=>{
+					if (direction==1) {
+						return 0;
+					} else {
+						return 1;
+					}
+				})();
+				({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n-1]);
+				following = getMovedMinos(following, dx, dy);
 			}
-		// })()
-		// if (this.canMove(rotatedMinos)) {
-		// 	this.relocate(rotatedMinos);
-		// 	this._currentFacing = followingFacing;
-		// 	this.relocateGhost();
-		// 	return true;
-		// } else {
-		// 	return false;
-		// }
+			console.log(dx,dy,following,n);
+			
+			if (this.canMove(following)) {
+				this.relocate(following);
+				this._currentFacing = followingFacing;
+				this._currentPos = {x:this._currentPos.x+dx, y:this._currentPos.y+dy};
+				this.relocateGhost();
+				return n;
+			}
+			n++;
+		}
 	}
 
 	relocate(following: Mino[]): void {
 		this.hideCurrentMino();
-		this.updateDiffOfField(following, 'falling')
+		this.updateDiffOfField(following, 'falling');
+		this.setShaftClass(this.getShaft());
 	}
 
 	hideCurrentMino() {
