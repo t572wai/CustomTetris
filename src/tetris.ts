@@ -84,7 +84,7 @@ export class Tetris {
 	start(): void {
 		this.arrangeToTetris();
 		this.genPhase(true);
-
+		this._gameRule.arrangeFirstSituation();
 	}
 	end(): void {
 		this.clearHoldQueue();
@@ -180,6 +180,7 @@ export class Tetris {
 			this._rejectPhase = reject;
 			this._onOperationFunc = ()=>{};
 			this.removeGhostMinos();
+			this._gameRule.arrangeSituation();
 			resolve(this.getLinePatterns());
 		});
 		if (patternMatchArray.length != 0) {
@@ -794,8 +795,6 @@ export class Tetris {
 	leftRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(3);
-			console.log(didMove);
-			
 			if (didMove > -1) {
 				this.onOperating()
 			}
@@ -804,7 +803,6 @@ export class Tetris {
 	rightRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(1);
-			console.log(didMove);
 			if (didMove > -1) {
 				this.onOperating()
 			}
@@ -854,8 +852,6 @@ export class Tetris {
 		if (this._currentPhase=="fall") {
 			if(!this.canFall()) this._onOperationFunc(false);
 		} else if (this._currentPhase=="lock") {
-			console.log(this.canFall(), this.shouldResetLockDownTimer());
-			
 			this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
 		}
 	}
