@@ -415,15 +415,28 @@ export class Tetris {
 	}
 	getDifOfShaft(facing: 0|1|2|3): Pos {
 		if (this._gameRule.tetriminoClass.getTetriminoWidth(this._currentMinoShape)%2==0) {
-			switch (facing) {
-				case 0:
-					return {x:0,y:0};
-				case 1:
-					return {x:0,y:-1};
-				case 2:
-					return {x:1,y:-1};
-				case 3:
-					return {x:1,y:0};
+			if (this._gameRule.tetriminoClass.getTetriminoHeight(this._currentMinoShape)%2==0) {
+				switch (facing) {
+					case 0:
+						return {x:0,y:0};
+					case 1:
+						return {x:0,y:-1};
+					case 2:
+						return {x:1,y:-1};
+					case 3:
+						return {x:1,y:0};
+				}
+			} else {
+				switch (facing) {
+					case 0:
+						return {x:0,y:0};
+					case 1:
+						return {x:1,y:0};
+					case 2:
+						return {x:1,y:1};
+					case 3:
+						return {x:0,y:1};
+				}
 			}
 		} else {
 			return {x:0,y:0};
