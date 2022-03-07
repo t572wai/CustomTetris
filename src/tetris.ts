@@ -660,7 +660,7 @@ export class Tetris {
 			while(true) {
 				let [dx,dy] = [0,0];
 				let following = cloneArray(rotatedMinos);
-				if (n>-1 && this._gameRule.rotationRule.get(this._currentMinoShape)![n-1].length==0) {
+				if (n>0 && this._gameRule.rotationRule.get(this._currentMinoShape)![n-1].length==0) {
 					return -1;
 				} else if (n>0) {
 					const ind: 0|1 = (()=>{
