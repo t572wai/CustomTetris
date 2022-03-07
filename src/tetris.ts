@@ -794,6 +794,8 @@ export class Tetris {
 	leftRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(3);
+			console.log(didMove);
+			
 			if (didMove > -1) {
 				this.onOperating()
 			}
@@ -802,6 +804,7 @@ export class Tetris {
 	rightRotation(): void {
 		if (this.canOperate()) {
 			const didMove = this.rotate(1);
+			console.log(didMove);
 			if (didMove > -1) {
 				this.onOperating()
 			}
