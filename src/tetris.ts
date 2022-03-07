@@ -180,6 +180,7 @@ export class Tetris {
 			this._rejectPhase = reject;
 			this._onOperationFunc = ()=>{};
 			this.removeGhostMinos();
+			this._totalFallenTetrimino++;
 			this._gameRule.arrangeSituation();
 			resolve(this.getLinePatterns());
 		});
