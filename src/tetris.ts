@@ -84,6 +84,8 @@ export class Tetris {
 	start(): void {
 		this.arrangeToTetris();
 		this._gameRule.arrangeFirstSituation();
+		console.log(this._bag,this._fieldArray);
+		
 		this.genPhase(true);
 	}
 	end(): void {
