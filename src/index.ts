@@ -817,9 +817,9 @@ const OSpin = new GameRuleNormal({
 	cssClass: 'ospin',
 	justBeforeLockDown: (data: any): boolean => {
 		const rotated = getRotatedShape(TetriminoNormal.getTetriminoShape("i")!, {x:1,y:0}, 1);
-		let bm1 = currentTetris.canMove(getMovedShape(rotated,-2,2));
-		let b0 = currentTetris.canMove(getMovedShape(rotated,-1,2));
-		let b1 = currentTetris.canMove(getMovedShape(rotated,0,2));
+		let bm1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2));
+		let b0 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+2));
+		let b1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+2));
 		if (currentTetris.currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(currentTetris.numOfOperationsInLockDownPhase)) {
 			gameRuleOption.currentOption.data = false;
 			return true;
