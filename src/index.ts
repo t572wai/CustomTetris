@@ -831,20 +831,27 @@ const OSpin = new GameRuleNormal({
 			gameRuleOption.currentOption.data = false;
 			return true;
 		} else {
+			currentTetris.hideCurrentMino();
 			currentTetris.currentMinoShape = 'i';
+			const followingRotated = getMovedMinos(Tetris.replaceMinoType(rotated, 'o'), currentTetris.currentPos.x, currentTetris.currentPos.y);
+			// currentTetris.relocate(followingRotated);
+			// currentTetris.rotate(1);
+			// const dif = OSpin.getDifOfShaft('i',currentTetris.currentFacing);
+			// currentTetris.move(-dif.x,-dif.y);
 			if(b0) {
-				currentTetris.rotate(1);
-				currentTetris.move(-1,2);
+				currentTetris.relocate(getMovedMinos(followingRotated,-1,2));
+				currentTetris.currentPos = {x:currentTetris.currentPos.x-1, y:currentTetris.currentPos.y+2};
 				// moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
 			} else if (bm1) {
-				currentTetris.rotate(1);
-				currentTetris.move(-2,2);
+				currentTetris.relocate(getMovedMinos(followingRotated,-2,2));
+				currentTetris.currentPos = {x:currentTetris.currentPos.x-2, y:currentTetris.currentPos.y+2};
 				// moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
 			} else {
-				currentTetris.rotate(1);
-				currentTetris.move(0,2);
+				currentTetris.relocate(getMovedMinos(followingRotated,0,2));
+				currentTetris.currentPos = {x:currentTetris.currentPos.x, y:currentTetris.currentPos.y+2};
 				// moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
+			currentTetris.relocateGhost();
 			currentTetris.lockDownTimer.clearTimeout();
 			currentTetris.numOfOperationsInLockDownPhase = 0;
 			gameRuleOption.currentOption.data = true;
