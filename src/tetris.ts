@@ -172,8 +172,6 @@ export class Tetris {
 			const shouldLockDown = this._gameRule.justBeforeLockDown(null);
 			if (shouldLockDown) {
 				this.patternPhase();
-			} else {
-				this.fallPhase();
 			}
 		})
 		
