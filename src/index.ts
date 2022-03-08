@@ -834,6 +834,8 @@ const OSpin = new GameRuleNormal({
 			currentTetris.hideCurrentMino();
 			currentTetris.currentMinoShape = 'i';
 			const followingRotated = getMovedMinos(Tetris.replaceMinoType(rotated, 'o'), currentTetris.currentPos.x, currentTetris.currentPos.y);
+			console.log("fr",followingRotated);
+			
 			// currentTetris.relocate(followingRotated);
 			// currentTetris.rotate(1);
 			// const dif = OSpin.getDifOfShaft('i',currentTetris.currentFacing);
@@ -856,6 +858,8 @@ const OSpin = new GameRuleNormal({
 			currentTetris.lockDownTimer.clearTimeout();
 			currentTetris.numOfOperationsInLockDownPhase = 0;
 			gameRuleOption.currentOption.data = true;
+			console.log(currentTetris.currentMinos(),currentTetris.currentPos);
+			
 			currentTetris.rejectPhase();
 			currentTetris.fallPhase();
 			// loopOfFall();
