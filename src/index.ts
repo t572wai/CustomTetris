@@ -816,7 +816,7 @@ const OSpin = new GameRuleNormal({
 			},
 	cssClass: 'ospin',
 	justBeforeLockDown: (data: any): boolean => {
-		const rotated = getRotatedShape(TetriminoNormal.getTetriminoShape("i")!, {x:1,y:0}, 1);
+		const rotated = getRotatedShape(TetriminoNormal.getTetriminoShape("i")!, {x:0,y:0}, 1);
 
 		console.log(TetriminoNormal.getTetriminoShape("i"));
 		
