@@ -817,6 +817,9 @@ const OSpin = new GameRuleNormal({
 	cssClass: 'ospin',
 	justBeforeLockDown: (data: any): boolean => {
 		const rotated = getRotatedShape(TetriminoNormal.getTetriminoShape("i")!, {x:1,y:0}, 1);
+
+		console.log(currentTetris.currentPos);
+		
 		let bm1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2));
 		let b0 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+2));
 		let b1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+2));
