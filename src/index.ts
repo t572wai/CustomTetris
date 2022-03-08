@@ -820,6 +820,8 @@ const OSpin = new GameRuleNormal({
 		let bm1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2));
 		let b0 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+2));
 		let b1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+2));
+		// console.log(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2));
+		
 		if (currentTetris.currentMinoShape!='o' || (!bm1&&!b0&&!b1) || gameRuleOption.currentOption.isAllowedOperation(currentTetris.numOfOperationsInLockDownPhase)) {
 			gameRuleOption.currentOption.data = false;
 			return true;

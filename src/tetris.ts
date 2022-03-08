@@ -151,25 +151,29 @@ export class Tetris {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
 			this._lockDownTimer.setTimeout();
-		}).then(({isMoved, isThereSpaceToFall, didResetLockDownTimer}) => {
+		}).then(async ({isMoved, isThereSpaceToFall, didResetLockDownTimer}) => {
 			if (isMoved) {
 				if (isThereSpaceToFall) {
 					this._timerToFall.clearTimeout();
 					this._lockDownTimer.clearTimeout();
 					this.fallPhase();
+					return;
 				} else {
 					if (didResetLockDownTimer) {
 						this._timerToFall.clearTimeout();
 						this._lockDownTimer.clearTimeout();
 						this.lockPhase();
-					} else {
-						this._timerToFall.clearTimeout();
-						this._lockDownTimer.clearTimeout();
-						this.patternPhase();
+						return;
 					}
 				}
-			} else {
+			}
+			this._timerToFall.clearTimeout();
+			this._lockDownTimer.clearTimeout();
+			const shouldLockDown = this._gameRule.justBeforeLockDown(null);
+			if (shouldLockDown) {
 				this.patternPhase();
+			} else {
+				this.fallPhase();
 			}
 		})
 		
