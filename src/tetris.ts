@@ -365,6 +365,9 @@ export class Tetris {
 			this._currentMinoShape = shape;
 		}
 	}
+	set currentFacing(facing: 0|1|2|3) {
+		this._currentFacing = facing;
+	}
 	get currentFacing() {
 		return this._currentFacing;
 	}
