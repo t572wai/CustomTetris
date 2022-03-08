@@ -143,7 +143,7 @@ export class Tetris {
 			this._rejectPhase = reject;
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
-			if (!this.shouldResetLockDownTimer()) {
+			if (!this._gameRule.shouldResetLockDownTimer(this._numOfOperationsInLockDownPhase)) {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
 			this._onOperationFunc = resolve;
@@ -841,11 +841,11 @@ export class Tetris {
 		if (this._currentPhase=="fall") {
 			if(!this.canFall()) this._onOperationFunc(false);
 		} else if (this._currentPhase=="lock") {
-			this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this.shouldResetLockDownTimer()});
+			this._onOperationFunc({isMoved: true, isThereSpaceToFall: this.canFall(), didResetLockDownTimer: this._gameRule.shouldResetLockDownTimer(this._numOfOperationsInLockDownPhase)});
 		}
 	}
 
-	shouldResetLockDownTimer(): boolean {
-		return this._numOfOperationsInLockDownPhase < 14;
-	}
+	// shouldResetLockDownTimer(): boolean {
+	// 	return this._numOfOperationsInLockDownPhase < 14;
+	// }
 }

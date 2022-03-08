@@ -21,7 +21,7 @@ export class GameRule {
 	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
 	private _arrangeFirstSituation: (data?: any)=>void;
 	private _arrangeSituation: (data?:any)=>void;
-	private _isAllowedOperation: (numberOfMoved?: number)=>boolean;
+	private _shouldResetLockDownTimer: (numberOfMoved?: number)=>boolean;
 	private _data: any;
 	private _getterOfData: (data:any)=>any;
 	private _setterOfData: (data:any)=>any;
@@ -55,7 +55,7 @@ export class GameRule {
 			generateNextTetriminos,
 			arrangeFirstSituation = ()=>{},
 			arrangeSituation = () => {},
-			isAllowedOperation = (numOfMoved?: number)=>{return numOfMoved!<15},
+			shouldResetLockDownTimer = (numOfMoved?: number)=>{return numOfMoved!<15},
 			getterOfData = (data: any)=>{return null},
 			setterOfData = (data: any)=>{return null},
 			rotationRule,
@@ -105,7 +105,7 @@ export class GameRule {
 			generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
 			arrangeSituation?: (data?: any)=>void,
-			isAllowedOperation?: (numOfMoved?: number)=>boolean,
+			shouldResetLockDownTimer?: (numOfMoved?: number)=>boolean,
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
 			rotationRule: Map<Tetrimino, Pos[][][]>,
@@ -137,7 +137,7 @@ export class GameRule {
 			this._arrangeFirstSituation = arrangeFirstSituation;
 			this._arrangeSituation = arrangeSituation;
 
-			this._isAllowedOperation = isAllowedOperation;
+			this._shouldResetLockDownTimer = shouldResetLockDownTimer;
 
 			this._getterOfData = getterOfData;
 			this._setterOfData = setterOfData;
@@ -177,7 +177,7 @@ export class GameRule {
 		},
 		arrangeFirstSituation: ()=>{},
 		arrangeSituation: ()=>{},
-		isAllowedOperation: (numOfMoved?: number)=>{return numOfMoved!<15},
+		shouldResetLockDownTimer: (numOfMoved?: number)=>{return numOfMoved!<15},
 		getterOfData: (data: any)=>{return null},
 		setterOfData: (data: any)=>{return null},
 		rotationRule: setRegulatedSpinRule(
@@ -293,8 +293,8 @@ export class GameRule {
 	set cssClass(cssClass: string) {
 		this._cssClass = cssClass;
 	}
-	get isAllowedOperation() {
-		return this._isAllowedOperation;
+	get shouldResetLockDownTimer() {
+		return this._shouldResetLockDownTimer;
 	}
 	get data() {
 		return this._getterOfData(this._data);
@@ -343,7 +343,7 @@ export class GameRuleNormal extends GameRule {
 			generateNextTetriminos = GameRule.Normal.generateNextTetriminos,
 			arrangeFirstSituation = GameRule.Normal.arrangeFirstSituation,
 			arrangeSituation = GameRule.Normal.arrangeSituation,
-			isAllowedOperation = GameRule.Normal.isAllowedOperation,
+			shouldResetLockDownTimer = GameRule.Normal.shouldResetLockDownTimer,
 			getterOfData = GameRule.Normal.getterOfData,
 			setterOfData = GameRule.Normal.setterOfData,
 			rotationRule = GameRule.Normal.rotationRule,
@@ -364,7 +364,7 @@ export class GameRuleNormal extends GameRule {
 			generateNextTetriminos?: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
 			arrangeSituation?: (data?: any)=>void,
-			isAllowedOperation?: (numOfMoved?: number)=>boolean,
+			shouldResetLockDownTimer?: (numOfMoved?: number)=>boolean,
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
 			rotationRule?: Map<Tetrimino, Pos[][][]>,
@@ -386,7 +386,7 @@ export class GameRuleNormal extends GameRule {
 			generateNextTetriminos: generateNextTetriminos,
 			arrangeFirstSituation: arrangeFirstSituation,
 			arrangeSituation: arrangeSituation,
-			isAllowedOperation: isAllowedOperation,
+			shouldResetLockDownTimer: shouldResetLockDownTimer,
 			getterOfData: getterOfData,
 			setterOfData: setterOfData,
 			rotationRule: rotationRule,
