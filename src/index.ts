@@ -822,9 +822,9 @@ const OSpin = new GameRuleNormal({
 		
 		console.log(rotated,currentTetris.currentPos);
 		
-		let bm1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2));
-		let b0 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+2));
-		let b1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+2));
+		let bm1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+1));
+		let b0 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+1));
+		let b1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+1));
 		console.log(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2),getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+2),getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+2));
 		console.log(bm1,b0,b1);
 		console.log(currentTetris.currentMinoShape!='o',(!bm1&&!b0&&!b1),OSpin.shouldResetLockDownTimer(currentTetris.numOfOperationsInLockDownPhase));
@@ -845,18 +845,18 @@ const OSpin = new GameRuleNormal({
 			if(b0) {
 				console.log(getMovedMinos(followingRotated,-1,2));
 				
-				currentTetris.relocate(getMovedMinos(followingRotated,-1,2));
-				currentTetris.currentPos = {x:currentTetris.currentPos.x-1, y:currentTetris.currentPos.y+2};
+				currentTetris.relocate(getMovedMinos(followingRotated,-1,1));
+				currentTetris.currentPos = {x:currentTetris.currentPos.x-1, y:currentTetris.currentPos.y+1};
 				// moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
 			} else if (bm1) {
 				console.log(getMovedMinos(followingRotated,-2,2));
-				currentTetris.relocate(getMovedMinos(followingRotated,-2,2));
-				currentTetris.currentPos = {x:currentTetris.currentPos.x-2, y:currentTetris.currentPos.y+2};
+				currentTetris.relocate(getMovedMinos(followingRotated,-2,1));
+				currentTetris.currentPos = {x:currentTetris.currentPos.x-2, y:currentTetris.currentPos.y+1};
 				// moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
 			} else {
 				console.log(getMovedMinos(followingRotated,0,2));
-				currentTetris.relocate(getMovedMinos(followingRotated,0,2));
-				currentTetris.currentPos = {x:currentTetris.currentPos.x, y:currentTetris.currentPos.y+2};
+				currentTetris.relocate(getMovedMinos(followingRotated,0,1));
+				currentTetris.currentPos = {x:currentTetris.currentPos.x, y:currentTetris.currentPos.y+1};
 				// moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
 			currentTetris.currentFacing = 1;
