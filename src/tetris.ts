@@ -369,6 +369,9 @@ export class Tetris {
 	set currentPos(pos: Pos) {
 		this._currentPos = pos;
 	}
+	get currentPos() {
+		return this._currentPos;
+	}
 	get bag() {
 		return this._bag;
 	}
