@@ -818,17 +818,9 @@ const OSpin = new GameRuleNormal({
 	justBeforeLockDown: (data: any): boolean => {
 		const rotated = getRotatedShape(TetriminoNormal.getTetriminoShape("i")!, {x:0,y:0}, 1);
 
-		console.log(TetriminoNormal.getTetriminoShape("i"));
-		
-		console.log(rotated,currentTetris.currentPos);
-		
 		let bm1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+1));
 		let b0 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+1));
 		let b1 = currentTetris.canMove(getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+1));
-		console.log(getMovedShape(rotated,currentTetris.currentPos.x-2,currentTetris.currentPos.y+2),getMovedShape(rotated,currentTetris.currentPos.x-1,currentTetris.currentPos.y+2),getMovedShape(rotated,currentTetris.currentPos.x+0,currentTetris.currentPos.y+2));
-		console.log(bm1,b0,b1);
-		console.log(currentTetris.currentMinoShape!='o',(!bm1&&!b0&&!b1),OSpin.shouldResetLockDownTimer(currentTetris.numOfOperationsInLockDownPhase));
-		
 		if (currentTetris.currentMinoShape!='o' || (!bm1&&!b0&&!b1) || OSpin.shouldResetLockDownTimer(currentTetris.numOfOperationsInLockDownPhase)) {
 			gameRuleOption.currentOption.data = false;
 			return true;
@@ -836,46 +828,27 @@ const OSpin = new GameRuleNormal({
 			currentTetris.hideCurrentMino();
 			currentTetris.currentMinoShape = 'i';
 			const followingRotated = getMovedMinos(Tetris.replaceMinoType(rotated, 'o'), currentTetris.currentPos.x, currentTetris.currentPos.y);
-			console.log("fr",followingRotated);
-			
-			// currentTetris.relocate(followingRotated);
-			// currentTetris.rotate(1);
-			// const dif = OSpin.getDifOfShaft('i',currentTetris.currentFacing);
-			// currentTetris.move(-dif.x,-dif.y);
 			if(b0) {
-				console.log(getMovedMinos(followingRotated,-1,2));
-				
 				currentTetris.relocate(getMovedMinos(followingRotated,-1,1));
 				currentTetris.currentPos = {x:currentTetris.currentPos.x-1, y:currentTetris.currentPos.y+1};
-				// moveAndRotate(-1, 2, 1, ()=>{}, 'i', 'o');
 			} else if (bm1) {
-				console.log(getMovedMinos(followingRotated,-2,2));
 				currentTetris.relocate(getMovedMinos(followingRotated,-2,1));
 				currentTetris.currentPos = {x:currentTetris.currentPos.x-2, y:currentTetris.currentPos.y+1};
-				// moveAndRotate(-2, 2, 1, ()=>{}, 'i', 'o');
 			} else {
-				console.log(getMovedMinos(followingRotated,0,2));
 				currentTetris.relocate(getMovedMinos(followingRotated,0,1));
 				currentTetris.currentPos = {x:currentTetris.currentPos.x, y:currentTetris.currentPos.y+1};
-				// moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
 			currentTetris.currentFacing = 1;
 			const dif = OSpin.getDifOfShaft("i", currentTetris.currentFacing);
 			currentTetris.currentPos = {x:currentTetris.currentPos.x-dif.x, y:currentTetris.currentPos.y-dif.y}
-			console.log(currentTetris.currentPos);
-			
 			currentTetris.relocateGhost();
 			currentTetris.lockDownTimer.clearTimeout();
 			currentTetris.numOfOperationsInLockDownPhase = 0;
 			gameRuleOption.currentOption.data = true;
-			console.log(currentTetris.currentMinos(),currentTetris.currentPos);
-			
 			currentTetris.rejectPhase();
 			currentTetris.fallPhase();
-			// loopOfFall();
 			return false;
 		}
-		// return false;
 	},
 	getterOfData: (data: boolean)=>{return data;},
 	setterOfData: (data: boolean)=>{return data;},
