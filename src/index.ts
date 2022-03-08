@@ -854,6 +854,8 @@ const OSpin = new GameRuleNormal({
 				// moveAndRotate(0, 2, 1, ()=>{}, 'i', 'o');
 			}
 			currentTetris.currentFacing = (currentTetris.currentFacing+1)%4 as 0|1|2|3;
+			const dif = OSpin.getDifOfShaft("i", currentTetris.currentFacing);
+			currentTetris.currentPos = {x:currentTetris.currentPos.x-dif.x, y:currentTetris.currentPos.y-dif.y}
 			currentTetris.relocateGhost();
 			currentTetris.lockDownTimer.clearTimeout();
 			currentTetris.numOfOperationsInLockDownPhase = 0;
