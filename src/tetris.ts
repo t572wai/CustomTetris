@@ -630,12 +630,12 @@ export class Tetris {
 	move(dx: number, dy: number): boolean {
 		const following = getMovedMinos(this.currentMinos(),dx,dy);
 		if (this.canMove(following)) {
+			this.relocate(following);
 			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
 			if (this._lowerPos < this._currentPos.y) {
 				this._numOfOperationsInLockDownPhase = 0;
 				this._lowerPos = this._currentPos.y;
 			}
-			this.relocate(following);
 			this.relocateGhost();
 			return true;
 		} else {
@@ -669,9 +669,9 @@ export class Tetris {
 			console.log(dx,dy,following,n);
 			
 			if (this.canMove(following)) {
+				this.relocate(following);
 				this._currentFacing = followingFacing;
 				this._currentPos = {x:this._currentPos.x+dx, y:this._currentPos.y+dy};
-				this.relocate(following);
 				this.relocateGhost();
 				return n;
 			}
