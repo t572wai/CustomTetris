@@ -434,10 +434,6 @@ export class Tetris {
 	currentMinos(): Mino[] {
 		const minoBase = Tetris.replaceMinoType(this._gameRule.tetriminoClass.getTetriminoShape(this._currentMinoShape)!,this._currentMinoType)
 		const dif = this._gameRule.getDifOfShaft(this._currentMinoShape, this._currentFacing);
-		console.log(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y),getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing),getMovedMinos(getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing), dif.x, dif.y));
-		
-		console.log(this._currentPos,minoBase,dif);
-		
 		return getMovedMinos(getRotatedMinos(getMovedMinos(minoBase, this._currentPos.x, this._currentPos.y), this._currentPos, this._currentFacing), dif.x, dif.y);
 	}
 
