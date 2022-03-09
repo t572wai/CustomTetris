@@ -272,7 +272,7 @@ export class Tetris {
 	arrangeBag(): void {
 		if (this.shouldArrangeBag()) {
 			console.log('arrange bag');
-			this._gameRule.generateNextTetriminos(this._bag);
+			this._bag = this._gameRule.generateNextTetriminos(this._bag);
 			// const nextMinos = shuffle(this._gameRule.tetriminoClass.attrMap.getKeysFromValue("block"));
 			// this._bag = this._bag.concat(nextMinos);
 		}
