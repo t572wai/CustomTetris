@@ -143,15 +143,15 @@
 
 	@include pc {
 		@include setGrid(
-			$c: repeat(4, $sizeOfDisplayedMino-pc),
-			$r: repeat(2, $sizeOfDisplayedMino-pc)
+			$c: repeat(var(--widthOfDisplayers), $sizeOfDisplayedMino-pc),
+			$r: repeat(var(--heightOfDisplayers), $sizeOfDisplayedMino-pc)
 		);
 	}
 
 	@include touch {
 		@include setGrid(
-			$c: repeat(4, var(--sizeOfDisplayedMino)),
-			$r: repeat(2, var(--sizeOfDisplayedMino))
+			$c: repeat(var(--widthOfDisplayers), var(--sizeOfDisplayedMino)),
+			$r: repeat(var(--heightOfDisplayers), var(--sizeOfDisplayedMino))
 		);
 	}
 

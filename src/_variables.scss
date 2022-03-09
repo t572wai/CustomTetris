@@ -13,6 +13,9 @@ $sizeOfTopMino-pc: 7px;
 	--sizeOfMino: 15px;
 	--sizeOfDisplayedMino: calc(var(--sizeOfMino) * 2 / 3);
 	--sizeOfTopMino: calc(var(--sizeOfMino) / 4);
+
+	--widthOfDisplayers: 4;
+	--heightOfDisplayers: 4;
 }
 //$widthOfMatrix: 10;
 //$heightOfMatrix: 20;

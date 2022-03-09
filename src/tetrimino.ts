@@ -1,3 +1,4 @@
+import { getCssVar, hasTouchScreen, setCssVar } from "./general";
 import { getMovedShape, Mino, Pos, Tetrimino, TetriminoAttrs } from "./global";
 import { InvertibleMap } from "./InversiveMap";
 
@@ -174,5 +175,9 @@ export class TetriminoClass {
 			res = res.concat(new Array(maxHeight-res.length).fill(new Array(maxWidth).fill(-1)));
 		}
 		return res;
+	}
+	setDisplayersCSS():void {
+		setCssVar('--widthOfDisplayers', `${this.getMaxTetriminoWidth()}`);
+		setCssVar('--heightOfDisplayers', `${this.getMaxTetriminoHeight()}`);
 	}
 }

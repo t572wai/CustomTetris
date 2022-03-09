@@ -1,5 +1,5 @@
 import { GameRule } from "./gameRule";
-import { cloneArray, Enum, setCssVar, shuffle, TouchScreenQuery } from "./general";
+import { cloneArray, Enum, hasTouchScreen, setCssVar, shuffle } from "./general";
 import { Action, BlockType, getMovedMinos, getMovedShape, getRotatedMinos, Mino, Pos, Tetrimino, TetriminoAttrs, TetriminoNormal, TileAttrs } from "./global";
 import { InvertibleMap } from "./InversiveMap";
 import { TetriminoClass } from "./tetrimino";
@@ -97,6 +97,7 @@ export class Tetris {
 	arrangeToTetris(): void {
 		this.displayMatrix();
 		this.reset();
+		this._gameRule.tetriminoClass.setDisplayersCSS();
 		console.log(this._fieldArray);
 	}
 
@@ -759,7 +760,7 @@ export class Tetris {
 		//$(':root').style.setProperty()
 		setCssVar('--heightOfMatrix', this._gameRule.matrixHeight.toString());
 		setCssVar('--widthOfMatrix', this._gameRule.matrixWidth.toString());
-		if (TouchScreenQuery.matches){
+		if (hasTouchScreen()){
 			const sizeOfMino = 15 * 10 / this._gameRule.matrixWidth;
 			setCssVar('--sizeOfMino', sizeOfMino + 'px');
 		}

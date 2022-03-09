@@ -6,7 +6,7 @@ import "./tetriminos.scss";
 import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
-import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
+import { cloneArray, Enum, hasTouchScreen, setCssVar, toLowerFirstLetter, toUpperFirstLetter } from "./general";
 import { changeFacing, getMovedMinos, getMovedShape, getRotatedMinos, getRotatedShape, Operate, Operations, Pos, SkeletonsOfTetriminoNormal, Tetrimino, TetriminoAttrs, TetriminoNormal, TetriminoNormalAttrMap, TetriminoNormals } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
@@ -1091,7 +1091,7 @@ function textOfOptions(): string {
 
 function displayKeyBindings() {
 	$('#keyBindingsArea').html(textOfFromKeyToMainMenu());
-	if (TouchScreenQuery.matches) {
+	if (hasTouchScreen()) {
 		MethodOfOpForTouchOption.displayRadioOption('#keyBindingsArea')
 		//$('#keyBindingsArea').append(textOfKeyBindingsForTouch());
 	} else {
@@ -1221,7 +1221,7 @@ function setSizeOfMatrix() {
 	//$(':root').style.setProperty()
 	setCssVar('--heightOfMatrix', gameRuleOption.currentOption.matrixHeight.toString());
 	setCssVar('--widthOfMatrix', gameRuleOption.currentOption.matrixWidth.toString());
-	if (TouchScreenQuery.matches){
+	if (hasTouchScreen()){
 		const sizeOfMino = 15 * 10 / gameRuleOption.currentOption.matrixWidth;
 		//console.log(gameRuleOption.currentOption.matrixWidth,`sizeOfMino is ${sizeOfMino}`);
 		setCssVar('--sizeOfMino', sizeOfMino + 'px');

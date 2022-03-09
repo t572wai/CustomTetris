@@ -66,9 +66,28 @@ export interface Enum<T> {
 export function setCssVar(name: string, value: string): void {
 	document.documentElement.style.setProperty(name, value);
 }
+export function getCssVar(name: string): string {
+	return document.documentElement.style.getPropertyValue(name);
+}
 
 export interface CssProperty {
 	[property: string]: string,
 }
 
-export const TouchScreenQuery = window.matchMedia('(pointer: coarse)');
+// export const TouchScreenQuery = window.matchMedia('(pointer: coarse)');
+export const hasTouchScreen = () => {
+  if (navigator.maxTouchPoints > 0) {
+    return true;
+  }
+//   if (navigator.msMaxTouchPoints > 0) {
+//     return true;
+//   }
+  if (window.matchMedia("(pointer:coarse)").matches) {
+    return true;
+  }
+  if ("orientation" in window) {
+    return true;
+  }
+
+  return false;
+};
