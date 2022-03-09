@@ -190,6 +190,8 @@ export class Tetris {
 			this._gameRule.arrangeSituation();
 			resolve(this.getLinePatterns());
 		});
+		console.log(patternMatchArray);
+		
 		if (patternMatchArray.length != 0) {
 			this.markBlockForDestruction(patternMatchArray);
 		} else {
@@ -329,6 +331,8 @@ export class Tetris {
 	getLinePatterns(): Pos[] {
 		let patterns = [] as Pos[];
 		this._fieldArray.forEach((line, y) => {
+			console.log(line,y);
+			
 			if (!line.some((mino)=>this._gameRule.tetriminoClass.attrMap.get(mino)=='empty')) {
 				patterns.push({x:-1,y:y});
 			}

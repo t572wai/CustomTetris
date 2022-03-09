@@ -370,7 +370,7 @@ export class GameRule {
 		const matrixWidth = 2 * ( maxBreadth + 1 );
 		const matrixHeight = 2 * matrixWidth;
 		const bufferHeight = maxHeight;
-		const cssClass = title;
+		const cssClass = name;
 
 		const csses = Array.from(tetriminoBases.keys()).map(key => `.${key}Minos.${cssClass}`);
 		const colors = ["#348fca", "#e7bd22", "#2aa55d", "#da4b3c", "#246eab", "#dc7a23", "#824597"];
