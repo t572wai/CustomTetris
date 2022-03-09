@@ -317,8 +317,6 @@ export class Tetris {
 	}
 
 	canFall(): boolean {
-		console.log("canFall",this.currentMinos(),this.canMove(getMovedMinos(this.currentMinos(), 0, 1)));
-		
 		return this.canMove(getMovedMinos(this.currentMinos(), 0, 1));
 	}
 
@@ -560,6 +558,7 @@ export class Tetris {
 	setShaftClass(pos: Pos|Mino): void {
 		$('.shaft').removeClass('shaft');
 		$(`.minos[data-x="${pos.x}"][data-y="${pos.y}"]`).addClass('shaft');
+		console.log(`.minos[data-x="${pos.x}"][data-y="${pos.y}"]`);
 	}
 
 	displayNext(): void {
@@ -677,7 +676,7 @@ export class Tetris {
 				({x:dx, y:dy} = this._gameRule.rotationRule.get(this._currentMinoShape)![this._currentFacing][ind][n-1]);
 				following = getMovedMinos(following, dx, dy);
 			}
-			console.log(dx,dy,following,n);
+			// console.log(dx,dy,following,n);
 			
 			if (this.canMove(following)) {
 				this.relocate(following);
@@ -705,10 +704,6 @@ export class Tetris {
 
 	updateFieldArray(mino: Mino) {
 		this._fieldArray[mino.y][mino.x] = mino.mino;
-		const minoAttr = this._gameRule.tetriminoClass.attrMap.get(mino.mino as string);
-		// if ( minoAttr == 'wall' || minoAttr == 'block') {
-		// 	this._fieldAttrArray[mino.y][mino.x] = 'filled';
-		// }
 	}
 
 	updateDiffOfField(diff: Mino[], blockType: BlockType) {
@@ -736,8 +731,6 @@ export class Tetris {
 			this._ghostMinos = getMovedMinos(this.currentMinos(),0, hightOfAbleToDrop);
 			this._ghostPos = {x:this._currentPos.x,y:this._currentPos.y+hightOfAbleToDrop}
 		}
-		console.log("hightOfAbleToDrop", hightOfAbleToDrop);
-		
 		return hightOfAbleToDrop;
 	}
 	relocateGhost(): void {
