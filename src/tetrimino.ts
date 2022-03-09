@@ -69,7 +69,7 @@ export class TetriminoClass {
 					}
 				}
 			}
-			console.log(type,getMovedShape(minoArray,-originPos.x,-originPos.y));
+			console.log(type,this._skeltonMap.get(type),getMovedShape(minoArray,-originPos.x,-originPos.y));
 			
 			return getMovedShape(minoArray,-originPos.x,-originPos.y);
 		} else {

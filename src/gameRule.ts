@@ -362,6 +362,7 @@ export class GameRule {
 			let skeleton = shape as (-1|0|1)[][];
 			skeleton[Math.floor((height-1)/2)][Math.floor((width-1)/2)] = 0;
 			tetriminoSkeletonMap.set(tetriminoBase[0], skeleton);
+			console.log(tetriminoBase[0], skeleton);
 		}
 
 		const tetriminoClass = new TetriminoClass(tetriminos, tetriminoAttrMap, tetriminoSkeletonMap);
