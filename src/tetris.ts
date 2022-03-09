@@ -372,6 +372,7 @@ export class Tetris {
 
 	set currentPos(pos: Pos) {
 		this._currentPos = pos;
+		this.setShaftClass(this.getShaft());
 	}
 	get currentPos() {
 		return this._currentPos;
@@ -641,7 +642,7 @@ export class Tetris {
 		const following = getMovedMinos(this.currentMinos(),dx,dy);
 		if (this.canMove(following)) {
 			this.relocate(following);
-			this.currentPos = {x:this._currentPos.x+dx,y:this._currentPos.y+dy};
+			this.currentPos = {x:this.currentPos.x+dx,y:this.currentPos.y+dy};
 			if (this._lowerPos < this._currentPos.y) {
 				this._numOfOperationsInLockDownPhase = 0;
 				this._lowerPos = this._currentPos.y;
@@ -681,7 +682,7 @@ export class Tetris {
 			if (this.canMove(following)) {
 				this.relocate(following);
 				this._currentFacing = followingFacing;
-				this._currentPos = {x:this._currentPos.x+dx, y:this._currentPos.y+dy};
+				this.currentPos = {x:this.currentPos.x+dx, y:this.currentPos.y+dy};
 				this.relocateGhost();
 				return n;
 			}
@@ -692,7 +693,7 @@ export class Tetris {
 	relocate(following: Mino[]): void {
 		this.hideCurrentMino();
 		this.updateDiffOfField(following, 'falling');
-		this.setShaftClass(this.getShaft());
+		// this.setShaftClass(this.getShaft());
 	}
 
 	hideCurrentMino() {
