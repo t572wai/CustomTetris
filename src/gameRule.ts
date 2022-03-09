@@ -56,6 +56,8 @@ export class GameRule {
 			generateNextTetriminos = (array: Tetrimino[]) => {
 				//ミノをランダムにソート
 				const nextMinos = shuffle(tetriminoClass.tetriminos as Tetrimino[]);
+				console.log("tetriminoClass",tetriminoClass);
+				
 				return array.concat(nextMinos);
 			},
 			arrangeFirstSituation = ()=>{},
