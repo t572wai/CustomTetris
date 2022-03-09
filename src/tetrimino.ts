@@ -145,14 +145,14 @@ export class TetriminoClass {
 		return maxWidth;
 	}
 
-	getStandaloneTetriminoText(type: Tetrimino):string {
+	getStandaloneTetriminoText(type: Tetrimino, cssClass: string): string {
 		let text = "<div class='displayers'>";
 		for (const rows of this.getStandaloneTetriminoArray(type)) {
 			for (const num of rows) {
 				if (num==-1) {
 					text += '<div class="minos emptyMinos"></div>';
 				} else {
-					text += '<div class="minos '+type+'Minos"></div>';
+					text += '<div class="minos '+type+'Minos '+cssClass+'"></div>';
 				}
 			}
 		}

@@ -577,7 +577,7 @@ export class Tetris {
 		for (let i = 0; i < this._gameRule.nextNum; i++) {
 			console.log(this._bag[i]);
 			if(typeof this._bag[i] !== 'undefined') {
-				text += this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._bag[i] as Tetrimino);
+				text += this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._bag[i] as Tetrimino, this._gameRule.cssClass);
 			}
 		}
 		return text;
@@ -588,7 +588,7 @@ export class Tetris {
 	}
 
 	textOfHold(): string {
-		let text = "<p id='holdHead'>hold</p>"+this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._holdMinoType);
+		let text = "<p id='holdHead'>hold</p>"+this._gameRule.tetriminoClass.getStandaloneTetriminoText(this._holdMinoType, this._gameRule.cssClass);
 		return text;
 	}
 
