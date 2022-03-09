@@ -37,13 +37,13 @@ export class GameRule {
 			tetriminoClass,
 			generateTerrain = ()=>{
 				let terrainArray:Tetrimino[][] = [];
-				for (let i = 0; i < normalFieldHeight; i++) {
-					terrainArray.push(new Array(normalFieldWidth).fill(tetriminoClass.attrMap.getKeysFromValue('empty')![0]));
+				for (let i = 0; i < matrixHeight + bufferHeight; i++) {
+					terrainArray.push(new Array(matrixWidth).fill(tetriminoClass.attrMap.getKeysFromValue('empty')![0]));
 				}
 				return terrainArray;
 			},
 			generateRegularlyTerrain = ()=>{
-				return Array(normalFieldWidth).fill(tetriminoClass.attrMap.getKeysFromValue("empty")[0]);
+				return Array(matrixWidth).fill(tetriminoClass.attrMap.getKeysFromValue("empty")[0]);
 			},
 			matrixHeight = normalMatrixHeight,
 			matrixWidth = normalMatrixWidth,
