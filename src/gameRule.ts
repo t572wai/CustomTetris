@@ -53,7 +53,11 @@ export class GameRule {
 			shouldGenerateTetriminos = (followingMinos: Tetrimino[]) => {
 				return followingMinos.length < nextNum + 1
 			},
-			generateNextTetriminos,
+			generateNextTetriminos = (array: Tetrimino[]) => {
+				//ミノをランダムにソート
+				const nextMinos = shuffle(tetriminoClass.tetriminos as Tetrimino[]);
+				return array.concat(nextMinos);
+			},
 			arrangeFirstSituation = ()=>{},
 			arrangeSituation = () => {},
 			shouldResetLockDownTimer = (numOfMoved?: number)=>{return numOfMoved!<15},
@@ -367,7 +371,7 @@ export class GameRule {
 
 		const csses = Array.from(tetriminoBases.keys()).map(key => `.${key}Minos.${cssClass}`);
 		const colors = ["#348fca", "#e7bd22", "#2aa55d", "#da4b3c", "#246eab", "#dc7a23", "#824597"];
-		Tetris.setColor(csses, colors);
+		GameRule.setColor(csses, colors);
 
 		const generateNextTetriminos = (array: Tetrimino[]) => {
 			//ミノをランダムにソート
@@ -390,6 +394,20 @@ export class GameRule {
 		})
 
 		return generatedGameRule;
+	}
+
+	static setColor(csses: string[],colors: string[]): void {
+		let style = "<style type='text/css'>";
+		csses.forEach((css, i) => {
+			let indOfColors = (colors.length>i)?i:(i%colors.length);
+			style += `${css} {background-color: ${colors[i]};}`;
+		});
+		style += "</style>";
+		$('head').append(style);
+	}
+
+	static getRegularRotationRule(width: number, height: number): Pos[][][] {
+		return [[[{x:0,y:0}]]]
 	}
 }
 

@@ -272,8 +272,9 @@ export class Tetris {
 	arrangeBag(): void {
 		if (this.shouldArrangeBag()) {
 			console.log('arrange bag');
-			const nextMinos = shuffle(this._gameRule.tetriminoClass.attrMap.getKeysFromValue("block"));
-			this._bag = this._bag.concat(nextMinos);
+			this._gameRule.generateNextTetriminos(this._bag);
+			// const nextMinos = shuffle(this._gameRule.tetriminoClass.attrMap.getKeysFromValue("block"));
+			// this._bag = this._bag.concat(nextMinos);
 		}
 	}
 
@@ -495,20 +496,6 @@ export class Tetris {
 
 	static replaceMinoType(minos: Mino[] | Pos[], type: Tetrimino): Mino[] {
 		return minos.map((mino)=>({x: mino.x, y: mino.y, mino: type}));
-	}
-
-	static setColor(csses: string[],colors: string[]): void {
-		let style = "<style type='text/css'>";
-		csses.forEach((css, i) => {
-			let indOfColors = (colors.length>i)?i:(i%colors.length);
-			style += `${css} + {background-color: ${colors[i]};}`;
-		});
-		style += "</style>";
-		$('head').append(style);
-	}
-
-	static getRegularRotationRule(width: number, height: number): Pos[][][] {
-		return [[[{x:0,y:0}]]]
 	}
 
 	//
