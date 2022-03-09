@@ -91,7 +91,21 @@ export class TetriminoClass {
 		}
 	}
 	static getMinoHeight(mino: Mino[] | Pos[]):number {
-		return mino.length|0;
+		if (mino) {
+			let minY = Infinity;
+			let maxY = -1;
+			for (const {y:y} of mino) {
+				if (minY>y) {
+					minY = y;
+				}
+				if (maxY<y) {
+					maxY = y;
+				}
+			}
+			return maxY - minY;
+		} else {
+			return 0;
+		}
 	}
 	static getMinoWidth(mino: Mino[] | Pos[]):number {
 		if (mino) {

@@ -7,11 +7,12 @@ import { setButtonActions } from "./buttonAction";
 import { GameOption } from "./gameOptions";
 import { ChangeSizeOfMatrix, GameRule, GameRuleNormal, spinRuleRegulator } from "./gameRule";
 import { cloneArray, Enum, setCssVar, toLowerFirstLetter, TouchScreenQuery, toUpperFirstLetter } from "./general";
-import { changeFacing, getMovedMinos, getMovedShape, getRotatedMinos, getRotatedShape, Operate, Operations, Pos, SkeletonsOfTetriminoNormal, Tetrimino, TetriminoNormal, TetriminoNormalAttrMap, TetriminoNormals } from "./global";
+import { changeFacing, getMovedMinos, getMovedShape, getRotatedMinos, getRotatedShape, Operate, Operations, Pos, SkeletonsOfTetriminoNormal, Tetrimino, TetriminoAttrs, TetriminoNormal, TetriminoNormalAttrMap, TetriminoNormals } from "./global";
 import { addKeyActions, removeKeyActions } from "./keyinput";
 import { Tetris } from "./tetris";
 import { when } from "./when";
 import { TetriminoClass } from "./tetrimino";
+import { InvertibleMap } from "./InversiveMap";
 
 
 //
@@ -854,6 +855,30 @@ const OSpin = new GameRuleNormal({
 	setterOfData: (data: boolean)=>{return data;},
 })
 
+// const Tetris3AttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
+// Tetris3AttrMap.set("l", "block");
+// Tetris3AttrMap.set("j", "block");
+// Tetris3AttrMap.set("shi", "block");
+// Tetris3AttrMap.set("i", "block");
+// Tetris3AttrMap.set("v", "block");
+// Tetris3AttrMap.set("empty", "empty");
+// Tetris3AttrMap.set("wall", "wall");
+
+const Tetris3Skelton = new Map<Tetrimino, (-1|1)[][]>();
+Tetris3Skelton.set("l", [[1,-1],[1,1]]);
+Tetris3Skelton.set("j", [[1,-1,-1],[-1,1,1]]);
+Tetris3Skelton.set("shi", [[-1,-1,1],[1,1,-1]]);
+Tetris3Skelton.set("i", [[1,1,1]]);
+Tetris3Skelton.set("v", [[1,-1,1],[-1,1,-1]]);
+
+const Tetris3 = GameRule.generateGameRule("Tetris 3(自動生成)", "tetris3", Tetris3Skelton);
+
+// const Tetrimino3 = new TetriminoClass(
+// 	["l","j","shi","i","v","empty","wall"],
+// 	Tetris3AttrMap,
+// 	Tetris3Skelton
+// );
+
 function setWall(field: readonly Tetrimino[][],poses: readonly Pos[]): Tetrimino[][] {
 	let field_cloned = cloneArray(field);
 	for (const pos of poses) {
@@ -872,7 +897,7 @@ function lineWithHole(y: number, holes: number[]): Pos[] {
 	return line;
 }
 
-const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, OSpin, StackingForPerfect, WantToTSpin, LElevator] as GameRule[];
+const GameRules: GameRule[] = [GameRule.Normal, PracticeFor4ren, wideMatrix, HideFallingMinos, OSpin, StackingForPerfect, WantToTSpin, LElevator, Tetris3] as GameRule[];
 //type GameRule = typeof GameRules[number];
 function EnumOfGameRule():Enum<GameRule> {
 	return {

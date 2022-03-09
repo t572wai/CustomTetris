@@ -1,6 +1,7 @@
 import { GameRule } from "./gameRule";
 import { cloneArray, Enum, setCssVar, shuffle, TouchScreenQuery } from "./general";
-import { Action, BlockType, getMovedMinos, getMovedShape, getRotatedMinos, Mino, Pos, Tetrimino, TetriminoNormal, TileAttrs } from "./global";
+import { Action, BlockType, getMovedMinos, getMovedShape, getRotatedMinos, Mino, Pos, Tetrimino, TetriminoAttrs, TetriminoNormal, TileAttrs } from "./global";
+import { InvertibleMap } from "./InversiveMap";
 import { TetriminoClass } from "./tetrimino";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
@@ -493,6 +494,20 @@ export class Tetris {
 
 	static replaceMinoType(minos: Mino[] | Pos[], type: Tetrimino): Mino[] {
 		return minos.map((mino)=>({x: mino.x, y: mino.y, mino: type}));
+	}
+
+	static setColor(csses: string[],colors: string[]): void {
+		let style = "<style type='text/css'>";
+		csses.forEach((css, i) => {
+			let indOfColors = (colors.length>i)?i:(i%colors.length);
+			style += `${css} + {background-color: ${colors[i]};}`;
+		});
+		style += "</style>";
+		$('head').append(style);
+	}
+
+	static getRegularRotationRule(width: number, height: number): Pos[][][] {
+		return [[[{x:0,y:0}]]]
 	}
 
 	//

@@ -1,5 +1,6 @@
 import { Enum, shuffle } from "./general";
-import { changeFacing, getMovedMinos, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino, Mino } from "./global";
+import { changeFacing, getMovedMinos, TileAttrs, normalBufferHeight, normalFieldHeight, normalFieldWidth, normalMatrixHeight, normalMatrixWidth, Pos, TetriminoNormal, getMovedShape, Tetrimino, Mino, TetriminoAttrs } from "./global";
+import { InvertibleMap } from "./InversiveMap";
 import { TetriminoClass } from "./tetrimino";
 import { Tetris } from "./tetris";
 
@@ -325,6 +326,70 @@ export class GameRule {
 
 	static getTitle(rule: GameRule): string{
 		return rule._title;
+	}
+
+	static generateGameRule(name: string, title: string, tetriminoBases: Map<string, (-1|1)[][]>): GameRule {
+		const tetriminos = Array.from(tetriminoBases.keys()).concat(["empty","wall"]);
+		let tetriminoAttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
+		for (const tetrimino of tetriminoBases.keys()) {
+			tetriminoAttrMap.set(tetrimino, "block");
+		}
+		tetriminoAttrMap.set("empty", "empty");
+		tetriminoAttrMap.set("wall", "wall");
+
+		let tetriminoSkeletonMap = new Map<Tetrimino, (-1|0|1)[][]>();
+		let maxBreadth = -1;
+		let maxHeight = -1;
+		for (const tetriminoBase of tetriminoBases) {
+			const shape = tetriminoBase[1];
+			const width = shape[0].length;
+			const height = shape.length;
+			if (maxBreadth < width) {
+				maxBreadth = width;
+			}
+			if (maxBreadth < height) {
+				maxBreadth = height;
+			}
+			if (maxHeight < height) {
+				maxHeight = height;
+			}
+			let skeleton = shape as (-1|0|1)[][];
+			skeleton[Math.floor((height-1)/2)][Math.floor((width-1)/2)] = 0;
+			tetriminoSkeletonMap.set(tetriminoBase[0], skeleton);
+		}
+
+		const tetriminoClass = new TetriminoClass(tetriminos, tetriminoAttrMap, tetriminoSkeletonMap);
+
+		const matrixWidth = 2 * ( maxBreadth + 1 );
+		const matrixHeight = 2 * matrixWidth;
+		const bufferHeight = maxHeight;
+		const cssClass = title;
+
+		const csses = Array.from(tetriminoBases.keys()).map(key => `.${key}Minos.${cssClass}`);
+		const colors = ["#348fca", "#e7bd22", "#2aa55d", "#da4b3c", "#246eab", "#dc7a23", "#824597"];
+		Tetris.setColor(csses, colors);
+
+		const generateNextTetriminos = (array: Tetrimino[]) => {
+			//ミノをランダムにソート
+			const nextMinos = shuffle(Array.from(tetriminoBases.keys()) as Tetrimino[]);
+			return array.concat(nextMinos);
+		}
+
+		let rotationRule = new Map<Tetrimino, Pos[][][]>();
+
+		const generatedGameRule = new GameRule({
+			name: name,
+			title: title,
+			tetriminoClass: tetriminoClass,
+			matrixHeight: matrixHeight,
+			matrixWidth: matrixWidth,
+			bufferHeight: bufferHeight,
+			cssClass: cssClass,
+			generateNextTetriminos: generateNextTetriminos,
+			rotationRule: rotationRule,
+		})
+
+		return generatedGameRule;
 	}
 }
 
