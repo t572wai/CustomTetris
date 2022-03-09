@@ -69,6 +69,8 @@ export class TetriminoClass {
 					}
 				}
 			}
+			console.log(getMovedShape(minoArray,-originPos.x,-originPos.y));
+			
 			return getMovedShape(minoArray,-originPos.x,-originPos.y);
 		} else {
 			return null;

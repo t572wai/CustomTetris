@@ -180,8 +180,6 @@ export class GameRule {
 		generateNextTetriminos: (array: Tetrimino[]) => {
 			//ミノをランダムにソート
 			const nextMinos = shuffle(['i','o','s','z','j','l','t'] as Tetrimino[]);
-			console.log(array, nextMinos, array.concat(nextMinos));
-			
 			return array.concat(nextMinos);
 		},
 		arrangeFirstSituation: ()=>{},

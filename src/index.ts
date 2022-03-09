@@ -871,7 +871,7 @@ Tetris3Skelton.set("shi", [[-1,-1,1],[1,1,-1]]);
 Tetris3Skelton.set("i", [[1,1,1]]);
 Tetris3Skelton.set("v", [[1,-1,1],[-1,1,-1]]);
 
-const Tetris3 = GameRule.generateGameRule("Tetris 3(自動生成)", "tetris3", Tetris3Skelton);
+const Tetris3 = GameRule.generateGameRule("Tetris3", "tetris3(自動生成)", Tetris3Skelton);
 
 // const Tetrimino3 = new TetriminoClass(
 // 	["l","j","shi","i","v","empty","wall"],
