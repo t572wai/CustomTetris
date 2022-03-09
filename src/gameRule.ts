@@ -373,8 +373,10 @@ export class GameRule {
 		const cssClass = name;
 
 		const csses = Array.from(tetriminoBases.keys()).map(key => `.${key}Minos.${cssClass}`);
+		const cssGhosts = Array.from(tetriminoBases.keys()).map(key => `.${key}GhostMinos.${cssClass}`);
 		const colors = ["#348fca", "#e7bd22", "#2aa55d", "#da4b3c", "#246eab", "#dc7a23", "#824597"];
 		GameRule.setColor(csses, colors);
+		GameRule.setColor(cssGhosts, colors);
 
 		const generateNextTetriminos = (array: Tetrimino[]) => {
 			//ミノをランダムにソート
