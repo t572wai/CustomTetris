@@ -59,13 +59,13 @@ export class TetriminoClass {
 
 	getTetriminoHeight(type: Tetrimino):number {
 		const shape = this._skeltonMap.get(type);
-		return (shape)?shape.length:0;
+		return (shape)?shape[0].length:0;
 	}
 	getTetriminoWidth(type: Tetrimino): number {
 		const shape = this._skeltonMap.get(type);
 		if (shape) {
-			if (shape[0]) {
-				return shape[0].length;
+			if (shape[0][0]) {
+				return shape[0][0].length;
 			} else {
 				return 0;
 			}
