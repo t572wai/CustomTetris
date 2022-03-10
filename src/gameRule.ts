@@ -418,13 +418,17 @@ export class GameRule {
 		const w1 = Math.floor(width / 2);
 		const h1 = Math.floor(height / 2);
 		if (width%2==0) {
+			return [[[{x:0,y:0}]]]
+		} else {
 			if (height%2==0) {
+				console.log(spinRuleRegulator([{x:-w1+h1-1, y:0},{x:-1,y:-w1+h1-1},{x:w1-h1,y:w1+1},{x:-w1+h1-1,y:w1+1}]));
+				
 				return spinRuleRegulator([{x:-w1+h1-1, y:0},{x:-1,y:-w1+h1-1},{x:w1-h1,y:w1+1},{x:-w1+h1-1,y:w1+1}]);
 			} else {
+				console.log(spinRuleRegulator([{x:-w1+h1, y:0},{x:-1,y:-w1+h1},{x:w1-h1,y:w1+1},{x:-w1+h1,y:w1+1}]));
+				
 				return spinRuleRegulator([{x:-w1+h1, y:0},{x:-1,y:-w1+h1},{x:w1-h1,y:w1+1},{x:-w1+h1,y:w1+1}]);
 			}
-		} else {
-			return [[[{x:0,y:0}]]]
 		}
 	}
 }
