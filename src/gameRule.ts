@@ -412,7 +412,17 @@ export class GameRule {
 	}
 
 	static getRegularRotationRule(width: number, height: number): Pos[][][] {
-		return [[[{x:0,y:0}]]]
+		const w1 = Math.floor(width / 2);
+		const h1 = Math.floor(height / 2);
+		if (width%2==0) {
+			if (height%2==0) {
+				return spinRuleRegulator([{x:-w1+h1-1, y:0},{x:-1,y:-w1+h1-1},{x:w1-h1,y:w1+1},{x:-w1+h1-1,y:w1+1}]);
+			} else {
+				return spinRuleRegulator([{x:-w1+h1, y:0},{x:-1,y:-w1+h1},{x:w1-h1,y:w1+1},{x:-w1+h1,y:w1+1}]);
+			}
+		} else {
+			return [[[{x:0,y:0}]]]
+		}
 	}
 }
 
@@ -512,32 +522,34 @@ export class ChangeSizeOfMatrix extends GameRuleNormal {
 	}
 }
 
-export function spinRuleRegulator(basicRule: Map<Tetrimino, Pos[][][]>): Map<Tetrimino, Pos[][][]> {
-	let regulatedSpinRule = basicRule;
-	TetriminoNormal.tetriminos.forEach((type) => {
-		if (type!='i' && type!='o' && type!='empty' && type!='wall') {
-			const basicOne = basicRule.get(type)![0][0];
-			regulatedSpinRule.set(type, [
+export function spinRuleRegulator(basicRule: Pos[]): Pos[][][] {
+	// let regulatedSpinRule = basicRule;
+	// TetriminoNormal.tetriminos.forEach((type) => {
+	// 	if (type!='i' && type!='o' && type!='empty' && type!='wall') {
+			// const basicRule = basicRule.get(type)![0][0];
+			// regulatedSpinRule.set(type,
+			return [
 				[
-					basicOne,
-					basicOne.map((p) => ({x:-p.x, y:p.y})),
+					basicRule,
+					basicRule.map((p) => ({x:-p.x, y:p.y})),
 				],
 				[
-					basicOne.map((p) => ({x:-p.x, y:-p.y})),
-					basicOne.map((p) => ({x:-p.x, y:-p.y})),
+					basicRule.map((p) => ({x:-p.x, y:-p.y})),
+					basicRule.map((p) => ({x:-p.x, y:-p.y})),
 				],
 				[
-					basicOne.map((p) => ({x:-p.x, y:p.y})),
-					basicOne,
+					basicRule.map((p) => ({x:-p.x, y:p.y})),
+					basicRule,
 				],
 				[
-					basicOne.map((p) => ({x:p.x, y:-p.y})),
-					basicOne.map((p) => ({x:p.x, y:-p.y})),
+					basicRule.map((p) => ({x:p.x, y:-p.y})),
+					basicRule.map((p) => ({x:p.x, y:-p.y})),
 				],
-			])
-		}
-	})
-	return basicRule;
+			]
+			// )
+	// 	}
+	// })
+	// return basicRule;
 }
 
 function setRegulatedSpinRule
@@ -556,11 +568,11 @@ function setRegulatedSpinRule
 		let preSpinRule = new Map<Tetrimino, Pos[][][]>();
 		preSpinRule.set("i", i);
 		preSpinRule.set("o", o);
-		preSpinRule.set("l", l);
-		preSpinRule.set("j", j);
-		preSpinRule.set("s", s);
-		preSpinRule.set("z", z);
-		preSpinRule.set("t", t);
-		return spinRuleRegulator(preSpinRule);
+		preSpinRule.set("l", spinRuleRegulator(l[0][0]));
+		preSpinRule.set("j", spinRuleRegulator(j[0][0]));
+		preSpinRule.set("s", spinRuleRegulator(s[0][0]));
+		preSpinRule.set("z", spinRuleRegulator(z[0][0]));
+		preSpinRule.set("t", spinRuleRegulator(t[0][0]));
+		return preSpinRule;
 	}
 

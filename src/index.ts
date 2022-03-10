@@ -744,7 +744,7 @@ const LElevator = new GameRuleNormal({
 const OSpin = new GameRuleNormal({
 	name: 'OSpin',
 	title: 'Oスピン',
-	rotationRule: spinRuleRegulator(GameRule.Normal.rotationRule.set('o', [
+	rotationRule: GameRule.Normal.rotationRule.set('o', [
 					[
 						[
 							{x:1,y:0},
@@ -794,7 +794,7 @@ const OSpin = new GameRuleNormal({
 							{x:1,y:2}
 						]
 					]
-				])),
+				]),
 	getDifOfShaft: (shape: string, facing: 0|1|2|3) => {
 				if (TetriminoNormal.getTetriminoWidth(shape)%2==0) {
 					if (TetriminoNormal.getTetriminoHeight(shape)%2==0) {
