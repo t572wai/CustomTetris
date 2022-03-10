@@ -334,7 +334,7 @@ export class GameRule {
 		return rule._title;
 	}
 
-	static generateGameRule(name: string, title: string, tetriminoBases: Map<string, (-1|1)[][]>): GameRule {
+	static generateGameRule(name: string, title: string, tetriminoBases: Map<string, (0|1)[][]>): GameRule {
 		const tetriminos = Array.from(tetriminoBases.keys()).concat(["empty","wall"]);
 		let tetriminoAttrMap = new InvertibleMap<Tetrimino, TetriminoAttrs>();
 		for (const tetrimino of tetriminoBases.keys()) {
@@ -343,7 +343,7 @@ export class GameRule {
 		tetriminoAttrMap.set("empty", "empty");
 		tetriminoAttrMap.set("wall", "wall");
 
-		let tetriminoSkeletonMap = new Map<Tetrimino, (-1|0|1)[][]>();
+		let tetriminoSkeletonMap = new Map<Tetrimino, [(0|1)[][], Pos]>();
 		let maxBreadth = -1;
 		let maxHeight = -1;
 		for (const tetriminoBase of tetriminoBases) {
@@ -359,9 +359,8 @@ export class GameRule {
 			if (maxHeight < height) {
 				maxHeight = height;
 			}
-			let skeleton = shape as (-1|0|1)[][];
-			skeleton[Math.floor(height/2)][Math.floor((width-1)/2)] = 0;
-			tetriminoSkeletonMap.set(tetriminoBase[0], skeleton);
+			let skeleton = shape as (0|1)[][];
+			tetriminoSkeletonMap.set(tetriminoBase[0], [skeleton, {x:Math.floor((width-1)/2), y:Math.floor(height/2)}]);
 			console.log(tetriminoBase[0], skeleton);
 		}
 

@@ -13,14 +13,14 @@ TetriminoNormals.forEach((mino) => {
 		TetriminoNormalAttrMap.set(mino, 'block');
 	}
 })
-export const SkeletonsOfTetriminoNormal = new Map<Tetrimino,(-1|0|1)[][]>();
-SkeletonsOfTetriminoNormal.set("i", [[1,0,1,1]]);
-SkeletonsOfTetriminoNormal.set("o", [[1,1],[0,1]])
-SkeletonsOfTetriminoNormal.set("s", [[-1,1,1],[1,0,-1]])
-SkeletonsOfTetriminoNormal.set("z", [[1,1,-1],[-1,0,1]])
-SkeletonsOfTetriminoNormal.set("j", [[1,-1,-1],[1,0,1]])
-SkeletonsOfTetriminoNormal.set("l", [[-1,-1,1],[1,0,1]])
-SkeletonsOfTetriminoNormal.set("t", [[-1,1,-1],[1,0,1]])
+export const SkeletonsOfTetriminoNormal = new Map<Tetrimino,[(0|1)[][], Pos]>();
+SkeletonsOfTetriminoNormal.set("i", [[[1,1,1,1]],{x:1,y:0}]);
+SkeletonsOfTetriminoNormal.set("o", [[[1,1],[1,1]],{x:0,y:1}])
+SkeletonsOfTetriminoNormal.set("s", [[[0,1,1],[1,1,0]],{x:1,y:1}])
+SkeletonsOfTetriminoNormal.set("z", [[[1,1,0],[0,1,1]],{x:1,y:1}])
+SkeletonsOfTetriminoNormal.set("j", [[[1,0,0],[1,1,1]],{x:1,y:1}])
+SkeletonsOfTetriminoNormal.set("l", [[[0,0,1],[1,1,1]],{x:1,y:1}])
+SkeletonsOfTetriminoNormal.set("t", [[[0,1,0],[1,1,1]],{x:1,y:1}])
 export const TetriminoNormal = new TetriminoClass(TetriminoNormals,TetriminoNormalAttrMap,SkeletonsOfTetriminoNormal);
 
 

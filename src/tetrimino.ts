@@ -5,35 +5,17 @@ import { InvertibleMap } from "./InversiveMap";
 export class TetriminoClass {
 	private _tetriminos: Tetrimino[];
 	private _attrMap: InvertibleMap<Tetrimino, TetriminoAttrs>;
-	private _skeltonMap: Map<Tetrimino, (0|1|-1)[][]>;
+	private _skeltonMap: Map<Tetrimino, [(0|1)[][], Pos]>;
 
 	constructor(
 		tetriminos: string[],
 		attrMap: InvertibleMap<Tetrimino, TetriminoAttrs>,
-		skeltonMap: Map<Tetrimino, (-1|0|1)[][]>
+		skeltonMap: Map<Tetrimino, [(0|1)[][], Pos]>
 		) {
 		this._tetriminos = tetriminos;
 		this._attrMap = attrMap;
 		if (!this._attrMap.getKeysFromValue("empty")[0]) {
 			throw new Error("This class has no empty mino.");
-		}
-		let hasOrigin = false;
-		for (const value of skeltonMap.values()) {
-			hasOrigin = false;
-			for (const skelton of value) {
-				for (const num of skelton) {
-					if (num==0) {
-						if (hasOrigin) {
-							throw new Error("A tetrimino has too many origins.");
-						} else {
-							hasOrigin = true;
-						}
-					}
-				}
-			}
-			if (!hasOrigin) {
-				throw new Error("A tetrimino doesn't have any origin.");
-			}
 		}
 		this._skeltonMap = skeltonMap;
 	}
@@ -56,21 +38,17 @@ export class TetriminoClass {
 
 	getTetriminoShape(type: Tetrimino): Pos[] | null {
 		let minoArray:Pos[] = [];
-		const shape: (-1|0|1)[][] | undefined = this._skeltonMap.get(type);
-		let originPos:Pos = {x:0,y:0};     
-		if (typeof shape != 'undefined') {
+		const shapeAndOrigin: [(0|1)[][], Pos] | undefined = this._skeltonMap.get(type);
+		if (typeof shapeAndOrigin !== 'undefined') {
+			const shape = shapeAndOrigin[0];
+			const originPos = shapeAndOrigin[1];
 			for (var i = 0; i < shape.length; i++) {
 				for (var j = 0; j < shape[i].length; j++) {
-					if (shape[i][j]!=-1){
+					if (shape[i][j]==1){
 						minoArray.push({x:j,y:i});
-					}
-					if (shape[i][j]==0) {
-						originPos = {x:j,y:i}
 					}
 				}
 			}
-			console.log(type,this._skeltonMap.get(type),getMovedShape(minoArray,-originPos.x,-originPos.y));
-			
 			return getMovedShape(minoArray,-originPos.x,-originPos.y);
 		} else {
 			return null;
@@ -165,7 +143,7 @@ export class TetriminoClass {
 		const maxWidth = this.getMaxTetriminoWidth();
 		const skeleton = this._skeltonMap.get(type);
 		if (skeleton) {
-			for (const rows of this._skeltonMap.get(type)!) {
+			for (const rows of skeleton[0]!) {
 				if (rows.length < maxWidth) {
 					res.push(rows.concat(new Array(maxWidth-rows.length).fill(-1)));
 				} else {
