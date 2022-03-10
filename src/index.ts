@@ -864,12 +864,12 @@ const OSpin = new GameRuleNormal({
 // Tetris3AttrMap.set("empty", "empty");
 // Tetris3AttrMap.set("wall", "wall");
 
-const Tetris3Skelton = new Map<Tetrimino, (-1|1)[][]>();
-Tetris3Skelton.set("l", [[1,-1],[1,1]]);
-Tetris3Skelton.set("j", [[1,-1,-1],[-1,1,1]]);
-Tetris3Skelton.set("shi", [[-1,-1,1],[1,1,-1]]);
+const Tetris3Skelton = new Map<Tetrimino, (0|1)[][]>();
+Tetris3Skelton.set("l", [[1,0],[1,1]]);
+Tetris3Skelton.set("j", [[1,0,0],[0,1,1]]);
+Tetris3Skelton.set("shi", [[0,0,1],[1,1,0]]);
 Tetris3Skelton.set("i", [[1,1,1]]);
-Tetris3Skelton.set("v", [[1,-1,1],[-1,1,-1]]);
+Tetris3Skelton.set("v", [[1,0,1],[0,1,0]]);
 
 const Tetris3 = GameRule.generateGameRule("Tetris3", "tetris3(自動生成)", Tetris3Skelton);
 
