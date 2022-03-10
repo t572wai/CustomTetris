@@ -385,8 +385,8 @@ export class GameRule {
 		}
 
 		let rotationRule = new Map<Tetrimino, Pos[][][]>();
-		for (const mino of tetriminoBases.keys()) {
-			rotationRule.set(mino, GameRule.getRegularRotationRule(mino[1].length, mino.length));
+		for (const [mino, shape] of tetriminoBases) {
+			rotationRule.set(mino, GameRule.getRegularRotationRule(shape[0].length, shape.length));
 		}
 
 		const generatedGameRule = new GameRule({
