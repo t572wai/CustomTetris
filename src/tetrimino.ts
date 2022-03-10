@@ -49,6 +49,8 @@ export class TetriminoClass {
 					}
 				}
 			}
+			console.log(minoArray, originPos);
+			
 			return getMovedShape(minoArray,-originPos.x,-originPos.y);
 		} else {
 			return null;
@@ -127,7 +129,7 @@ export class TetriminoClass {
 		let text = "<div class='displayers'>";
 		for (const rows of this.getStandaloneTetriminoArray(type)) {
 			for (const num of rows) {
-				if (num==-1) {
+				if (num==0) {
 					text += '<div class="minos emptyMinos"></div>';
 				} else {
 					text += '<div class="minos '+type+'Minos '+cssClass+'"></div>';
@@ -137,22 +139,22 @@ export class TetriminoClass {
 		text += "</div>";
 		return text;
 	}
-	getStandaloneTetriminoArray(type: Tetrimino):(-1|0|1)[][] {
-		let res = [] as (-1|0|1)[][];
+	getStandaloneTetriminoArray(type: Tetrimino):(0|1)[][] {
+		let res = [] as (0|1)[][];
 		const maxHeight = this.getMaxTetriminoHeight();
 		const maxWidth = this.getMaxTetriminoWidth();
 		const skeleton = this._skeltonMap.get(type);
 		if (skeleton) {
 			for (const rows of skeleton[0]!) {
 				if (rows.length < maxWidth) {
-					res.push(rows.concat(new Array(maxWidth-rows.length).fill(-1)));
+					res.push(rows.concat(new Array(maxWidth-rows.length).fill(0)));
 				} else {
 					res.push(rows);
 				}
 			}
 		}
 		if (res.length < maxHeight) {
-			res = res.concat(new Array(maxHeight-res.length).fill(new Array(maxWidth).fill(-1)));
+			res = res.concat(new Array(maxHeight-res.length).fill(new Array(maxWidth).fill(0)));
 		}
 		return res;
 	}
