@@ -1,9 +1,6 @@
 import { GameRule } from "./gameRule";
-import { cloneArray, Enum, hasTouchScreen, setCssVar, shuffle } from "./general";
-import { Action, BlockType, getMovedMinos, getMovedShape, getRotatedMinos, Mino, Pos, Tetrimino, TetriminoAttrs, TetriminoNormal, TileAttrs } from "./global";
-import { InvertibleMap } from "./InversiveMap";
-import { Swiper } from "./SwiperClass";
-import { TetriminoClass } from "./tetrimino";
+import { cloneArray, hasTouchScreen, setCssVar } from "./general";
+import { Action, BlockType, getMovedMinos, getRotatedMinos, Mino, Pos, Tetrimino } from "./global";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
 
@@ -248,6 +245,7 @@ export class Tetris {
 		await new Promise<void>((resolve, reject) => {
 			this._currentPhase = 'completion';
 			this._rejectPhase = reject;
+			this.updateLevel();
 			resolve();
 		});
 		return await this.genPhase(true);
@@ -350,6 +348,15 @@ export class Tetris {
 		}
 		this._fieldArray[0] = this._gameRule.generateRegularlyTerrain();
 		this._totalClearedLine++;
+	}
+
+	//
+	// completionPhase
+	//
+	updateLevel() {
+		if(this._gameRule.shouldUpdateLevel(this._currentLevel, this._totalClearedLine)) {
+			this._currentLevel++;
+		}
 	}
 
 	//

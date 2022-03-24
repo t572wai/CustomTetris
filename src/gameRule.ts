@@ -22,6 +22,7 @@ export class GameRule {
 	private _generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[];
 	private _arrangeFirstSituation: (data?: any)=>void;
 	private _arrangeSituation: (data?:any)=>void;
+	private _shouldUpdateLevel: (currentLevel: number, numOfClearedLine: number)=>boolean;
 	private _shouldResetLockDownTimer: (numberOfMoved?: number)=>boolean;
 	private _data: any;
 	private _getterOfData: (data:any)=>any;
@@ -62,6 +63,9 @@ export class GameRule {
 			},
 			arrangeFirstSituation = ()=>{},
 			arrangeSituation = () => {},
+			shouldUpdateLevel = (currentLevel: number, numOfClearedLine: number) => {
+				return currentLevel*10 <= numOfClearedLine;
+			},
 			shouldResetLockDownTimer = (numOfMoved?: number)=>{return numOfMoved!<15},
 			getterOfData = (data: any)=>{return null},
 			setterOfData = (data: any)=>{return null},
@@ -112,6 +116,7 @@ export class GameRule {
 			generateNextTetriminos: (array: Tetrimino[])=>Tetrimino[],
 			arrangeFirstSituation?: (data?: any)=>void,
 			arrangeSituation?: (data?: any)=>void,
+			shouldUpdateLevel?: (currentLevel: number, numOfClearedLine: number)=>boolean,
 			shouldResetLockDownTimer?: (numOfMoved?: number)=>boolean,
 			getterOfData?: (data:any)=>any,
 			setterOfData?: (data:any)=>any,
@@ -143,6 +148,8 @@ export class GameRule {
 
 			this._arrangeFirstSituation = arrangeFirstSituation;
 			this._arrangeSituation = arrangeSituation;
+
+			this._shouldUpdateLevel = shouldUpdateLevel;
 
 			this._shouldResetLockDownTimer = shouldResetLockDownTimer;
 
@@ -299,6 +306,9 @@ export class GameRule {
 	}
 	set cssClass(cssClass: string) {
 		this._cssClass = cssClass;
+	}
+	get shouldUpdateLevel() {
+		return this._shouldUpdateLevel;
 	}
 	get shouldResetLockDownTimer() {
 		return this._shouldResetLockDownTimer;
