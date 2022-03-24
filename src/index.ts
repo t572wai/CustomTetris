@@ -979,6 +979,11 @@ function startTetris(): void {
 	if (MethodOfOpForTouchOption.currentOption=='swipe') {
 		swiper = new Swiper(document, 40, 300, 50)
 	}
+	if (MethodOfOpForTouchOption.currentOption=='button') {
+		displayButtonsToOperate();
+	} else {
+		hideButtonsToOperate();
+	}
 
 	currentTetris.start();
 }
@@ -1118,23 +1123,6 @@ function displayKeyBindings() {
 function textOfFromKeyToMainMenu(): string {
 	return '<button id="fromKeyToMainMenu">メインメニュー</button>';
 }
-
-//function textOfKeyBindingsForTouch(): string {
-//	let text = '';
-//	text += `
-//		<div class="optionRadio" id="methodOfOperationForTouchRadioContainer">
-//			<div class="radio">
-//				<input type="radio" name="methodOfOperationForTouch" value="swipe" id="methodForTouch-swipe" checked>
-//				<label for="methodForTouch-swipe" class="radio-label">スワイプ</label>
-//			</div>
-//			<div class="radio">
-//				<input type="radio" name="methodOfOperationForTouch" value="button" id="methodForTouch-button">
-//				<label for="methodForTouch-button" class="radio-label">ボタン</label>
-//			</div>
-//		</div>
-//	`
-//	return text;
-//}
 
 function textOfKeyBindingsForPC(): string {
 	let text = '';
