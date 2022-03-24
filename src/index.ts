@@ -13,6 +13,7 @@ import { Tetris } from "./tetris";
 import { when } from "./when";
 import { TetriminoClass } from "./tetrimino";
 import { InvertibleMap } from "./InversiveMap";
+import { Swiper } from "./SwiperClass";
 
 
 //
@@ -82,6 +83,8 @@ const notScorings:Action[] = ['hardDrop','softDrop','back_to_back','mini_tspin',
 // tetrisKeyinput
 //
 //
+
+let swiper: Swiper;
 
 let dv2Border = 4.5;
 
@@ -973,9 +976,13 @@ function startTetris(): void {
 	console.log(currentTetris);
 	
 	addPauseKeyActions('Escape');
+	if (MethodOfOpForTouchOption.currentOption=='swipe') {
+		swiper = new Swiper(document, 40, 300, 50)
+	}
 
 	currentTetris.start();
 }
+
 
 //
 //
@@ -1046,6 +1053,10 @@ function toMainMenu(): void {
 		currentTetris.clearField();
 		currentTetris.end();
 	}
+	if(typeof swiper !== 'undefined') {
+		swiper.destructor();
+	}
+
 	hideAll();
 	removeKeyActions('Escape')
 	$('#mainMenuArea').css('display','block');

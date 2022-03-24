@@ -2,6 +2,7 @@ import { GameRule } from "./gameRule";
 import { cloneArray, Enum, hasTouchScreen, setCssVar, shuffle } from "./general";
 import { Action, BlockType, getMovedMinos, getMovedShape, getRotatedMinos, Mino, Pos, Tetrimino, TetriminoAttrs, TetriminoNormal, TileAttrs } from "./global";
 import { InvertibleMap } from "./InversiveMap";
+import { Swiper } from "./SwiperClass";
 import { TetriminoClass } from "./tetrimino";
 import { TimerAbleToEsc } from "./timerOfAbilityToEsc";
 import { when } from "./when";
@@ -86,7 +87,6 @@ export class Tetris {
 		this.arrangeToTetris();
 		this._gameRule.arrangeFirstSituation();
 		console.log(this._bag,this._fieldArray);
-		
 		this.genPhase(true);
 	}
 	end(): void {
