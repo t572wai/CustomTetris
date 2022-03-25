@@ -603,7 +603,7 @@ export class Tetris {
 	}
 
 	displayScoreArea(): void {
-		const text = this.textOfLevel()+"<br>"+this.textOfScore();
+		const text = "<div id='scoreAreaContainer'>"+this.textOfLevel()+"<br>"+this.textOfScore()+"</div>";
 		$('#scoreArea').html(text);
 	}
 	textOfScore(): string {
