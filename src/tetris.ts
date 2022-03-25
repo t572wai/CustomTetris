@@ -264,6 +264,7 @@ export class Tetris {
 		this.displayNext();
 		this.displayHold();
 		this.displayMino(this.currentMinos(),'falling');
+		this.displayScoreArea();
 	}
 	
 	shouldArrangeBag(): boolean {
@@ -356,6 +357,7 @@ export class Tetris {
 	updateLevel() {
 		if(this._gameRule.shouldUpdateLevel(this._currentLevel, this._totalClearedLine)) {
 			this._currentLevel++;
+			this.displayScoreArea();
 		}
 	}
 
@@ -550,7 +552,7 @@ export class Tetris {
 										.on(v => v=='placed', () => 'minos '+mino.mino+"Minos placedMinos "+this._gameRule.cssClass)
 										.otherwise(() => 'undefinedBlock')
 				$('.minos[data-x="'+mino.x+'"][data-y="'+mino.y+'"]').attr('class',classes);
-				this.updateFieldArray(mino)
+				this.updateFieldArray(mino);
 			}
 		}
 	}
