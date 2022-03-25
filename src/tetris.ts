@@ -146,6 +146,7 @@ export class Tetris {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
 			this._onOperationFunc = resolve;
+			this._hardDropFunc = () => resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			this._lockDownTimer.endCb = () => {
 				resolve({isMoved: false, isThereSpaceToFall: false, didResetLockDownTimer: false});
 			}
@@ -832,7 +833,9 @@ export class Tetris {
 	hardDrop(): void {
 		if (this.canOperate()) {
 			this._timerToFall.clearTimeout();
-			this.move(this._ghostPos.x-this._currentPos.x, this._ghostPos.y-this._currentPos.y);
+			if (this._ghostMinos) {
+				this.move(this._ghostPos.x-this._currentPos.x, this._ghostPos.y-this._currentPos.y);
+			}
 			this._hardDropFunc();
 		}
 	}
