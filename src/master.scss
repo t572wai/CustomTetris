@@ -95,7 +95,7 @@ img {
 }
 
 #scoreAreaContainer {
-	width: unquote('fit-content(60%)');
+	width: min-content;
 	margin-right: auto;
 }
 
