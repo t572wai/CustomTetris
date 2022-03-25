@@ -599,6 +599,21 @@ export class Tetris {
 		return text;
 	}
 
+	displayScoreArea(): void {
+		const text = this.textOfLevel()+"<br>"+this.textOfScore();
+		$('#scoreArea').html(text);
+	}
+	textOfScore(): string {
+		let text = "";
+		for (const [key,value] of this._score) {
+			text += `${key}: ${value}`;
+		}
+		return text;
+	}
+	textOfLevel(): string {
+		return `level:${this._currentLevel}`;
+	}
+
 	//
 	// various
 	//
