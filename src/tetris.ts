@@ -87,6 +87,7 @@ export class Tetris {
 		this.genPhase(true);
 	}
 	end(): void {
+		this.rejectPhase();
 		this.clearHoldQueue();
 		this.clearNextQueue();
 	}
