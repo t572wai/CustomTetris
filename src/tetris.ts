@@ -90,6 +90,10 @@ export class Tetris {
 		this.clearHoldQueue();
 		this.clearNextQueue();
 	}
+	gameOver(): void {
+		this.end();
+		$('#gameoverDialog').dialog('open');
+	}
 
 	arrangeToTetris(): void {
 		this.displayMatrix();
@@ -247,6 +251,7 @@ export class Tetris {
 			this._currentPhase = 'completion';
 			this._rejectPhase = reject;
 			this.updateLevel();
+			if (this.isLockOut()) this.gameOver();
 			resolve();
 		});
 		return await this.genPhase(true);
@@ -360,6 +365,9 @@ export class Tetris {
 			this._currentLevel++;
 			this.displayScoreArea();
 		}
+	}
+	isLockOut(): boolean {
+		return this._currentPos.y < this._gameRule.bufferHeight;
 	}
 
 	//
