@@ -270,8 +270,12 @@ export class Tetris {
 		this._currentFacing = 0;
 		this.displayNext();
 		this.displayHold();
+		const isBlockOut = this.canMove(this.currentMinos());
 		this.displayMino(this.currentMinos(),'falling');
 		this.displayScoreArea();
+		if (isBlockOut) {
+			this.gameOver();
+		}
 	}
 	
 	shouldArrangeBag(): boolean {
