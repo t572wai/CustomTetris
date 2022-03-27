@@ -273,6 +273,8 @@ export class Tetris {
 		const isBlockOut = !this.canMove(this.currentMinos());
 		this.displayMino(this.currentMinos(),'falling');
 		this.displayScoreArea();
+		console.log(isBlockOut);
+		
 		if (isBlockOut) {
 			this.gameOver();
 		}
