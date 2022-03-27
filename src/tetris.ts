@@ -274,6 +274,7 @@ export class Tetris {
 		this.displayMino(this.currentMinos(),'falling');
 		this.displayScoreArea();
 		console.log(isBlockOut);
+		console.log(isBlockOut);
 		
 		if (isBlockOut) {
 			this.gameOver();
