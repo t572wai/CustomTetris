@@ -477,6 +477,8 @@ export class Tetris {
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
 		if (this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
+			console.log(this.isTetriminoVisible(),this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
+			
 			if ( !this.isTetriminoVisible() ) return true;
 			if ( !this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 				return true;
@@ -676,6 +678,8 @@ export class Tetris {
 
 	canMove(minos: Mino[] | Pos[]): boolean {
 		for (let tile of minos) {
+			console.log(this.isOutOfField(tile.x,tile.y),this.isOtherTiles(tile));
+			
 			if (this.isOutOfField(tile.x,tile.y)) {
 				return false;
 			}
