@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //installed via npm
 
 module.exports = {
-	mode: 'development',
+	mode: 'debug',
 
 	entry: {
 		main:`./src/index.ts`,
