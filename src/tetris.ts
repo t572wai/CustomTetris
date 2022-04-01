@@ -375,7 +375,9 @@ export class Tetris {
 		}
 	}
 	isLockOut(): boolean {
-		return this._currentPos.y < this._gameRule.bufferHeight;
+		return this.currentMinos().every((mino) => {
+			mino.y < this._gameRule.bufferHeight;
+		});
 	}
 
 	//
