@@ -266,13 +266,13 @@ export class Tetris {
 	placeToStartPos(): void {
 		this.arrangeBag();
 		this.initTetrimino({'type':this._bag[0]});
+		const isBlockOut = !this.canMove(this.currentMinos());
 		this._bag.shift();
 		this._currentFacing = 0;
 		this.displayNext();
 		this.displayHold();
 		console.log(this._fieldArray);
 		
-		const isBlockOut = !this.canMove(this.currentMinos());
 		this.displayMino(this.currentMinos(),'falling');
 		this.displayScoreArea();
 		console.log(isBlockOut);
