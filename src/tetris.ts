@@ -680,7 +680,7 @@ export class Tetris {
 
 	canMove(minos: Mino[] | Pos[]): boolean {
 		for (let tile of minos) {
-			console.log(this.isOutOfField(tile.x,tile.y),this.isOtherTiles(tile));
+			console.log(tile,this.isOutOfField(tile.x,tile.y),this.isOtherTiles(tile));
 			
 			if (this.isOutOfField(tile.x,tile.y)) {
 				return false;
