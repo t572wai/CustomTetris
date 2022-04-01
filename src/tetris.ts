@@ -478,7 +478,7 @@ export class Tetris {
 	isOtherTiles(tile: Mino | Pos): boolean {
 		console.log(tile, this._fieldArray);
 		
-		if (this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
+		if (this._fieldArray[tile.y] && this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
 			console.log(this.isTetriminoVisible(),this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
 			
 			if ( !this.isTetriminoVisible() ) return true;
