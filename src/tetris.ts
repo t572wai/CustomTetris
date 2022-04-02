@@ -110,7 +110,10 @@ export class Tetris {
 
 			this._currentPhase = 'gen';
 			this._rejectPhase = reject;
-			console.log(this._fieldArray);
+			const array = cloneArray(this._fieldArray);
+			console.log("array");
+			console.log(array);
+			
 			
 			this.arrangeBag();
 			console.log(this._fieldArray);
