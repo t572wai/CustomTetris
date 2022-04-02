@@ -64,6 +64,7 @@ export class Tetris {
 
 	private _isPausing: boolean = false;
 	private _isSoftDrop: boolean;
+	private _isVisible: boolean = false;
 
 	private _hardDropFunc: ()=>void = ()=>{};
 	private _onPressedSoftDropFunc: ()=>void = ()=>{};
@@ -172,6 +173,7 @@ export class Tetris {
 					}
 				}
 			}
+			this._isVisible = false;
 			this._timerToFall.clearTimeout();
 			this._lockDownTimer.clearTimeout();
 			const shouldLockDown = this._gameRule.justBeforeLockDown(null);
@@ -275,6 +277,7 @@ export class Tetris {
 		const isBlockOut = !this.canMove(this.currentMinos());
 		console.log(isBlockOut);
 		this.displayMino(this.currentMinos(),'falling');
+		this._isVisible = true;
 		this.displayScoreArea();
 		console.log(isBlockOut);
 		console.log(isBlockOut);
@@ -482,9 +485,9 @@ export class Tetris {
 		console.log(this._fieldArray[tile.y]);
 		
 		if (this._fieldArray[tile.y] && this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
-			console.log(this.isTetriminoVisible(),this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
+			console.log(this._isVisible,this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
 			
-			if ( !this.isTetriminoVisible() ) return true;
+			if ( !this._isVisible ) return true;
 			if ( !this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 				return true;
 			}
@@ -495,9 +498,9 @@ export class Tetris {
 		return (x<0 || x>=this._gameRule.fieldWidth || y<0 || y>=this._gameRule.fieldHeight);
 	}
 
-	isTetriminoVisible(): boolean {
-		return /*this._currentPhase=='gen'||*/this._currentPhase=='fall'||this._currentPhase=='lock';
-	}
+	// isTetriminoVisible(): boolean {
+	// 	return /*this._currentPhase=='gen'||*/this._currentPhase=='fall'||this._currentPhase=='lock';
+	// }
 
 	getReplacedMino(minos: Mino[], type: Tetrimino) {
 		return minos.map(mino => ({x:mino.x, y:mino.y, mino: type}));
