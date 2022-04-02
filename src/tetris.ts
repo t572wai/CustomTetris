@@ -273,6 +273,9 @@ export class Tetris {
 		this.displayNext();
 		this.displayHold();
 		console.log(JSON.stringify(this._fieldArray));
+		console.log(this._isVisible);
+		console.log(`visiblelele${this._isVisible}`);
+		
 		
 		const isBlockOut = !this.canMove(this.currentMinos());
 		console.log(isBlockOut);
