@@ -110,16 +110,8 @@ export class Tetris {
 
 			this._currentPhase = 'gen';
 			this._rejectPhase = reject;
-			const array = JSON.stringify(this._fieldArray);
-			console.log("array");
-			console.log(array);
-			console.log(JSON.stringify(this._fieldArray));
-			
 			this.arrangeBag();
-			console.log(this._fieldArray);
-			console.log("this._fieldArray");
 			this.placeToStartPos();
-			console.log(this._fieldArray);
 			this.relocateGhost();
 			this.resetPatterns();
 			this._canHold = canHold;
@@ -272,20 +264,16 @@ export class Tetris {
 
 	
 	placeToStartPos(): void {
-		console.log(this._fieldArray);
 		this.arrangeBag();
 		this.initTetrimino({'type':this._bag[0]});
-		console.log(this._fieldArray);
-		const isBlockOut = !this.canMove(this.currentMinos());
-		console.log(this._fieldArray);
 		this._bag.shift();
 		this._currentFacing = 0;
-		console.log(this._fieldArray);
 		this.displayNext();
-		console.log(this._fieldArray);
 		this.displayHold();
-		console.log(this._fieldArray);
+		console.log(JSON.stringify(this._fieldArray));
 		
+		const isBlockOut = !this.canMove(this.currentMinos());
+		console.log(isBlockOut);
 		this.displayMino(this.currentMinos(),'falling');
 		this.displayScoreArea();
 		console.log(isBlockOut);
