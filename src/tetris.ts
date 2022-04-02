@@ -485,7 +485,7 @@ export class Tetris {
 		console.log(this._fieldArray[tile.y]);
 		
 		if (this._fieldArray[tile.y] && this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
-			console.log(this._isVisible,this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
+			console.log("visible",this._isVisible,this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
 			
 			if ( !this._isVisible ) return true;
 			if ( !this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }) ) {
