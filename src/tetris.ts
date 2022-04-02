@@ -496,7 +496,7 @@ export class Tetris {
 	}
 
 	isTetriminoVisible(): boolean {
-		return this._currentPhase=='gen'||this._currentPhase=='fall'||this._currentPhase=='lock';
+		return /*this._currentPhase=='gen'||*/this._currentPhase=='fall'||this._currentPhase=='lock';
 	}
 
 	getReplacedMino(minos: Mino[], type: Tetrimino) {
