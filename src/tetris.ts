@@ -113,7 +113,7 @@ export class Tetris {
 			const array = cloneArray(this._fieldArray);
 			console.log("array");
 			console.log(array);
-			
+			console.log(JSON.stringify(this._fieldArray));
 			
 			this.arrangeBag();
 			console.log(this._fieldArray);
