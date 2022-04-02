@@ -383,6 +383,8 @@ export class Tetris {
 	}
 	isLockOut(): boolean {
 		return this.currentMinos().every((mino) => {
+			console.log("minoy:::::"+mino.y);
+			
 			mino.y <= this._gameRule.bufferHeight;
 		});
 	}
