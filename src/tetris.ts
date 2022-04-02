@@ -110,8 +110,13 @@ export class Tetris {
 
 			this._currentPhase = 'gen';
 			this._rejectPhase = reject;
+			console.log(this._fieldArray);
+			
 			this.arrangeBag();
+			console.log(this._fieldArray);
+			console.log("this._fieldArray");
 			this.placeToStartPos();
+			console.log(this._fieldArray);
 			this.relocateGhost();
 			this.resetPatterns();
 			this._canHold = canHold;
