@@ -273,18 +273,10 @@ export class Tetris {
 		this._currentFacing = 0;
 		this.displayNext();
 		this.displayHold();
-		console.log(JSON.stringify(this._fieldArray));
-		console.log(this._isVisible);
-		console.log(`visiblelele${this._isVisible}`);
-		
-		
 		const isBlockOut = !this.canMove(this.currentMinos());
-		console.log(isBlockOut);
 		this.displayMino(this.currentMinos(),'falling');
 		this._isVisible = true;
 		this.displayScoreArea();
-		console.log(isBlockOut);
-		console.log(isBlockOut);
 		
 		if (isBlockOut) {
 			this.gameOver();
@@ -486,11 +478,7 @@ export class Tetris {
 	
 	
 	isOtherTiles(tile: Mino | Pos): boolean {
-		console.log(this._fieldArray[tile.y]);
-		
 		if (this._fieldArray[tile.y] && this._gameRule.tetriminoClass.attrMap.get(this._fieldArray[tile.y][tile.x]) != 'empty') {
-			console.log("visible",this._isVisible,this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }));
-			
 			if ( !this._isVisible ) return true;
 			if ( !this.currentMinos().some((element) => {return element.x==tile.x && element.y==tile.y }) ) {
 				return true;
