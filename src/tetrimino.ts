@@ -49,7 +49,7 @@ export class TetriminoClass {
 					}
 				}
 			}
-			console.log(minoArray, originPos);
+			// console.log(minoArray, originPos);
 			
 			return getMovedShape(minoArray,-originPos.x,-originPos.y);
 		} else {
