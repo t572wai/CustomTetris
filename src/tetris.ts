@@ -189,6 +189,7 @@ export class Tetris {
 		const patternMatchArray = await new Promise<Pos[]>((resolve, reject) => {
 			this._currentPhase = 'pattern';
 			this._rejectPhase = reject;
+			this._isVisible = false;
 			this._onOperationFunc = ()=>{};
 			this.removeGhostMinos();
 			this._totalFallenTetrimino++;
