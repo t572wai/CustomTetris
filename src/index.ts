@@ -126,12 +126,12 @@ document.addEventListener('touchmove', function (e) {
 }, {passive: false})
 
 function addRightKeyActions(key: string): void {
-	addKeyActions({code:key, keydownAc:onRight, longpressAc:onRight, sec:300, interval:50});
+	addKeyActions({code:key, keydownAc:onRight, longpressAc:onRight, sec:183, interval:33});
 	keyBinding.set('right', key);
 }
 
 function addLeftKeyActions(key:string) {
-	addKeyActions({code:key, keydownAc:onLeft, longpressAc:onLeft, sec:300, interval:50});
+	addKeyActions({code:key, keydownAc:onLeft, longpressAc:onLeft, sec:183, interval:33});
 	keyBinding.set('left', key);
 }
 
